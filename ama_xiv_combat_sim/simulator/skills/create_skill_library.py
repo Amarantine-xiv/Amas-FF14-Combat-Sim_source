@@ -1,0 +1,17 @@
+from simulator.game_data.class_skills.caster.add_caster_skills_to_skill_library import add_caster_skills_to_skill_library
+from simulator.game_data.class_skills.healer.add_healer_skills_to_skill_library import add_healer_skills_to_skill_library
+from simulator.game_data.class_skills.melee.add_melee_skills_to_skill_library import add_melee_skills_to_skill_library
+from simulator.game_data.class_skills.ranged.add_phys_ranged_skills_to_skill_library import add_phys_ranged_skills_to_skill_library
+from simulator.game_data.class_skills.tank.add_tank_skills_to_skill_library import add_tank_skills_to_skill_library
+from simulator.game_data.generic_skills.add_generic_skills_to_library import add_generic_skills_to_library
+from simulator.skills.skill_library import SkillLibrary
+
+def create_skill_library():
+  skill_library = SkillLibrary()
+  skill_library = add_tank_skills_to_skill_library(skill_library)
+  skill_library = add_healer_skills_to_skill_library(skill_library)
+  skill_library = add_melee_skills_to_skill_library(skill_library)
+  skill_library = add_caster_skills_to_skill_library(skill_library)
+  skill_library = add_phys_ranged_skills_to_skill_library(skill_library)
+  skill_library = add_generic_skills_to_library(skill_library)
+  return skill_library
