@@ -30,9 +30,10 @@ Some examples of useful tools is a *kill time estimator*, that takes a 1) full 8
 ## Imports
 After installation, make sure to *import ama-xiv-combat-sim* so that paths, etc. are set up. After this, you can import sub-packages/functions/files as you wish, and use them. Rotations can be specified both in code in the sim itself, and by passing in CSV files.
 
-## Example Single Target, Single Player rotation
+## Example Single Target, Single Player rotation, typed directly into the sim.
 ```
 import ama_xiv_combat_sim
+
 from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
 from ama_xiv_combat_sim.simulator.rotation_import_utils.csv_utils import CSVUtils
 from ama_xiv_combat_sim.simulator.skills import create_skill_library, SkillModifier
@@ -82,9 +83,9 @@ rb.add_next("Storm's Path")
 rb.add_next('Fell Cleave')
 rb.add_next('Inner Chaos')
 
+# Standard code to build the sim for a rotation and run it
 db = DamageBuilder(stats, SKILL_LIBRARY)
 sim = DamageSimulator(stats, db.get_damage_instances(rb.get_skill_timing()), num_samples=100000) #for speed, we only use 100k samples.
-
 dps = sim.get_dps() # dps values of our WAR rotation
 damage = sim.get_raw_damage() # raw damage of our WAR rotation
 per_skill_damage = sim.get_per_skill_damage(rb) # get per-damage-instance information
@@ -92,6 +93,45 @@ damage_ranges = sim.get_damage_ranges() # get damage ranges on each skill, detai
 
 # Visualization code here. Whatever you want to do to visualize the outputs, etc. Or refer to the Python notebook for examples.
 ```
+
+## Example Single Target, Single Player rotation, from a CSV file.
+```
+import ama_xiv_combat_sim
+import os
+
+from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
+from ama_xiv_combat_sim.simulator.rotation_import_utils.csv_utils import CSVUtils
+from ama_xiv_combat_sim.simulator.skills import create_skill_library, SkillModifier
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
+
+#The name of our rotation file. The expected columns are "Time", "skill_name", "job_class", and "skill_conditional" in that order. See my_rotation.csv in this repo for an example.
+csv_filename = 'my_rotation.csv'
+
+# Creates the FF14 game skill library
+SKILL_LIBRARY = create_skill_library()
+
+# Our stats
+stats = Stats(wd=132, weapon_delay=3.36, main_stat=3330, det_stat=2182, crit_stat=2596, dh_stat=940, speed_stat=400, tenacity=601, job_class = 'WAR')
+
+rb = RotationBuilder(stats, SKILL_LIBRARY, ignore_trailing_dots=True, enable_autos=True)
+
+if not os.path.exists(csv_filename):
+  print('File does not exist: {}. Make sure you are in the right directory and have the right file name: '.format(csv_filename))
+else:
+    rb, _ = CSVUtils.populate_rotation_from_csv(rb, csv_filename)
+
+# Standard code to build the sim for a rotation and run it
+db = DamageBuilder(stats, SKILL_LIBRARY)
+sim = DamageSimulator(stats, db.get_damage_instances(rb.get_skill_timing()), num_samples=100000) #for speed, we only use 100k samples.
+dps = sim.get_dps()
+damage = sim.get_raw_damage()
+per_skill_damage = sim.get_per_skill_damage(rb) # get per-damage-instance information
+damage_ranges = sim.get_damage_ranges() # get damage ranges on each skill, detailing crit/dh damage ranges and probabilities.
+
+```
+
 
 # Acknowledgements
 I'd like to thank the following people/groups for their help! Without them, this sim would not be at all possible:
