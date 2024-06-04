@@ -17,8 +17,29 @@ The tool has four advantages over existing simulators/spreadsheets:
 
 1) handles the simulation of all FF14 job classes in a single place- no need to maintain multiple spreadsheets, etc.,
 
-2) incorporates all damage rolls and crit/dh procs on a per-damage-instance basis, and rolls them every time the sim is run (currently you can do 1M simulation runs in a couple seconds),
+2) incorporates all damage rolls and crit/dh procs on a per-damage-instance basis, and rolls them every time the sim is run,
 
-3) enables the building of several useful community tools that either don't exist, or can be streamlined, using this sim as a backend (or just a loaded Python notebook as a hack), and
+3) enables the building of several useful community tools that either don't exist, or can be streamlined, using this sim as a backend, and
 
 4) allows for the incorporation of procs in the simulation process itself.
+
+Some examples of useful tools is a *kill time estimator*, that takes a 1) full 8-player rotation including LB usage, and 2) a target boss HP values, and outputs a distribution over expected kill times.
+
+# Acknowledgements
+I'd like to thank the following people/groups for their help! Without them, this sim would not be at all possible:
+
+[The Balance](https://www.thebalanceffxiv.com/)
+
+Io Whitespirit
+
+Hint and [Hint's damage calc repo](https://github.com/hintxiv/reassemble)
+
+Fürst
+
+Apollo Van-waddleburg
+
+IAmPythagoras and [IAmPythagoras's FFXIV-Combat-Simulator](https://github.com/IAmPythagoras/FFXIV-Combat-Simulator) and [Discord](https://discord.com/invite/mZXKUNy2sw)
+
+Cless
+
+Kaiser08259
