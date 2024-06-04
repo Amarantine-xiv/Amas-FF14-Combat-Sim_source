@@ -30,6 +30,7 @@ Some examples of useful tools is a *kill time estimator*, that takes a 1) full 8
 ## Imports
 After installation, make sure to *import ama-xiv-combat-sim* so that paths, etc. are set up. After this, you can import sub-packages/functions/files as you wish, and use them. Rotations can be specified both in code in the sim itself, and by passing in CSV files.
 
+## Example Single Target, Single Player rotation
 ```
 import ama_xiv_combat_sim
 from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
@@ -110,3 +111,5 @@ IAmPythagoras and [IAmPythagoras's FFXIV-Combat-Simulator](https://github.com/IA
 Cless
 
 Kaiser08259
+
+Mahdi (from the Allagan Studies Discord server)
