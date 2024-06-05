@@ -163,5 +163,6 @@ cython_debug/
 
 #misc
 main.py
+main_test.py
 pyproject.toml
 *.csv

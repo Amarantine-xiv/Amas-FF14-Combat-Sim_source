@@ -36,32 +36,55 @@ def add_dnc_skills(skill_library):
                                 combo_spec=(ComboSpec(),),
                                 damage_spec=DamageSpec(potency=100),
                                 timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=620)))
-
-  _standard_finish_follow_up1 = FollowUp(skill=Skill(name='_Standard Finish buff',
-                                                     is_GCD=False,
-                                                     buff_spec=StatusEffectSpec(damage_mult=1.02, duration=60000, is_party_effect=True)),
-                                         delay_after_parent_application=0)
-  _standard_finish_follow_up2 = FollowUp(skill=Skill(name='_Standard Finish buff',
+  _standard_finish_follow_up2 = FollowUp(skill=Skill(name='Standard Finish buff',
                                                      is_GCD=False,
                                                      buff_spec=StatusEffectSpec(damage_mult=1.05, duration=60000, is_party_effect=True)),
                                          delay_after_parent_application=0)
-  _standard_remove_followup= FollowUp(Skill(name='_Standard Finish Remove Buff',
+  _standard_finish_follow_up1 = FollowUp(skill=Skill(name='Standard Finish buff',
+                                                     is_GCD=False,
+                                                     buff_spec=StatusEffectSpec(damage_mult=1.02, duration=60000, is_party_effect=True)),
+                                         delay_after_parent_application=0)  
+  _standard_remove_followup= FollowUp(Skill(name='Standard Finish Remove Buff',
                                        is_GCD=False,
-                                       buff_spec=StatusEffectSpec(expires_status_effects=('_Standard Finish buff',), is_party_effect=True)),
+                                       buff_spec=StatusEffectSpec(expires_status_effects=('Standard Finish buff',), is_party_effect=True)),
                                  delay_after_parent_application=0)
 
-  standard_finish_follow_up_damage_2 =FollowUp(skill=Skill(name='Standard Finish', damage_spec=DamageSpec(potency=720)), delay_after_parent_application=530)
-  standard_finish_follow_up_damage_1 =FollowUp(skill=Skill(name='Standard Finish', damage_spec=DamageSpec(potency=540)), delay_after_parent_application=530)
+  standard_finish_follow_up_damage_2 =FollowUp(skill=Skill(name='Double Standard Finish', damage_spec=DamageSpec(potency=720)), delay_after_parent_application=530)
+  standard_finish_follow_up_damage_1 =FollowUp(skill=Skill(name='Single Standard Finish', damage_spec=DamageSpec(potency=540)), delay_after_parent_application=530)
   standard_finish_follow_up_damage_0 =FollowUp(skill=Skill(name='Standard Finish', damage_spec=DamageSpec(potency=360)), delay_after_parent_application=530)
+#   skill_library.add_skill(Skill(name='Standard Finish',
+#                                 is_GCD=True,
+#                                 timing_spec={SimConsts.DEFAULT_CONDITION: TimingSpec(base_cast_time=0, gcd_base_recast_time=1500, affected_by_speed_stat=False),
+#                                              'Buff Only': TimingSpec(base_cast_time=0, gcd_base_recast_time=0),
+#                                              'Remove Buff': TimingSpec(base_cast_time=0, gcd_base_recast_time=0)},
+#                                 follow_up_skills= {SimConsts.DEFAULT_CONDITION: (standard_finish_follow_up_damage_2, _standard_finish_follow_up2,),
+#                                                    '1 Step': (standard_finish_follow_up_damage_1, _standard_finish_follow_up1, ),
+#                                                    '0 Steps': (standard_finish_follow_up_damage_0,),
+#                                                    'Buff Only': (_standard_finish_follow_up2,),
+#                                                    'Remove Buff': (_standard_remove_followup,)}))
+
+  skill_library.add_skill(Skill(name='Double Standard Finish',
+                                is_GCD=True,
+                                timing_spec={SimConsts.DEFAULT_CONDITION: TimingSpec(base_cast_time=0, gcd_base_recast_time=1500, affected_by_speed_stat=False),
+                                             'Buff Only': TimingSpec(base_cast_time=0, gcd_base_recast_time=0),
+                                             'Remove Buff': TimingSpec(base_cast_time=0, gcd_base_recast_time=0)},
+                                follow_up_skills= {SimConsts.DEFAULT_CONDITION: (standard_finish_follow_up_damage_2, _standard_finish_follow_up2,),          
+                                                   'Buff Only': (_standard_finish_follow_up2,),
+                                                   'Remove Buff': (_standard_remove_followup,)}))
+  skill_library.add_skill(Skill(name='Single Standard Finish',
+                                is_GCD=True,
+                                timing_spec={SimConsts.DEFAULT_CONDITION: TimingSpec(base_cast_time=0, gcd_base_recast_time=1500, affected_by_speed_stat=False),
+                                             'Buff Only': TimingSpec(base_cast_time=0, gcd_base_recast_time=0),
+                                             'Remove Buff': TimingSpec(base_cast_time=0, gcd_base_recast_time=0)},
+                                follow_up_skills= {SimConsts.DEFAULT_CONDITION: (standard_finish_follow_up_damage_1, _standard_finish_follow_up1,),       
+                                                   'Buff Only': (_standard_finish_follow_up1,),
+                                                   'Remove Buff': (_standard_remove_followup,)}))
   skill_library.add_skill(Skill(name='Standard Finish',
                                 is_GCD=True,
                                 timing_spec={SimConsts.DEFAULT_CONDITION: TimingSpec(base_cast_time=0, gcd_base_recast_time=1500, affected_by_speed_stat=False),
                                              'Buff Only': TimingSpec(base_cast_time=0, gcd_base_recast_time=0),
                                              'Remove Buff': TimingSpec(base_cast_time=0, gcd_base_recast_time=0)},
-                                follow_up_skills= {SimConsts.DEFAULT_CONDITION: (standard_finish_follow_up_damage_2, _standard_finish_follow_up2,),
-                                                   '1 Step': (standard_finish_follow_up_damage_1, _standard_finish_follow_up1, ),
-                                                   '0 Steps': (standard_finish_follow_up_damage_0,),
-                                                   'Buff Only': (_standard_finish_follow_up2,),
+                                follow_up_skills= {SimConsts.DEFAULT_CONDITION: (standard_finish_follow_up_damage_0,),
                                                    'Remove Buff': (_standard_remove_followup,)}))
 
   skill_library.add_skill(Skill(name='Reverse Cascade',
@@ -103,73 +126,182 @@ def add_dnc_skills(skill_library):
                                 is_GCD=False,
                                 damage_spec=DamageSpec(potency=200),
                                 timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=620)))
-  tech4_followup= FollowUp(Skill(name='_Technical Finish buff',
+  tech4_followup= FollowUp(Skill(name='Quadruple Technical Finish buff',
                                  is_GCD=False,
                                  buff_spec=StatusEffectSpec(damage_mult=1.05, duration=int(20.45*1000), is_party_effect=True)),
                            delay_after_parent_application=125)
-  tech3_followup= FollowUp(Skill(name='_Technical Finish buff',
+  tech3_followup= FollowUp(Skill(name='Triple Technical Finish buff',
                                  is_GCD=False,
                                  buff_spec=StatusEffectSpec(damage_mult=1.03, duration=int(20.45*1000), is_party_effect=True)),
                            delay_after_parent_application=125)
-  tech2_followup= FollowUp(Skill(name='_Technical Finish buff',
+  tech2_followup= FollowUp(Skill(name='Double Technical Finish buff',
                                  is_GCD=False,
                                  buff_spec=StatusEffectSpec(damage_mult=1.02, duration=int(20.45*1000), is_party_effect=True)),
                            delay_after_parent_application=125)
-  tech1_followup= FollowUp(Skill(name='_Technical Finish buff',
+  tech1_followup= FollowUp(Skill(name='Single Technical Finish buff',
                                  is_GCD=False,
                                  buff_spec=StatusEffectSpec(damage_mult=1.01, duration=int(20.45*1000), is_party_effect=True)),
                            delay_after_parent_application=125)
 
-  tech4_longest_followup= FollowUp(Skill(name='_Technical Finish buff',
+  tech4_longest_followup= FollowUp(Skill(name='Technical Finish buff',
                                          is_GCD=False,
                                          buff_spec=StatusEffectSpec(damage_mult=1.05, duration=int(20.95*1000), is_party_effect=True)),
                                    delay_after_parent_application=125)
-  tech3_longest_followup= FollowUp(Skill(name='_Technical Finish buff',
+  tech3_longest_followup= FollowUp(Skill(name='Technical Finish buff',
                                  is_GCD=False,
                                  buff_spec=StatusEffectSpec(damage_mult=1.03, duration=int(20.95*1000), is_party_effect=True)),
                            delay_after_parent_application=125)
-  tech2_longest_followup= FollowUp(Skill(name='_Technical Finish buff',
+  tech2_longest_followup= FollowUp(Skill(name='Technical Finish buff',
                                  is_GCD=False,
                                  buff_spec=StatusEffectSpec(damage_mult=1.02, duration=int(20.95*1000), is_party_effect=True)),
                            delay_after_parent_application=125)
-  tech1_longest_followup= FollowUp(Skill(name='_Technical Finish buff',
+  tech1_longest_followup= FollowUp(Skill(name='Technical Finish buff',
                                  is_GCD=False,
                                  buff_spec=StatusEffectSpec(damage_mult=1.01, duration=int(20.95*1000), is_party_effect=True)),
                            delay_after_parent_application=125)
 
-  tech_remove_followup= FollowUp(Skill(name='_Technical Finish remove buff',
+  tech_remove_followup= FollowUp(Skill(name='Technical Finish remove buff',
                                        is_GCD=False,
-                                       buff_spec=StatusEffectSpec(expires_status_effects=('_Technical Finish buff',), is_party_effect=True)),
+                                       buff_spec=StatusEffectSpec(expires_status_effects=('Technical Finish buff',), is_party_effect=True)),
                                  delay_after_parent_application=0)
   tech_finish_timing= TimingSpec(base_cast_time=0, gcd_base_recast_time=1500, affected_by_speed_stat=False, application_delay=535)
   tech_finish_status_effect_only= TimingSpec(base_cast_time=0, gcd_base_recast_time=0, application_delay=0)
 
-  skill_library.add_skill(Skill(name='Technical Finish',
-                                is_GCD=True,
-                                damage_spec = {SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200),
-                                               '3 Steps': DamageSpec(potency=900),
-                                               '2 Steps': DamageSpec(potency=720),
-                                               '1 Step': DamageSpec(potency=540),
-                                               '0 Steps': DamageSpec(potency=350),
-                                               'Buff Only': None,
-                                               'Remove Buff': None,
-                                               '3 Steps, Buff Only': None,
-                                               '2 Steps, Buff Only': None,
-                                               '1 Step, Buff Only': None,
-                                               '0 Steps, Buff Only': None},
-                                timing_spec= {SimConsts.DEFAULT_CONDITION: tech_finish_timing,
-                                              'Buff Only': tech_finish_status_effect_only,
-                                              'Remove Buff': tech_finish_status_effect_only},
-                                follow_up_skills= {SimConsts.DEFAULT_CONDITION: (tech4_followup,),
-                                                   '3 Steps': (tech3_followup,),
-                                                   '2 Steps': (tech2_followup,),
-                                                   '1 Step': (tech1_followup,),
-                                                   'Longest': (tech4_longest_followup,),
-                                                   '3 Steps, Longest': (tech3_longest_followup,),
-                                                   '2 Steps, Longest': (tech2_longest_followup,),
-                                                   '1 Step, Longest': (tech1_longest_followup,),
-                                                   '0 Steps, Longest': tuple(),
-                                                   'Remove Buff': (tech_remove_followup,)}))
+  skill_library.add_skill(
+        Skill(
+            name="Quadruple Technical Finish",
+            is_GCD=True,
+            damage_spec= {SimConsts.DEFAULT_CONDITION:
+                          DamageSpec(potency=1200),                
+                          "Buff Only": None,
+                          "Remove Buff": None,                
+            },
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: tech_finish_timing,
+                "Buff Only": tech_finish_status_effect_only,
+                "Remove Buff": tech_finish_status_effect_only,
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (tech4_followup,),
+                "Longest": (tech4_longest_followup,),
+                "Remove Buff": (tech_remove_followup,),
+            },
+        )
+    )
+
+  skill_library.add_skill(
+        Skill(
+            name="Triple Technical Finish",
+            is_GCD=True,
+            damage_spec= {SimConsts.DEFAULT_CONDITION:
+                          DamageSpec(potency=900),                
+                          "Buff Only": None,
+                          "Remove Buff": None,                
+            },
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: tech_finish_timing,
+                "Buff Only": tech_finish_status_effect_only,
+                "Remove Buff": tech_finish_status_effect_only,
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (tech3_followup,),
+                "Longest": (tech3_longest_followup,),
+                "Remove Buff": (tech_remove_followup,),
+            },
+        )
+    )
+
+  skill_library.add_skill(
+        Skill(
+            name="Double Technical Finish",
+            is_GCD=True,
+            damage_spec= {SimConsts.DEFAULT_CONDITION:
+                          DamageSpec(potency=720),                
+                          "Buff Only": None,
+                          "Remove Buff": None,                
+            },
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: tech_finish_timing,
+                "Buff Only": tech_finish_status_effect_only,
+                "Remove Buff": tech_finish_status_effect_only,
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (tech2_followup,),
+                "Longest": (tech2_longest_followup,),
+                "Remove Buff": (tech_remove_followup,),
+            },
+        )
+    )
+
+  skill_library.add_skill(
+        Skill(
+            name="Single Technical Finish",
+            is_GCD=True,
+            damage_spec= {SimConsts.DEFAULT_CONDITION:
+                          DamageSpec(potency=540),                
+                          "Buff Only": None,
+                          "Remove Buff": None,                
+            },
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: tech_finish_timing,
+                "Buff Only": tech_finish_status_effect_only,
+                "Remove Buff": tech_finish_status_effect_only,
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (tech1_followup,),
+                "Longest": (tech1_longest_followup,),
+                "Remove Buff": (tech_remove_followup,),
+            },
+        )
+    )
+
+  skill_library.add_skill(
+        Skill(
+            name="Technical Finish",
+            is_GCD=True,
+            damage_spec= {SimConsts.DEFAULT_CONDITION:
+                          DamageSpec(potency=350),                
+                          "Buff Only": None,
+                          "Remove Buff": None,                
+            },
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: tech_finish_timing,
+                "Buff Only": tech_finish_status_effect_only,
+                "Remove Buff": tech_finish_status_effect_only,
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: tuple(),                
+                "Remove Buff": (tech_remove_followup,),
+            },
+        )
+    )
+
+#   skill_library.add_skill(Skill(name='Technical Finish',
+#                                 is_GCD=True,
+#                                 damage_spec = {SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200),
+#                                                '3 Steps': DamageSpec(potency=900),
+#                                                '2 Steps': DamageSpec(potency=720),
+#                                                '1 Step': DamageSpec(potency=540),
+#                                                '0 Steps': DamageSpec(potency=350),
+#                                                'Buff Only': None,
+#                                                'Remove Buff': None,
+#                                                '3 Steps, Buff Only': None,
+#                                                '2 Steps, Buff Only': None,
+#                                                '1 Step, Buff Only': None,
+#                                                '0 Steps, Buff Only': None},
+#                                 timing_spec= {SimConsts.DEFAULT_CONDITION: tech_finish_timing,
+#                                               'Buff Only': tech_finish_status_effect_only,
+#                                               'Remove Buff': tech_finish_status_effect_only},
+#                                 follow_up_skills= {SimConsts.DEFAULT_CONDITION: (tech4_followup,),
+#                                                    '3 Steps': (tech3_followup,),
+#                                                    '2 Steps': (tech2_followup,),
+#                                                    '1 Step': (tech1_followup,),
+#                                                    'Longest': (tech4_longest_followup,),
+#                                                    '3 Steps, Longest': (tech3_longest_followup,),
+#                                                    '2 Steps, Longest': (tech2_longest_followup,),
+#                                                    '1 Step, Longest': (tech1_longest_followup,),
+#                                                    '0 Steps, Longest': tuple(),
+#                                                    'Remove Buff': (tech_remove_followup,)}))
 
   skill_library.add_skill(Skill(name='Saber Dance',
                                 is_GCD=True,

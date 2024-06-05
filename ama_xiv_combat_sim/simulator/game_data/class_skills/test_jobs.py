@@ -1041,13 +1041,13 @@ class TestJobs(TestClass):
 
     rb = RotationBuilder(stats, self.__skill_library, enable_autos=True, ignore_trailing_dots=True, snap_dots_to_server_tick_starting_at=0)
     rb.add_next('Grade 8 Tincture')
-    rb.add_next('Standard Finish')
+    rb.add_next('Double Standard Finish')
     rb.add_next('Technical Step')
     rb.add_next('Step Action')
     rb.add_next('Step Action')
     rb.add_next('Step Action')
     rb.add_next('Step Action')
-    rb.add_next('Technical Finish')
+    rb.add_next('Quadruple Technical Finish')
     rb.add_next('Devilment')
     rb.add_next('Starfall Dance')
     rb.add_next('Flourish')
@@ -1061,7 +1061,7 @@ class TestJobs(TestClass):
     rb.add_next('Standard Step')
     rb.add_next('Step Action')
     rb.add_next('Step Action')
-    rb.add_next('Standard Finish')
+    rb.add_next('Double Standard Finish')
     rb.add_next('Saber Dance')
     rb.add_next('Reverse Cascade')
     rb.add_next('Saber Dance')
@@ -1109,26 +1109,26 @@ class TestJobs(TestClass):
 
     rb = RotationBuilder(stats, self.__skill_library, enable_autos=False, ignore_trailing_dots=True, snap_dots_to_server_tick_starting_at=0)
     rb.add_next('Cascade')
-    rb.add_next('Technical Finish', skill_modifier=SkillModifier(with_condition='Longest'))
+    rb.add_next('Quadruple Technical Finish', skill_modifier=SkillModifier(with_condition='Longest'))
     rb.add_next('Cascade')
-    rb.add_next('Technical Finish', skill_modifier=SkillModifier(with_condition='Remove Buff'))
+    rb.add_next('Quadruple Technical Finish', skill_modifier=SkillModifier(with_condition='Remove Buff'))
     rb.add_next('Cascade')
 
     expected = (('Cascade', 10931.4),
-                ('Technical Finish', 59607.2),
+                ('Quadruple Technical Finish', 59607.2),
                 ('Cascade', 11449.4),
                 ('Cascade', 10931.4))
     test_passed1, err_msg1 = self.__test_rotation_damage(rb, expected)
 
     rb = RotationBuilder(stats, self.__skill_library, enable_autos=False, ignore_trailing_dots=True, snap_dots_to_server_tick_starting_at=0)
     rb.add_next('Cascade')
-    rb.add_next('Standard Finish')
+    rb.add_next('Double Standard Finish')
     rb.add_next('Cascade')
-    rb.add_next('Standard Finish', skill_modifier=SkillModifier(with_condition='Remove Buff'))
+    rb.add_next('Double Standard Finish', skill_modifier=SkillModifier(with_condition='Remove Buff'))
     rb.add_next('Cascade')
 
     expected = (('Cascade', 10931.4),
-                ('Standard Finish', 35748.5),
+                ('Double Standard Finish', 35748.5),
                 ('Cascade', 11449.4),
                 ('Cascade', 10931.4))
     test_passed2, err_msg2 = self.__test_rotation_damage(rb, expected)
