@@ -472,7 +472,7 @@ def add_nin_skills(skill_library):
 
     dokumori_debuff_follow_up = FollowUp(
         skill=Skill(
-            name="Dokumori",
+            name="Dokumori (Debuff)",
             debuff_spec=StatusEffectSpec(
                 damage_mult=1.05, duration=int(20.77 * 1000), is_party_effect=True
             ),

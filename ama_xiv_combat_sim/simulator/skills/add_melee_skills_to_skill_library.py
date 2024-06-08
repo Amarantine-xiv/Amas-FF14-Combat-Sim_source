@@ -7,6 +7,7 @@ def add_melee_skills_to_skill_library(skill_library, version="6.55"):
             patch_use = patch655
         case "7.0":
             patch_use = patch70
+            skill_library = patch70.add_vpr_skills(skill_library)
         case _:
             raise RuntimeError("Bad version: {}".format(version))
     skill_library = patch_use.add_drg_skills(skill_library)

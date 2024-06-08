@@ -26,7 +26,7 @@ class RotationBuilder:
         enable_autos=False,
         ignore_trailing_dots=False,
         fight_start_time=None,
-        downtime_windows=[],
+        downtime_windows=(),
     ):
         self.__stats = stats
         # snap_dots_to_server_tick_starting_at is in SECONDS
