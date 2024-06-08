@@ -102,6 +102,5 @@ class DamageBuilder():
       if is_application_time:
         self.se.add_to_status_effects(curr_time, skill, skill_modifier)
 
-
     q.sort(key=lambda x: x[0])
     return q

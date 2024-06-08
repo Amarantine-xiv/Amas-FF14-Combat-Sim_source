@@ -7,7 +7,7 @@ from simulator.timeline_builders.rotation_builder import RotationBuilder
 def get_my_rotation(skill_library):
   # input your stats here (TODO: etro gear link).
   # these stats include food only; 5% party buffs are added automatically during the sim.
-  stats = Stats(wd=132, weapon_delay=3.36, main_stat=3330, det_stat=2182, crit_stat=2596, dh_stat=940, speed_stat=400, tenacity=601, job_class = 'WAR')
+  stats = Stats(wd=132, weapon_delay=3.36, main_stat=3330, det_stat=2182, crit_stat=2596, dh_stat=940, speed_stat=400, tenacity=601, job_class = 'WAR', version="6.55",)
 
   rb = RotationBuilder(stats, skill_library, ignore_trailing_dots=True, enable_autos=True, snap_dots_to_server_tick_starting_at=0)
   rotation_name = 'My Rotation'
@@ -61,7 +61,7 @@ def get_my_rotation(skill_library):
   return (rotation_name, rb)
 
 def get_my_rotation_from_CSV(skill_library, csv_filename='', rotation_name= ''):
-  stats = Stats(wd=132, weapon_delay=3.36, main_stat=3330, det_stat=2182, crit_stat=2596, dh_stat=940, speed_stat=400, tenacity=601, job_class = 'WAR')
+  stats = Stats(wd=132, weapon_delay=3.36, main_stat=3330, det_stat=2182, crit_stat=2596, dh_stat=940, speed_stat=400, tenacity=601, job_class = 'WAR', version="6.55",)
   rb = RotationBuilder(stats, skill_library, ignore_trailing_dots=True, enable_autos=True, snap_dots_to_server_tick_starting_at=0)
 
   if not os.path.exists(csv_filename):

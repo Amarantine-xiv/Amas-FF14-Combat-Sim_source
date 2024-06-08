@@ -7,7 +7,7 @@ from simulator.utils import Utils
 
 @dataclass(frozen=False, order=True)
 class SkillModifier:
-  def __init__(self, guaranteed_crit=ForcedCritOrDH.DEFAULT, guaranteed_dh=ForcedCritOrDH.DEFAULT, with_condition=SimConsts.DEFAULT_CONDITION, force_combo=False, ignore_cast_times=False, ignore_application_delay=False, bonus_percent=None):
+  def __init__(self, with_condition=SimConsts.DEFAULT_CONDITION, guaranteed_crit=ForcedCritOrDH.DEFAULT, guaranteed_dh=ForcedCritOrDH.DEFAULT, force_combo=False, ignore_cast_times=False, ignore_application_delay=False, bonus_percent=None):
     self.guaranteed_crit= guaranteed_crit
     self.guaranteed_dh= guaranteed_dh
     self.with_condition= Utils.canonicalize_condition(with_condition)

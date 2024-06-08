@@ -5,14 +5,13 @@ from simulator.stats import Stats
 from simulator.timeline_builders.damage_builder import DamageBuilder
 from simulator.timeline_builders.snapshot_and_application_events import SnapshotAndApplicationEvents
 from simulator.testing.test_class import TestClass
-from simulator.testing.job_class_test_fns import JobClassTestFns
 from simulator.testing.create_test_skill_library import create_test_skill_library
 from simulator.trackers.status_effects import StatusEffects
 from simulator.utils import Utils
 
 class TestDamageBuilder(TestClass):
   def __init__(self):
-    self.__stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    self.__stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', version="test")
     self.__skill_library = create_test_skill_library()
 
   @TestClass.is_a_test

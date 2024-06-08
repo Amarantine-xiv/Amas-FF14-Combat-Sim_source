@@ -1,7 +1,6 @@
 from simulator.damage_simulator import DamageSimulator
 from simulator.skills.skill_modifier import SkillModifier
 from simulator.stats import Stats
-from simulator.testing.job_class_test_fns import JobClassTestFns
 from simulator.testing.test_class import TestClass
 from simulator.testing.create_test_skill_library import create_test_skill_library
 from simulator.timeline_builders.damage_builder import DamageBuilder
@@ -16,7 +15,7 @@ class TestEndToEnd(TestClass):
   def test_simple(self):
     test_passed = True
     err_msg=""
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', version="test")
 
     rb = RotationBuilder(stats, self.__skill_library)
     db = DamageBuilder(stats, self.__skill_library)
@@ -31,7 +30,7 @@ class TestEndToEnd(TestClass):
   def test_skill_modifier_with_condition(self):
     test_passed = True
     err_msg=""
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', version="test")
 
     rb = RotationBuilder(stats, self.__skill_library)
     db = DamageBuilder(stats, self.__skill_library)
