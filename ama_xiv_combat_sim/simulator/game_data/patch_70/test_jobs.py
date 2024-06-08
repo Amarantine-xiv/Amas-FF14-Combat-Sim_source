@@ -1630,3 +1630,104 @@ class TestJobs(TestClass):
         )
 
         return self.__test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
+    def test_vpr_aggregate_rotation(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.64,
+            main_stat=3367,
+            det_stat=1736,
+            crit_stat=2587,
+            dh_stat=1494,
+            speed_stat=508,
+            job_class="VPR",
+            version="7.0",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=True,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        skill_seq = (
+            "Dreadwinder",
+            "Serpent's Ire",
+            "Grade 8 Tincture",
+            "Hunter's Coil",
+            "Twinfang Bite",
+            "Twinblood Bite",
+            "Swiftskin's Coil",
+            "Twinblood Bite",
+            "Twinfang Bite",
+            "Reawaken",
+            "First Generation",
+            "First Legacy",
+            "Second Generation",
+            "Second Legacy",
+            "Third Generation",
+            "Third Legacy",
+            "Fourth Generation",
+            "Fourth Legacy",
+            "Ouroboros",
+            "Dreadwinder",
+            "Hunter's Coil",
+            "Twinfang Bite",
+            "Twinblood Bite",
+            "Swiftskin's Coil",
+            "Twinblood Bite",
+            "Twinfang Bite",
+            "Uncoiled Fury",
+            "Uncoiled Twinfang",
+            "Uncoiled Twinblood",            
+        )
+        for e in skill_seq:
+            rb.add_next(e)
+
+        expected_damage = 608896.2
+        expected_total_time = 28860.0
+
+        return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
+
+    @TestClass.is_a_test
+    def test_vpr_rotation_damage_instances(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.64,
+            main_stat=3367,
+            det_stat=1736,
+            crit_stat=2587,
+            dh_stat=1494,
+            speed_stat=508,
+            job_class="VPR",
+            version="7.0",
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0
+        )
+
+        rot_and_expected = (
+            ("Hindsting Strike", 14205.2),
+            ("Flanksbane Fang", 18245.3),
+            
+            
+            ("Hindsbane Fang", 18245.3),
+            ("Flanksting Strike", 18245.3),
+            ("Flanksting Strike", 14205.2),
+            ("Hindsting Strike", 18232.7),
+            ("Hindsting Strike", 14205.2),
+            #
+            ("Flanksbane Fang", 18239.9),
+            ("Hindsbane Fang", 18239.9),
+            
+        )
+        for e in rot_and_expected:
+            rb.add_next(e[0])
+
+        return self.__test_rotation_damage(rb, rot_and_expected)   

@@ -19,6 +19,8 @@ class SkillLibrary:
         return self.__version
 
     def add_combo_breaker(self, combo_group, combo_breaker):
+      #combo_group is the group to be broken
+      #combo_breaker is what breaks that group
         assert isinstance(
             combo_breaker, tuple
         ), "combo_breaker group should be a tuple of ints"
@@ -40,6 +42,9 @@ class SkillLibrary:
     def print_skill_names(self, job_class):
         for skill_name in self.__skills[job_class].keys():
             print(skill_name)
+
+    def has_job_class(self, job_class):
+        return job_class in self.__skills.keys()
 
     def get_skill(self, skill_name, job_class):
         try:

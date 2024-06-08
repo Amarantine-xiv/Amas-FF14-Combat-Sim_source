@@ -116,7 +116,7 @@ class TestJobs(TestClass):
             speed_stat=592,
             tenacity=631,
             job_class="WAR",
-            version="6.4",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 2641.6),
@@ -154,7 +154,7 @@ class TestJobs(TestClass):
             speed_stat=592,
             tenacity=631,
             job_class="WAR",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(stats, self.__skill_library, enable_autos=True)
@@ -195,7 +195,7 @@ class TestJobs(TestClass):
             speed_stat=400,
             tenacity=751,
             job_class="GNB",
-            version="6.4",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 2170.4),
@@ -237,7 +237,7 @@ class TestJobs(TestClass):
             speed_stat=400,
             tenacity=751,
             job_class="GNB",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(stats, self.__skill_library, enable_autos=True)
@@ -278,7 +278,7 @@ class TestJobs(TestClass):
             speed_stat=400,
             tenacity=751,
             job_class="PLD",
-            version="6.4",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 1741.2),
@@ -338,7 +338,7 @@ class TestJobs(TestClass):
             speed_stat=400,
             tenacity=751,
             job_class="PLD",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -381,7 +381,7 @@ class TestJobs(TestClass):
             speed_stat=650,
             tenacity=631,
             job_class="DRK",
-            version="6.4",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 2322.9),
@@ -420,7 +420,7 @@ class TestJobs(TestClass):
             speed_stat=650,
             tenacity=631,
             job_class="DRK",
-            version="6.4",
+            version="6.55",
         )
         rb = RotationBuilder(stats, self.__skill_library, enable_autos=True)
 
@@ -467,7 +467,7 @@ class TestJobs(TestClass):
             speed_stat=954,
             job_class="SCH",
             healer_or_caster_strength=351,
-            version="6.4",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 185.2),
@@ -491,7 +491,7 @@ class TestJobs(TestClass):
             speed_stat=954,
             job_class="SCH",
             healer_or_caster_strength=351,
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
@@ -533,7 +533,7 @@ class TestJobs(TestClass):
             speed_stat=1062,
             job_class="WHM",
             healer_or_caster_strength=214,
-            version="6.4",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 37.2),
@@ -557,7 +557,7 @@ class TestJobs(TestClass):
             speed_stat=1062,
             job_class="WHM",
             healer_or_caster_strength=214,
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
@@ -587,7 +587,7 @@ class TestJobs(TestClass):
             speed_stat=664,
             job_class="SGE",
             healer_or_caster_strength=214,
-            version="6.4",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 30.9),
@@ -612,7 +612,7 @@ class TestJobs(TestClass):
             speed_stat=664,
             job_class="SGE",
             healer_or_caster_strength=214,
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
@@ -642,7 +642,7 @@ class TestJobs(TestClass):
             speed_stat=1350,
             job_class="AST",
             healer_or_caster_strength=214,
-            version="6.4",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 33.0),
@@ -667,7 +667,7 @@ class TestJobs(TestClass):
             speed_stat=1350,
             job_class="AST",
             healer_or_caster_strength=214,
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
@@ -702,7 +702,7 @@ class TestJobs(TestClass):
             dh_stat=1582,
             speed_stat=400,
             job_class="NIN",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -745,7 +745,7 @@ class TestJobs(TestClass):
             dh_stat=1582,
             speed_stat=400,
             job_class="NIN",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -803,7 +803,7 @@ class TestJobs(TestClass):
             dh_stat=1818,
             speed_stat=400,
             job_class="DRG",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -855,7 +855,7 @@ class TestJobs(TestClass):
             dh_stat=1818,
             speed_stat=400,
             job_class="DRG",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -920,7 +920,7 @@ class TestJobs(TestClass):
             speed_stat=502,
             job_class="RDM",
             healer_or_caster_strength=214,
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -974,7 +974,7 @@ class TestJobs(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="SAM",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1012,7 +1012,7 @@ class TestJobs(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="SAM",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1064,7 +1064,7 @@ class TestJobs(TestClass):
             dh_stat=1558,
             speed_stat=436,
             job_class="RPR",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1110,7 +1110,7 @@ class TestJobs(TestClass):
             dh_stat=1453,
             speed_stat=771,
             job_class="MNK",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1157,7 +1157,7 @@ class TestJobs(TestClass):
             dh_stat=1344,
             speed_stat=479,
             job_class="BRD",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1210,7 +1210,7 @@ class TestJobs(TestClass):
             dh_stat=1344,
             speed_stat=479,
             job_class="BRD",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1263,7 +1263,7 @@ class TestJobs(TestClass):
             dh_stat=1344,
             speed_stat=479,
             job_class="BRD",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1301,7 +1301,7 @@ class TestJobs(TestClass):
             dh_stat=1344,
             speed_stat=479,
             job_class="BRD",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1348,7 +1348,7 @@ class TestJobs(TestClass):
             dh_stat=1818,
             speed_stat=400,
             job_class="DRG",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1419,7 +1419,7 @@ class TestJobs(TestClass):
             dh_stat=1254,
             speed_stat=400,
             job_class="MCH",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1461,7 +1461,7 @@ class TestJobs(TestClass):
             dh_stat=1254,
             speed_stat=400,
             job_class="MCH",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1519,7 +1519,7 @@ class TestJobs(TestClass):
             dh_stat=1547,
             speed_stat=2469,
             job_class="BLM",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1567,7 +1567,7 @@ class TestJobs(TestClass):
             dh_stat=1380,
             speed_stat=436,
             job_class="DNC",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1617,7 +1617,7 @@ class TestJobs(TestClass):
             dh_stat=1438,
             speed_stat=502,
             job_class="SMN",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1666,7 +1666,7 @@ class TestJobs(TestClass):
             dh_stat=1380,
             speed_stat=436,
             job_class="DNC",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1733,7 +1733,7 @@ class TestJobs(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="SAM",
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(
@@ -1775,7 +1775,7 @@ class TestJobs(TestClass):
             dh_stat=1547,
             speed_stat=2469,
             job_class="BLM",
-            version="6.4",
+            version="6.55",
         )
         rb = RotationBuilder(
             stats,
@@ -1820,7 +1820,7 @@ class TestJobs(TestClass):
             speed_stat=1350,
             job_class="AST",
             healer_or_caster_strength=214,
-            version="6.4",
+            version="6.55",
         )
 
         rb = RotationBuilder(stats, self.__skill_library)

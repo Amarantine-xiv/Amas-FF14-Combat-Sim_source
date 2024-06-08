@@ -12,6 +12,7 @@ from example_rotations.melee.drg import *
 from example_rotations.melee.mnk import *
 from example_rotations.melee.rpr import *
 from example_rotations.melee.nin import *
+from example_rotations.melee.vpr import *
 
 from example_rotations.ranged.dnc import *
 from example_rotations.ranged.brd import *
@@ -53,6 +54,12 @@ def get_example_rotations(skill_library):
     add_to_rotation_library(get_rotation_MNK(skill_library), res)
     add_to_rotation_library(get_rotation_RPR(skill_library), res)
     add_to_rotation_library(get_rotation_NIN(skill_library), res)
+    
+    # hack
+    vpr_rot = get_rotation_VPR(skill_library)
+    if vpr_rot:
+        print('added')
+        add_to_rotation_library(vpr_rot, res)
 
     add_to_rotation_library(get_rotation_DNC(skill_library), res)
     add_to_rotation_library(get_rotation_DNC_extended(skill_library), res)
@@ -64,6 +71,5 @@ def get_example_rotations(skill_library):
     add_to_rotation_library(get_rotation_SMN(skill_library), res)
 
     add_to_rotation_library(get_my_rotation(skill_library), res)
-    # add_to_rotation_library(get_my_rotation_from_CSV(skill_library), res)
-
+    # add_to_rotation_library(get_my_rotation_from_CSV(skill_library), res)    
     return res
