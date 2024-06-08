@@ -4,19 +4,18 @@ from simulator.sim_consts import SimConsts
 from simulator.stats import Stats
 from simulator.testing.test_class import TestClass
 from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.testing.job_class_test_fns import JobClassTestFns
 from simulator.timeline_builders.snapshot_and_application_events import SnapshotAndApplicationEvents
 from simulator.timeline_builders.rotation_builder import RotationBuilder
 
 class TestRotationBuilder(TestClass):
   def __init__(self):
-    self.__stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    self.__stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', version="test")
     self.__skill_library = create_test_skill_library()
 
   @TestClass.is_a_test
   def test_downtime_windows(self):
     # intentionally have really long delay
-    stats = Stats(wd=126, weapon_delay=4.5, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=4.5, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', version="test")
     rb = RotationBuilder(stats, self.__skill_library, enable_autos=True, fight_start_time=0, downtime_windows=((1, 10), (15.4, 20.2)))
 
     rb.add(0, 'test_instant_gcd')
@@ -45,7 +44,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_bonus_percent(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', version="test")
     rb = RotationBuilder(stats, self.__skill_library, fight_start_time=0)
 
     rb.add_next('test_combo_pos', skill_modifier=SkillModifier(bonus_percent=68))
@@ -64,7 +63,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_damage_with_buff_follow_up(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', version="test")
     rb = RotationBuilder(stats, self.__skill_library, fight_start_time=0)
     rb.add_next('test_damage_with_debuff_follow_up')
 
@@ -77,7 +76,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_combo(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', version="test")
     rb = RotationBuilder(stats, self.__skill_library, fight_start_time=0)
     rb.add_next('test_combo0')
     rb.add_next('test_combo1')
@@ -93,7 +92,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_job_resource(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', version="test")
     rb = RotationBuilder(stats, self.__skill_library, fight_start_time=0)
     rb.add_next('test_skill_add_gauge')
     rb.add_next('test_skill_use_gauge')
@@ -107,7 +106,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_adding_conditional(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', version="test")
     rb = RotationBuilder(stats, self.__skill_library, fight_start_time=0)
     rb.add_next('test_skill_with_conditional')
     rb.add_next('test_instant_gcd')
@@ -123,7 +122,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_buff_with_num_uses_and_cast_reduction(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', version="test")
     rb = RotationBuilder(stats, self.__skill_library, fight_start_time=0)
     rb.add_next('test_num_uses_buff_with_cast_reduction')
     rb.add_next('test_gcd')
@@ -141,7 +140,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_auto_on_first_damage_instance(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job', version="test")
     rb = RotationBuilder(stats, self.__skill_library, enable_autos=True, fight_start_time=0)
     rb.add_next('test_simple_buff_gcd')
     rb.add_next('test_instant_gcd')
@@ -174,7 +173,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_job_auto_delay_reduction_trait(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job_haste', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job_haste', version="test")
     rb = RotationBuilder(stats, self.__skill_library, enable_autos=True, fight_start_time=0)
     rb.add(0,'test_instant_gcd')
     rb.add(10,'test_instant_gcd')
@@ -192,7 +191,7 @@ class TestRotationBuilder(TestClass):
 
   @TestClass.is_a_test
   def test_job_haste_trait(self):
-    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job_haste', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=400, job_class = 'test_job_haste', version="test")
     rb = RotationBuilder(stats, self.__skill_library, enable_autos=False, fight_start_time=0)
     rb.add_next('test_instant_gcd')
     rb.add_next('test_instant_gcd')

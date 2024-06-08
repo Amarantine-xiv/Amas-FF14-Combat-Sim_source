@@ -19,6 +19,8 @@ class ComboTracker:
   def __update_combo(self, curr_t, combo_spec, combo_succeeded, skill_name):
     if combo_succeeded:
       self.last_combo_skill_used[combo_spec.combo_group] = (curr_t, skill_name)
+    else:
+      self.last_combo_skill_used[combo_spec.combo_group] = (-math.inf, None)
 
     for combo_group_to_be_broken, breakers in self.combo_breakers.items():
       if combo_spec.combo_group in breakers:

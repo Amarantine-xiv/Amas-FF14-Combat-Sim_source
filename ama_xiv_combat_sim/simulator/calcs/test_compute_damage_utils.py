@@ -5,13 +5,12 @@ from simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from simulator.skills.skill_modifier import SkillModifier
 from simulator.stats import Stats
 from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.testing.job_class_test_fns import JobClassTestFns
 from simulator.testing.test_class import TestClass
 from simulator.trackers.status_effects import StatusEffects
 
 class TestComputeDamageUtils(TestClass):
   def __init__(self):
-    self.__stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    self.__stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', version="test")
     self.__skill_library = create_test_skill_library()
 
   @TestClass.is_a_test
@@ -146,7 +145,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=2.96, main_stat=2906, det_stat=1883, crit_stat=2352, dh_stat=868, speed_stat=650, tenacity=631, job_class = 'test_tank_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=2.96, main_stat=2906, det_stat=1883, crit_stat=2352, dh_stat=868, speed_stat=650, tenacity=631, job_class = 'test_tank_job', version="test")
     skill = self.__skill_library.get_skill('test_pet_gcd', 'test_tank_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -181,7 +180,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_no_crit_dh', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -199,7 +198,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job2', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job2', version="test")
     skill = self.__skill_library.get_skill('Auto', 'test_job2')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -217,7 +216,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('Auto', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -235,7 +234,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_tank_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_tank_job', version="test")
     skill = self.__skill_library.get_skill('Auto', 'test_tank_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -253,7 +252,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.12, main_stat=2947, det_stat=1695, crit_stat=2255, dh_stat=904, speed_stat=839, job_class = 'test_healer_job', healer_or_caster_strength=351, job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.12, main_stat=2947, det_stat=1695, crit_stat=2255, dh_stat=904, speed_stat=839, job_class = 'test_healer_job', healer_or_caster_strength=351, version="test")
     skill = self.__skill_library.get_skill('Auto', 'test_healer_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -271,7 +270,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_crit_dh_dot', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -289,7 +288,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_crit_dh_dot', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -307,7 +306,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_crit_dot', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -325,7 +324,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_crit_dot', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -343,7 +342,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_dh_dot', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -361,7 +360,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_dh_dot', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -379,7 +378,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_dh', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -397,7 +396,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_crit', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -415,7 +414,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_crit', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -433,7 +432,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_dh', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -451,7 +450,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_guaranteed_crit_dh', 'test_job')
     skill_modifier = SkillModifier()
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -469,7 +468,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_gcd', 'test_job')
     skill_modifier = SkillModifier(guaranteed_crit=ForcedCritOrDH.FORCE_YES, guaranteed_dh=ForcedCritOrDH.FORCE_YES)
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -487,7 +486,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_gcd', 'test_job')
     skill_modifier = SkillModifier(guaranteed_crit=ForcedCritOrDH.FORCE_YES)
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -505,7 +504,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_job', version="test")
     skill = self.__skill_library.get_skill('test_gcd', 'test_job')
     skill_modifier = SkillModifier(guaranteed_dh=ForcedCritOrDH.FORCE_YES)
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
@@ -576,7 +575,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=2.96, main_stat=2906, det_stat=1883, crit_stat=2352, dh_stat=868, speed_stat=650, tenacity=631, job_class = 'test_tank_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=2.96, main_stat=2906, det_stat=1883, crit_stat=2352, dh_stat=868, speed_stat=650, tenacity=631, job_class = 'test_tank_job', version="test")
 
     skill = self.__skill_library.get_skill('test_tank_dot_tick', stats.job_class)
     skill_modifier = SkillModifier()
@@ -596,7 +595,7 @@ class TestComputeDamageUtils(TestClass):
     test_passed = True
     err_msg = ""
 
-    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_tank_job', job_class_fns=JobClassTestFns)
+    stats = Stats(wd=126, weapon_delay=3.36, main_stat=2910, det_stat=1980, crit_stat=2313, dh_stat=868, speed_stat=592, tenacity=631, job_class = 'test_tank_job', version="test")
 
     skill = self.__skill_library.get_skill('test_tank_gcd', stats.job_class)
     skill_modifier = SkillModifier()

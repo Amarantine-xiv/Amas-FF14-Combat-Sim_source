@@ -2,14 +2,13 @@ from kill_time_estimator.kill_time_estimator import KillTimeEstimator
 from simulator.skills.skill_modifier import SkillModifier
 from simulator.stats import Stats
 from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.testing.job_class_test_fns import JobClassTestFns
 from simulator.testing.test_class import TestClass
 from simulator.timeline_builders.rotation_builder import RotationBuilder
 
 class TestKillTimeEstimator(TestClass):
   def __init__(self):
     self.skill_library = create_test_skill_library()
-    self.stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', job_class_fns=JobClassTestFns)
+    self.stats = Stats(wd=126, weapon_delay=3.44, main_stat=2945, det_stat=1620, crit_stat=2377, dh_stat=1048, speed_stat=708, job_class = 'test_job', version="test")
 
   def __get_rotation(self):
     rb = RotationBuilder(self.stats, self.skill_library, fight_start_time=0)
