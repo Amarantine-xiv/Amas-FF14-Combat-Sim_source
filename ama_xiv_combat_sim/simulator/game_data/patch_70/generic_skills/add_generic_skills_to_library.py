@@ -1,7 +1,7 @@
-from simulator.game_data.patch_70.lb_skills.add_lbs_to_skill_library import add_lbs_to_skill_library
-from simulator.specs.status_effect_spec import StatusEffectSpec
-from simulator.specs.timing_spec import TimingSpec
-from simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.game_data.patch_70.lb_skills.add_lbs_to_skill_library import add_lbs_to_skill_library
+from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
 
 def add_generic_skills_to_library(skill_library):
   for job_class in skill_library.get_jobs():

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from simulator.game_data.game_consts import GameConsts
+from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
 
 @dataclass(frozen=True)
 class TimingSpec:

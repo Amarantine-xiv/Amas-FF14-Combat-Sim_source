@@ -1,5 +1,5 @@
-import simulator.game_data.patch_655.class_skills.caster as patch655
-import simulator.game_data.patch_70.class_skills.caster as patch70
+import ama_xiv_combat_sim.simulator.game_data.patch_655.class_skills.caster as patch655
+import ama_xiv_combat_sim.simulator.game_data.patch_70.class_skills.caster as patch70
 
 def add_caster_skills_to_skill_library(skill_library, version="6.55"):
     match version:

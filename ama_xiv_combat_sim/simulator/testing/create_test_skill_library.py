@@ -1,16 +1,16 @@
-from simulator.calcs.damage_class import DamageClass
-from simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from simulator.testing.test_add_lbs_to_skill_library import add_lbs_to_skill_library
-from simulator.sim_consts import SimConsts
-from simulator.skills.skill import Skill
-from simulator.skills.skill_library import SkillLibrary
-from simulator.specs.combo_spec import ComboSpec
-from simulator.specs.damage_spec import DamageSpec
-from simulator.specs.job_resource_settings import JobResourceSettings
-from simulator.specs.job_resource_spec import JobResourceSpec
-from simulator.specs.follow_up import FollowUp
-from simulator.specs.status_effect_spec import StatusEffectSpec
-from simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
+from ama_xiv_combat_sim.simulator.testing.test_add_lbs_to_skill_library import add_lbs_to_skill_library
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.skills.skill_library import SkillLibrary
+from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
+from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
+from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
+from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
+from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 
 def create_test_skill_library():

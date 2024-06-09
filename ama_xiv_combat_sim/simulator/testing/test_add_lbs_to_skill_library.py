@@ -1,7 +1,7 @@
-from simulator.game_data.get_job_class_fns import get_job_class_fns
-from simulator.skills.skill import Skill
-from simulator.specs.damage_spec import DamageSpec
-from simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.game_data.get_job_class_fns import get_job_class_fns
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 def __add_tank_lb(skill_library):
     skill_library.add_skill(

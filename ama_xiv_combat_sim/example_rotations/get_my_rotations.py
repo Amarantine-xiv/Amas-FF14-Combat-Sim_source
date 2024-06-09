@@ -1,8 +1,8 @@
 import os
 
-from simulator.rotation_import_utils.csv_utils import CSVUtils
-from simulator.stats import Stats
-from simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.simulator.rotation_import_utils.csv_utils import CSVUtils
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
 
 def get_my_rotation(skill_library):
   # input your stats here (TODO: etro gear link).

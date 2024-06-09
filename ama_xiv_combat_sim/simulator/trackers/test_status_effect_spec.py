@@ -1,5 +1,5 @@
-from simulator.specs.status_effect_spec import StatusEffectSpec
-from simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 
 class TestStatusEffectSpec(TestClass):
   @TestClass.is_a_test

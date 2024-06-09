@@ -1,12 +1,12 @@
 import numpy as np
 
-from simulator.damage_simulator import DamageSimulator
-from simulator.skills.create_skill_library import create_skill_library
-from simulator.skills.skill_modifier import SkillModifier
-from simulator.stats import Stats
-from simulator.testing.test_class import TestClass
-from simulator.timeline_builders.damage_builder import DamageBuilder
-from simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
+from ama_xiv_combat_sim.simulator.skills.create_skill_library import create_skill_library
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
 
 
 class TestJobs(TestClass):
@@ -1439,6 +1439,40 @@ class TestJobs(TestClass):
         expected_damage = 742475.8
         expected_total_time = 46920.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
+
+    @TestClass.is_a_test
+    def test_smn_damage_instances(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.12,
+            main_stat=3379,
+            det_stat=1871,
+            crit_stat=2514,
+            dh_stat=1438,
+            speed_stat=502,
+            job_class="SMN",
+            version="7.0",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        rb.add_next("Ruin III")
+        rb.add_next("Aethercharge")
+        rb.add_next("Ruin III")
+        rb.add_next("Ruin III")
+        
+        expected = (
+            ("Ruin III", 19237.4),
+            ("Ruin III", 21928.8),
+            ("Ruin III", 19237.4),
+        )
+        return self.__test_rotation_damage(rb, expected)
+
 
     @TestClass.is_a_test
     def test_rdm_aggregate_rotation(self):

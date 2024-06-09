@@ -1,11 +1,11 @@
 import copy
 import heapq
-from simulator.timeline_builders.snapshot_and_application_events import SnapshotAndApplicationEvents
-from simulator.utils import Utils
-from simulator.trackers.combo_tracker import ComboTracker
-from simulator.trackers.job_resource_tracker import JobResourceTracker
-from simulator.trackers.status_effect_tracker import StatusEffectTracker
-from simulator.trackers.status_effects import StatusEffects
+from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_events import SnapshotAndApplicationEvents
+from ama_xiv_combat_sim.simulator.utils import Utils
+from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
+from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import JobResourceTracker
+from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import StatusEffectTracker
+from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
 
 class DamageBuilder():
   

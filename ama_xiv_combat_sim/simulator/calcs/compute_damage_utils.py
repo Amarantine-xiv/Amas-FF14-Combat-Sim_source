@@ -1,9 +1,9 @@
 import numpy as np
 
-from simulator.calcs.damage_class import DamageClass
-from simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from simulator.calcs.stat_fns import StatFns
-from simulator.game_data.game_consts import GameConsts
+from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
+from ama_xiv_combat_sim.simulator.calcs.stat_fns import StatFns
+from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
 
 class ComputeDamageUtils():
   @staticmethod

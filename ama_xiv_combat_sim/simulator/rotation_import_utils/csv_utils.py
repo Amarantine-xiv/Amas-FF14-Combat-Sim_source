@@ -1,7 +1,7 @@
 import pandas as pd #i need to get rid of this...
 
 from collections import namedtuple
-from simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 
 #@title CSVUtils
 class RotationCSV(namedtuple('RotationCSV', ['t', 'skill_name', 'job_class', 'skill_conditional'])):

@@ -1,9 +1,9 @@
 import copy
 from dataclasses import dataclass
 
-from simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from simulator.sim_consts import SimConsts
-from simulator.utils import Utils
+from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.utils import Utils
 
 @dataclass(frozen=False, order=True)
 class SkillModifier:

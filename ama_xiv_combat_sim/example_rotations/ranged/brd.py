@@ -1,5 +1,5 @@
-from simulator.stats import Stats
-from simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
 
 
 def get_rotation_BRD(skill_library):
@@ -23,6 +23,7 @@ def get_rotation_BRD(skill_library):
         ignore_trailing_dots=True,
         snap_dots_to_server_tick_starting_at=0,
     )
+    
     rb.add_next("Grade 8 Tincture")
     rb.add_next("Stormbite")
     rb.add_next("The Wanderer's Minuet")

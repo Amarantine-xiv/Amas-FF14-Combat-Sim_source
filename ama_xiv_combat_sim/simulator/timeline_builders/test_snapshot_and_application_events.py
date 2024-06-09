@@ -1,8 +1,8 @@
-from simulator.skills.skill_modifier import SkillModifier
-from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.testing.test_class import TestClass
-from simulator.timeline_builders.snapshot_and_application_events import SnapshotAndApplicationEvents
-from simulator.utils import Utils
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_events import SnapshotAndApplicationEvents
+from ama_xiv_combat_sim.simulator.utils import Utils
 
 class TestSnapshotAndApplicationEvents(TestClass):
   def __init__(self):

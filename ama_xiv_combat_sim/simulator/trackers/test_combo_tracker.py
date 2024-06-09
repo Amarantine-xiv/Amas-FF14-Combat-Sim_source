@@ -1,11 +1,11 @@
-from simulator.game_data.game_consts import GameConsts
-from simulator.skills.skill import Skill
-from simulator.skills.skill_modifier import SkillModifier
-from simulator.sim_consts import SimConsts
-from simulator.specs.combo_spec import ComboSpec
-from simulator.testing.test_class import TestClass
-from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.trackers.combo_tracker import ComboTracker
+from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
+from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
 
 class TestComboTracker(TestClass):
   def __init__(self):

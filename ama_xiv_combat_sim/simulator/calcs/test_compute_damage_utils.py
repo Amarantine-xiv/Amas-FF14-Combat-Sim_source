@@ -1,12 +1,12 @@
 import math
 
-from simulator.calcs.compute_damage_utils import ComputeDamageUtils
-from simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from simulator.skills.skill_modifier import SkillModifier
-from simulator.stats import Stats
-from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.testing.test_class import TestClass
-from simulator.trackers.status_effects import StatusEffects
+from ama_xiv_combat_sim.simulator.calcs.compute_damage_utils import ComputeDamageUtils
+from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
 
 class TestComputeDamageUtils(TestClass):
   def __init__(self):

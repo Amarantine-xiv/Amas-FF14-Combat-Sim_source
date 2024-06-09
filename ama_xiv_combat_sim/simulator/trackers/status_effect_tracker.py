@@ -1,6 +1,6 @@
-from simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from simulator.skills.skill import Skill
-from simulator.trackers.status_effects import StatusEffects
+from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
 
 class StatusEffectTracker():
   def __init__(self, status_effects_priority=tuple()):

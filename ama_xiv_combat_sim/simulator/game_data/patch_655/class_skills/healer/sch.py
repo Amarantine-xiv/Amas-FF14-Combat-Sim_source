@@ -1,12 +1,12 @@
 import math
 
-from simulator.calcs.damage_class import DamageClass
-from simulator.game_data.patch_655.convenience_timings import get_auto_timing, get_instant_timing_spec, get_cast_gcd_timing_spec
-from simulator.skills.skill import Skill
-from simulator.specs.damage_spec import DamageSpec
-from simulator.specs.follow_up import FollowUp
-from simulator.specs.status_effect_spec import StatusEffectSpec
-from simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.game_data.patch_655.convenience_timings import get_auto_timing, get_instant_timing_spec, get_cast_gcd_timing_spec
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
+from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 
 def add_sch_skills(skill_library):

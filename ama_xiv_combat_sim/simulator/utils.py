@@ -2,7 +2,7 @@ import copy
 import numpy as np
 import math
 
-from simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 
 class Utils:
   @staticmethod

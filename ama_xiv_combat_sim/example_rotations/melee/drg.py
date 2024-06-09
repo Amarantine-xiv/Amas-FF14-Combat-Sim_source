@@ -1,5 +1,5 @@
-from simulator.stats import Stats
-from simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
 
 
 def get_rotation_DRG(skill_library):

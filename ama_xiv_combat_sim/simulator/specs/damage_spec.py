@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from simulator.calcs.damage_class import DamageClass
-from simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
+from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 
 @dataclass(frozen=True)
 class DamageSpec:

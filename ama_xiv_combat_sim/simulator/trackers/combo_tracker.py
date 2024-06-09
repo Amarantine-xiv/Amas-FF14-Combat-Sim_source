@@ -1,6 +1,6 @@
 import math
-from simulator.game_data.game_consts import GameConsts
-from simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 
 class ComboTracker:
   def __init__(self, combo_breakers = None):

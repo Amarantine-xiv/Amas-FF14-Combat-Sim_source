@@ -1,11 +1,11 @@
 from dataclasses import dataclass
-from simulator.utils import Utils
-from simulator.specs.combo_spec import ComboSpec
-from simulator.specs.damage_spec import DamageSpec
-from simulator.specs.follow_up import FollowUp
-from simulator.specs.job_resource_spec import JobResourceSpec
-from simulator.specs.status_effect_spec import StatusEffectSpec
-from simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.utils import Utils
+from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
+from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
+from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
+from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 from typing import Any
 
 @dataclass(frozen=True, order=True)
