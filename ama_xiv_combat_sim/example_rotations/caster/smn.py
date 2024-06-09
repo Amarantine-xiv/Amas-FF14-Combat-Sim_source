@@ -39,7 +39,7 @@ def get_rotation_SMN_70(skill_library):
             "Sunflare",
             "Necrotize",
         "Umbral Impulse",
-            "Searing Flash"
+            "Searing Flash",
         "Summon Titan II",
         "Topaz Rite",
             "Mountain Buster",
