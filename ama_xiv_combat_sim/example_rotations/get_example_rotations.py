@@ -1,6 +1,7 @@
 from example_rotations.caster.rdm import *
 from example_rotations.caster.blm import *
 from example_rotations.caster.smn import *
+from example_rotations.caster.pct import *
 
 from example_rotations.healer.ast import *
 from example_rotations.healer.sge import *
@@ -57,10 +58,13 @@ def get_example_rotations(skill_library):
     
     # hack
     vpr_rot = get_rotation_VPR(skill_library)
-    if vpr_rot:
-        print('added')
+    if vpr_rot:        
         add_to_rotation_library(vpr_rot, res)
-
+        
+    pct_rot = get_rotation_PCT(skill_library)
+    if pct_rot:        
+        add_to_rotation_library(pct_rot, res)
+        
     add_to_rotation_library(get_rotation_DNC(skill_library), res)
     add_to_rotation_library(get_rotation_DNC_extended(skill_library), res)
     add_to_rotation_library(get_rotation_BRD(skill_library), res)

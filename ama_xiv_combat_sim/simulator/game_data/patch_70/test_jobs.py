@@ -1595,12 +1595,12 @@ class TestJobs(TestClass):
             self.__skill_library,
             ignore_trailing_dots=True,
             snap_dots_to_server_tick_starting_at=0,
-            fight_start_time=0
+            fight_start_time=0,
         )
 
         rb.add_next("Flare Star")
-        rb.add_next("Fire III")        
-        rb.add_next("Flare Star")        
+        rb.add_next("Fire III")
+        rb.add_next("Flare Star")
         rb.add_next("Fire IV")
         rb.add_next("Flare Star")
         rb.add_next("Fire IV")
@@ -1620,7 +1620,7 @@ class TestJobs(TestClass):
             ("Flare Star", 38411.7),
             ("Fire IV", 34029.0),
             ("Flare Star", 38426.4),
-            ("Paradox", 30526.3),    
+            ("Paradox", 30526.3),
             ("Fire IV", 34068.2),
             ("Xenoglossy", 53659.7),
             ("Fire III", 23889.8),
@@ -1673,15 +1673,15 @@ class TestJobs(TestClass):
             "Fourth Legacy",
             "Ouroboros",
             "Dreadwinder",
-            "Hunter's Coil",
-            "Twinfang Bite",
-            "Twinblood Bite",
             "Swiftskin's Coil",
             "Twinblood Bite",
             "Twinfang Bite",
+            "Hunter's Coil",
+            "Twinfang Bite",
+            "Twinblood Bite",
             "Uncoiled Fury",
             "Uncoiled Twinfang",
-            "Uncoiled Twinblood",            
+            "Uncoiled Twinblood",
         )
         for e in skill_seq:
             rb.add_next(e)
@@ -1709,14 +1709,12 @@ class TestJobs(TestClass):
             self.__skill_library,
             ignore_trailing_dots=True,
             snap_dots_to_server_tick_starting_at=0,
-            fight_start_time=0
+            fight_start_time=0,
         )
 
         rot_and_expected = (
             ("Hindsting Strike", 14205.2),
             ("Flanksbane Fang", 18245.3),
-            
-            
             ("Hindsbane Fang", 18245.3),
             ("Flanksting Strike", 18245.3),
             ("Flanksting Strike", 14205.2),
@@ -1725,9 +1723,101 @@ class TestJobs(TestClass):
             #
             ("Flanksbane Fang", 18239.9),
             ("Hindsbane Fang", 18239.9),
-            
         )
         for e in rot_and_expected:
             rb.add_next(e[0])
 
-        return self.__test_rotation_damage(rb, rot_and_expected)   
+        return self.__test_rotation_damage(rb, rot_and_expected)
+
+    @TestClass.is_a_test
+    def test_pct_rotation_damage_instances(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.12,
+            main_stat=3379,
+            det_stat=1871,
+            crit_stat=2514,
+            dh_stat=1438,
+            speed_stat=502,
+            job_class="PCT",
+            version="7.0",
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+
+        # TODO: fill these out. For now, just do the e2e. I am tired.
+        rot_and_expected = (
+            ("Fire in Red", 21411.3),
+            ("Rainbow Drip", 48173.9),
+        )
+        for e in rot_and_expected:
+            rb.add_next(e[0])
+
+        return self.__test_rotation_damage(rb, rot_and_expected)
+
+    @TestClass.is_a_test
+    def test_pct_aggregate_rotation(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.12,
+            main_stat=3379,
+            det_stat=1871,
+            crit_stat=2514,
+            dh_stat=1438,
+            speed_stat=502,
+            job_class="PCT",
+            version="7.0",
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+
+        skill_seq = (
+            ("Rainbow Drip"),
+            ("Grade 8 Tincture"),
+            ("Holy in White"),
+            ("Pom Muse"),
+            ("Swiftcast"),
+            ("Wing Motif"),            
+            ("Striking Muse"),
+            ("Fire in Red"),
+            ("Starry Muse"),
+            ("Star Prism"),
+            ("Hammer Stamp"),
+            ("Winged Muse"),
+            ("Hammer Brush"),
+            ("Mog of the Ages"),
+            ("Polishing Hammer"),
+            ("Subtractive Palette"),
+            ("Stone in Yellow"),
+            ("Thunder in Magenta"),
+            ("Comet in Black"),
+            ("Claw Motif"),
+            ("Clawed Muse"),
+            ("Holy in White"),
+            ("Rainbow Drip"),
+            ("Blizzard in Cyan"),
+            ("Aero in Green"),
+            ("Water in Blue"),
+            ("Fire in Red"),
+            ("Maw Motif"),
+            ("Aero in Green"),
+            ("Fanged Muse"),
+            ("Water in Blue"),
+        )
+
+        for e in skill_seq:
+            rb.add_next(e)
+            
+        expected_damage = 1030746.5
+        expected_total_time = 54470.0
+
+        return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
