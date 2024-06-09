@@ -172,7 +172,7 @@ def add_smn_skills(skill_library):
         Skill(
             name="Topaz Rite",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=338),
+            damage_spec=DamageSpec(potency=380),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,

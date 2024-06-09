@@ -73,6 +73,7 @@ def get_example_rotations(skill_library):
     add_to_rotation_library(get_rotation_RDM(skill_library), res)
     add_to_rotation_library(get_rotation_BLM(skill_library), res)
     add_to_rotation_library(get_rotation_SMN(skill_library), res)
+    add_to_rotation_library(get_rotation_SMN_70(skill_library), res)
 
     add_to_rotation_library(get_my_rotation(skill_library), res)
     # add_to_rotation_library(get_my_rotation_from_CSV(skill_library), res)    
