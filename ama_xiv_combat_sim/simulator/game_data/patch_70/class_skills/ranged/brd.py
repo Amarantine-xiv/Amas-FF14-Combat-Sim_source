@@ -649,7 +649,7 @@ def add_brd_skills(skill_library):
             is_GCD=False,
             buff_spec={
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
-                    damage_mult=10.06, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.06, duration=int(19.97 * 1000), is_party_effect=True
                 ),
                 "1 Mage's Coda": StatusEffectSpec(
                     damage_mult=1.02, duration=int(19.97 * 1000), is_party_effect=True
