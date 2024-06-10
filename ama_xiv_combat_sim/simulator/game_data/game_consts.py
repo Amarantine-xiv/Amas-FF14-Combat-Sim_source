@@ -8,6 +8,7 @@ class GameConsts:
     COMBO_EXPIRATION_TIME = 30 * 1000
     DAMAGE_SNAPSHOT_TIME_BEFORE_CAST_FINISHES = 500
     DH_DAMAGE_MULT_BONUS = 0.25
+    MIN_GCD_RECAST_TIME = 1500
     # level mods from akhmorning
     LEVEL_DIVS = {90: 1900}
     LEVEL_MAINS = {90: 390}
