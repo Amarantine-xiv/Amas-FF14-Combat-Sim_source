@@ -193,7 +193,11 @@ def add_rpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=460),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1030
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1030,
+                affected_by_haste_buffs=False,
+                affected_by_speed_stat=False,
             ),
         )
     )
@@ -203,7 +207,11 @@ def add_rpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=180),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=670
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=670,
+                affected_by_haste_buffs=False,
+                affected_by_speed_stat=False,
             ),
         )
     )
@@ -352,7 +360,11 @@ def add_rpr_skills(skill_library):
                 "Enhanced Void Reaping": DamageSpec(potency=520),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, application_delay=540
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                application_delay=540,
+                affected_by_haste_buffs=False,
+                affected_by_speed_stat=False,
             ),
             follow_up_skills=(enhanced_cross_reaping_follow_up,),
         )

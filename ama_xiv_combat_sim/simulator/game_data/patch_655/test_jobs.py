@@ -1096,7 +1096,7 @@ class TestJobs(TestClass):
         rb.add_next("Gibbet")
 
         expected_damage = 464185.7
-        expected_total_time = 24200.0
+        expected_total_time = 24240.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
