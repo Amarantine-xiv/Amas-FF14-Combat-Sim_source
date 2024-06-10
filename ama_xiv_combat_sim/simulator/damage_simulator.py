@@ -4,8 +4,8 @@ import numpy as np
 import time
 
 from collections import namedtuple
-from simulator.calcs.compute_damage_utils import ComputeDamageUtils
-from simulator.trackers.damage_tracker import DamageTracker
+from ama_xiv_combat_sim.simulator.calcs.compute_damage_utils import ComputeDamageUtils
+from ama_xiv_combat_sim.simulator.trackers.damage_tracker import DamageTracker
 
 
 class PerInstanceDamage(namedtuple('PerInstanceDamage', ['application_time', 'snapshot_time', 'skill_name', 'potency', 'skill_modifier_condition', 'status_effects', 'expected_damage', 'standard_deviation', 'event_id'])):

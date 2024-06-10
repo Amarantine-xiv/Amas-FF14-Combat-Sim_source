@@ -1,22 +1,22 @@
-from simulator.skills.add_caster_skills_to_skill_library import (
+from ama_xiv_combat_sim.simulator.skills.add_caster_skills_to_skill_library import (
     add_caster_skills_to_skill_library,
 )
-from simulator.skills.add_healer_skills_to_skill_library import (
+from ama_xiv_combat_sim.simulator.skills.add_healer_skills_to_skill_library import (
     add_healer_skills_to_skill_library,
 )
-from simulator.skills.add_melee_skills_to_skill_library import (
+from ama_xiv_combat_sim.simulator.skills.add_melee_skills_to_skill_library import (
     add_melee_skills_to_skill_library,
 )
-from simulator.skills.add_ranged_skills_to_skill_library import (
+from ama_xiv_combat_sim.simulator.skills.add_ranged_skills_to_skill_library import (
     add_ranged_skills_to_skill_library,
 )
-from simulator.skills.add_tank_skills_to_skill_library import (
+from ama_xiv_combat_sim.simulator.skills.add_tank_skills_to_skill_library import (
     add_tank_skills_to_skill_library,
 )
 
-import simulator.game_data.patch_655.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library655
-import simulator.game_data.patch_70.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library70
-from simulator.skills.skill_library import SkillLibrary
+import ama_xiv_combat_sim.simulator.game_data.patch_655.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library655
+import ama_xiv_combat_sim.simulator.game_data.patch_70.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library70
+from ama_xiv_combat_sim.simulator.skills.skill_library import SkillLibrary
 
 
 def create_skill_library(version="6.55"):

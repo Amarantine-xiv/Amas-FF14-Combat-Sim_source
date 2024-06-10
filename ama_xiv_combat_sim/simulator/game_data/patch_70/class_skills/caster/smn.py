@@ -1,13 +1,13 @@
 import math
 
-from simulator.calcs.damage_class import DamageClass
-from simulator.game_data.patch_70.convenience_timings import get_auto_timing
-from simulator.sim_consts import SimConsts
-from simulator.skills.skill import Skill
-from simulator.specs.damage_spec import DamageSpec
-from simulator.specs.follow_up import FollowUp
-from simulator.specs.status_effect_spec import StatusEffectSpec
-from simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.game_data.patch_70.convenience_timings import get_auto_timing
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
+from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 
 def add_smn_skills(skill_library):
@@ -26,7 +26,7 @@ def add_smn_skills(skill_library):
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
             ),
         )
-    )    
+    )
     skill_library.add_skill(
         Skill(
             name="Energy Drain",
@@ -63,7 +63,10 @@ def add_smn_skills(skill_library):
         Skill(
             name="Ruin III",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=360),
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
+                "Aethercharge": DamageSpec(potency=410),
+            },
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=smn_caster_tax_ms,
@@ -455,7 +458,7 @@ def add_smn_skills(skill_library):
             ),
         )
     )
-        
+
     skill_library.add_skill(
         Skill(
             name="Swiftcast",
@@ -595,7 +598,6 @@ def add_smn_skills(skill_library):
         )
     )
 
-
     skill_library.add_skill(
         Skill(
             name="Luxwave",
@@ -694,7 +696,7 @@ def add_smn_skills(skill_library):
             ),
         )
     )
-    
+
     skill_library.add_skill(
         Skill(
             name="Enkindle Solar Bahamut",
@@ -721,6 +723,20 @@ def add_smn_skills(skill_library):
             timing_spec=instant_timing_spec,
         )
     )
+    skill_library.add_skill(
+        Skill(
+            name="Aethercharge",
+            is_GCD=True,
+            timing_spec=instant_timing_spec,
+            buff_spec=StatusEffectSpec(
+                duration=15 * 1000,
+                num_uses=1,
+                add_to_skill_modifier_condition=True,
+                skill_allowlist=("Ruin III",),
+            ),
+        )
+    )
+
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.

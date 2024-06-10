@@ -1,8 +1,7 @@
-from simulator.stats import Stats
-from simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
 
 def get_rotation_SMN_70(skill_library):
-    
     stats = Stats(
             wd=132,
             weapon_delay=3.12,
@@ -12,7 +11,7 @@ def get_rotation_SMN_70(skill_library):
             dh_stat=1438,
             speed_stat=502,
             job_class="SMN",
-            version="7.0",
+            version="7.0"
         )
     rotation_name = "SMN 7.0"
 
@@ -26,7 +25,7 @@ def get_rotation_SMN_70(skill_library):
     skill_seq = (
         "Ruin III",
         "Summon Solar Bahamut",
-            "Grade 8 Tincture",
+            # "Grade 8 Tincture",
         "Umbral Impulse",
             "Searing Light",
         "Umbral Impulse",

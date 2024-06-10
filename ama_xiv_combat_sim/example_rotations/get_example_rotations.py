@@ -1,30 +1,30 @@
-from example_rotations.caster.rdm import *
-from example_rotations.caster.blm import *
-from example_rotations.caster.smn import *
-from example_rotations.caster.pct import *
+from ama_xiv_combat_sim.example_rotations.caster.rdm import *
+from ama_xiv_combat_sim.example_rotations.caster.blm import *
+from ama_xiv_combat_sim.example_rotations.caster.smn import *
+from ama_xiv_combat_sim.example_rotations.caster.pct import *
 
-from example_rotations.healer.ast import *
-from example_rotations.healer.sge import *
-from example_rotations.healer.whm import *
-from example_rotations.healer.sch import *
+from ama_xiv_combat_sim.example_rotations.healer.ast import *
+from ama_xiv_combat_sim.example_rotations.healer.sge import *
+from ama_xiv_combat_sim.example_rotations.healer.whm import *
+from ama_xiv_combat_sim.example_rotations.healer.sch import *
 
-from example_rotations.melee.sam import *
-from example_rotations.melee.drg import *
-from example_rotations.melee.mnk import *
-from example_rotations.melee.rpr import *
-from example_rotations.melee.nin import *
-from example_rotations.melee.vpr import *
+from ama_xiv_combat_sim.example_rotations.melee.sam import *
+from ama_xiv_combat_sim.example_rotations.melee.drg import *
+from ama_xiv_combat_sim.example_rotations.melee.mnk import *
+from ama_xiv_combat_sim.example_rotations.melee.rpr import *
+from ama_xiv_combat_sim.example_rotations.melee.nin import *
+from ama_xiv_combat_sim.example_rotations.melee.vpr import *
 
-from example_rotations.ranged.dnc import *
-from example_rotations.ranged.brd import *
-from example_rotations.ranged.mch import *
+from ama_xiv_combat_sim.example_rotations.ranged.dnc import *
+from ama_xiv_combat_sim.example_rotations.ranged.brd import *
+from ama_xiv_combat_sim.example_rotations.ranged.mch import *
 
-from example_rotations.tank.war import *
-from example_rotations.tank.gnb import *
-from example_rotations.tank.pld import *
-from example_rotations.tank.drk import *
+from ama_xiv_combat_sim.example_rotations.tank.war import *
+from ama_xiv_combat_sim.example_rotations.tank.gnb import *
+from ama_xiv_combat_sim.example_rotations.tank.pld import *
+from ama_xiv_combat_sim.example_rotations.tank.drk import *
 
-from example_rotations.get_my_rotations import *
+from ama_xiv_combat_sim.example_rotations.get_my_rotations import *
 
 
 def add_to_rotation_library(rotation_name_and_rb, rotation_library):

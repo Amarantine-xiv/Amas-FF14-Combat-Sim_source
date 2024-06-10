@@ -1,7 +1,7 @@
 import math
 
-from simulator.calcs.stat_fns import StatFns
-from simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.calcs.stat_fns import StatFns
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 
 #TODO: fdetdh test
 class TestStatFns(TestClass):

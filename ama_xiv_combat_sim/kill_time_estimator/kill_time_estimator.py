@@ -1,8 +1,8 @@
 import numpy as np
 import re
-from simulator.damage_simulator import DamageSimulator
-from simulator.sim_consts import SimConsts
-from simulator.timeline_builders.damage_builder import DamageBuilder
+from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
 
 class KillTimeEstimator():
   def __init__(self, boss_hp):

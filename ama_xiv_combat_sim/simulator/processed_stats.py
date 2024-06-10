@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from .calcs.stat_fns import StatFns
+
+from ama_xiv_combat_sim.simulator.calcs.stat_fns import StatFns
 
 @dataclass(frozen=True)
 class ProcessedStats():

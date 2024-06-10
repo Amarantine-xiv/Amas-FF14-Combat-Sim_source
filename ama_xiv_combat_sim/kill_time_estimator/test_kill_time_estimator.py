@@ -1,9 +1,9 @@
-from kill_time_estimator.kill_time_estimator import KillTimeEstimator
-from simulator.skills.skill_modifier import SkillModifier
-from simulator.stats import Stats
-from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.testing.test_class import TestClass
-from simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.kill_time_estimator.kill_time_estimator import KillTimeEstimator
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
 
 class TestKillTimeEstimator(TestClass):
   def __init__(self):

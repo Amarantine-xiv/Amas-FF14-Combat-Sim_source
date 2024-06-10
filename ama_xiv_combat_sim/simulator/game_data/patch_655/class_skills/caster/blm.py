@@ -1,15 +1,15 @@
 import math
 
-from simulator.calcs.damage_class import DamageClass
-from simulator.game_data.patch_655.convenience_timings import get_auto_timing
-from simulator.sim_consts import SimConsts
-from simulator.skills.skill import Skill
-from simulator.specs.damage_spec import DamageSpec
-from simulator.specs.follow_up import FollowUp
-from simulator.specs.job_resource_spec import JobResourceSpec
-from simulator.specs.job_resource_settings import JobResourceSettings
-from simulator.specs.status_effect_spec import StatusEffectSpec
-from simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.game_data.patch_655.convenience_timings import get_auto_timing
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
+from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
+from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
+from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 
 def add_blm_skills(skill_library):

@@ -1,7 +1,7 @@
-import simulator.game_data.patch_655.job_class_fns as patch655
-import simulator.game_data.patch_70.job_class_fns as patch70
+import ama_xiv_combat_sim.simulator.game_data.patch_655.job_class_fns as patch655
+import ama_xiv_combat_sim.simulator.game_data.patch_70.job_class_fns as patch70
 #we shouldn't put testing here...
-import simulator.game_data.testing.job_class_fns as testing
+import ama_xiv_combat_sim.simulator.game_data.testing.job_class_fns as testing
 
 def get_job_class_fns(version):
     match version:

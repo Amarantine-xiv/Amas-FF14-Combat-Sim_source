@@ -1,8 +1,8 @@
-from simulator.sim_consts import SimConsts
-from simulator.skills.skill_modifier import SkillModifier
-from simulator.utils import Utils
-from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.utils import Utils
+from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 
 #@title UtilsTest
 class TestUtils(TestClass):

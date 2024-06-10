@@ -1,10 +1,10 @@
-from simulator.damage_simulator import DamageSimulator
-from simulator.skills.skill_modifier import SkillModifier
-from simulator.stats import Stats
-from simulator.testing.test_class import TestClass
-from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.timeline_builders.damage_builder import DamageBuilder
-from simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.stats import Stats
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
+from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
 
 class TestEndToEnd(TestClass):
   def __init__(self):

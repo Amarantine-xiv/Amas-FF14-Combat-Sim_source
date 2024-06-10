@@ -1,5 +1,5 @@
-from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 
 class TestSkills(TestClass):
   def __init__(self):

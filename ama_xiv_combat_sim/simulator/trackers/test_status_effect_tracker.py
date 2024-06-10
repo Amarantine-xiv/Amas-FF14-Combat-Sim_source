@@ -1,12 +1,12 @@
 import math
 
-from simulator.skills.skill import Skill
-from simulator.skills.skill_modifier import SkillModifier
-from simulator.specs.status_effect_spec import StatusEffectSpec
-from simulator.testing.test_class import TestClass
-from simulator.testing.create_test_skill_library import create_test_skill_library
-from simulator.trackers.status_effects import StatusEffects
-from simulator.trackers.status_effect_tracker import StatusEffectTracker
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
+from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
+from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import StatusEffectTracker
 
 class TestStatusEffectTracker(TestClass):
   def __init__(self):

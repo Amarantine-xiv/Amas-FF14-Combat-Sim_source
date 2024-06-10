@@ -1,5 +1,5 @@
-from simulator.specs.timing_spec import TimingSpec
-from simulator.testing.test_class import TestClass
+from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 
 class TestTimingSpec(TestClass):
 

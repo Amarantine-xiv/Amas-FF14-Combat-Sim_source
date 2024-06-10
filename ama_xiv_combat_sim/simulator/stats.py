@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from simulator.game_data.get_job_class_fns import get_job_class_fns
-from simulator.processed_stats import ProcessedStats
+from ama_xiv_combat_sim.simulator.game_data.get_job_class_fns import get_job_class_fns
+from ama_xiv_combat_sim.simulator.processed_stats import ProcessedStats
 
 
 @dataclass(frozen=True)

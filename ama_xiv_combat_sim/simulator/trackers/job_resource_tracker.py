@@ -1,5 +1,5 @@
-from simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
 
 
 class JobResourceTracker:
