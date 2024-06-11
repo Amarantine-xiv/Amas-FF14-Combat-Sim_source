@@ -642,7 +642,7 @@ def add_brd_skills(skill_library):
         ),
         delay_after_parent_application=0,
     )
-    
+
     skill_library.add_skill(
         Skill(
             name="Radiant Finale",
@@ -810,5 +810,4 @@ def add_brd_skills(skill_library):
             },
         )
     )
-
     return skill_library
