@@ -520,7 +520,7 @@ class TestRotationBuilder(TestClass):
                 (SnapshotAndApplicationEvents.EventTimes(7700, 8200), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
                 (SnapshotAndApplicationEvents.EventTimes(10280, 10780), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
                 (SnapshotAndApplicationEvents.EventTimes(12860, 13360), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
-                (SnapshotAndApplicationEvents.EventTimes(15440, 15940), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
+                (SnapshotAndApplicationEvents.EventTimes(16300, 16800), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
                 (SnapshotAndApplicationEvents.EventTimes(17440, None), self.__skill_library.get_skill('test_instant_gcd', self.__stats.job_class), SkillModifier(), [True, True]))
 
     result = rb.get_skill_timing().get_q()
@@ -562,7 +562,7 @@ class TestRotationBuilder(TestClass):
                 (SnapshotAndApplicationEvents.EventTimes(7700, 8200), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
                 (SnapshotAndApplicationEvents.EventTimes(10280, 10780), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
                 (SnapshotAndApplicationEvents.EventTimes(12860, 13360), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
-                (SnapshotAndApplicationEvents.EventTimes(15440, 15940), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
+                (SnapshotAndApplicationEvents.EventTimes(16300, 16800), self.__skill_library.get_skill('Auto', self.__stats.job_class), SkillModifier(), [True, True]),
                 (SnapshotAndApplicationEvents.EventTimes(17440, None), self.__skill_library.get_skill('test_instant_gcd', self.__stats.job_class), SkillModifier(), [True, True]))
 
     result = rb.get_skill_timing().get_q()
