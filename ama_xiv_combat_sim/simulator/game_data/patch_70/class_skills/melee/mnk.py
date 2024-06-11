@@ -124,6 +124,7 @@ def add_mnk_skills(skill_library):
                     "Rockbreaker",
                     "Four-point Fury",
                     "Elixir Burst",
+                    "Leaping Opo",
                     "Fire's Reply",
                 ),
             ),
@@ -250,7 +251,10 @@ def add_mnk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1290, gcd_base_recast_time=2000
             ),
-            follow_up_skills=(opo_opo_fury_follow_up,),
+            follow_up_skills={SimConsts.DEFAULT_CONDITION: tuple(),
+                              'Opo-opo Form': (opo_opo_fury_follow_up,),
+                              'Formless Fist': (opo_opo_fury_follow_up,),
+                              'Opo-opo Form, Formless Fist': (opo_opo_fury_follow_up,)}
         )
     )
     skill_library.add_skill(
@@ -447,6 +451,7 @@ def add_mnk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
             ),
+            follow_up_skills = (opo_opo_form_follow_up,)
         )
     )
     skill_library.add_skill(
@@ -487,6 +492,7 @@ def add_mnk_skills(skill_library):
             name="Perfect Balance",
             is_GCD=False,
             timing_spec=instant_timing_spec,  # Does apply instantly it seems.
+            #fix this- PB charges can be eaten by non-opo skills too.
             follow_up_skills=(
                 opo_opo_form_follow_up,
                 opo_opo_form_follow_up,
