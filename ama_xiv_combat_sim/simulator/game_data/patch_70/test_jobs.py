@@ -178,6 +178,49 @@ class TestJobs(TestClass):
         return self.__test_skills(stats, skills_and_expected_damage)
 
     @TestClass.is_a_test
+    def test_sch_aggregate_rotation(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=3.12,
+            main_stat=3366,
+            det_stat=1948,
+            crit_stat=2498,
+            dh_stat=688,
+            speed_stat=954,
+            job_class="SCH",
+            healer_or_caster_strength=351,
+            version="6.55",
+        )
+
+        rb = RotationBuilder(stats, self.__skill_library)
+        rb.add_next("Grade 8 Tincture")
+        rb.add_next("Broil IV")
+        rb.add_next("Biolysis")
+        rb.add_next("Broil IV")
+        rb.add_next("Broil IV")
+        rb.add_next("Chain Stratagem")
+        rb.add_next("Broil IV")
+        rb.add_next("Energy Drain")
+        rb.add_next("Broil IV")
+        rb.add_next("Energy Drain")
+        rb.add_next("Broil IV")
+        rb.add_next("Energy Drain")
+        rb.add_next("Broil IV")
+        rb.add_next("Broil IV")
+        rb.add_next("Energy Drain")
+        rb.add_next("Broil IV")
+        rb.add_next("Energy Drain")
+        rb.add_next("Broil IV")
+        rb.add_next("Energy Drain")
+        rb.add_next("Broil IV")
+        rb.add_next("Broil IV")
+        rb.add_next("Broil IV")
+        expected_damage = 292932.5
+        expected_total_time = 31200.0
+        return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
+    
+
+    @TestClass.is_a_test
     def test_ast_skills(self):
         stats = Stats(
             wd=132,

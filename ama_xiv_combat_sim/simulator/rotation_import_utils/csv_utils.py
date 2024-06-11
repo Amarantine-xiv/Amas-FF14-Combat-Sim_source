@@ -25,7 +25,8 @@ class CSVUtils():
       skill_conditional = df['skill_conditional'][i]
       res.append(RotationCSV(t, skill_name, job_class, skill_conditional))
     return res
-
+  
+  @staticmethod
   def populate_rotation_from_csv(rb, filename):
     all_skills = CSVUtils.read_rotation_from_csv(filename)
     for sk in all_skills:

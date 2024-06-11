@@ -28,9 +28,9 @@ from ama_xiv_combat_sim.example_rotations.get_my_rotations import *
 
 
 def add_to_rotation_library(rotation_name_and_rb, rotation_library):
-    rotation_name, rb = (rotation_name_and_rb)
+    rotation_name, rb = rotation_name_and_rb
     if rotation_name in rotation_library:
-        print('Updating rotation \"{}\" in the rotation library.'.format(rotation_name))
+        print('Updating rotation "{}" in the rotation library.'.format(rotation_name))
     rotation_library[rotation_name] = rb
 
 
@@ -55,16 +55,16 @@ def get_example_rotations(skill_library):
     add_to_rotation_library(get_rotation_MNK(skill_library), res)
     add_to_rotation_library(get_rotation_RPR(skill_library), res)
     add_to_rotation_library(get_rotation_NIN(skill_library), res)
-    
+
     # hack
     vpr_rot = get_rotation_VPR(skill_library)
-    if vpr_rot:        
+    if vpr_rot:
         add_to_rotation_library(vpr_rot, res)
-        
+
     pct_rot = get_rotation_PCT(skill_library)
-    if pct_rot:        
+    if pct_rot:
         add_to_rotation_library(pct_rot, res)
-        
+
     add_to_rotation_library(get_rotation_DNC(skill_library), res)
     add_to_rotation_library(get_rotation_DNC_extended(skill_library), res)
     add_to_rotation_library(get_rotation_BRD(skill_library), res)
@@ -76,5 +76,5 @@ def get_example_rotations(skill_library):
     add_to_rotation_library(get_rotation_SMN_70(skill_library), res)
 
     add_to_rotation_library(get_my_rotation(skill_library), res)
-    # add_to_rotation_library(get_my_rotation_from_CSV(skill_library), res)    
+    # add_to_rotation_library(get_my_rotation_from_CSV(skill_library), res)
     return res
