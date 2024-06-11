@@ -9,9 +9,13 @@ from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_eve
     SnapshotAndApplicationEvents,
 )
 from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
-from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import JobResourceTracker
+from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import (
+    JobResourceTracker,
+)
 from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
-from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import StatusEffectTracker
+from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import (
+    StatusEffectTracker,
+)
 from ama_xiv_combat_sim.simulator.utils import Utils
 
 
@@ -682,8 +686,10 @@ class RotationBuilder:
             se_tracker.add_to_status_effects(t, skill, skill_modifier)
             job_resource_tracker.add_resource(t, skill, skill_modifier)
 
+        se_tracker.expire_status_effects(curr_t)
         curr_buffs_and_skill_modifier = se_tracker.compile_buffs(curr_t, skill)
         curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(curr_t, skill)
+
         return (
             curr_buffs_and_skill_modifier,
             curr_debuffs_and_skill_modifier,
