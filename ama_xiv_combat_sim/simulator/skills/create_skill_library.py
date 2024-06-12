@@ -1,3 +1,6 @@
+import ama_xiv_combat_sim.simulator.game_data.patch_655.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library655
+import ama_xiv_combat_sim.simulator.game_data.patch_70.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library70
+
 from ama_xiv_combat_sim.simulator.skills.add_caster_skills_to_skill_library import (
     add_caster_skills_to_skill_library,
 )
@@ -14,8 +17,6 @@ from ama_xiv_combat_sim.simulator.skills.add_tank_skills_to_skill_library import
     add_tank_skills_to_skill_library,
 )
 
-import ama_xiv_combat_sim.simulator.game_data.patch_655.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library655
-import ama_xiv_combat_sim.simulator.game_data.patch_70.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library70
 from ama_xiv_combat_sim.simulator.skills.skill_library import SkillLibrary
 
 

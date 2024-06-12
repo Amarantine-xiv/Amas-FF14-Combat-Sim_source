@@ -80,21 +80,15 @@ class RotationBuilder:
         self, skill_name, skill_modifier=SkillModifier(), job_class=None, num_times=1
     ):
         job_class = self.__stats.job_class if job_class is None else job_class
-        try:
-            skill = self._skill_library.get_skill(skill_name, job_class)
-            for _ in range(num_times):
-                self._q_sequence.append((skill, skill_modifier, job_class))
-        except KeyError as e:
-            print(e)
+        skill = self._skill_library.get_skill(skill_name, job_class)
+        for _ in range(num_times):
+            self._q_sequence.append((skill, skill_modifier, job_class))
 
     def add(self, t, skill_name, skill_modifier=SkillModifier(), job_class=None):
         """Time (t) is assumed to be in seconds"""
         job_class = self.__stats.job_class if job_class is None else job_class
-        try:
-            skill = self._skill_library.get_skill(skill_name, job_class)
-            self._q_timed.append((int(1000 * t), skill, skill_modifier, job_class))
-        except KeyError as e:
-            print(e)
+        skill = self._skill_library.get_skill(skill_name, job_class)
+        self._q_timed.append((int(1000 * t), skill, skill_modifier, job_class))
 
     @staticmethod
     def __follow_up_is_dot(follow_up_skill):
@@ -682,6 +676,7 @@ class RotationBuilder:
             se_tracker.add_to_status_effects(t, skill, skill_modifier)
             job_resource_tracker.add_resource(t, skill, skill_modifier)
 
+        se_tracker.expire_status_effects(curr_t)
         curr_buffs_and_skill_modifier = se_tracker.compile_buffs(curr_t, skill)
         curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(curr_t, skill)
         return (
@@ -702,8 +697,8 @@ class RotationBuilder:
 
         while len(q) > 0:
             (t, skill, skill_modifier, _) = heapq.heappop(q)
+            
             se_tracker.expire_status_effects(t)
-
             curr_buffs_and_skill_modifier = se_tracker.compile_buffs(t, skill)
             curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(t, skill)
 
