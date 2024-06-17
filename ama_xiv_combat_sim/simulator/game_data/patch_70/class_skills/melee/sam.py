@@ -20,7 +20,7 @@ def add_sam_skills(skill_library):
     skill_library.set_current_job_class("SAM")
     _fugetsu_follow_up = FollowUp(
         skill=Skill(
-            name="_Fugetsu buff",
+            name="Fugetsu",
             is_GCD=False,
             buff_spec=StatusEffectSpec(damage_mult=1.13, duration=40000),
         ),
@@ -28,7 +28,7 @@ def add_sam_skills(skill_library):
     )
     _fuka_follow_up = FollowUp(
         skill=Skill(
-            name="_Fuka buff",
+            name="Fuka",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.13,

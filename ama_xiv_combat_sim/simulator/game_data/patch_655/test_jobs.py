@@ -1,13 +1,17 @@
 import numpy as np
 
 from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
-from ama_xiv_combat_sim.simulator.skills.create_skill_library import create_skill_library
+from ama_xiv_combat_sim.simulator.skills.create_skill_library import (
+    create_skill_library,
+)
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
-from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
+    RotationBuilder,
+)
 from ama_xiv_combat_sim.simulator.utils import Utils
 
 
@@ -722,13 +726,13 @@ class TestJobs(TestClass):
         expected = (
             ("Hyosho Ranryu", 68433.6),
             ("Hyosho Ranryu", 52765.4),
-            ("_Bunshin_melee", 5954.4),
+            ("Gust Slash (pet)", 5954.4),
             ("Gust Slash", 6473.0),
-            ("_Bunshin_melee", 5968.4),
+            ("Aeolian Edge (pet)", 5968.4),
             ("Aeolian Edge", 8111.4),
-            ("_Bunshin_area", 2984.0),
+            ("Hakke Mujinsatsu (pet)", 2984.0),
             ("Hakke Mujinsatsu", 4054.4),
-            ("_Bunshin_melee", 5970.8),
+            ("Armor Crush (pet)", 5970.8),
             ("Armor Crush", 8093.4),
         )
 
@@ -1833,9 +1837,9 @@ class TestJobs(TestClass):
         rb.add(215, "Stellar Detonation", skill_modifier=SkillModifier())
 
         expected = (
-            ("Stellar Detonation", 14899.6),
-            ("Stellar Detonation", 9840.6),
-            ("Stellar Detonation", 14899.6),
+            ("Stellar Explosion (pet)", 14899.6),
+            ("Stellar Explosion (pet)", 9840.6),
+            ("Stellar Explosion (pet)", 14899.6),
         )
 
         return self.__test_rotation_damage(rb, expected)

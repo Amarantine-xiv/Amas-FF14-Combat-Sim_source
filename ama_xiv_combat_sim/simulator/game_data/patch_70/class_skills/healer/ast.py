@@ -4,14 +4,11 @@ from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.patch_70.convenience_timings import (
     get_auto_timing,
     get_instant_timing_spec,
-    get_cast_gcd_timing_spec,
 )
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
-from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
@@ -161,9 +158,8 @@ def add_ast_skills(skill_library):
 
     stellar_detonation_follow_up = FollowUp(
         skill=Skill(
-            name="Stellar Detonation",
+            name="Stellar Explosion (pet)",
             is_GCD=False,
-            status_effect_denylist=("Dragon Sight",),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: None,
                 "Earthly Dominance": DamageSpec(
@@ -180,9 +176,8 @@ def add_ast_skills(skill_library):
     )
     stellar_detonation_follow_up2 = FollowUp(
         skill=Skill(
-            name="Stellar Detonation",
+            name="Stellar Explosion (pet)",
             is_GCD=False,
-            status_effect_denylist=("Dragon Sight",),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: None,
                 "Earthly Dominance": DamageSpec(
@@ -198,6 +193,25 @@ def add_ast_skills(skill_library):
         snapshot_debuffs_with_parent=False,
     )
 
+    stellar_detonation_instant = FollowUp(
+        skill=Skill(
+            name="Stellar Explosion (pet)",
+            is_GCD=False,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Earthly Dominance": DamageSpec(
+                    damage_class=DamageClass.PET, potency=205, pet_job_mod_override=118
+                ),
+                "Giant Dominance": DamageSpec(
+                    damage_class=DamageClass.PET, potency=310, pet_job_mod_override=118
+                ),
+            },
+        ),
+        delay_after_parent_application=0,
+        snapshot_buffs_with_parent=False,
+        snapshot_debuffs_with_parent=False,
+    )
+
     giant_dom_follow_up = FollowUp(
         skill=Skill(
             name="Giant Dominance",
@@ -209,7 +223,7 @@ def add_ast_skills(skill_library):
                     is_party_effect=False,
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
-                    skill_allowlist=("Stellar Detonation",),
+                    skill_allowlist=("Stellar Explosion (pet)",),
                 ),
             },
         ),
@@ -227,7 +241,7 @@ def add_ast_skills(skill_library):
                 is_party_effect=False,
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
-                skill_allowlist=("Stellar Detonation", "Giant Dominance"),
+                skill_allowlist=("Stellar Explosion (pet)", "Giant Dominance"),
             ),
         ),
         delay_after_parent_application=0,
@@ -247,7 +261,7 @@ def add_ast_skills(skill_library):
                 is_party_effect=False,
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
-                skill_allowlist=("Stellar Detonation",),
+                skill_allowlist=("Stellar Explosion (pet)",),
             ),
             follow_up_skills=(stellar_detonation_follow_up2,),
         )
@@ -265,7 +279,7 @@ def add_ast_skills(skill_library):
                 is_party_effect=False,
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
-                skill_allowlist=("Stellar Detonation", "Giant Dominance"),
+                skill_allowlist=("Stellar Explosion (pet)", "Giant Dominance"),
             ),
             follow_up_skills=(giant_dom_follow_up, stellar_detonation_follow_up),
         )
@@ -275,17 +289,8 @@ def add_ast_skills(skill_library):
         Skill(
             name="Stellar Detonation",
             is_GCD=False,
-            status_effect_denylist=("Dragon Sight",),
             timing_spec=TimingSpec(base_cast_time=0, application_delay=0),
-            damage_spec={
-                SimConsts.DEFAULT_CONDITION: None,
-                "Earthly Dominance": DamageSpec(
-                    damage_class=DamageClass.PET, potency=205, pet_job_mod_override=118
-                ),
-                "Giant Dominance": DamageSpec(
-                    damage_class=DamageClass.PET, potency=310, pet_job_mod_override=118
-                ),
-            },
+            follow_up_skills=(stellar_detonation_instant,),
         )
     )
 

@@ -126,7 +126,7 @@ def add_gnb_skills(skill_library):
         )
     )
     sonic_break_dot_gnb = Skill(
-        name="_Sonic Break dot",
+        name="Sonic Break (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=60, damage_class=DamageClass.PHYSICAL_DOT),
     )
@@ -194,7 +194,7 @@ def add_gnb_skills(skill_library):
         )
     )
     sonick_break_dot_gnb = Skill(
-        name="_Bow Shock dot",
+        name="Bow Shock (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=60, damage_class=DamageClass.PHYSICAL_DOT),
     )

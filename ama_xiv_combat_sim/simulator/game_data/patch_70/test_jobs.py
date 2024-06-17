@@ -247,6 +247,38 @@ class TestJobs(TestClass):
         return self.__test_skills(stats, skills_and_expected_damage)
 
     @TestClass.is_a_test
+    def test_ast_star(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.2,
+            main_stat=3366,
+            det_stat=2047,
+            crit_stat=2430,
+            dh_stat=400,
+            speed_stat=1350,
+            job_class="AST",
+            healer_or_caster_strength=214,
+            version="6.55",
+        )
+
+        rb = RotationBuilder(stats, self.__skill_library)
+        rb.add(0, "Earthly Star", skill_modifier=SkillModifier())
+
+        rb.add(100, "Earthly Star", skill_modifier=SkillModifier())
+        rb.add(108, "Stellar Detonation", skill_modifier=SkillModifier())
+
+        rb.add(200, "Earthly Star", skill_modifier=SkillModifier())
+        rb.add(215, "Stellar Detonation", skill_modifier=SkillModifier())
+
+        expected = (
+            ("Stellar Explosion (pet)", 14899.6),
+            ("Stellar Explosion (pet)", 9840.6),
+            ("Stellar Explosion (pet)", 14899.6),
+        )
+
+        return self.__test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
     def test_war_skills(self):
         stats = Stats(
             wd=126,
@@ -512,7 +544,7 @@ class TestJobs(TestClass):
             ("Bloodspiller", SkillModifier(), 14994.5),
             ("Quietus", SkillModifier(), 6223.6),
             ("Shadowbringer", SkillModifier(), 15534.5),
-            ("Living Shadow", SkillModifier(), 85506.7),
+            ("Living Shadow", SkillModifier(), 73040.1),
             ("Scarlet Delirium", SkillModifier(), 15531.8),
             ("Comeuppance", SkillModifier(), 18128.8),
             ("Torcleaver", SkillModifier(), 20740.6),
@@ -520,7 +552,52 @@ class TestJobs(TestClass):
             ("Disesteem", SkillModifier(), 20705.0),
         )
         return self.__test_skills(stats, skills_and_expected_damage)
+    
+    @TestClass.is_a_test
+    def test_drk_aggregate_rotation(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=2.96,
+            main_stat=2906,
+            det_stat=1883,
+            crit_stat=2352,
+            dh_stat=868,
+            speed_stat=650,
+            tenacity=631,
+            job_class="DRK",
+            version="6.55",
+        )
+        rb = RotationBuilder(stats, self.__skill_library, enable_autos=True)
 
+        rb.add_next("Hard Slash")
+        rb.add_next("Edge of Shadow")
+        rb.add_next("Syphon Strike")
+        rb.add_next("Grade 8 Tincture")
+        rb.add_next("Souleater")
+        rb.add_next("Living Shadow")
+        rb.add_next("Salted Earth")
+        rb.add_next("Bloodspiller")
+        rb.add_next("Shadowbringer")
+        rb.add_next("Edge of Shadow")
+        rb.add_next("Bloodspiller")
+        rb.add_next("Carve and Spit")
+        rb.add_next("Bloodspiller")
+        rb.add_next("Edge of Shadow")
+        rb.add_next("Salt and Darkness")
+        rb.add_next("Hard Slash")
+        rb.add_next("Edge of Shadow")
+        rb.add_next("Syphon Strike")
+        rb.add_next("Shadowbringer")
+        rb.add_next("Edge of Shadow")
+        rb.add_next("Souleater")
+        rb.add_next("Hard Slash")
+        rb.add_next("Syphon Strike")
+        rb.add_next("Souleater")
+        expected_damage = 396151.8
+        expected_total_time = 26993.0
+
+        return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
+    
     @TestClass.is_a_test
     def test_dnc_skills(self):
         stats = Stats(
@@ -1130,13 +1207,13 @@ class TestJobs(TestClass):
         expected = (
             ("Hyosho Ranryu", 68433.6),
             ("Hyosho Ranryu", 52765.4),
-            ("_Bunshin_melee", 5984.8),
+            ("Gust Slash (pet)", 5984.8),
             ("Gust Slash", 8115.2),
-            ("_Bunshin_melee", 5968.4),
+            ("Aeolian Edge (pet)", 5968.4),
             ("Aeolian Edge", 9723.2),
-            ("_Bunshin_area", 2984.0),
+            ("Hakke Mujinsatsu (pet)", 2984.0),
             ("Hakke Mujinsatsu", 4054.4),
-            ("_Bunshin_melee", 5970.8),
+            ("Armor Crush (pet)", 5970.8),
             ("Armor Crush", 9727.0),
         )
 
@@ -1650,7 +1727,7 @@ class TestJobs(TestClass):
         rb.add_next("Blizzard IV")
         rb.add_next("Thunder III")
 
-        expected_damage = 442172.1
+        expected_damage = 444172.1
         expected_total_time = 24660.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
@@ -1690,6 +1767,15 @@ class TestJobs(TestClass):
         rb.add_next("Flare Star")
         rb.add_next("Manafont")
         rb.add_next("Flare Star")
+        rb.add_next('Wait 9.00s')
+        rb.add_next('Wait 9.00s')
+        rb.add_next('Wait 9.00s')
+        rb.add_next('Wait 9.00s')
+        rb.add_next('Fire IV')
+        rb.add_next('Paradox')
+        rb.add_next('Fire IV')
+        rb.add_next('Paradox')
+        rb.add_next('Fire IV')
 
         expected = (
             ("Flare Star", 16435.5),
@@ -1704,6 +1790,12 @@ class TestJobs(TestClass):
             ("Blizzard III", 11927.9),
             ("Flare Star", 14882.7),
             ("Flare Star", 38413.0),
+            # ramp up AF stacks
+            ("Fire IV", 14559.1),
+            ("Paradox", 23468.7),
+            ("Fire IV", 26459.7),
+            ("Paradox", 30511.0),
+            ("Fire IV", 30242.4),
         )
 
         return self.__test_rotation_damage(rb, expected)

@@ -276,7 +276,7 @@ def add_rdm_skills(skill_library):
             name="Embolden",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
-                damage_mult=1.05, duration=int(19.9) * 1000, is_party_effect=True
+                damage_mult=1.05, duration=20 * 1000, is_party_effect=True
             ),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=610

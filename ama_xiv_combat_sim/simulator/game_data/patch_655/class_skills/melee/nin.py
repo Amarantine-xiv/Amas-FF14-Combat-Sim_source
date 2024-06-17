@@ -28,49 +28,42 @@ def add_nin_skills(skill_library):
     # TODO: this is bugged. We are setting delay_after_parent_application=88 and
     # not snapshotting with parent to mimic the 0.088s snapshot delay on anything
     # bunshin. This in return ignores when the damage actually comes out.
-    bunshin_melee_follow_up_ = FollowUp(
-        skill=Skill(
-            name="_Bunshin_melee",
-            is_GCD=False,
-            damage_spec=DamageSpec(
-                potency=160, damage_class=DamageClass.PET, pet_job_mod_override=100
+    BUNSHIN_MELEE_POTENCY = 160
+    BUNSHIN_RANGED_POTENCY = 160
+    BUNSHIN_AREA_POTENCY = 80
+    bunshin_follow_ups = [
+        ("Spinning Edge", BUNSHIN_MELEE_POTENCY),
+        ("Gust Slash", BUNSHIN_MELEE_POTENCY),
+        ("Aeolian Edge", BUNSHIN_MELEE_POTENCY),
+        ("Armor Crush", BUNSHIN_MELEE_POTENCY),
+        ("Forked Raiju", BUNSHIN_MELEE_POTENCY),
+        ("Fleeting Raiju", BUNSHIN_MELEE_POTENCY),
+        ("Huraijin", BUNSHIN_MELEE_POTENCY),
+        ("Throwing Dagger", BUNSHIN_RANGED_POTENCY),
+        ("Hakke Mujinsatsu", BUNSHIN_AREA_POTENCY),
+        ("Death Blossom", BUNSHIN_AREA_POTENCY),
+    ]
+    all_bunshin_follow_ups = {}
+    for sk, bunshin_potency in bunshin_follow_ups:
+        all_bunshin_follow_ups[sk] = FollowUp(
+            skill=Skill(
+                name=f"{sk} (pet)",
+                is_GCD=False,
+                damage_spec=DamageSpec(
+                    potency=bunshin_potency,
+                    damage_class=DamageClass.PET,
+                    pet_job_mod_override=100,
+                ),
+                status_effect_denylist=("Dragon Sight",),
             ),
-            status_effect_denylist=("Dragon Sight",),
-        ),
-        delay_after_parent_application=88,
-        snapshot_buffs_with_parent=False,
-        snapshot_debuffs_with_parent=False,
-    )
-    bunshin_ranged_follow_up_ = FollowUp(
-        skill=Skill(
-            name="_Bunshin_ranged",
-            is_GCD=False,
-            damage_spec=DamageSpec(
-                potency=160, damage_class=DamageClass.PET, pet_job_mod_override=100
-            ),
-            status_effect_denylist=("Dragon Sight",),
-        ),
-        delay_after_parent_application=88,
-        snapshot_buffs_with_parent=False,
-        snapshot_debuffs_with_parent=False,
-    )
-    bunshin_area_follow_up_ = FollowUp(
-        skill=Skill(
-            name="_Bunshin_area",
-            is_GCD=False,
-            damage_spec=DamageSpec(
-                potency=80, damage_class=DamageClass.PET, pet_job_mod_override=100
-            ),
-            status_effect_denylist=("Dragon Sight",),
-        ),
-        delay_after_parent_application=88,
-        snapshot_buffs_with_parent=False,
-        snapshot_debuffs_with_parent=False,
-    )
+            delay_after_parent_application=88,
+            snapshot_buffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,
+        )
 
     _huton_follow_up_huton = FollowUp(
         skill=Skill(
-            name="_Huton buff",
+            name="Huton",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.15,
@@ -84,7 +77,7 @@ def add_nin_skills(skill_library):
 
     _huton_follow_up_hakke = FollowUp(
         skill=Skill(
-            name="_Huton buff",
+            name="Huton",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.15,
@@ -97,7 +90,7 @@ def add_nin_skills(skill_library):
     )
     _huton_follow_up_armor_crush = FollowUp(
         skill=Skill(
-            name="_Huton buff",
+            name="Huton",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.15,
@@ -111,7 +104,7 @@ def add_nin_skills(skill_library):
     _dream_follow_ups = (
         FollowUp(
             skill=Skill(
-                name="_dream_within_a_dream1",
+                name="Dream Within a Dream",
                 is_GCD=False,
                 damage_spec=DamageSpec(150),
             ),
@@ -121,7 +114,7 @@ def add_nin_skills(skill_library):
         ),
         FollowUp(
             skill=Skill(
-                name="_dream_within_a_dream2",
+                name="Dream Within a Dream",
                 is_GCD=False,
                 damage_spec=DamageSpec(150),
             ),
@@ -131,7 +124,7 @@ def add_nin_skills(skill_library):
         ),
         FollowUp(
             skill=Skill(
-                name="_dream_within_a_dream3",
+                name="Dream Within a Dream",
                 is_GCD=False,
                 damage_spec=DamageSpec(150),
             ),
@@ -142,7 +135,7 @@ def add_nin_skills(skill_library):
     )
 
     doton_dot = Skill(
-        name="_Doton dot",
+        name="Doton (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=80, damage_class=DamageClass.PHYSICAL_DOT),
     )
@@ -193,7 +186,10 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (spinning_edge_follow_up,),
-                "Bunshin": (bunshin_melee_follow_up_, spinning_edge_follow_up),
+                "Bunshin": (
+                    all_bunshin_follow_ups["Spinning Edge"],
+                    spinning_edge_follow_up,
+                ),
             },
         )
     )
@@ -217,9 +213,12 @@ def add_nin_skills(skill_library):
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (gust_slash_damage_follow_up,),
                 "No Combo": (gust_slash_damage_no_combo_follow_up,),
-                "Bunshin": (bunshin_melee_follow_up_, gust_slash_damage_follow_up),
+                "Bunshin": (
+                    all_bunshin_follow_ups["Gust Slash"],
+                    gust_slash_damage_follow_up,
+                ),
                 "Bunshin, No Combo": (
-                    bunshin_melee_follow_up_,
+                    all_bunshin_follow_ups["Gust Slash"],
                     gust_slash_damage_no_combo_follow_up,
                 ),
             },
@@ -239,7 +238,10 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (throwing_dagger_follow_up,),
-                "Bunshin": (throwing_dagger_follow_up, bunshin_ranged_follow_up_),
+                "Bunshin": (
+                    throwing_dagger_follow_up,
+                    all_bunshin_follow_ups["Throwing Dagger"],
+                ),
             },
         )
     )
@@ -283,7 +285,7 @@ def add_nin_skills(skill_library):
 
     trick_debuff_follow_up = FollowUp(
         skill=Skill(
-            name="Trick Attack (Debuff)",
+            name="Trick Attack",
             debuff_spec=StatusEffectSpec(damage_mult=1.10, duration=int(15.77 * 1000)),
         ),
         delay_after_parent_application=0,
@@ -335,18 +337,21 @@ def add_nin_skills(skill_library):
                 "No Combo": (aeolian_edge_no_combo_follow_up,),
                 "No Positional": (aeolian_edge_no_pos_follow_up,),
                 "No Combo, No Positional": (aeolian_edge_no_pos_no_combo_follow_up,),
-                "Bunshin": (aeolian_edge_follow_up, bunshin_melee_follow_up_),
+                "Bunshin": (
+                    aeolian_edge_follow_up,
+                    all_bunshin_follow_ups["Aeolian Edge"],
+                ),
                 "Bunshin, No Combo": (
                     aeolian_edge_no_combo_follow_up,
-                    bunshin_melee_follow_up_,
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
                 "Bunshin, No Positional": (
                     aeolian_edge_no_pos_follow_up,
-                    bunshin_melee_follow_up_,
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
                 "Bunshin, No Combo, No Positional": (
                     aeolian_edge_no_pos_no_combo_follow_up,
-                    bunshin_melee_follow_up_,
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
             },
         )
@@ -375,7 +380,10 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (death_blossom_follow_up,),
-                "Bunshin": (bunshin_area_follow_up_, death_blossom_follow_up),
+                "Bunshin": (
+                    all_bunshin_follow_ups["Death Blossom"],
+                    death_blossom_follow_up,
+                ),
             },
         )
     )
@@ -402,16 +410,16 @@ def add_nin_skills(skill_library):
                 "No Combo": (hakke_no_combo_follow_up,),
                 "Bunshin": (
                     _huton_follow_up_hakke,
-                    bunshin_area_follow_up_,
+                    all_bunshin_follow_ups["Hakke Mujinsatsu"],
                     hakke_follow_up,
                 ),
                 "Bunshin, No Combo": (
-                    bunshin_area_follow_up_,
+                    all_bunshin_follow_ups["Hakke Mujinsatsu"],
                     hakke_no_combo_follow_up,
                 ),
             },
         )
-    ),
+    )
 
     armor_crush_follow_up = FollowUp(
         skill=Skill(name="Armor Crush", damage_spec=DamageSpec(420)),
@@ -451,20 +459,20 @@ def add_nin_skills(skill_library):
                 "Bunshin": (
                     armor_crush_follow_up,
                     _huton_follow_up_armor_crush,
-                    bunshin_melee_follow_up_,
+                    all_bunshin_follow_ups["Armor Crush"],
                 ),
                 "Bunshin, No Combo": (
                     armor_crush_no_combo_follow_up,
-                    bunshin_melee_follow_up_,
+                    all_bunshin_follow_ups["Armor Crush"],
                 ),
                 "Bunshin, No Positional": (
                     armor_crush_no_pos_follow_up,
                     _huton_follow_up_armor_crush,
-                    bunshin_melee_follow_up_,
+                    all_bunshin_follow_ups["Armor Crush"],
                 ),
                 "Bunshin, No Combo, No Positional": (
                     armor_crush_no_pos_no_combo_follow_up,
-                    bunshin_melee_follow_up_,
+                    all_bunshin_follow_ups["Armor Crush"],
                 ),
             },
         )
@@ -480,7 +488,7 @@ def add_nin_skills(skill_library):
     )
     skill_library.add_skill(
         Skill(
-            name="Huraijin ",
+            name="Huraijin",
             is_GCD=True,
             damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
@@ -488,7 +496,10 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (_huton_follow_up_huton,),
-                "Bunshin": (_huton_follow_up_huton, bunshin_melee_follow_up_),
+                "Bunshin": (
+                    _huton_follow_up_huton,
+                    all_bunshin_follow_ups["Huraijin"],
+                ),
             },
         )
     )
@@ -515,16 +526,24 @@ def add_nin_skills(skill_library):
             ),
         )
     )
+    phantom_follow_up_damage = FollowUp(
+        skill=Skill(
+            name="Phantom Kamaitachi (pet)",
+            damage_spec=DamageSpec(
+                potency=600, damage_class=DamageClass.PET, pet_job_mod_override=100
+            ),
+        ),
+        delay_after_parent_application=1560,
+        snapshot_buffs_with_parent=True,
+        snapshot_debuffs_with_parent=True,
+    )
     skill_library.add_skill(
         Skill(
             name="Phantom Kamaitachi",
             is_GCD=True,
-            damage_spec=DamageSpec(
-                potency=600, damage_class=DamageClass.PET, pet_job_mod_override=100
-            ),
-            timing_spec=TimingSpec(base_cast_time=0, application_delay=1560),
+            timing_spec=TimingSpec(base_cast_time=0),
             status_effect_denylist=("Dragon Sight",),
-            follow_up_skills=tuple(),
+            follow_up_skills=(phantom_follow_up_damage,),
         )
     )
     skill_library.add_skill(
@@ -547,7 +566,7 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
-                "Bunshin": (bunshin_melee_follow_up_,),
+                "Bunshin": (all_bunshin_follow_ups["Forked Raiju"],),
             },
         )
     )
@@ -561,7 +580,7 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
-                "Bunshin": (bunshin_melee_follow_up_,),
+                "Bunshin": (all_bunshin_follow_ups["Fleeting Raiju"],),
             },
         )
     )

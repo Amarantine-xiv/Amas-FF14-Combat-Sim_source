@@ -90,7 +90,7 @@ def add_sge_skills(skill_library):
         )
     )
     e_dosis_iii = Skill(
-        name="Eukrasian Dosis III dot",
+        name="Eukrasian Dosis III (dot)",
         damage_spec=DamageSpec(potency=75, damage_class=DamageClass.MAGICAL_DOT),
     )
     skill_library.add_skill(
@@ -113,7 +113,7 @@ def add_sge_skills(skill_library):
     )
     #Assume it stacks with e. dosis
     e_dysk = Skill(
-        name="Eukrasian Dyskrasia",
+        name="Eukrasian Dyskrasia (dot)",
         damage_spec=DamageSpec(potency=40, damage_class=DamageClass.MAGICAL_DOT),
     )
     skill_library.add_skill(

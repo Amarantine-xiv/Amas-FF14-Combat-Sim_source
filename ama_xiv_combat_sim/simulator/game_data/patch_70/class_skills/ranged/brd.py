@@ -20,7 +20,7 @@ def add_brd_skills(skill_library):
     instant_timing_spec = get_instant_timing_spec()
 
     stormbite_dot = Skill(
-        name="_Stormbite dot",
+        name="Stormbite (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=25, damage_class=DamageClass.PHYSICAL_DOT),
     )
@@ -32,7 +32,7 @@ def add_brd_skills(skill_library):
         snapshot_debuffs_with_parent=True,
     )
     caustic_bite_dot = Skill(
-        name="_Caustic Bite dot",
+        name="Caustic Bite (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=20, damage_class=DamageClass.PHYSICAL_DOT),
     )
@@ -46,7 +46,7 @@ def add_brd_skills(skill_library):
 
     army_paeon_rep1 = FollowUp(
         skill=Skill(
-            name="_Army's Paeon Repetoire buff",
+            name="Army's Paeon",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.04,
@@ -58,7 +58,7 @@ def add_brd_skills(skill_library):
     )
     army_paeon_rep2 = FollowUp(
         skill=Skill(
-            name="_Army's Paeon Repetoire buff",
+            name="Army's Paeon",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.08,
@@ -70,7 +70,7 @@ def add_brd_skills(skill_library):
     )
     army_paeon_rep3 = FollowUp(
         skill=Skill(
-            name="_Army's Paeon Repetoire buff",
+            name="Army's Paeon",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.12,
@@ -82,7 +82,7 @@ def add_brd_skills(skill_library):
     )
     army_paeon_rep4 = FollowUp(
         skill=Skill(
-            name="_Army's Paeon Repetoire buff",
+            name="Army's Paeon",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.16,
@@ -237,15 +237,6 @@ def add_brd_skills(skill_library):
                     expires_status_effects=(
                         "The Wanderer's Minuet",
                         "Army's Paeon",
-                    ),
-                ),
-                "From Log": StatusEffectSpec(
-                    crit_rate_add=0.02,
-                    duration=5 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=(
-                        "Army's Paeon",
-                        "Mage's Ballad",
                     ),
                 ),
             },
@@ -490,7 +481,7 @@ def add_brd_skills(skill_library):
 
     refulgent_arrow_barrage2 = FollowUp(
         skill=Skill(
-            name="_Refulgent Arrow Barrage2",
+            name="Refulgent Arrow",
             is_GCD=False,
             damage_spec=DamageSpec(potency=280),
         ),
@@ -498,7 +489,7 @@ def add_brd_skills(skill_library):
     )
     refulgent_arrow_barrage3 = FollowUp(
         skill=Skill(
-            name="_Refulgent Arrow Barrage3",
+            name="Refulgent Arrow",
             is_GCD=False,
             damage_spec=DamageSpec(potency=280),
         ),
@@ -649,37 +640,37 @@ def add_brd_skills(skill_library):
             is_GCD=False,
             buff_spec={
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
-                    damage_mult=1.06, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.06, duration=20 * 1000, is_party_effect=True
                 ),
                 "1 Mage's Coda": StatusEffectSpec(
-                    damage_mult=1.02, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.02, duration=20 * 1000, is_party_effect=True
                 ),
                 "1 Army's Coda": StatusEffectSpec(
-                    damage_mult=1.02, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.02, duration=20 * 1000, is_party_effect=True
                 ),
                 "1 Wanderer's Coda": StatusEffectSpec(
-                    damage_mult=1.02, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.02, duration=20 * 1000, is_party_effect=True
                 ),
                 "1 Mage's Coda, 1 Army's Coda": StatusEffectSpec(
-                    damage_mult=1.04, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.04, duration=20 * 1000, is_party_effect=True
                 ),
                 "1 Mage's Coda, 1 Wanderer's Coda": StatusEffectSpec(
-                    damage_mult=1.04, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.04, duration=20 * 1000, is_party_effect=True
                 ),
                 "1 Army's Coda, 1 Wanderer's Coda": StatusEffectSpec(
-                    damage_mult=1.04, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.04, duration=20 * 1000, is_party_effect=True
                 ),
                 "1 Mage's Coda, 1 Army's Coda, 1 Wanderer's Coda": StatusEffectSpec(
-                    damage_mult=1.06, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.06, duration=20 * 1000, is_party_effect=True
                 ),
                 "1 Coda, Buff Only": StatusEffectSpec(
-                    damage_mult=1.02, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.02, duration=20 * 1000, is_party_effect=True
                 ),
                 "2 Coda, Buff Only": StatusEffectSpec(
-                    damage_mult=1.04, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.04, duration=20 * 1000, is_party_effect=True
                 ),
                 "3 Coda, Buff Only": StatusEffectSpec(
-                    damage_mult=1.06, duration=int(19.97 * 1000), is_party_effect=True
+                    damage_mult=1.06, duration=20 * 1000, is_party_effect=True
                 ),
             },
             job_resource_spec={

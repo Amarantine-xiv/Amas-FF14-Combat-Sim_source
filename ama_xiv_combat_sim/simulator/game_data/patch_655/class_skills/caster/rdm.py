@@ -135,7 +135,7 @@ def add_rdm_skills(skill_library):
   skill_library.add_skill(Skill(name='Embolden',
                                 is_GCD=False,
                                 buff_spec=StatusEffectSpec(
-                                    damage_mult=1.05, duration=int(19.9)*1000, is_party_effect=True),
+                                    damage_mult=1.05, duration= 20*1000, is_party_effect=True),
                                 timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=610)))
   manafication_allowlist = ('Verthunder II', 'Veraero II', 'Verfire', 'Verstone',
                             'Jolt II', 'Impact', 'Verflare', 'Verholy', 'Reprise',

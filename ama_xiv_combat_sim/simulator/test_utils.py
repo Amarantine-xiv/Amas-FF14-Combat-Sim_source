@@ -30,7 +30,7 @@ class TestUtils(TestClass):
       result = Utils.get_best_key(keys, conditions[i])
       if result != expected[i]:
         test_passed = False
-        err_msg += 'Expected: . Actual: {}\n'.format(", ".join(result), ", ".join(expected[i]))
+        err_msg += 'Expected: {}. Actual: {}\n'.format(", ".join(result), ", ".join(expected[i]))
 
     return test_passed, err_msg
 

@@ -90,7 +90,7 @@ def add_sge_skills(skill_library):
         )
     )
     dot_sge = Skill(
-        name="_Eukrasian Dosis III dot",
+        name="Eukrasian Dosis III (dot)",
         damage_spec=DamageSpec(potency=75, damage_class=DamageClass.MAGICAL_DOT),
     )
     skill_library.add_skill(

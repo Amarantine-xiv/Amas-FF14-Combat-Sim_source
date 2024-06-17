@@ -1,7 +1,9 @@
 import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
-from ama_xiv_combat_sim.simulator.game_data.patch_70.convenience_timings import get_auto_timing
+from ama_xiv_combat_sim.simulator.game_data.patch_70.convenience_timings import (
+    get_auto_timing,
+)
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -215,8 +217,8 @@ def add_blm_skills(skill_library):
         dot_duration=24 * 1000,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
-    )    
-    
+    )
+
     skill_library.add_skill(
         Skill(
             name="Auto",
@@ -369,8 +371,13 @@ def add_blm_skills(skill_library):
             damage_spec=fire_damage_spec,
             timing_spec=fire_timing_spec,
             job_resource_spec=fire_job_resource_spec,
-            follow_up_skills={SimConsts.DEFAULT_CONDITION: (enochian_buff_follow_up,),
-                              "Firestarter Proc": (enochian_buff_follow_up, firestarter_follow_up,)}
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (enochian_buff_follow_up,),
+                "Firestarter Proc": (
+                    enochian_buff_follow_up,
+                    firestarter_follow_up,
+                ),
+            },
         )
     )
     skill_library.add_skill(
@@ -432,7 +439,7 @@ def add_blm_skills(skill_library):
             ),
             timing_spec=get_enochian_timing_spec_cross(
                 base_cast_time=3500, is_fire_spell=False, application_delay=890
-            ),            
+            ),
             job_resource_spec=(
                 clear_astral_fire,
                 JobResourceSpec(
@@ -467,7 +474,7 @@ def add_blm_skills(skill_library):
             follow_up_skills=(thunderiii_follow_up,),
         )
     )
-    
+
     flare_damage_spec = get_enochian_damage_spec_cross(
         base_potency=240, is_fire_spell=True
     )
@@ -616,7 +623,7 @@ def add_blm_skills(skill_library):
             ),
             timing_spec=get_enochian_timing_spec_cross(
                 base_cast_time=3000, is_fire_spell=False, application_delay=1160
-            ),            
+            ),
             job_resource_spec=(
                 clear_astral_fire,
                 JobResourceSpec(
@@ -648,7 +655,13 @@ def add_blm_skills(skill_library):
                 "3 Umbral Ice": paradox_umbral_timing_spec,
             },
             job_resource_spec={
-                SimConsts.DEFAULT_CONDITION: tuple(),
+                SimConsts.DEFAULT_CONDITION: (
+                    JobResourceSpec(
+                        name="Astral Fire",
+                        change=+1,
+                        refreshes_duration_of_last_gained=True,
+                    ),
+                ),
                 "1 Astral Fire": (
                     JobResourceSpec(
                         name="Astral Fire",
@@ -736,7 +749,7 @@ def add_blm_skills(skill_library):
             timing_spec=flare_star_timing_spec,
         )
     )
-    
+
     skill_library.add_skill(
         Skill(
             name="Swiftcast",
@@ -790,7 +803,7 @@ def add_blm_skills(skill_library):
                     "Despair",
                     "Flare",
                     "Paradox",
-                    "Flare Star"
+                    "Flare Star",
                 ),
             ),
         )

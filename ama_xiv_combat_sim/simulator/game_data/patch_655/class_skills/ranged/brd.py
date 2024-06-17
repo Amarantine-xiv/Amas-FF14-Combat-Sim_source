@@ -20,7 +20,7 @@ def add_brd_skills(skill_library):
     instant_timing_spec = get_instant_timing_spec()
 
     stormbite_dot = Skill(
-        name="_Stormbite dot",
+        name="Stormbite (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=25, damage_class=DamageClass.PHYSICAL_DOT),
     )
@@ -32,7 +32,7 @@ def add_brd_skills(skill_library):
         snapshot_debuffs_with_parent=True,
     )
     caustic_bite_dot = Skill(
-        name="_Caustic Bite dot",
+        name="Caustic Bite (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=20, damage_class=DamageClass.PHYSICAL_DOT),
     )
@@ -46,7 +46,7 @@ def add_brd_skills(skill_library):
 
     army_paeon_rep1 = FollowUp(
         skill=Skill(
-            name="_Army's Paeon Repetoire buff",
+            name="Army's Paeon",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.04,
@@ -58,7 +58,7 @@ def add_brd_skills(skill_library):
     )
     army_paeon_rep2 = FollowUp(
         skill=Skill(
-            name="_Army's Paeon Repetoire buff",
+            name="Army's Paeon",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.08,
@@ -70,7 +70,7 @@ def add_brd_skills(skill_library):
     )
     army_paeon_rep3 = FollowUp(
         skill=Skill(
-            name="_Army's Paeon Repetoire buff",
+            name="Army's Paeon",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.12,
@@ -82,7 +82,7 @@ def add_brd_skills(skill_library):
     )
     army_paeon_rep4 = FollowUp(
         skill=Skill(
-            name="_Army's Paeon Repetoire buff",
+            name="Army's Paeon",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.16,
@@ -243,15 +243,6 @@ def add_brd_skills(skill_library):
                         "Army's Paeon",
                     ),
                 ),
-                "From Log": StatusEffectSpec(
-                    crit_rate_add=0.02,
-                    duration=5 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=(
-                        "Army's Paeon",
-                        "Mage's Ballad",
-                    ),
-                ),
             },
             timing_spec=instant_timing_spec,
             job_resource_spec={
@@ -271,15 +262,6 @@ def add_brd_skills(skill_library):
         )
     )
 
-    paeon_dh_buff = StatusEffectSpec(
-        dh_rate_add=0.03,
-        duration=45 * 1000,
-        extends_existing_duration=False,
-        expires_status_effects=(
-            "The Wanderer's Minuet",
-            "Mage's Ballad",
-        ),
-    )
     skill_library.add_skill(
         Skill(
             name="Army's Paeon",
@@ -463,11 +445,11 @@ def add_brd_skills(skill_library):
     )
 
     iron_jaw_barrage2 = FollowUp(
-        skill=Skill(name="_Iron Jaws Barrage", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(name="Iron Jaws", damage_spec=DamageSpec(potency=100)),
         delay_after_parent_application=120,
     )
     iron_jaw_barrage3 = FollowUp(
-        skill=Skill(name="_Iron Jaws Barrage", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(name="Iron Jaws", damage_spec=DamageSpec(potency=100)),
         delay_after_parent_application=240,
     )
     skill_library.add_skill(
@@ -517,7 +499,7 @@ def add_brd_skills(skill_library):
         )
     )
     caustic_bite_barrage = FollowUp(
-        skill=Skill(name="_Caustic Bite Barrage", damage_spec=DamageSpec(potency=150)),
+        skill=Skill(name="Caustic Bite", damage_spec=DamageSpec(potency=150)),
         delay_after_parent_application=0,
     )
     skill_library.add_skill(
@@ -541,13 +523,13 @@ def add_brd_skills(skill_library):
 
     stormbite_barrage2 = FollowUp(
         skill=Skill(
-            name="_Stormbite Barrage", is_GCD=False, damage_spec=DamageSpec(potency=100)
+            name="Stormbite", is_GCD=False, damage_spec=DamageSpec(potency=100)
         ),
         delay_after_parent_application=120,
     )
     stormbite_barrage3 = FollowUp(
         skill=Skill(
-            name="_Stormbite Barrage", is_GCD=False, damage_spec=DamageSpec(potency=100)
+            name="Stormbite", is_GCD=False, damage_spec=DamageSpec(potency=100)
         ),
         delay_after_parent_application=240,
     )
@@ -572,7 +554,7 @@ def add_brd_skills(skill_library):
 
     refulgent_arrow_barrage2 = FollowUp(
         skill=Skill(
-            name="_Refulgent Arrow Barrage2",
+            name="Refulgent Arrow",
             is_GCD=False,
             damage_spec=DamageSpec(potency=280),
         ),
@@ -580,7 +562,7 @@ def add_brd_skills(skill_library):
     )
     refulgent_arrow_barrage3 = FollowUp(
         skill=Skill(
-            name="_Refulgent Arrow Barrage3",
+            name="Refulgent Arrow",
             is_GCD=False,
             damage_spec=DamageSpec(potency=280),
         ),
@@ -616,7 +598,7 @@ def add_brd_skills(skill_library):
 
     burst_shot_barrage2 = FollowUp(
         skill=Skill(
-            name="_Burst Shot Barrage2",
+            name="Burst Shot",
             is_GCD=False,
             damage_spec=DamageSpec(potency=220),
         ),
@@ -624,7 +606,7 @@ def add_brd_skills(skill_library):
     )
     burst_shot_barrage3 = FollowUp(
         skill=Skill(
-            name="_Burst Shot Barrage3",
+            name="Burst Shot",
             is_GCD=False,
             damage_spec=DamageSpec(potency=220),
         ),
@@ -677,7 +659,7 @@ def add_brd_skills(skill_library):
 
     ladonsbite_barrage2 = FollowUp(
         skill=Skill(
-            name="_Ladonsbite Barrage2",
+            name="Ladonsbite",
             is_GCD=False,
             damage_spec=DamageSpec(potency=130),
         ),
@@ -685,7 +667,7 @@ def add_brd_skills(skill_library):
     )
     ladonsbite_barrage3 = FollowUp(
         skill=Skill(
-            name="_Ladonsbite Barrage3",
+            name="Ladonsbite",
             is_GCD=False,
             damage_spec=DamageSpec(potency=130),
         ),
@@ -721,34 +703,34 @@ def add_brd_skills(skill_library):
             is_GCD=False,
             buff_spec={
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
-                    damage_mult=1.06, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.06, duration=15 * 1000, is_party_effect=True
                 ),
                 "1 Mage's Coda": StatusEffectSpec(
-                    damage_mult=1.02, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.02, duration=15 * 1000, is_party_effect=True
                 ),
                 "1 Army's Coda": StatusEffectSpec(
-                    damage_mult=1.02, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.02, duration=15 * 1000, is_party_effect=True
                 ),
                 "1 Wanderer's Coda": StatusEffectSpec(
-                    damage_mult=1.02, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.02, duration=15 * 1000, is_party_effect=True
                 ),
                 "1 Mage's Coda, 1 Army's Coda": StatusEffectSpec(
-                    damage_mult=1.04, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.04, duration=15 * 1000, is_party_effect=True
                 ),
                 "1 Mage's Coda, 1 Wanderer's Coda": StatusEffectSpec(
-                    damage_mult=1.04, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.04, duration=15 * 1000, is_party_effect=True
                 ),
                 "1 Army's Coda, 1 Wanderer's Coda": StatusEffectSpec(
-                    damage_mult=1.04, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.04, duration=15 * 1000, is_party_effect=True
                 ),
                 "1 Mage's Coda, 1 Army's Coda, 1 Wanderer's Coda": StatusEffectSpec(
-                    damage_mult=1.06, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.06, duration=15 * 1000, is_party_effect=True
                 ),
                 "1 Coda, Buff Only": StatusEffectSpec(
-                    damage_mult=1.02, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.02, duration=15 * 1000, is_party_effect=True
                 ),
                 "2 Coda, Buff Only": StatusEffectSpec(
-                    damage_mult=1.04, duration=int(14.97 * 1000), is_party_effect=True
+                    damage_mult=1.04, duration=15 * 1000, is_party_effect=True
                 ),
                 "3 Coda, Buff Only": StatusEffectSpec(
                     damage_mult=1.06, duration=int(14.97 * 1000), is_party_effect=True

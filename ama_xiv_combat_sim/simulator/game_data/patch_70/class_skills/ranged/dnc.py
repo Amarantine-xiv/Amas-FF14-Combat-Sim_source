@@ -68,7 +68,7 @@ def add_dnc_skills(skill_library):
     )
     _standard_finish_follow_up2 = FollowUp(
         skill=Skill(
-            name="Standard Finish buff",
+            name="Standard Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.05, duration=60000, is_party_effect=True
@@ -78,7 +78,7 @@ def add_dnc_skills(skill_library):
     )
     _standard_finish_follow_up1 = FollowUp(
         skill=Skill(
-            name="Standard Finish buff",
+            name="Standard Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.02, duration=60000, is_party_effect=True
@@ -91,7 +91,7 @@ def add_dnc_skills(skill_library):
             name="Standard Finish Remove Buff",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
-                expires_status_effects=("Standard Finish buff",), is_party_effect=True
+                expires_status_effects=("Standard Finish",), is_party_effect=True
             ),
         ),
         delay_after_parent_application=0,
@@ -278,7 +278,7 @@ def add_dnc_skills(skill_library):
     )
     tech4_followup = FollowUp(
         Skill(
-            name="Quadruple Technical Finish buff",
+            name="Technical Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.05, duration=int(20.45 * 1000), is_party_effect=True
@@ -288,7 +288,7 @@ def add_dnc_skills(skill_library):
     )
     tech3_followup = FollowUp(
         Skill(
-            name="Triple Technical Finish buff",
+            name="Technical Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.03, duration=int(20.45 * 1000), is_party_effect=True
@@ -298,7 +298,7 @@ def add_dnc_skills(skill_library):
     )
     tech2_followup = FollowUp(
         Skill(
-            name="Double Technical Finish buff",
+            name="Technical Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.02, duration=int(20.45 * 1000), is_party_effect=True
@@ -308,7 +308,7 @@ def add_dnc_skills(skill_library):
     )
     tech1_followup = FollowUp(
         Skill(
-            name="Single Technical Finish buff",
+            name="Technical Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.01, duration=int(20.45 * 1000), is_party_effect=True
@@ -319,7 +319,7 @@ def add_dnc_skills(skill_library):
 
     tech4_longest_followup = FollowUp(
         Skill(
-            name="Technical Finish buff",
+            name="Technical Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.05, duration=int(20.95 * 1000), is_party_effect=True
@@ -329,7 +329,7 @@ def add_dnc_skills(skill_library):
     )
     tech3_longest_followup = FollowUp(
         Skill(
-            name="Technical Finish buff",
+            name="Technical Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.03, duration=int(20.95 * 1000), is_party_effect=True
@@ -339,7 +339,7 @@ def add_dnc_skills(skill_library):
     )
     tech2_longest_followup = FollowUp(
         Skill(
-            name="Technical Finish buff",
+            name="Technical Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.02, duration=int(20.95 * 1000), is_party_effect=True
@@ -349,7 +349,7 @@ def add_dnc_skills(skill_library):
     )
     tech1_longest_followup = FollowUp(
         Skill(
-            name="Technical Finish buff",
+            name="Technical Finish",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.01, duration=int(20.95 * 1000), is_party_effect=True
@@ -360,10 +360,10 @@ def add_dnc_skills(skill_library):
 
     tech_remove_followup = FollowUp(
         Skill(
-            name="Technical Finish remove buff",
+            name="Technical Finish Remove buff",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
-                expires_status_effects=("Technical Finish buff",), is_party_effect=True
+                expires_status_effects=("Technical Finish",), is_party_effect=True
             ),
         ),
         delay_after_parent_application=0,
