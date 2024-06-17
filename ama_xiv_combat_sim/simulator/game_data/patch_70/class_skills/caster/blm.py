@@ -28,7 +28,7 @@ def add_blm_skills(skill_library):
         name="Astral Fire",
         job_resource_settings=JobResourceSettings(
             max_value=3,
-            expiry_from_last_gain=15 * 1000,            
+            expiry_from_last_gain=15 * 1000,
             skill_allowlist=(
                 "Blizzard",
                 "Transpose",
