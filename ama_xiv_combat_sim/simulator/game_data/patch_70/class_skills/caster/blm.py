@@ -28,7 +28,7 @@ def add_blm_skills(skill_library):
         name="Astral Fire",
         job_resource_settings=JobResourceSettings(
             max_value=3,
-            expiry_from_last_gain=15 * 1000,
+            expiry_from_last_gain=15 * 1000,            
             skill_allowlist=(
                 "Blizzard",
                 "Transpose",
@@ -639,30 +639,16 @@ def add_blm_skills(skill_library):
         )
     )
 
-    paradox_base_timing_spec = TimingSpec(
-        base_cast_time=2500,
-        animation_lock=base_animation_lock + blm_caster_tax_ms,
-        application_delay=670,
-    )
-    paradox_umbral_timing_spec = TimingSpec(
-        base_cast_time=0,
-        animation_lock=base_animation_lock + blm_caster_tax_ms,
-        application_delay=670,
-    )
     skill_library.add_skill(
         Skill(
             name="Paradox",
             is_GCD=True,
             damage_spec=DamageSpec(potency=500),
-            timing_spec={
-                SimConsts.DEFAULT_CONDITION: paradox_base_timing_spec,
-                "1 Astral Fire": paradox_base_timing_spec,
-                "2 Astral Fire": paradox_base_timing_spec,
-                "3 Astral Fire": paradox_base_timing_spec,
-                "1 Umbral Ice": paradox_umbral_timing_spec,
-                "2 Umbral Ice": paradox_umbral_timing_spec,
-                "3 Umbral Ice": paradox_umbral_timing_spec,
-            },
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                application_delay=670,
+            ),
             job_resource_spec={
                 SimConsts.DEFAULT_CONDITION: (
                     JobResourceSpec(
