@@ -17,7 +17,10 @@ from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 def add_blm_skills(skill_library):
     auto_timing = get_auto_timing()
     blm_caster_tax_ms = 100
-    instant_timing_spec = TimingSpec(base_cast_time=0, animation_lock=blm_caster_tax_ms)
+    base_animation_lock = 600
+    instant_timing_spec = TimingSpec(
+        base_cast_time=0, animation_lock=base_animation_lock + blm_caster_tax_ms
+    )
     skill_library.set_current_job_class("BLM")
 
     skill_library.set_status_effect_priority(("Swiftcast", "Triplecast"))
@@ -145,7 +148,7 @@ def add_blm_skills(skill_library):
 
         res[SimConsts.DEFAULT_CONDITION] = TimingSpec(
             base_cast_time=base_cast_time,
-            animation_lock=blm_caster_tax_ms,
+            animation_lock=base_animation_lock + blm_caster_tax_ms,
             application_delay=application_delay,
         )
         for elem_str in elem_strs:
@@ -156,7 +159,7 @@ def add_blm_skills(skill_library):
             )
             res[elem_str] = TimingSpec(
                 base_cast_time=int(cast_modifier * base_cast_time),
-                animation_lock=blm_caster_tax_ms,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
                 application_delay=application_delay,
             )
         return res
@@ -390,7 +393,7 @@ def add_blm_skills(skill_library):
             },
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=blm_caster_tax_ms,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
                 application_delay=670,
             ),
         )
@@ -411,7 +414,9 @@ def add_blm_skills(skill_library):
         )
         fire_iii_damage_spec[assembled_str] = fire_iii_damage_spec[k]
         fire_iii_timing_spec[assembled_str] = TimingSpec(
-            base_cast_time=0, animation_lock=blm_caster_tax_ms, application_delay=1290
+            base_cast_time=0,
+            animation_lock=base_animation_lock + blm_caster_tax_ms,
+            application_delay=1290,
         )
     skill_library.add_skill(
         Skill(
@@ -468,7 +473,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=160),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock=blm_caster_tax_ms,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
                 application_delay=1030,
             ),
             follow_up_skills=(thunderiii_follow_up,),
@@ -542,7 +547,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=80),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock=blm_caster_tax_ms,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
                 application_delay=1160,
             ),
             follow_up_skills=(thunderiv_follow_up,),
@@ -555,7 +560,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=600),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=blm_caster_tax_ms,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
                 application_delay=1160,
             ),
         )
@@ -588,7 +593,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=880),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=blm_caster_tax_ms,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
                 application_delay=620,
             ),
         )
@@ -635,10 +640,14 @@ def add_blm_skills(skill_library):
     )
 
     paradox_base_timing_spec = TimingSpec(
-        base_cast_time=2500, animation_lock=blm_caster_tax_ms, application_delay=670
+        base_cast_time=2500,
+        animation_lock=base_animation_lock + blm_caster_tax_ms,
+        application_delay=670,
     )
     paradox_umbral_timing_spec = TimingSpec(
-        base_cast_time=0, animation_lock=blm_caster_tax_ms, application_delay=670
+        base_cast_time=0,
+        animation_lock=base_animation_lock + blm_caster_tax_ms,
+        application_delay=670,
     )
     skill_library.add_skill(
         Skill(
@@ -684,22 +693,25 @@ def add_blm_skills(skill_library):
                     ),
                 ),
                 "1 Umbral Ice": (
+                    clear_umbral_ice,
                     JobResourceSpec(
-                        name="Umbral Ice",
+                        name="Astral Fire",
                         change=+1,
                         refreshes_duration_of_last_gained=True,
                     ),
                 ),
                 "2 Umbral Ice": (
+                    clear_umbral_ice,
                     JobResourceSpec(
-                        name="Umbral Ice",
+                        name="Astral Fire",
                         change=+1,
                         refreshes_duration_of_last_gained=True,
                     ),
                 ),
                 "3 Umbral Ice": (
+                    clear_umbral_ice,
                     JobResourceSpec(
-                        name="Umbral Ice",
+                        name="Astral Fire",
                         change=+1,
                         refreshes_duration_of_last_gained=True,
                     ),
@@ -715,7 +727,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock=blm_caster_tax_ms,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
                 application_delay=1160,
             ),
             follow_up_skills=(high_thunder_follow_up,),
@@ -729,7 +741,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=100),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock=blm_caster_tax_ms,
+                animation_lock=base_animation_lock + blm_caster_tax_ms,
                 application_delay=1160,
             ),
             follow_up_skills=(high_thunder_ii_follow_up,),

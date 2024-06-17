@@ -1728,7 +1728,7 @@ class TestJobs(TestClass):
         rb.add_next("Thunder III")
 
         expected_damage = 444172.1
-        expected_total_time = 24660.0
+        expected_total_time = 27220.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -1783,10 +1783,10 @@ class TestJobs(TestClass):
             ("Flare Star", 38411.7),
             ("Fire IV", 34029.0),
             ("Flare Star", 38426.4),
-            ("Paradox", 30526.3),
             ("Fire IV", 34068.2),
+            ("Paradox", 30526.3),            
             ("Xenoglossy", 53659.7),
-            ("Fire III", 23889.8),
+            ("Fire III", 15334.1), #due to transpose, we should be in Umbral Ice
             ("Blizzard III", 11927.9),
             ("Flare Star", 14882.7),
             ("Flare Star", 38413.0),
