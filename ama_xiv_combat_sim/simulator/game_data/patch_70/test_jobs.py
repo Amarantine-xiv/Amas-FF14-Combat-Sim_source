@@ -1731,6 +1731,47 @@ class TestJobs(TestClass):
         expected_total_time = 27220.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
+
+    @TestClass.is_a_test
+    def test_blm_paradox(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.28,
+            main_stat=3375,
+            det_stat=1764,
+            crit_stat=545,
+            dh_stat=1547,
+            speed_stat=2469,
+            job_class="BLM",
+            version="7.0",
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb.add_next('Fire III')
+        rb.add_next('Fire IV')
+        rb.add_next('Fire IV')
+        rb.add_next('Fire IV')
+        rb.add_next('Fire IV')
+        rb.add_next('Paradox')
+        rb.add_next('Fire IV')
+    
+        expected = (
+            ("Fire III", 13115.1),
+            ("Fire IV", 34041.6),
+            ("Fire IV", 34054.7),
+            ("Fire IV", 34021.1),
+            ("Fire IV", 34065.2),
+            ("Paradox", 30529.6),
+            ("Fire IV", 34054.7),
+        )
+        
+        return self.__test_rotation_damage(rb, expected)
+        
     @TestClass.is_a_test
     def test_blm_rotation_damage_instances(self):
         stats = Stats(
