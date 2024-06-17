@@ -147,7 +147,7 @@ def add_drk_skills(skill_library):
         )
     )
     salted_earth_dot_drk = Skill(
-        name="_Salted Earth dot",
+        name="Salted Earth (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(
             potency=50,
@@ -236,42 +236,31 @@ def add_drk_skills(skill_library):
             ),
         )
     )
-    _living_shadow = Skill(
-        name="_Living Shadow",
-        is_GCD=False,
-        damage_spec=DamageSpec(
-            potency=420, damage_class=DamageClass.PET, pet_job_mod_override=100
-        ),
-        status_effect_denylist=("Darkside", "Dragon Sight"),
-    )
-    _living_shadow_shadowbringer = Skill(
-        name="_Living Shadow Shadowbringer",
-        is_GCD=False,
-        damage_spec=DamageSpec(
-            potency=570, damage_class=DamageClass.PET, pet_job_mod_override=100
-        ),
-        status_effect_denylist=("Darkside", "Dragon Sight"),
-    )
-    _living_shadow_disesteem = Skill(
-        name="_Living Shadow Disesteem",
-        is_GCD=False,
-        damage_spec=DamageSpec(
-            potency=620, damage_class=DamageClass.PET, pet_job_mod_override=100
-        ),
-        status_effect_denylist=("Darkside", "Dragon Sight"),
-    )    
-    _living_shadow_follow_up_skills = (
-        _living_shadow,
-        _living_shadow,
-        _living_shadow_shadowbringer,
-        _living_shadow,
-        _living_shadow,
-        _living_shadow_disesteem,
-    )
+    ls_names_and_potency_and_delay = [
+        ("Abyssal Drain (pet)", 420, 6800),
+        # blank plunge
+        ("Shadowbringer (pet)", 570, 6800 + 2 * 2200),
+        ("Edge of Shadow (pet)", 420, 6800 + 3 * 2200),
+        ("Bloodspiller (pet)", 420, 6800 + 4 * 2200),
+        ("Disesteem (pet)", 620, 6800 + 5 * 2200),
+    ]
+
+    _living_shadow_follow_up_skills = []
+    for skill_name, potency, _ in ls_names_and_potency_and_delay:
+        sk = Skill(
+            name=skill_name,
+            is_GCD=False,
+            damage_spec=DamageSpec(
+                potency=potency, damage_class=DamageClass.PET, pet_job_mod_override=100
+            ),
+            status_effect_denylist=("Darkside",),
+        )
+        _living_shadow_follow_up_skills.append(sk)
+
     _living_shadow_follow_ups = tuple(
         FollowUp(
             skill=_living_shadow_follow_up_skills[i],
-            delay_after_parent_application=6800 + i * 2200,
+            delay_after_parent_application=ls_names_and_potency_and_delay[i][2],
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
         )
@@ -283,7 +272,7 @@ def add_drk_skills(skill_library):
             is_GCD=False,
             follow_up_skills=_living_shadow_follow_ups,
             timing_spec=instant_timing_spec,
-            status_effect_denylist=("Darkside", "Dragon Sight"),
+            status_effect_denylist=("Darkside",),
         )
     )
 

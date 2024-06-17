@@ -37,8 +37,8 @@ def add_whm_skills(skill_library):
             ),
             damage_spec=DamageSpec(potency=330),
         )
-    )    
-    #TODO lock and delays
+    )
+    # TODO lock and delays
     skill_library.add_skill(
         Skill(
             name="Glare IV",
@@ -48,7 +48,7 @@ def add_whm_skills(skill_library):
             ),
             damage_spec=DamageSpec(potency=570),
         )
-    )    
+    )
     skill_library.add_skill(
         Skill(
             name="Assize",
@@ -60,7 +60,7 @@ def add_whm_skills(skill_library):
         )
     )
     dia_dot_whm = Skill(
-        name="_Dia dot",
+        name="Dia (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=70, damage_class=DamageClass.MAGICAL_DOT),
     )
@@ -108,7 +108,11 @@ def add_whm_skills(skill_library):
             name="Presence of Mind",
             is_GCD=False,
             timing_spec=instant_timing_spec,
-            debuff_spec=StatusEffectSpec(duration=15000, haste_time_reduction=0.20),
+            debuff_spec=StatusEffectSpec(
+                duration=15000,
+                haste_time_reduction=0.20,
+                auto_attack_delay_reduction=0.20,
+            ),
         )
     )
     skill_library.add_skill(

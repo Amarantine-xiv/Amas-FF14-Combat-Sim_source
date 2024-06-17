@@ -376,7 +376,7 @@ def add_drg_skills(skill_library):
         )
     )
     _chaotic_spring_dot = Skill(
-        name="_Chaotic Spring dot",
+        name="Chaotic Spring (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=45, damage_class=DamageClass.PHYSICAL_DOT),
     )

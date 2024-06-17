@@ -27,7 +27,7 @@ def add_mnk_skills(skill_library):
         delay_after_parent_application=0,
     )
     demolish_dot = Skill(
-        name="_Demolish dot",
+        name="Demolish (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=70, damage_class=DamageClass.PHYSICAL_DOT),
     )

@@ -49,7 +49,7 @@ def add_whm_skills(skill_library):
         )
     )
     dia_dot_whm = Skill(
-        name="_Dia dot",
+        name="Dia (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=65, damage_class=DamageClass.MAGICAL_DOT),
     )

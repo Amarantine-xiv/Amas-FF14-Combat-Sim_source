@@ -156,7 +156,7 @@ def add_drk_skills(skill_library):
         )
     )
     salted_earth_dot_drk = Skill(
-        name="_Salted Earth dot",
+        name="Salted Earth (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(
             potency=50,
@@ -255,32 +255,25 @@ def add_drk_skills(skill_library):
             ),
         )
     )
-    _living_shadow = Skill(
-        name="_Living Shadow",
-        is_GCD=False,
-        damage_spec=DamageSpec(
-            potency=350, damage_class=DamageClass.PET, pet_job_mod_override=100
-        ),
-        status_effect_denylist=("Darkside", "Dragon Sight"),
-    )
-    _living_shadow_shadowbringer = Skill(
-        name="_Living Shadow Shadowbringer",
-        is_GCD=False,
-        damage_spec=DamageSpec(
-            potency=500, damage_class=DamageClass.PET, pet_job_mod_override=100
-        ),
-        status_effect_denylist=("Darkside", "Dragon Sight"),
-    )
-    skill_library.add_skill(_living_shadow)
-    skill_library.add_skill(_living_shadow_shadowbringer)
-    _living_shadow_follow_up_skills = (
-        _living_shadow,
-        _living_shadow,
-        _living_shadow_shadowbringer,
-        _living_shadow,
-        _living_shadow,
-        _living_shadow,
-    )
+    ls_names_and_potency = [('Abyssal Drain (pet)',350),
+                            ('Plunge (pet)',350),
+                            ('Shadowbringer (pet)', 500),
+                            ('Edge of Shadow (pet)',350),
+                            ('Bloodspiller (pet)',350),
+                            ('Carve and Spit (pet)',350),
+                        ]
+    _living_shadow_follow_up_skills = []
+    for skill_name, potency in ls_names_and_potency:
+        sk = Skill(
+            name=skill_name,
+            is_GCD=False,
+            damage_spec=DamageSpec(
+                potency=potency, damage_class=DamageClass.PET, pet_job_mod_override=100
+            ),
+            status_effect_denylist=("Darkside", "Dragon Sight"),        
+        )
+        _living_shadow_follow_up_skills.append(sk)
+
     _living_shadow_follow_ups = tuple(
         FollowUp(
             skill=_living_shadow_follow_up_skills[i],

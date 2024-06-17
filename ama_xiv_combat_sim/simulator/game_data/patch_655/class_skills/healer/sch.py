@@ -44,9 +44,9 @@ def add_sch_skills(skill_library):
                                   timing_spec=TimingSpec(
                                       base_cast_time=0, animation_lock=650, application_delay=800),
                                   debuff_spec=StatusEffectSpec(duration=15000, crit_rate_add=0.10, is_party_effect=True)))
-    biolysis_dot_sch = Skill(name='_Biolysis dot',
+    biolysis_dot_sch = Skill(name='Biolysis (dot)',
                               is_GCD=False,
-                              damage_spec=DamageSpec(potency=70,
+                              damage_spec=DamageSpec(potency=70,                                                     
                                                     damage_class=DamageClass.MAGICAL_DOT))
     skill_library.add_skill(biolysis_dot_sch)
     skill_library.add_skill(Skill(name='Biolysis',

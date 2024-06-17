@@ -149,7 +149,7 @@ def add_pld_skills(skill_library):
         )
     )
     circle_of_scorn_dot_pld = Skill(
-        name="_Circle of Scorn dot",
+        name="Circle of Scorn (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=30, damage_class=DamageClass.PHYSICAL_DOT),
     )

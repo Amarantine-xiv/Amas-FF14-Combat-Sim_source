@@ -31,7 +31,7 @@ def add_mch_skills(skill_library):
     skill_library.add_resource(
         name="GCD",
         job_resource_settings=JobResourceSettings(
-            max_value=6, skill_allowlist=("_Wildfire", "Detonator")
+            max_value=6, skill_allowlist=("Wildfire (dot)", "Detonator")
         ),
     )
 
@@ -46,8 +46,7 @@ def add_mch_skills(skill_library):
         follow_ups = {}
         for battery in range(50, 110, 10):
             skill = Skill(
-                name="Arm Punch",
-                status_effect_denylist=("Dragon Sight",),
+                name="Arm Punch (pet)",
                 damage_spec=DamageSpec(
                     potency=int((battery - 50) * slope + min_potency),
                     damage_class=DamageClass.PET,
@@ -73,8 +72,7 @@ def add_mch_skills(skill_library):
         follow_up = {}
         for battery in range(50, 110, 10):
             skill = Skill(
-                name="Roller Dash",
-                status_effect_denylist=("Dragon Sight",),
+                name="Roller Dash (pet)",
                 damage_spec=DamageSpec(
                     potency=int((battery - 50) * slope + min_potency),
                     damage_class=DamageClass.PET,
@@ -97,8 +95,7 @@ def add_mch_skills(skill_library):
         follow_up = {}
         for battery in range(50, 110, 10):
             skill = Skill(
-                name="Pile Bunker",
-                status_effect_denylist=("Dragon Sight",),
+                name="Pile Bunker (pet)",
                 damage_spec=DamageSpec(
                     potency=int((battery - 50) * slope + min_potency),
                     damage_class=DamageClass.PET,
@@ -121,8 +118,7 @@ def add_mch_skills(skill_library):
             battery_range = 50
             slope = (max_potency - min_potency) / battery_range
             skill = Skill(
-                name="Crowned Collider",
-                status_effect_denylist=("Dragon Sight",),
+                name="Crowned Collider (pet)",
                 damage_spec=DamageSpec(
                     potency=int((battery - 50) * slope + min_potency),
                     damage_class=DamageClass.PET,
@@ -139,7 +135,7 @@ def add_mch_skills(skill_library):
 
     def get_flamethrower_follow_ups():
         flamethrower_dot = Skill(
-            name="_Flamethrower dot",
+            name="Flamethrower (dot)",
             damage_spec=DamageSpec(potency=80, damage_class=DamageClass.PHYSICAL_DOT),
         )
         follow_ups = {}
@@ -215,7 +211,7 @@ def add_mch_skills(skill_library):
         )
     wildfire_damage_spec[SimConsts.DEFAULT_CONDITION] = DamageSpec(potency=0)
     wildfire_skill = Skill(
-        name="_Wildfire",
+        name="Wildfire (dot)",
         is_GCD=False,
         job_resources_snapshot=False,
         damage_spec=wildfire_damage_spec,
