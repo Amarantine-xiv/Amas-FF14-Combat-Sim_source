@@ -71,46 +71,6 @@ def add_nin_skills(skill_library):
             snapshot_debuffs_with_parent=False,
         )
 
-    _huton_follow_up_huton = FollowUp(
-        skill=Skill(
-            name="_Huton buff",
-            is_GCD=False,
-            buff_spec=StatusEffectSpec(
-                haste_time_reduction=0.15,
-                auto_attack_delay_reduction=0.15,
-                duration=60 * 1000,
-                max_duration=60 * 1000,
-            ),
-        ),
-        delay_after_parent_application=0,
-    )
-
-    _huton_follow_up_hakke = FollowUp(
-        skill=Skill(
-            name="_Huton buff",
-            is_GCD=False,
-            buff_spec=StatusEffectSpec(
-                haste_time_reduction=0.15,
-                auto_attack_delay_reduction=0.15,
-                duration=10 * 1000,
-                max_duration=60 * 1000,
-            ),
-        ),
-        delay_after_parent_application=0,
-    )
-    _huton_follow_up_armor_crush = FollowUp(
-        skill=Skill(
-            name="_Huton buff",
-            is_GCD=False,
-            buff_spec=StatusEffectSpec(
-                haste_time_reduction=0.15,
-                auto_attack_delay_reduction=0.15,
-                duration=30 * 1000,
-                max_duration=60 * 1000,
-            ),
-        ),
-        delay_after_parent_application=0,
-    )
     _dream_follow_ups = (
         FollowUp(
             skill=Skill(

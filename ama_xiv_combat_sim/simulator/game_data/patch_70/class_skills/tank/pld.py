@@ -418,7 +418,7 @@ def add_pld_skills(skill_library):
     skill_library.add_skill(
         Skill(
             name="Blade of Honor",
-            is_GCD=False,
+            is_GCD=True,
             damage_spec=DamageSpec(potency=740),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=891

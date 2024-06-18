@@ -739,6 +739,57 @@ class TestJobs(TestClass):
         return self.__test_rotation_damage(rb, expected)
 
     @TestClass.is_a_test
+    def test_nin_hyosho_regression(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            dh_stat=1582,
+            crit_stat=2554,
+            # det_stat=1679,
+            det_stat=1679,
+            speed_stat=400,
+            job_class="NIN",
+            version="6.55",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        rb.add(0, "Trick Attack")
+        rb.add(1, "Kassatsu")        
+        rb.add(3, "Hyosho Ranryu")
+            
+        rb.add(423.369, "Spinning Edge") ##
+        rb.add(425.947, "Kassatsu")
+        
+        rb.add(427.369, "Gust Slash")
+        rb.add(429.506, "Armor Crush")
+        rb.add(430.131, "Trick Attack")
+        rb.add(430.798, "Bhavacakra")
+        rb.add(431.642, "Ten")
+        rb.add(432.132, "Jin")
+        rb.add(432.622, "Hyosho Ranryu")
+        
+        expected = (
+            ("Trick Attack", 16168.67),
+            ("Hyosho Ranryu", 75249.11),
+            ("Spinning Edge", 8899.283),
+            ("Gust Slash", 12928.293),
+            ("Armor Crush", 17014.7),
+            ("Trick Attack", 16176.34),
+            ("Bhavacakra", 15577.1),
+            ("Hyosho Ranryu", 75066.2),
+            
+        )
+
+        return self.__test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
     def test_nin_aggregate_rotation(self):
         stats = Stats(
             wd=132,
@@ -1557,7 +1608,7 @@ class TestJobs(TestClass):
         rb.add_next("Thunder III")
 
         expected_damage = 423107.9
-        expected_total_time = 25410.0
+        expected_total_time = 22880.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test

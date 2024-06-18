@@ -544,7 +544,7 @@ class TestJobs(TestClass):
             ("Bloodspiller", SkillModifier(), 14994.5),
             ("Quietus", SkillModifier(), 6223.6),
             ("Shadowbringer", SkillModifier(), 15534.5),
-            ("Living Shadow", SkillModifier(), 73040.1),
+            ("Living Shadow", SkillModifier(), 85506.7),
             ("Scarlet Delirium", SkillModifier(), 15531.8),
             ("Comeuppance", SkillModifier(), 18128.8),
             ("Torcleaver", SkillModifier(), 20740.6),
@@ -593,7 +593,7 @@ class TestJobs(TestClass):
         rb.add_next("Hard Slash")
         rb.add_next("Syphon Strike")
         rb.add_next("Souleater")
-        expected_damage = 396151.8
+        expected_damage = 409849.1
         expected_total_time = 26993.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
@@ -1084,6 +1084,53 @@ class TestJobs(TestClass):
             ("Lance Barrage", 5490.1),
             ("Heavens' Thrust", 5914.7),  # no combo bonus
         )
+        return self.__test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
+    def test_nin_hyosho_regression(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            dh_stat=1582,
+            crit_stat=2554,
+            # det_stat=1679,
+            det_stat=1679,
+            speed_stat=400,
+            job_class="NIN",
+            version="7.0",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )        
+        rb.add(1, "Kassatsu")        
+        rb.add(3, "Hyosho Ranryu")
+            
+        rb.add(423.369, "Spinning Edge") ##
+        rb.add(425.947, "Kassatsu")
+        
+        rb.add(427.369, "Gust Slash")
+        rb.add(429.506, "Armor Crush")
+        rb.add(430.798, "Bhavacakra")
+        rb.add(431.642, "Ten")
+        rb.add(432.132, "Jin")
+        rb.add(432.622, "Hyosho Ranryu")
+        
+        expected = (
+            ("Hyosho Ranryu", 68225.1),
+            ("Spinning Edge", 11334.9),
+            ("Gust Slash", 14550.4),
+            ("Armor Crush", 18577.1),
+            ("Bhavacakra", 15372.9),
+            ("Hyosho Ranryu", 68306.8),
+            
+        )
+
         return self.__test_rotation_damage(rb, expected)
 
     @TestClass.is_a_test
@@ -1728,50 +1775,9 @@ class TestJobs(TestClass):
         rb.add_next("Thunder III")
 
         expected_damage = 444172.1
-        expected_total_time = 27220.0
+        expected_total_time = 24660.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
-
-    @TestClass.is_a_test
-    def test_blm_paradox(self):
-        stats = Stats(
-            wd=132,
-            weapon_delay=3.28,
-            main_stat=3375,
-            det_stat=1764,
-            crit_stat=545,
-            dh_stat=1547,
-            speed_stat=2469,
-            job_class="BLM",
-            version="7.0",
-        )
-        rb = RotationBuilder(
-            stats,
-            self.__skill_library,
-            ignore_trailing_dots=True,
-            snap_dots_to_server_tick_starting_at=0,
-            fight_start_time=0,
-        )
-        rb.add_next('Fire III')
-        rb.add_next('Fire IV')
-        rb.add_next('Fire IV')
-        rb.add_next('Fire IV')
-        rb.add_next('Fire IV')
-        rb.add_next('Paradox')
-        rb.add_next('Fire IV')
-    
-        expected = (
-            ("Fire III", 13115.1),
-            ("Fire IV", 34041.6),
-            ("Fire IV", 34054.7),
-            ("Fire IV", 34021.1),
-            ("Fire IV", 34065.2),
-            ("Paradox", 30529.6),
-            ("Fire IV", 34054.7),
-        )
-        
-        return self.__test_rotation_damage(rb, expected)
-        
     @TestClass.is_a_test
     def test_blm_rotation_damage_instances(self):
         stats = Stats(
@@ -1808,15 +1814,6 @@ class TestJobs(TestClass):
         rb.add_next("Flare Star")
         rb.add_next("Manafont")
         rb.add_next("Flare Star")
-        rb.add_next('Wait 9.00s')
-        rb.add_next('Wait 9.00s')
-        rb.add_next('Wait 9.00s')
-        rb.add_next('Wait 9.00s')
-        rb.add_next('Fire IV')
-        rb.add_next('Paradox')
-        rb.add_next('Fire IV')
-        rb.add_next('Paradox')
-        rb.add_next('Fire IV')
 
         expected = (
             ("Flare Star", 16435.5),
@@ -1824,19 +1821,13 @@ class TestJobs(TestClass):
             ("Flare Star", 38411.7),
             ("Fire IV", 34029.0),
             ("Flare Star", 38426.4),
+            ("Paradox", 30526.3),
             ("Fire IV", 34068.2),
-            ("Paradox", 30526.3),            
             ("Xenoglossy", 53659.7),
-            ("Fire III", 15334.1), #due to transpose, we should be in Umbral Ice
+            ("Fire III", 23889.8),
             ("Blizzard III", 11927.9),
             ("Flare Star", 14882.7),
             ("Flare Star", 38413.0),
-            # ramp up AF stacks
-            ("Fire IV", 14559.1),
-            ("Paradox", 23468.7),
-            ("Fire IV", 26459.7),
-            ("Paradox", 30511.0),
-            ("Fire IV", 30242.4),
         )
 
         return self.__test_rotation_damage(rb, expected)

@@ -1,9 +1,7 @@
 import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
-from ama_xiv_combat_sim.simulator.game_data.patch_70.convenience_timings import (
-    get_auto_timing,
-)
+from ama_xiv_combat_sim.simulator.game_data.patch_70.convenience_timings import get_auto_timing
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -17,10 +15,7 @@ from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 def add_blm_skills(skill_library):
     auto_timing = get_auto_timing()
     blm_caster_tax_ms = 100
-    base_animation_lock = 600
-    instant_timing_spec = TimingSpec(
-        base_cast_time=0, animation_lock=base_animation_lock + blm_caster_tax_ms
-    )
+    instant_timing_spec = TimingSpec(base_cast_time=0, animation_lock=blm_caster_tax_ms)
     skill_library.set_current_job_class("BLM")
 
     skill_library.set_status_effect_priority(("Swiftcast", "Triplecast"))
@@ -148,7 +143,7 @@ def add_blm_skills(skill_library):
 
         res[SimConsts.DEFAULT_CONDITION] = TimingSpec(
             base_cast_time=base_cast_time,
-            animation_lock=base_animation_lock + blm_caster_tax_ms,
+            animation_lock=blm_caster_tax_ms,
             application_delay=application_delay,
         )
         for elem_str in elem_strs:
@@ -159,7 +154,7 @@ def add_blm_skills(skill_library):
             )
             res[elem_str] = TimingSpec(
                 base_cast_time=int(cast_modifier * base_cast_time),
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=application_delay,
             )
         return res
@@ -220,8 +215,8 @@ def add_blm_skills(skill_library):
         dot_duration=24 * 1000,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
-    )
-
+    )    
+    
     skill_library.add_skill(
         Skill(
             name="Auto",
@@ -374,13 +369,8 @@ def add_blm_skills(skill_library):
             damage_spec=fire_damage_spec,
             timing_spec=fire_timing_spec,
             job_resource_spec=fire_job_resource_spec,
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (enochian_buff_follow_up,),
-                "Firestarter Proc": (
-                    enochian_buff_follow_up,
-                    firestarter_follow_up,
-                ),
-            },
+            follow_up_skills={SimConsts.DEFAULT_CONDITION: (enochian_buff_follow_up,),
+                              "Firestarter Proc": (enochian_buff_follow_up, firestarter_follow_up,)}
         )
     )
     skill_library.add_skill(
@@ -393,7 +383,7 @@ def add_blm_skills(skill_library):
             },
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=670,
             ),
         )
@@ -414,9 +404,7 @@ def add_blm_skills(skill_library):
         )
         fire_iii_damage_spec[assembled_str] = fire_iii_damage_spec[k]
         fire_iii_timing_spec[assembled_str] = TimingSpec(
-            base_cast_time=0,
-            animation_lock=base_animation_lock + blm_caster_tax_ms,
-            application_delay=1290,
+            base_cast_time=0, animation_lock=blm_caster_tax_ms, application_delay=1290
         )
     skill_library.add_skill(
         Skill(
@@ -444,7 +432,7 @@ def add_blm_skills(skill_library):
             ),
             timing_spec=get_enochian_timing_spec_cross(
                 base_cast_time=3500, is_fire_spell=False, application_delay=890
-            ),
+            ),            
             job_resource_spec=(
                 clear_astral_fire,
                 JobResourceSpec(
@@ -473,13 +461,13 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=160),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=1030,
             ),
             follow_up_skills=(thunderiii_follow_up,),
         )
     )
-
+    
     flare_damage_spec = get_enochian_damage_spec_cross(
         base_potency=240, is_fire_spell=True
     )
@@ -547,7 +535,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=80),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=1160,
             ),
             follow_up_skills=(thunderiv_follow_up,),
@@ -560,7 +548,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=600),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=1160,
             ),
         )
@@ -593,7 +581,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=880),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=620,
             ),
         )
@@ -628,7 +616,7 @@ def add_blm_skills(skill_library):
             ),
             timing_spec=get_enochian_timing_spec_cross(
                 base_cast_time=3000, is_fire_spell=False, application_delay=1160
-            ),
+            ),            
             job_resource_spec=(
                 clear_astral_fire,
                 JobResourceSpec(
@@ -639,24 +627,28 @@ def add_blm_skills(skill_library):
         )
     )
 
+    paradox_base_timing_spec = TimingSpec(
+        base_cast_time=2500, animation_lock=blm_caster_tax_ms, application_delay=670
+    )
+    paradox_umbral_timing_spec = TimingSpec(
+        base_cast_time=0, animation_lock=blm_caster_tax_ms, application_delay=670
+    )
     skill_library.add_skill(
         Skill(
             name="Paradox",
             is_GCD=True,
             damage_spec=DamageSpec(potency=500),
-            timing_spec=TimingSpec(
-                base_cast_time=0,
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
-                application_delay=670,
-            ),
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: paradox_base_timing_spec,
+                "1 Astral Fire": paradox_base_timing_spec,
+                "2 Astral Fire": paradox_base_timing_spec,
+                "3 Astral Fire": paradox_base_timing_spec,
+                "1 Umbral Ice": paradox_umbral_timing_spec,
+                "2 Umbral Ice": paradox_umbral_timing_spec,
+                "3 Umbral Ice": paradox_umbral_timing_spec,
+            },
             job_resource_spec={
-                SimConsts.DEFAULT_CONDITION: (
-                    JobResourceSpec(
-                        name="Astral Fire",
-                        change=+1,
-                        refreshes_duration_of_last_gained=True,
-                    ),
-                ),
+                SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Astral Fire": (
                     JobResourceSpec(
                         name="Astral Fire",
@@ -679,25 +671,22 @@ def add_blm_skills(skill_library):
                     ),
                 ),
                 "1 Umbral Ice": (
-                    clear_umbral_ice,
                     JobResourceSpec(
-                        name="Astral Fire",
+                        name="Umbral Ice",
                         change=+1,
                         refreshes_duration_of_last_gained=True,
                     ),
                 ),
                 "2 Umbral Ice": (
-                    clear_umbral_ice,
                     JobResourceSpec(
-                        name="Astral Fire",
+                        name="Umbral Ice",
                         change=+1,
                         refreshes_duration_of_last_gained=True,
                     ),
                 ),
                 "3 Umbral Ice": (
-                    clear_umbral_ice,
                     JobResourceSpec(
-                        name="Astral Fire",
+                        name="Umbral Ice",
                         change=+1,
                         refreshes_duration_of_last_gained=True,
                     ),
@@ -713,7 +702,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=1160,
             ),
             follow_up_skills=(high_thunder_follow_up,),
@@ -727,7 +716,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=100),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock=base_animation_lock + blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=1160,
             ),
             follow_up_skills=(high_thunder_ii_follow_up,),
@@ -747,7 +736,7 @@ def add_blm_skills(skill_library):
             timing_spec=flare_star_timing_spec,
         )
     )
-
+    
     skill_library.add_skill(
         Skill(
             name="Swiftcast",
@@ -801,7 +790,7 @@ def add_blm_skills(skill_library):
                     "Despair",
                     "Flare",
                     "Paradox",
-                    "Flare Star",
+                    "Flare Star"
                 ),
             ),
         )
