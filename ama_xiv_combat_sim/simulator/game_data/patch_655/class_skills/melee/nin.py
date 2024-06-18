@@ -63,7 +63,7 @@ def add_nin_skills(skill_library):
 
     _huton_follow_up_huton = FollowUp(
         skill=Skill(
-            name="Huton",
+            name="Huton (Huton)",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.15,
@@ -77,7 +77,7 @@ def add_nin_skills(skill_library):
 
     _huton_follow_up_hakke = FollowUp(
         skill=Skill(
-            name="Huton",
+            name="Huton (Hakke)",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.15,
@@ -90,7 +90,7 @@ def add_nin_skills(skill_library):
     )
     _huton_follow_up_armor_crush = FollowUp(
         skill=Skill(
-            name="Huton",
+            name="Huton (Armor Crush)",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.15,

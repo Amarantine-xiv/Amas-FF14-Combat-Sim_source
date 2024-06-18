@@ -236,31 +236,29 @@ def add_drk_skills(skill_library):
             ),
         )
     )
-    ls_names_and_potency_and_delay = [
-        ("Abyssal Drain (pet)", 420, 6800),
-        # blank plunge
-        ("Shadowbringer (pet)", 570, 6800 + 2 * 2200),
-        ("Edge of Shadow (pet)", 420, 6800 + 3 * 2200),
-        ("Bloodspiller (pet)", 420, 6800 + 4 * 2200),
-        ("Disesteem (pet)", 620, 6800 + 5 * 2200),
-    ]
-
+    ls_names_and_potency = [('Abyssal Drain (pet)',420),
+                            ('Plunge (pet)',420),
+                            ('Shadowbringer (pet)', 570),
+                            ('Edge of Shadow (pet)',420),
+                            ('Bloodspiller (pet)',420),                            
+                            ('Disesteem (pet)',620)]
+    
     _living_shadow_follow_up_skills = []
-    for skill_name, potency, _ in ls_names_and_potency_and_delay:
+    for skill_name, potency in ls_names_and_potency:
         sk = Skill(
             name=skill_name,
             is_GCD=False,
             damage_spec=DamageSpec(
                 potency=potency, damage_class=DamageClass.PET, pet_job_mod_override=100
             ),
-            status_effect_denylist=("Darkside",),
+            status_effect_denylist=("Darkside",),        
         )
         _living_shadow_follow_up_skills.append(sk)
-
+ 
     _living_shadow_follow_ups = tuple(
         FollowUp(
             skill=_living_shadow_follow_up_skills[i],
-            delay_after_parent_application=ls_names_and_potency_and_delay[i][2],
+            delay_after_parent_application=6800 + i * 2200,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
         )
