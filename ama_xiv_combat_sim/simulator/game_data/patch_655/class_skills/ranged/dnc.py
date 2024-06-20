@@ -170,8 +170,17 @@ def add_dnc_skills(skill_library):
                 "Remove Buff": TimingSpec(base_cast_time=0, gcd_base_recast_time=0),
             },
             follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (standard_finish_follow_up_damage_0,),
+                # by default, we will ASSUME the user actually means Double Standard Finish, unless otherwise specified.
+                SimConsts.DEFAULT_CONDITION: (
+                    standard_finish_follow_up_damage_2,
+                    _standard_finish_follow_up2,
+                ),
+                "Buff Only": (_standard_finish_follow_up2,),
                 "Remove Buff": (_standard_remove_followup,),
+                # if it's specifically from a log, then we will use the real names.
+                "Log": (standard_finish_follow_up_damage_0,),
+                "Buff Only, Log": tuple(),
+                "Remove Buff, Log": (_standard_remove_followup,),
             },
         )
     )
@@ -474,7 +483,10 @@ def add_dnc_skills(skill_library):
             name="Technical Finish",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=350),
+                # Default to QUADRUPLE technical finish, unless the user specifies otherwise
+                # by passing in "Log" as the skill conditional.
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200),
+                "Log": DamageSpec(potency=350),
                 "Buff Only": None,
                 "Remove Buff": None,
             },
@@ -484,38 +496,17 @@ def add_dnc_skills(skill_library):
                 "Remove Buff": tech_finish_status_effect_only,
             },
             follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: tuple(),
+                # assume QUADRUPLE technical finish, unless the user specifies otherwise
+                # by passing in "Log" as the skill conditional.
+                SimConsts.DEFAULT_CONDITION: (tech4_followup,),
+                "Longest": (tech4_longest_followup,),
+                "Log": tuple(),
+                "Log, Longest": tuple(),
                 "Remove Buff": (tech_remove_followup,),
+                "Remove Buff, Log": (tech_remove_followup,),
             },
         )
     )
-
-    #   skill_library.add_skill(Skill(name='Technical Finish',
-    #                                 is_GCD=True,
-    #                                 damage_spec = {SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200),
-    #                                                '3 Steps': DamageSpec(potency=900),
-    #                                                '2 Steps': DamageSpec(potency=720),
-    #                                                '1 Step': DamageSpec(potency=540),
-    #                                                '0 Steps': DamageSpec(potency=350),
-    #                                                'Buff Only': None,
-    #                                                'Remove Buff': None,
-    #                                                '3 Steps, Buff Only': None,
-    #                                                '2 Steps, Buff Only': None,
-    #                                                '1 Step, Buff Only': None,
-    #                                                '0 Steps, Buff Only': None},
-    #                                 timing_spec= {SimConsts.DEFAULT_CONDITION: tech_finish_timing,
-    #                                               'Buff Only': tech_finish_status_effect_only,
-    #                                               'Remove Buff': tech_finish_status_effect_only},
-    #                                 follow_up_skills= {SimConsts.DEFAULT_CONDITION: (tech4_followup,),
-    #                                                    '3 Steps': (tech3_followup,),
-    #                                                    '2 Steps': (tech2_followup,),
-    #                                                    '1 Step': (tech1_followup,),
-    #                                                    'Longest': (tech4_longest_followup,),
-    #                                                    '3 Steps, Longest': (tech3_longest_followup,),
-    #                                                    '2 Steps, Longest': (tech2_longest_followup,),
-    #                                                    '1 Step, Longest': (tech1_longest_followup,),
-    #                                                    '0 Steps, Longest': tuple(),
-    #                                                    'Remove Buff': (tech_remove_followup,)}))
 
     skill_library.add_skill(
         Skill(

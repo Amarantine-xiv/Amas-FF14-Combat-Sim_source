@@ -39,6 +39,7 @@ class ComputeDamageUtils():
     bonus_dh_rate_add = status_effects[0].dh_rate_add + status_effects[1].dh_rate_add
     return GameConsts.DH_DAMAGE_MULT_BONUS*bonus_dh_rate_add
 
+  @staticmethod
   def get_guaranteed_crit_bonus_dmg_multiplier(stats, status_effects):
     bonus_crit_rate_add = status_effects[0].crit_rate_add + status_effects[1].crit_rate_add
     return stats.processed_stats.crit_bonus*bonus_crit_rate_add
