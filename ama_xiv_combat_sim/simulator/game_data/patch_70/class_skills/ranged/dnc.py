@@ -170,8 +170,17 @@ def add_dnc_skills(skill_library):
                 "Remove Buff": TimingSpec(base_cast_time=0, gcd_base_recast_time=0),
             },
             follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (standard_finish_follow_up_damage_0,),
+                # by default, we will ASSUME the user actually means Double Standard Finish, unless otherwise specified.
+                SimConsts.DEFAULT_CONDITION: (
+                    standard_finish_follow_up_damage_2,
+                    _standard_finish_follow_up2,
+                ),
+                "Buff Only": (_standard_finish_follow_up2,),
                 "Remove Buff": (_standard_remove_followup,),
+                # if it's specifically from a log, then we will use the real names.
+                "Log": (standard_finish_follow_up_damage_0,),
+                "Buff Only, Log": tuple(),
+                "Remove Buff, Log": (_standard_remove_followup,),
             },
         )
     )
@@ -471,7 +480,10 @@ def add_dnc_skills(skill_library):
             name="Technical Finish",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=350),
+                # Default to QUADRUPLE technical finish, unless the user specifies otherwise
+                # by passing in "Log" as the skill conditional.
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200),
+                "Log": DamageSpec(potency=350),
                 "Buff Only": None,
                 "Remove Buff": None,
             },
@@ -481,8 +493,14 @@ def add_dnc_skills(skill_library):
                 "Remove Buff": tech_finish_status_effect_only,
             },
             follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: tuple(),
+                # assume QUADRUPLE technical finish, unless the user specifies otherwise
+                # by passing in "Log" as the skill conditional.
+                SimConsts.DEFAULT_CONDITION: (tech4_followup,),
+                "Longest": (tech4_longest_followup,),
+                "Log": tuple(),
+                "Log, Longest": tuple(),
                 "Remove Buff": (tech_remove_followup,),
+                "Remove Buff, Log": (tech_remove_followup,),
             },
         )
     )

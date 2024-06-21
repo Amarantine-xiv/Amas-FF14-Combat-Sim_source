@@ -1612,6 +1612,49 @@ class TestJobs(TestClass):
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
+    def test_dnc_skills(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.12,
+            main_stat=3379,
+            det_stat=1952,
+            crit_stat=2557,
+            dh_stat=1380,
+            speed_stat=436,
+            job_class="DNC",
+            version="7.0",
+        )
+        skills_and_expected_damage = (
+            ("Auto", SkillModifier(), 3874.0),
+            ("Cascade", SkillModifier(), 10894.3),
+            ("Fountain", SkillModifier(),  4965.0),
+            ("Fountain", SkillModifier(force_combo=True), 13889.7),
+            ("Windmill", SkillModifier(), 4960.8),
+            ("Double Standard Finish", SkillModifier(), 35716.8),
+            ("Single Standard Finish", SkillModifier(), 26814.9),
+            ("Standard Finish", SkillModifier(), 35741.1),
+            ("Standard Finish", SkillModifier(with_condition="Log"), 17881.2),
+            ("Reverse Cascade", SkillModifier(), 13881.5),
+            ("Bladeshower", SkillModifier(), 4958.4),
+            ("Bladeshower", SkillModifier(force_combo=True), 6946.2),
+            ("Fan Dance", SkillModifier(), 7446.3),
+            ("Rising Windmill", SkillModifier(), 6960.2),
+            ("Fountainfall", SkillModifier(), 16846.4),
+            ("Bloodshower", SkillModifier(), 8931.5),
+            ("Fan Dance II", SkillModifier(), 4959.1),
+            ("Fan Dance III", SkillModifier(), 9943.5),
+            ("Quadruple Technical Finish", SkillModifier(), 59531.4),
+            ("Triple Technical Finish", SkillModifier(), 44704.6),
+            ("Double Technical Finish", SkillModifier(), 35715.3),
+            ("Single Technical Finish", SkillModifier(), 26831.2),
+            ("Saber Dance", SkillModifier(), 23779.9),
+            ("Tillana", SkillModifier(), 17863.0),
+            ("Fan Dance IV", SkillModifier(), 14913.1),
+            ("Starfall Dance", SkillModifier(), 51329.6),
+        )
+        return self.__test_skills(stats, skills_and_expected_damage)
+
+    @TestClass.is_a_test
     def test_dnc_aggregate_rotation(self):
         stats = Stats(
             wd=132,

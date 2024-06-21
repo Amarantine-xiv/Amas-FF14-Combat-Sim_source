@@ -597,7 +597,126 @@ class TestJobs(TestClass):
         expected_total_time = 26993.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
+
+    @TestClass.is_a_test
+    def test_dnc_buff_expire(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.12,
+            main_stat=3379,
+            det_stat=1952,
+            crit_stat=2557,
+            dh_stat=1380,
+            speed_stat=436,
+            job_class="DNC",
+            version="7.0",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        rb.add_next("Cascade")
+        rb.add_next(
+            "Quadruple Technical Finish",
+            skill_modifier=SkillModifier(with_condition="Longest"),
+        )
+        rb.add_next("Cascade")
+        rb.add_next(
+            "Quadruple Technical Finish",
+            skill_modifier=SkillModifier(with_condition="Remove Buff"),
+        )
+        rb.add_next("Cascade")
+
+        expected = (
+            ("Cascade", 13899.0),
+            ("Quadruple Technical Finish", 59607.2),
+            ("Cascade", 14577.9),
+            ("Cascade", 13887.6),
+        )
+        test_passed1, err_msg1 = self.__test_rotation_damage(rb, expected)
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        rb.add_next("Cascade")
+        rb.add_next("Double Standard Finish")
+        rb.add_next("Cascade")
+        rb.add_next(
+            "Double Standard Finish",
+            skill_modifier=SkillModifier(with_condition="Remove Buff"),
+        )
+        rb.add_next("Cascade")
+
+        expected = (
+            ("Cascade", 13910.0),
+            ("Double Standard Finish", 35748.5),
+            ("Cascade", 14594.0),
+            ("Cascade", 13896.4),
+        )
+        test_passed2, err_msg2 = self.__test_rotation_damage(rb, expected)
+
+        return test_passed1 and test_passed2, ", ".join([err_msg1, err_msg2])
+
     
+    @TestClass.is_a_test
+    def test_dnc_aggregate_rotation(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.12,
+            main_stat=3379,
+            det_stat=1952,
+            crit_stat=2557,
+            dh_stat=1380,
+            speed_stat=436,
+            job_class="DNC",
+            version="7.0",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=True,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        rb.add_next("Grade 8 Tincture")
+        rb.add_next("Double Standard Finish")
+        rb.add_next("Technical Step")
+        rb.add_next("Step Action")
+        rb.add_next("Step Action")
+        rb.add_next("Step Action")
+        rb.add_next("Step Action")
+        rb.add_next("Quadruple Technical Finish")
+        rb.add_next("Devilment")
+        rb.add_next("Starfall Dance")
+        rb.add_next("Flourish")
+        rb.add_next("Fan Dance III")
+        rb.add_next("Fountainfall")
+        rb.add_next("Fan Dance")
+        rb.add_next("Fan Dance IV")
+        rb.add_next("Tillana")
+        rb.add_next("Fan Dance III")
+        rb.add_next("Saber Dance")
+        rb.add_next("Standard Step")
+        rb.add_next("Step Action")
+        rb.add_next("Step Action")
+        rb.add_next("Double Standard Finish")
+        rb.add_next("Saber Dance")
+        rb.add_next("Reverse Cascade")
+        rb.add_next("Saber Dance")
+        expected_damage = 526986.7
+        expected_total_time = 27360.0
+        return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
+
+
     @TestClass.is_a_test
     def test_dnc_skills(self):
         stats = Stats(
@@ -619,7 +738,8 @@ class TestJobs(TestClass):
             ("Windmill", SkillModifier(), 4960.8),
             ("Double Standard Finish", SkillModifier(), 35716.8),
             ("Single Standard Finish", SkillModifier(), 26814.9),
-            ("Standard Finish", SkillModifier(), 17881.2),
+            ("Standard Finish", SkillModifier(), 35741.1),
+            ("Standard Finish", SkillModifier(with_condition="Log"), 17881.2),
             ("Reverse Cascade", SkillModifier(), 13881.5),
             ("Bladeshower", SkillModifier(), 4958.4),
             ("Bladeshower", SkillModifier(force_combo=True), 6946.2),
