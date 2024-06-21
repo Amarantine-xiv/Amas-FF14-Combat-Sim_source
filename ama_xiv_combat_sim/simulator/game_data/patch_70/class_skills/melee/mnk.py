@@ -123,6 +123,7 @@ def add_mnk_skills(skill_library):
                     "Four-point Fury",
                     "Elixir Burst",
                     "Fire's Reply",
+                    "Leaping Opo"
                 ),
             ),
         ),
@@ -445,6 +446,7 @@ def add_mnk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
             ),
+            follow_up_skills=(opo_opo_form_follow_up,)
         )
     )
     skill_library.add_skill(
