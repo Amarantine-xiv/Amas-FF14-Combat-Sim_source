@@ -248,7 +248,7 @@ def add_sam_skills(skill_library):
             name="Midare Setsugekka",
             is_GCD=True,
             damage_spec=DamageSpec(
-                potency=740, guaranteed_crit=ForcedCritOrDH.FORCE_YES
+                potency=700, guaranteed_crit=ForcedCritOrDH.FORCE_YES
             ),
             timing_spec=iaijutsu_timing,
         )

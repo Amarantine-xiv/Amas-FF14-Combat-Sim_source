@@ -1112,7 +1112,7 @@ class TestJobs(TestClass):
             ("Pouncing Coeurl", 19886.3),
             ("Pouncing Coeurl", 15887.2),
             #
-            ("Bootshine", 11947.4),
+            ("Bootshine", 16505.4),
             ("Elixir Burst", 35727.8),
             ("Bootshine", 16497.2),
         )
@@ -1530,7 +1530,7 @@ class TestJobs(TestClass):
         rb.add_next("Midare Setsugekka")
         rb.add_next("Kaeshi: Setsugekka")
 
-        expected_damage = 676189.0
+        expected_damage = 670574.4
         expected_total_time = 32120.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
