@@ -271,6 +271,13 @@ class ComputeDamageUtils():
     bonus_damage_multipliers_from_guaranteeds = ComputeDamageUtils.get_guaranteed_dh_and_crit_bonus_dmg(stats, skill, skill_modifier, status_effects)
     base_damage += np.floor(base_damage*bonus_damage_multipliers_from_guaranteeds[0]) + np.floor(base_damage*bonus_damage_multipliers_from_guaranteeds[1])
 
+    # jackal's formula with tank tnc injected
+    # base_damage1 = np.floor(np.floor(np.floor(np.floor(np.floor(potency*ap*det_dh)/100)/1000)*1000)/1000)
+    # if is_tank:
+    #     base_damage1 = np.floor(base_damage1*StatFns.fTnc(stats.tenacity)/10)/100  
+    # base_damage2 = np.floor(np.floor(base_damage1*spd)/1000)
+    # base_damage = np.floor(np.floor(np.floor(np.floor(base_damage2*auto)/100)*100)/100)    
+
     return base_damage
 
   @staticmethod
