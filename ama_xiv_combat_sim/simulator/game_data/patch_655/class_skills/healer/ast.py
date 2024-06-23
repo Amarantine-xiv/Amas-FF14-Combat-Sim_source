@@ -37,7 +37,9 @@ def add_ast_skills(skill_library):
         Skill(
             name="Divination",
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=600
+            ),
             buff_spec=StatusEffectSpec(
                 duration=15 * 1000, damage_mult=1.06, is_party_effect=True
             ),
@@ -225,7 +227,7 @@ def add_ast_skills(skill_library):
         snapshot_buffs_with_parent=False,
         snapshot_debuffs_with_parent=False,
     )
-    
+
     stellar_detonation_instant = FollowUp(
         skill=Skill(
             name="Stellar Explosion (pet)",
