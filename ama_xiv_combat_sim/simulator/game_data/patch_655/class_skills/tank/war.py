@@ -229,11 +229,11 @@ def add_war_skills(skill_library):
     )
 
     mythril_tempest_damage_follow_up = FollowUp(
-        skill=Skill(name="_Mythril Tempest", damage_spec=DamageSpec(potency=150)),
+        skill=Skill(name="Mythril Tempest", damage_spec=DamageSpec(potency=150)),
         delay_after_parent_application=490,
     )
     mythril_tempest_damage_no_combo_follow_up = FollowUp(
-        skill=Skill(name="_Storm's Eye", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(name="Storm's Eye", damage_spec=DamageSpec(potency=100)),
         delay_after_parent_application=490,
     )
     skill_library.add_skill(

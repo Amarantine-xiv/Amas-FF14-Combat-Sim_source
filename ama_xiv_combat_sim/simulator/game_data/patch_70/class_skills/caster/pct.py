@@ -26,7 +26,7 @@ def add_pct_skills(skill_library):
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
-                duration=20 * 1000,
+                duration=30 * 1000,
                 skill_allowlist=("Rainbow Drip",),
             ),
         ),
@@ -496,6 +496,10 @@ def add_pct_skills(skill_library):
                 application_delay=650,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: tuple(),
+                "1 Hyperphantasia": (rainbow_bright_follow_up,),
+            },
         )
     )
 
