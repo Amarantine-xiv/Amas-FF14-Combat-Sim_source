@@ -19,20 +19,67 @@ def add_vpr_skills(skill_library):
 
     skill_library.set_current_job_class("VPR")
     # combo groups
-    #0: Hunter's coil -> twinfang bite. GCD->oGCD combo
-    #1: Swiftskin's Coil -> twinblood bite. GCD->oGCD combo
-    #2: Hunter's Den -> Twinfang Thresh. GCD->oGCD combo
-    #3: Swiftskin's Den -> Twinblood Thresh GCD->oGCD combo
-    #4: Reawaken sequence. Sequence of GCD->(oGCD) combos
-    
-    skill_library.add_combo_breaker(0, (1,2,3,4,))
-    skill_library.add_combo_breaker(1, (0,2,3,4,))
-    skill_library.add_combo_breaker(2, (0,1,3,4,))
-    skill_library.add_combo_breaker(3, (0,1,2,4,))
-    skill_library.add_combo_breaker(4, (0,1,2,3,))
+    # 0: Hunter's coil -> twinfang bite. GCD->oGCD combo
+    # 1: Swiftskin's Coil -> twinblood bite. GCD->oGCD combo
+    # 2: Hunter's Den -> Twinfang Thresh. GCD->oGCD combo
+    # 3: Swiftskin's Den -> Twinblood Thresh GCD->oGCD combo
+    # 4: Reawaken sequence. Sequence of GCD->(oGCD) combos
 
+    skill_library.add_combo_breaker(
+        0,
+        (
+            1,
+            2,
+            3,
+            4,
+        ),
+    )
+    skill_library.add_combo_breaker(
+        1,
+        (
+            0,
+            2,
+            3,
+            4,
+        ),
+    )
+    skill_library.add_combo_breaker(
+        2,
+        (
+            0,
+            1,
+            3,
+            4,
+        ),
+    )
+    skill_library.add_combo_breaker(
+        3,
+        (
+            0,
+            1,
+            2,
+            4,
+        ),
+    )
+    skill_library.add_combo_breaker(
+        4,
+        (
+            0,
+            1,
+            2,
+            3,
+        ),
+    )
+
+    # All Venoms that expire other venoms:
+    # "Hindstung Venom", "Hindsbane Venom", "Flanksbane Venom",
+    # "Flankstung Venom", "Grimskin's Venom", "Grimhunter's Venom"
     def get_venom_follow_up(
-        name, skill_allowlist, duration, delay_after_parent_application=0
+        name,
+        skill_allowlist,
+        duration,
+        expires_status_effects = tuple(),
+        delay_after_parent_application=0,
     ):
         return FollowUp(
             skill=Skill(
@@ -42,6 +89,7 @@ def add_vpr_skills(skill_library):
                     duration=duration,
                     num_uses=1,
                     skill_allowlist=skill_allowlist,
+                    expires_status_effects=expires_status_effects,
                 ),
             ),
             delay_after_parent_application=delay_after_parent_application,
@@ -80,7 +128,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Hunter's Sting",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=300),
+            damage_spec=DamageSpec(potency=260),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -100,7 +148,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Dread Fangs",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=100),
+            damage_spec=DamageSpec(potency=140),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -132,27 +180,37 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Swiftskin's Sting",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=300),
+            damage_spec=DamageSpec(potency=260),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(swift_scaled_follow_up,),
         )
     )
+
     skill_library.add_skill(
-        Skill(name="Steel Maw", is_GCD=True, damage_spec=DamageSpec(potency=150))
+        Skill(name="Steel Maw", is_GCD=True, damage_spec=DamageSpec(potency=100))
     )
     hindstung_venom_follow_up = get_venom_follow_up(
-        "Hindstung Venom", ("Hindsting Strike",), 30 * 1000
+        "Hindstung Venom",
+        ("Hindsting Strike",),
+        40 * 1000,
+        (
+            "Hindsbane Venom",
+            "Flanksbane Venom",
+            "Flankstung Venom",
+            "Grimskin's Venom",
+            "Grimhunter's Venom",
+        ),
     )
     skill_library.add_skill(
         Skill(
             name="Flanksting Strike",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=350),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
                 "No Positional": DamageSpec(potency=300),
-                "Flankstung Venom": DamageSpec(potency=450),
+                "Flankstung Venom": DamageSpec(potency=460),
                 "Flankstung Venom, No Positional": DamageSpec(potency=400),
             },
             timing_spec=TimingSpec(
@@ -163,16 +221,25 @@ def add_vpr_skills(skill_library):
     )
 
     hindsbane_venom_follow_up = get_venom_follow_up(
-        "Hindsbane Venom", ("Hindsbane Fang",), 30 * 1000
+        "Hindsbane Venom",
+        ("Hindsbane Fang",),
+        40 * 1000,
+        (
+            "Hindstung Venom",
+            "Flanksbane Venom",
+            "Flankstung Venom",
+            "Grimskin's Venom",
+            "Grimhunter's Venom",
+        ),
     )
     skill_library.add_skill(
         Skill(
             name="Flanksbane Fang",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=350),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
                 "No Positional": DamageSpec(potency=300),
-                "Flanksbane Venom": DamageSpec(potency=450),
+                "Flanksbane Venom": DamageSpec(potency=460),
                 "Flanksbane Venom, No Positional": DamageSpec(potency=400),
             },
             timing_spec=TimingSpec(
@@ -183,16 +250,25 @@ def add_vpr_skills(skill_library):
     )
 
     flanksbane_venom_follow_up = get_venom_follow_up(
-        "Flanksbane Venom", ("Flanksbane Fang",), 30 * 1000
+        "Flanksbane Venom",
+        ("Flanksbane Fang",),
+        40 * 1000,
+        (
+            "Hindstung Venom",
+            "Hindsbane Venom",
+            "Flankstung Venom",
+            "Grimskin's Venom",
+            "Grimhunter's Venom",
+        ),
     )
     skill_library.add_skill(
         Skill(
             name="Hindsting Strike",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=350),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
                 "No Positional": DamageSpec(potency=300),
-                "Hindstung Venom": DamageSpec(potency=450),
+                "Hindstung Venom": DamageSpec(potency=460),
                 "Hindstung Venom, No Positional": DamageSpec(potency=400),
             },
             timing_spec=TimingSpec(
@@ -203,16 +279,25 @@ def add_vpr_skills(skill_library):
     )
 
     flankstung_venom_follow_up = get_venom_follow_up(
-        "Flankstung Venom", ("Flanksting Strike",), 30 * 1000
+        "Flankstung Venom",
+        ("Flanksting Strike",),
+        40 * 1000,
+        (
+            "Hindstung Venom",
+            "Hindsbane Venom",
+            "Flanksbane Venom",
+            "Grimskin's Venom",
+            "Grimhunter's Venom",
+        ),
     )
     skill_library.add_skill(
         Skill(
             name="Hindsbane Fang",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=350),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
                 "No Positional": DamageSpec(potency=300),
-                "Hindsbane Venom": DamageSpec(potency=450),
+                "Hindsbane Venom": DamageSpec(potency=460),
                 "Hindsbane Venom, No Positional": DamageSpec(potency=400),
             },
             timing_spec=TimingSpec(
@@ -225,7 +310,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Dread Maw",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=100),
+            damage_spec=DamageSpec(potency=80),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -236,7 +321,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Hunter's Bite",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=150),
+            damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -247,7 +332,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Swiftskin's Bite",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=150),
+            damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -256,15 +341,24 @@ def add_vpr_skills(skill_library):
     )
 
     grimskins_venom_follow_up = get_venom_follow_up(
-        "Grimskin's Venom", ("Bloodied Maw",), 30 * 1000
+        "Grimskin's Venom",
+        ("Bloodied Maw",),
+        40 * 1000,
+        (
+            "Hindstung Venom",
+            "Hindsbane Venom",
+            "Flanksbane Venom",
+            "Flankstung Venom",
+            "Grimhunter's Venom",
+        ),
     )
     skill_library.add_skill(
         Skill(
             name="Jagged Maw",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=200),
-                "Grimhunter's Venom": DamageSpec(potency=250),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=140),
+                "Grimhunter's Venom": DamageSpec(potency=160),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -273,15 +367,24 @@ def add_vpr_skills(skill_library):
         )
     )
     grimhunters_venom_follow_up = get_venom_follow_up(
-        "Grimhunter's Venom", ("Jagged Maw",), 30 * 1000
+        "Grimhunter's Venom",
+        ("Jagged Maw",),
+        40 * 1000,
+        (
+            "Hindstung Venom",
+            "Hindsbane Venom",
+            "Flanksbane Venom",
+            "Flankstung Venom",
+            "Grimskin's Venom",
+        ),
     )
     skill_library.add_skill(
         Skill(
             name="Bloodied Maw",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
-                "Grimskin's Venom": DamageSpec(potency=150),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=140),
+                "Grimskin's Venom": DamageSpec(potency=160),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -293,7 +396,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Death Rattle",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=400),
+            damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -303,7 +406,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Last Lash",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=150),
+            damage_spec=DamageSpec(potency=100),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -315,7 +418,10 @@ def add_vpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=450),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620, gcd_base_recast_time=3000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=620,
+                gcd_base_recast_time=3000,
             ),
             follow_up_skills=(noxious_gnash_follow_up,),
         )
@@ -368,7 +474,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Pit of Dread",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=150),
+            damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -384,7 +490,7 @@ def add_vpr_skills(skill_library):
             name="Hunter's Den",
             is_GCD=True,
             combo_spec=(ComboSpec(combo_group=2),),
-            damage_spec=DamageSpec(potency=220),
+            damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
@@ -403,7 +509,7 @@ def add_vpr_skills(skill_library):
             name="Swiftskin's Den",
             is_GCD=True,
             combo_spec=(ComboSpec(combo_group=3),),
-            damage_spec=DamageSpec(potency=220),
+            damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -417,7 +523,7 @@ def add_vpr_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=0, combo_actions=("Hunter's Coil",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
-                "Hunter's Venom": DamageSpec(potency=200),
+                "Hunter's Venom": DamageSpec(potency=150),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -435,13 +541,13 @@ def add_vpr_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Swiftskin's Coil",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
-                "Swiftskin's Venom": DamageSpec(potency=200),
+                "Swiftskin's Venom": DamageSpec(potency=150),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (hunters_venom_follow_up,),                
+                SimConsts.DEFAULT_CONDITION: (hunters_venom_follow_up,),
                 "No Combo": tuple(),
             },
         )
@@ -453,13 +559,13 @@ def add_vpr_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=2, combo_actions=("Hunter's Den",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=50),
-                "Fellskin's Venom": DamageSpec(potency=100),
+                "Fellskin's Venom": DamageSpec(potency=80),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (fellskins_venom_follow_up,),                
+                SimConsts.DEFAULT_CONDITION: (fellskins_venom_follow_up,),
                 "No Combo": tuple(),
             },
         )
@@ -471,7 +577,7 @@ def add_vpr_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=3, combo_actions=("Swiftskin's Den",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=50),
-                "Fellhunter's Venom": DamageSpec(potency=100),
+                "Fellhunter's Venom": DamageSpec(potency=80),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -490,7 +596,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Uncoiled Fury",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=500),
+            damage_spec=DamageSpec(potency=600),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
@@ -505,7 +611,7 @@ def add_vpr_skills(skill_library):
             name="Reawaken",
             combo_spec=(ComboSpec(combo_group=4),),
             is_GCD=True,
-            damage_spec=DamageSpec(potency=600),
+            damage_spec=DamageSpec(potency=700),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
@@ -520,7 +626,7 @@ def add_vpr_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=4, combo_actions=("Reawaken",)),),
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600),
                 "No Combo": DamageSpec(potency=400),
             },
             timing_spec=TimingSpec(
@@ -537,7 +643,7 @@ def add_vpr_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=4, combo_actions=("First Generation",)),),
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600),
                 "No Combo": DamageSpec(potency=400),
             },
             timing_spec=TimingSpec(
@@ -556,7 +662,7 @@ def add_vpr_skills(skill_library):
             ),
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600),
                 "No Combo": DamageSpec(potency=400),
             },
             timing_spec=TimingSpec(
@@ -573,7 +679,7 @@ def add_vpr_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=4, combo_actions=("Third Generation",)),),
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600),
                 "No Combo": DamageSpec(potency=400),
             },
             timing_spec=TimingSpec(
@@ -593,7 +699,7 @@ def add_vpr_skills(skill_library):
             is_GCD=False,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
-                "Poised for Twinfang": DamageSpec(potency=200),
+                "Poised for Twinfang": DamageSpec(potency=150),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -609,12 +715,10 @@ def add_vpr_skills(skill_library):
             is_GCD=False,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
-                "Poised for Twinblood": DamageSpec(potency=200),
+                "Poised for Twinblood": DamageSpec(potency=150),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0,
-                animation_lock=650,
-                application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=620
             ),
         )
     )
@@ -622,7 +726,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Ouroboros",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=1000),
+            damage_spec=DamageSpec(potency=1050),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
@@ -636,7 +740,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="First Legacy",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=350),
+            damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -646,7 +750,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Second Legacy",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=350),
+            damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -656,7 +760,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Third Legacy",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=350),
+            damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -666,7 +770,7 @@ def add_vpr_skills(skill_library):
         Skill(
             name="Fourth Legacy",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=350),
+            damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),

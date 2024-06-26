@@ -418,7 +418,7 @@ def add_brd_skills(skill_library):
         Skill(
             name="Empyreal Arrow",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=240),
+            damage_spec=DamageSpec(potency=260),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1030
             ),
@@ -448,7 +448,7 @@ def add_brd_skills(skill_library):
         Skill(
             name="Sidewinder",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=320),
+            damage_spec=DamageSpec(potency=400),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=530
             ),
@@ -538,24 +538,24 @@ def add_brd_skills(skill_library):
             name="Apex Arrow",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500),
-                "20 Soul Voice": DamageSpec(potency=100),
-                "25 Soul Voice": DamageSpec(potency=125),
-                "30 Soul Voice": DamageSpec(potency=150),
-                "35 Soul Voice": DamageSpec(potency=175),
-                "40 Soul Voice": DamageSpec(potency=200),
-                "45 Soul Voice": DamageSpec(potency=225),
-                "50 Soul Voice": DamageSpec(potency=250),
-                "55 Soul Voice": DamageSpec(potency=275),
-                "60 Soul Voice": DamageSpec(potency=300),
-                "65 Soul Voice": DamageSpec(potency=325),
-                "70 Soul Voice": DamageSpec(potency=350),
-                "75 Soul Voice": DamageSpec(potency=375),
-                "80 Soul Voice": DamageSpec(potency=400),
-                "85 Soul Voice": DamageSpec(potency=425),
-                "90 Soul Voice": DamageSpec(potency=450),
-                "95 Soul Voice": DamageSpec(potency=475),
-                "100 Soul Voice": DamageSpec(potency=500),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600),
+                "20 Soul Voice": DamageSpec(potency=120),
+                "25 Soul Voice": DamageSpec(potency=150),
+                "30 Soul Voice": DamageSpec(potency=180),
+                "35 Soul Voice": DamageSpec(potency=210),
+                "40 Soul Voice": DamageSpec(potency=240),
+                "45 Soul Voice": DamageSpec(potency=270),
+                "50 Soul Voice": DamageSpec(potency=300),
+                "55 Soul Voice": DamageSpec(potency=330),
+                "60 Soul Voice": DamageSpec(potency=360),
+                "65 Soul Voice": DamageSpec(potency=390),
+                "70 Soul Voice": DamageSpec(potency=420),
+                "75 Soul Voice": DamageSpec(potency=450),
+                "80 Soul Voice": DamageSpec(potency=480),
+                "85 Soul Voice": DamageSpec(potency=510),
+                "90 Soul Voice": DamageSpec(potency=540),
+                "95 Soul Voice": DamageSpec(potency=570),
+                "100 Soul Voice": DamageSpec(potency=600),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1070
@@ -720,7 +720,7 @@ def add_brd_skills(skill_library):
         Skill(
             name="Heartbreak Shot",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=160),
+            damage_spec=DamageSpec(potency=180),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=200
             ),
@@ -740,10 +740,10 @@ def add_brd_skills(skill_library):
         Skill(
             name="Radiant Encore",
             is_GCD=False,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=700),
-                         '3 Encore': DamageSpec(potency=700),
-                         '2 Encore': DamageSpec(potency=500),
-                         '1 Encore': DamageSpec(potency=400)},
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=900),
+                         '3 Encore': DamageSpec(potency=900),
+                         '2 Encore': DamageSpec(potency=600),
+                         '1 Encore': DamageSpec(potency=500)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=660
             ),

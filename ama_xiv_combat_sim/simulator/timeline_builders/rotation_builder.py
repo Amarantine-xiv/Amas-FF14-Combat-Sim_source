@@ -8,10 +8,15 @@ from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_events import (
     SnapshotAndApplicationEvents,
 )
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
-from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import JobResourceTracker
+from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import (
+    JobResourceTracker,
+)
 from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
-from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import StatusEffectTracker
+from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import (
+    StatusEffectTracker,
+)
 from ama_xiv_combat_sim.simulator.utils import Utils
 
 
@@ -45,6 +50,7 @@ class RotationBuilder:
         self.__status_effect_priority = skill_library.get_status_effect_priority(
             stats.job_class
         )
+        self.__timestamps_and_main_target = []
 
         # Each downtime range is the semi-open interval [start_time, end_time). In other
         # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
@@ -77,24 +83,42 @@ class RotationBuilder:
             print("{}: {}".format(time, skill.name))
 
     def add_next(
-        self, skill_name, skill_modifier=SkillModifier(), job_class=None, num_times=1
+        self,
+        skill_name,
+        skill_modifier=SkillModifier(),
+        job_class=None,
+        num_times=1,
+        targets=(SimConsts.DEFAULT_TARGET,),
     ):
+        assert (
+            type(targets) is tuple
+        ), f"Targetting error- targets is supposed to be a tuple. Did you forget a comma? Got: {targets}"
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
         for _ in range(num_times):
-            self._q_sequence.append((skill, skill_modifier, job_class))
+            self._q_sequence.append((skill, skill_modifier, job_class, targets))
 
-    def add(self, t, skill_name, skill_modifier=SkillModifier(), job_class=None):
+    def add(
+        self,
+        t,
+        skill_name,
+        skill_modifier=SkillModifier(),
+        job_class=None,
+        targets=(SimConsts.DEFAULT_TARGET,),
+    ):
         """Time (t) is assumed to be in seconds"""
+        assert (
+            type(targets) is tuple
+        ), f"Targetting error- targets is supposed to be a tuple. Did you forget a comma? Got: {targets}"
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
-        self._q_timed.append((int(1000 * t), skill, skill_modifier, job_class))
+        self._q_timed.append((int(1000 * t), skill, skill_modifier, job_class, targets))
 
     @staticmethod
     def __follow_up_is_dot(follow_up_skill):
         return follow_up_skill.dot_duration is not None
 
-    def __get_cast_time(self, timing_spec, skill_modifier, curr_buffs, curr_debuffs):
+    def __get_cast_time(self, timing_spec, skill_modifier, curr_buffs):
         if skill_modifier.ignore_cast_times:
             return 0
 
@@ -110,18 +134,13 @@ class RotationBuilder:
         )
         cast_time = (
             Utils.truncate_to_digit(
-                cast_time
-                * curr_buffs.haste_time_mult
-                * curr_debuffs.haste_time_mult
-                * trait_haste_time_mult,
+                cast_time * curr_buffs.haste_time_mult * trait_haste_time_mult,
                 2,
             )
             if timing_spec.affected_by_haste_buffs
             else cast_time
         )
-        cast_time -= (
-            curr_buffs.flat_cast_time_reduction + curr_debuffs.flat_cast_time_reduction
-        )
+        cast_time -= curr_buffs.flat_cast_time_reduction
         cast_time = max(0, cast_time)
         return cast_time
 
@@ -131,12 +150,21 @@ class RotationBuilder:
         priority_modifier,
         parent_snapshot_time,
         parent_application_time,
+        targets,
     ):
-        if follow_up_dot_skill not in self._q_dot_skills:
-            self._q_dot_skills[follow_up_dot_skill] = []
-        self._q_dot_skills[follow_up_dot_skill].append(
-            (parent_snapshot_time, parent_application_time, priority_modifier)
-        )
+        for target in targets:
+            if target not in self._q_dot_skills:
+                self._q_dot_skills[target] = {}
+            if follow_up_dot_skill not in self._q_dot_skills[target]:
+                self._q_dot_skills[target][follow_up_dot_skill] = []
+
+            self._q_dot_skills[target][follow_up_dot_skill].append(
+                (
+                    parent_snapshot_time,
+                    parent_application_time,
+                    priority_modifier,
+                )
+            )
 
     def __process_non_dot_follow_up_skill(
         self,
@@ -146,6 +174,7 @@ class RotationBuilder:
         parent_application_time,
         se_tracker,
         job_resource_tracker,
+        targets,
     ):
         skill = follow_up_skill.skill
         application_time = (
@@ -165,6 +194,10 @@ class RotationBuilder:
             snapshot_time = application_time
             snapshot_status = [True, True]
         priority = Utils.transform_time_to_prio(snapshot_time)
+
+        if follow_up_skill.primary_target_only:
+            targets = (targets[0],)
+
         self._q_snapshot_and_applications.add(
             priority + priority_modifier,
             snapshot_time,
@@ -172,8 +205,11 @@ class RotationBuilder:
             skill,
             SkillModifier(),
             snapshot_status,
+            targets=targets,
         )
-        se_tracker.add_to_status_effects(application_time, skill, SkillModifier())
+        se_tracker.add_to_status_effects(
+            application_time, skill, SkillModifier(), targets
+        )
         job_resource_tracker.add_resource(application_time, skill, SkillModifier())
 
     def _process_follow_up_skills(
@@ -183,17 +219,18 @@ class RotationBuilder:
         parent_application_time,
         se_tracker,
         job_resource_tracker,
+        targets,
     ):
-        for i in range(0, len(follow_up_skills)):
+        for i, follow_up_skill in enumerate(follow_up_skills):
             # priority modifier is used to ensure follow up skills is such that it happens after its parent, and in order of follow up skills specified
             priority_modifier = i + 1
-            follow_up_skill = follow_up_skills[i]
             if RotationBuilder.__follow_up_is_dot(follow_up_skill):
                 self.__process_dot_follow_up_skill(
                     follow_up_skill,
                     priority_modifier,
                     parent_snapshot_time,
                     parent_application_time,
+                    targets,
                 )
             else:
                 self.__process_non_dot_follow_up_skill(
@@ -203,11 +240,12 @@ class RotationBuilder:
                     parent_application_time,
                     se_tracker,
                     job_resource_tracker,
+                    targets,
                 )
 
-    def __get_base_dot_timings(self, follow_up_dot_skill):
+    def __get_base_dot_timings(self, target, follow_up_dot_skill):
         app_times = []
-        dot_times = self._q_dot_skills[follow_up_dot_skill]
+        dot_times = self._q_dot_skills[target][follow_up_dot_skill]
         for (
             parent_snapshot_time,
             parent_application_time,
@@ -246,58 +284,65 @@ class RotationBuilder:
         return consolidated_dots
 
     def __process_all_dots(self, last_event_time):
-        for follow_up_dot_skill in self._q_dot_skills:
-            base_dot_times = self.__get_base_dot_timings(follow_up_dot_skill)
-            consolidated_dot_times = self.__get_consolidated_dot_timing(
-                follow_up_dot_skill, base_dot_times
-            )
-            dot_skill = follow_up_dot_skill.skill
+        # target_num
+        for target, all_follow_up_dot_skills in self._q_dot_skills.items():
+            for follow_up_dot_skill in all_follow_up_dot_skills:
+                base_dot_times = self.__get_base_dot_timings(
+                    target, follow_up_dot_skill
+                )
+                consolidated_dot_times = self.__get_consolidated_dot_timing(
+                    follow_up_dot_skill, base_dot_times
+                )
+                dot_skill = follow_up_dot_skill.skill
 
-            # We use the priority modifier to ensure dot skills 1) are processed after their parent, and
-            # 2) a dot tick will be processed after the early dot ticks, even if they snapshot at different times.
-            dot_num = 0
-            for (
-                _dot_start_time,
-                dot_end_time,
-                parent_snapshot_time,
-                priority_modifier,
-            ) in consolidated_dot_times:
-                if self.__snap_dots_to_server_tick_starting_at is None:
-                    dot_start_time = _dot_start_time
-                else:
-                    shave_off = (
-                        _dot_start_time
-                        - 1000 * self.__snap_dots_to_server_tick_starting_at
-                    ) % GameConsts.DOT_TICK_INTERVAL
-                    if (
-                        shave_off <= 1e-6
-                    ):  # allow some tolerance for floating point precision
+                # We use the priority modifier to ensure dot skills 1) are processed after their parent, and
+                # 2) a dot tick will be processed after the early dot ticks, even if they snapshot at different times.
+                dot_num = 0
+                for (
+                    _dot_start_time,
+                    dot_end_time,
+                    parent_snapshot_time,
+                    priority_modifier,
+                ) in consolidated_dot_times:
+                    if self.__snap_dots_to_server_tick_starting_at is None:
                         dot_start_time = _dot_start_time
                     else:
-                        dot_start_time = int(
-                            _dot_start_time - shave_off + GameConsts.DOT_TICK_INTERVAL
+                        shave_off = (
+                            _dot_start_time
+                            - 1000 * self.__snap_dots_to_server_tick_starting_at
+                        ) % GameConsts.DOT_TICK_INTERVAL
+                        if (
+                            shave_off <= 1e-6
+                        ):  # allow some tolerance for floating point precision
+                            dot_start_time = _dot_start_time
+                        else:
+                            dot_start_time = int(
+                                _dot_start_time
+                                - shave_off
+                                + GameConsts.DOT_TICK_INTERVAL
+                            )
+                    for application_time in range(
+                        dot_start_time, dot_end_time, GameConsts.DOT_TICK_INTERVAL
+                    ):
+                        if (last_event_time) and (application_time > last_event_time):
+                            continue
+                        priority = Utils.transform_time_to_prio(
+                            parent_snapshot_time
+                        ) + (priority_modifier + dot_num)
+                        snapshot_status = [
+                            follow_up_dot_skill.snapshot_buffs_with_parent,
+                            follow_up_dot_skill.snapshot_debuffs_with_parent,
+                        ]
+                        self._q_snapshot_and_applications.add(
+                            priority,
+                            parent_snapshot_time,
+                            application_time,
+                            dot_skill,
+                            SkillModifier(),
+                            snapshot_status,
+                            targets=(target,),
                         )
-                for application_time in range(
-                    dot_start_time, dot_end_time, GameConsts.DOT_TICK_INTERVAL
-                ):
-                    if (last_event_time) and (application_time > last_event_time):
-                        continue
-                    priority = Utils.transform_time_to_prio(parent_snapshot_time) + (
-                        priority_modifier + dot_num
-                    )
-                    snapshot_status = [
-                        follow_up_dot_skill.snapshot_buffs_with_parent,
-                        follow_up_dot_skill.snapshot_debuffs_with_parent,
-                    ]
-                    self._q_snapshot_and_applications.add(
-                        priority,
-                        parent_snapshot_time,
-                        application_time,
-                        dot_skill,
-                        SkillModifier(),
-                        snapshot_status,
-                    )
-                    dot_num += 1
+                        dot_num += 1
 
     def __process_skill(
         self,
@@ -306,14 +351,12 @@ class RotationBuilder:
         skill_modifier,
         se_tracker,
         job_resource_tracker,
-        curr_buffs=StatusEffects(),
-        curr_debuffs=StatusEffects(),
+        curr_buffs,
+        targets,
     ):
         timing_spec = skill.get_timing_spec(skill_modifier)
 
-        cast_time = self.__get_cast_time(
-            timing_spec, skill_modifier, curr_buffs, curr_debuffs
-        )
+        cast_time = self.__get_cast_time(timing_spec, skill_modifier, curr_buffs)
         snapshot_time = t + max(
             0, cast_time - GameConsts.DAMAGE_SNAPSHOT_TIME_BEFORE_CAST_FINISHES
         )
@@ -330,9 +373,12 @@ class RotationBuilder:
             skill,
             skill_modifier,
             [True, True],
+            targets=targets,
         )
 
-        se_tracker.add_to_status_effects(application_time, skill, skill_modifier)
+        se_tracker.add_to_status_effects(
+            application_time, skill, skill_modifier, targets
+        )
         job_resource_tracker.add_resource(snapshot_time, skill, skill_modifier)
 
         follow_up_skills = skill.get_follow_up_skills(skill_modifier)
@@ -343,6 +389,7 @@ class RotationBuilder:
                 application_time,
                 se_tracker,
                 job_resource_tracker,
+                targets,
             )
 
     def __process_q_timed(self):
@@ -357,7 +404,7 @@ class RotationBuilder:
         q = copy.deepcopy(self._q_timed)
         q.sort(key=lambda x: x[0])
         while len(q) > 0:
-            (curr_t, skill, skill_modifier, job_class) = heapq.heappop(q)
+            (curr_t, skill, skill_modifier, job_class, targets) = heapq.heappop(q)
             self.__q_button_press_timing.append(
                 [
                     curr_t,
@@ -399,6 +446,7 @@ class RotationBuilder:
             except ValueError as v:
                 print(str(v))
 
+            self.__timestamps_and_main_target.append((curr_t, targets[0]))
             self.__process_skill(
                 curr_t,
                 skill,
@@ -406,7 +454,7 @@ class RotationBuilder:
                 se_tracker,
                 job_resource_tracker,
                 curr_buffs,
-                curr_debuffs,
+                targets,
             )
 
     def __process_q_sequence(self):
@@ -424,7 +472,7 @@ class RotationBuilder:
         )  # this represents the next time we could possibly use any skill button
         q = copy.deepcopy(self._q_sequence)
 
-        for skill, skill_modifier, job_class in q:
+        for skill, skill_modifier, job_class, targets in q:
             if skill.is_GCD:
                 curr_t = max(curr_t, next_gcd_time)
             self.__q_button_press_timing.append(
@@ -470,6 +518,7 @@ class RotationBuilder:
 
             timing_spec = skill.get_timing_spec(skill_modifier)
 
+            self.__timestamps_and_main_target.append((curr_t, targets[0]))
             if skill.is_GCD:
                 self.__process_skill(
                     curr_t,
@@ -478,7 +527,7 @@ class RotationBuilder:
                     se_tracker,
                     job_resource_tracker,
                     curr_buffs,
-                    curr_debuffs,
+                    targets,
                 )
 
                 trait_haste_time_mult = (
@@ -510,7 +559,7 @@ class RotationBuilder:
                 next_gcd_time = curr_t + recast_time
 
                 cast_time = self.__get_cast_time(
-                    timing_spec, skill_modifier, curr_buffs, curr_debuffs
+                    timing_spec, skill_modifier, curr_buffs
                 )
                 curr_t += cast_time + timing_spec.animation_lock
             else:
@@ -521,7 +570,7 @@ class RotationBuilder:
                     se_tracker,
                     job_resource_tracker,
                     curr_buffs,
-                    curr_debuffs,
+                    targets,
                 )
                 curr_t += timing_spec.animation_lock
 
@@ -541,6 +590,7 @@ class RotationBuilder:
                 skill,
                 skill_modifier,
                 snapshot_status,
+                targets,
                 _,
                 _,
                 _,
@@ -560,6 +610,7 @@ class RotationBuilder:
                 skill,
                 skill_modifier,
                 snapshot_status,
+                targets=targets,
             )
         return res
 
@@ -578,6 +629,7 @@ class RotationBuilder:
                 skill,
                 skill_modifier,
                 snapshot_status,
+                targets,
                 _,
                 _,
                 _,
@@ -588,7 +640,7 @@ class RotationBuilder:
                 primary_time if secondary_time is None else secondary_time
             )
             snapshot_time = primary_time
-            if skill.damage_spec is not None and (
+            if skill.get_damage_spec(skill_modifier) is not None and (
                 self.__is_in_a_downtime_range(application_time)
                 or self.__is_in_a_downtime_range(snapshot_time)
             ):
@@ -600,6 +652,7 @@ class RotationBuilder:
                 skill,
                 skill_modifier,
                 snapshot_status,
+                targets=targets,
             )
         return res
 
@@ -626,7 +679,6 @@ class RotationBuilder:
         self._q_snapshot_and_applications = self.remove_damage_during_downtime()
 
         self.__q_button_press_timing.sort(key=lambda x: x[0])
-
         return self._q_snapshot_and_applications
 
     def __assemble_speed_status_effects_timeline(self):
@@ -661,7 +713,7 @@ class RotationBuilder:
         return res
 
     def __get_applicable_status_effects(
-        self, speed_status_effects_timeline, curr_t, skill, skill_modifier
+        self, speed_status_effects_timeline, curr_t, skill, skill_modifier, targets
     ):
         applicable_status_effect_events = list(
             filter(lambda x: x[0] <= curr_t, speed_status_effects_timeline)
@@ -673,7 +725,7 @@ class RotationBuilder:
 
         for t, skill in applicable_status_effect_events:
             se_tracker.expire_status_effects(t)
-            se_tracker.add_to_status_effects(t, skill, skill_modifier)
+            se_tracker.add_to_status_effects(t, skill, skill_modifier, targets)
             job_resource_tracker.add_resource(t, skill, skill_modifier)
 
         se_tracker.expire_status_effects(curr_t)
@@ -696,8 +748,7 @@ class RotationBuilder:
         )
 
         while len(q) > 0:
-            (t, skill, skill_modifier, _) = heapq.heappop(q)
-            
+            (t, skill, skill_modifier, _, _) = heapq.heappop(q)
             se_tracker.expire_status_effects(t)
             curr_buffs_and_skill_modifier = se_tracker.compile_buffs(t, skill)
             curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(t, skill)
@@ -706,7 +757,7 @@ class RotationBuilder:
                 curr_buffs_and_skill_modifier[0],
                 curr_buffs_and_skill_modifier[1],
             )
-            curr_debuffs, skill_modifier_from_debuffs = (
+            _, skill_modifier_from_debuffs = (
                 curr_debuffs_and_skill_modifier[0],
                 curr_debuffs_and_skill_modifier[1],
             )
@@ -725,14 +776,14 @@ class RotationBuilder:
             skill_modifier.add_to_condition(combo_conditional)
 
             cast_time = self.__get_cast_time(
-                skill.get_timing_spec(skill_modifier),
-                skill_modifier,
-                curr_buffs,
-                curr_debuffs,
+                skill.get_timing_spec(skill_modifier), skill_modifier, curr_buffs
             )
             if cast_time > 0:
                 res.append((t, t + cast_time))
-            se_tracker.add_to_status_effects(t, skill, skill_modifier)
+            # assume target does not affect speed....dangerous....
+            se_tracker.add_to_status_effects(
+                t, skill, skill_modifier, targets=(SimConsts.DEFAULT_TARGET)
+            )
             job_resource_tracker.add_resource(t, skill, skill_modifier)
         res.sort()
         return res
@@ -757,6 +808,20 @@ class RotationBuilder:
 
     # Autos, if enabled, always start at first event application time.
     def __add_autos(self, last_event_time=None):
+        def shorten_sequence(seq):
+            res = [seq[0]]
+            curr_target = seq[0][1]
+            for i in range(1, len(seq)):
+                if seq[i][1] == curr_target:
+                    continue
+                curr_target = seq[i][1]
+                res.append(seq[i])
+            return res
+
+        timestamps_and_main_target = copy.deepcopy(self.__timestamps_and_main_target)
+        timestamps_and_main_target.sort(key=lambda x: x[0])
+        timestamps_and_main_target = shorten_sequence(timestamps_and_main_target)
+
         speed_status_effects_timeline = self.__assemble_speed_status_effects_timeline()
         cast_periods = self.get_cast_periods(speed_status_effects_timeline)
         weapon_delay = int(1000 * self.__stats.weapon_delay)  # convert to ms
@@ -776,7 +841,16 @@ class RotationBuilder:
             self._q_snapshot_and_applications.get_first_damage_time()
         )  # autos do not have cast times, so snapshot time should be immediate
         application_time = snapshot_time + auto_skill.timing_spec.application_delay
+
+        auto_target_ind = 0
         while application_time < last_event_time:
+            while auto_target_ind < len(timestamps_and_main_target) and timestamps_and_main_target[auto_target_ind][
+                0
+            ] <= snapshot_time:
+                auto_target_ind += 1
+            auto_target_ind = max(0, auto_target_ind-1)
+            auto_target = timestamps_and_main_target[auto_target_ind][1]
+            
             self._q_snapshot_and_applications.add(
                 Utils.transform_time_to_prio(snapshot_time),
                 snapshot_time,
@@ -784,15 +858,19 @@ class RotationBuilder:
                 auto_skill,
                 SkillModifier(),
                 [True, True],
+                # TODO: set this to an auto-target, and process it
+                targets=(auto_target,),
             )
             (
                 curr_buffs_and_skill_modifier,
                 curr_debuffs_and_skill_modifier,
-            ), job_resource_conditional = self.__get_applicable_status_effects(
+            ), _ = self.__get_applicable_status_effects(
                 speed_status_effects_timeline,
                 snapshot_time,
                 auto_skill,
                 SkillModifier(),
+                # TODO: set this to an auto-target, and process it
+                targets=(SimConsts.DEFAULT_TARGET,),
             )
 
             # Don't need the skill modifiers, since they're just autos

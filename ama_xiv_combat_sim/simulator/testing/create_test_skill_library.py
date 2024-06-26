@@ -1,6 +1,8 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from ama_xiv_combat_sim.simulator.testing.test_add_lbs_to_skill_library import add_lbs_to_skill_library
+from ama_xiv_combat_sim.simulator.testing.test_add_lbs_to_skill_library import (
+    add_lbs_to_skill_library,
+)
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.skills.skill_library import SkillLibrary
@@ -242,6 +244,20 @@ def create_test_skill_library():
                 skill=test_magical_dot_tick,
                 delay_after_parent_application=0,
                 dot_duration=15 * 1000,
+                snapshot_buffs_with_parent=True,
+                snapshot_debuffs_with_parent=True,
+            ),
+        ),
+    )
+    test_magical_dot_instant_gcd_short = Skill(
+        name="test_magical_dot_instant_gcd_short",
+        is_GCD=True,
+        timing_spec=gcd_instant,
+        follow_up_skills=(
+            FollowUp(
+                skill=test_magical_dot_tick,
+                delay_after_parent_application=0,
+                dot_duration=9 * 1000,
                 snapshot_buffs_with_parent=True,
                 snapshot_debuffs_with_parent=True,
             ),
@@ -744,6 +760,48 @@ def create_test_skill_library():
         ignored_conditions_for_bonus_potency=("To Ignore",),
     )
 
+    test_folllow_up_for_multi_target = Skill(
+        name="test_folllow_up_for_multi_target",
+        is_GCD=False,
+        damage_spec=DamageSpec(potency=500),
+    )
+
+    test_folllow_up_for_multi_target_primary_only = Skill(
+        name="test_folllow_up_for_multi_target_primary_only",
+        is_GCD=False,
+        damage_spec=DamageSpec(potency=500),
+    )
+
+    test_follow_up_for_multi_target_main = Skill(
+        name="test_follow_up_for_multi_target_main",
+        is_GCD=True,
+        timing_spec=gcd_instant,
+        follow_up_skills={
+            SimConsts.DEFAULT_CONDITION: (
+                FollowUp(
+                    skill=test_folllow_up_for_multi_target,
+                    primary_target_only=False,
+                    delay_after_parent_application=0,
+                ),
+            ),
+        },
+    )
+
+    test_follow_up_for_multi_target_main_primary_only = Skill(
+        name="test_follow_up_for_multi_target_primary_only",
+        is_GCD=True,
+        timing_spec=gcd_instant,
+        follow_up_skills={
+            SimConsts.DEFAULT_CONDITION: (
+                FollowUp(
+                    skill=test_folllow_up_for_multi_target_primary_only,
+                    primary_target_only=True,
+                    delay_after_parent_application=0,
+                ),
+            ),
+        },
+    )
+
     skill_library.set_current_job_class("test_job")
     skill_library.add_resource(
         "Gauge",
@@ -765,6 +823,7 @@ def create_test_skill_library():
     skill_library.add_skill(test_physical_dot_tick)
     skill_library.add_skill(test_magical_dot_gcd_with_other_follow_up)
     skill_library.add_skill(test_magical_dot_instant_gcd)
+    skill_library.add_skill(test_magical_dot_instant_gcd_short)
     skill_library.add_skill(test_simple_buff_gcd)
     skill_library.add_skill(test_simple_buff_gcd_2)
     skill_library.add_skill(test_simple_buff_gcd_3)
@@ -824,7 +883,11 @@ def create_test_skill_library():
     skill_library.add_skill(_follow_up_debuff)
     skill_library.add_skill(test_damage_with_debuff_follow_up)
     skill_library.add_skill(test_combo_pos)
-
+    skill_library.add_skill(test_folllow_up_for_multi_target)
+    skill_library.add_skill(test_follow_up_for_multi_target_main)
+    skill_library.add_skill(test_folllow_up_for_multi_target_primary_only)
+    skill_library.add_skill(test_follow_up_for_multi_target_main_primary_only)
+    
     skill_library.set_status_effect_priority(
         ("test_num_uses_buff_with_priority1", "test_num_uses_buff_with_priority2")
     )

@@ -143,9 +143,9 @@ class TestJobs(TestClass):
             ("Auto", SkillModifier(), 30.9),
             ("Dosis III", SkillModifier(), 18823.3),
             ("Phlegma III", SkillModifier(), 31436.4),
-            ("Toxikon II", SkillModifier(), 17284.2),
+            ("Toxikon II", SkillModifier(), 18829.7),
             ("Dykrasia II", SkillModifier(), 8901.3),
-            ("Pneuma", SkillModifier(), 17264.3),
+            ("Pneuma", SkillModifier(), 18835.1),
             ("Eukrasian Dosis III", SkillModifier(), 39979.0),
             ("Eukrasian Dyskrasia", SkillModifier(), 21179.5),
             ("Psyche", SkillModifier(), 31368.2),
@@ -632,10 +632,10 @@ class TestJobs(TestClass):
         rb.add_next("Cascade")
 
         expected = (
-            ("Cascade", 13899.0),
-            ("Quadruple Technical Finish", 59607.2),
-            ("Cascade", 14577.9),
-            ("Cascade", 13887.6),
+            ("Cascade", 10928.0),
+            ("Quadruple Technical Finish", 64527.1),
+            ("Cascade", 11470.0),
+            ("Cascade", 10928.1),
         )
         test_passed1, err_msg1 = self.__test_rotation_damage(rb, expected)
 
@@ -656,10 +656,10 @@ class TestJobs(TestClass):
         rb.add_next("Cascade")
 
         expected = (
-            ("Cascade", 13910.0),
-            ("Double Standard Finish", 35748.5),
-            ("Cascade", 14594.0),
-            ("Cascade", 13896.4),
+            ("Cascade", 10932.2),
+            ("Double Standard Finish", 42119.5),
+            ("Cascade", 11459.8),
+            ("Cascade", 10912.8),
         )
         test_passed2, err_msg2 = self.__test_rotation_damage(rb, expected)
 
@@ -712,7 +712,7 @@ class TestJobs(TestClass):
         rb.add_next("Saber Dance")
         rb.add_next("Reverse Cascade")
         rb.add_next("Saber Dance")
-        expected_damage = 526986.7
+        expected_damage = 543925.2
         expected_total_time = 27360.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
@@ -732,33 +732,33 @@ class TestJobs(TestClass):
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 3874.0),
-            ("Cascade", SkillModifier(), 13897.6),
-            ("Fountain", SkillModifier(), 7934.8),
-            ("Fountain", SkillModifier(force_combo=True), 16878.3),
+            ("Cascade", SkillModifier(), 10926.3),
+            ("Fountain", SkillModifier(), 5961.0),
+            ("Fountain", SkillModifier(force_combo=True), 13915.5),
             ("Windmill", SkillModifier(), 4960.8),
-            ("Double Standard Finish", SkillModifier(), 35716.8),
+            ("Double Standard Finish", SkillModifier(), 42185.6),
             ("Single Standard Finish", SkillModifier(), 26814.9),
-            ("Standard Finish", SkillModifier(), 35741.1),
+            ("Standard Finish", SkillModifier(), 42153.2),
             ("Standard Finish", SkillModifier(with_condition="Log"), 17881.2),
             ("Reverse Cascade", SkillModifier(), 13881.5),
             ("Bladeshower", SkillModifier(), 4958.4),
             ("Bladeshower", SkillModifier(force_combo=True), 6946.2),
-            ("Fan Dance", SkillModifier(), 8927.1),
+            ("Fan Dance", SkillModifier(), 7439.8),
             ("Rising Windmill", SkillModifier(), 6960.2),
-            ("Fountainfall", SkillModifier(), 19840.9),
+            ("Fountainfall", SkillModifier(), 16909.7),
             ("Bloodshower", SkillModifier(), 8931.5),
             ("Fan Dance II", SkillModifier(), 4959.1),
-            ("Fan Dance III", SkillModifier(), 10913.2),
-            ("Quadruple Technical Finish", SkillModifier(), 59531.4),
+            ("Fan Dance III", SkillModifier(), 9927.4),
+            ("Quadruple Technical Finish", SkillModifier(), 64524.2),
             ("Triple Technical Finish", SkillModifier(), 44704.6),
             ("Double Technical Finish", SkillModifier(), 35715.3),
             ("Single Technical Finish", SkillModifier(), 26831.2),
-            ("Saber Dance", SkillModifier(), 26816.4),
-            ("Tillana", SkillModifier(), 21849.6),
-            ("Finishing Move", SkillModifier(), 21823.6),
-            ("Fan Dance IV", SkillModifier(), 16873.1),
+            ("Saber Dance", SkillModifier(), 25811.8),
+            ("Tillana", SkillModifier(), 29797.7),
+            ("Finishing Move", SkillModifier(), 42226.1),
+            ("Fan Dance IV", SkillModifier(), 14902.1),
             ("Starfall Dance", SkillModifier(), 51329.6),
-            ("Last Dance", SkillModifier(), 20875.5),
+            ("Last Dance", SkillModifier(), 25823.5),
             ("Dance of the Dawn", SkillModifier(), 49558.4),
         )
         return self.__test_skills(stats, skills_and_expected_damage)
@@ -893,15 +893,15 @@ class TestJobs(TestClass):
         rb.add_next("Radiant Encore")  # should be 1 coda
 
         expected = (
-            ("Sidewinder", 15989.8),
-            ("Sidewinder", 15996.7),  # does not get buff yet. Application delay.
-            ("Radiant Encore", 37056.9),
+            ("Sidewinder", 19994.3),
+            ("Sidewinder", 19989.9),  # does not get buff yet. Application delay.
+            ("Radiant Encore", 47658.1),
             (
                 "Sidewinder",
-                16932.4,
+                21164.0,
             ),  # does not get overriden radiant finale buff yet. Application delay.
-            ("Radiant Encore", 25948.72),
-            ("Radiant Encore", 20333.96),
+            ("Radiant Encore", 31176.6),
+            ("Radiant Encore", 25418.7),
         )
 
         return self.__test_rotation_damage(rb, expected)
@@ -945,10 +945,10 @@ class TestJobs(TestClass):
         rb.add(36, "Sidewinder")
 
         expected = (
-            ("Sidewinder", 15822.5),
-            ("Sidewinder", 16352.2),
-            ("Sidewinder", 16621.7),
-            ("Sidewinder", 16932.4),
+            ("Sidewinder", 19784.8),
+            ("Sidewinder", 20373.3),
+            ("Sidewinder", 20742.7),
+            ("Sidewinder", 21154.8),
         )
 
         return self.__test_rotation_damage(rb, expected)
@@ -996,9 +996,9 @@ class TestJobs(TestClass):
         rb.add(34, "Pitch Perfect")
 
         expected = (
-            ("Apex Arrow", 23485.1),
-            ("Apex Arrow", 4948.9),
-            ("Apex Arrow", 24763.2),
+            ("Apex Arrow", 28162.4),
+            ("Apex Arrow", 5929.0),
+            ("Apex Arrow", 29664.9),
             ("Pitch Perfect", 4949.5),
             ("Pitch Perfect", 17820.9),
             ("Pitch Perfect", 10876.4),
@@ -1723,7 +1723,7 @@ class TestJobs(TestClass):
         rb.add_next("Umbral Flare")
         rb.add_next("Enkindle Solar Bahamut")
 
-        expected_damage = 742475.8
+        expected_damage = 720311.3
         expected_total_time = 46920.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
@@ -1812,7 +1812,7 @@ class TestJobs(TestClass):
         rb.add_next("Verthunder III")
         rb.add_next("Fleche")
 
-        expected_damage = 542672.9
+        expected_damage = 549948.4
         expected_total_time = 34590.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
@@ -1846,8 +1846,8 @@ class TestJobs(TestClass):
         #
         expected = (
             ("Jolt III", 19238.6),
-            ("Grand Impact", 28827.0),
-            ("Grand Impact", 30327.5),
+            ("Grand Impact", 32052.8),
+            ("Grand Impact", 33710.7),
             ("Jolt III", 20177.3),
         )
         return self.__test_rotation_damage(rb, expected)
@@ -2007,7 +2007,7 @@ class TestJobs(TestClass):
         for e in skill_seq:
             rb.add_next(e)
 
-        expected_damage = 608896.2
+        expected_damage = 595855.6
         expected_total_time = 28860.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
@@ -2034,16 +2034,16 @@ class TestJobs(TestClass):
         )
 
         rot_and_expected = (
-            ("Hindsting Strike", 14205.2),
-            ("Flanksbane Fang", 18245.3),
-            ("Hindsbane Fang", 18245.3),
-            ("Flanksting Strike", 18245.3),
-            ("Flanksting Strike", 14205.2),
-            ("Hindsting Strike", 18232.7),
-            ("Hindsting Strike", 14205.2),
+            ("Hindsting Strike", 14592.2),
+            ("Flanksbane Fang", 18685.5),
+            ("Hindsbane Fang", 18659.3),
+            ("Flanksting Strike", 18674.2),
+            ("Flanksting Strike", 14596.1),
+            ("Hindsting Strike", 18659.5),
+            ("Hindsting Strike", 14624.3),
             #
-            ("Flanksbane Fang", 18239.9),
-            ("Hindsbane Fang", 18239.9),
+            ("Flanksbane Fang", 18641.5),
+            ("Hindsbane Fang", 18658.1),
         )
         for e in rot_and_expected:
             rb.add_next(e[0])
@@ -2073,8 +2073,8 @@ class TestJobs(TestClass):
 
         # TODO: fill these out. For now, just do the e2e. I am tired.
         rot_and_expected = (
-            ("Fire in Red", 21411.3),
-            ("Rainbow Drip", 48173.9),
+            ("Fire in Red", 23540.1),
+            ("Rainbow Drip", 53499.0),
         )
         for e in rot_and_expected:
             rb.add_next(e[0])
@@ -2138,7 +2138,7 @@ class TestJobs(TestClass):
         for e in skill_seq:
             rb.add_next(e)
             
-        expected_damage = 1030746.5
+        expected_damage = 1133183.8
         expected_total_time = 54470.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
