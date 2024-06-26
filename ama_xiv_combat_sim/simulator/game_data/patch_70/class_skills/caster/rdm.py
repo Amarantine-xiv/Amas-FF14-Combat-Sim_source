@@ -572,7 +572,7 @@ def add_rdm_skills(skill_library):
 
     skill_library.add_skill(
         Skill(
-            name="Cineration",
+            name="Prefulgence",
             is_GCD=False,
             damage_spec=DamageSpec(potency=900),
             timing_spec=TimingSpec(
