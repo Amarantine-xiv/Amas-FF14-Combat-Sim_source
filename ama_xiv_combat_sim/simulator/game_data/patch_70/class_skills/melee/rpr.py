@@ -397,7 +397,7 @@ def add_rpr_skills(skill_library):
         Skill(
             name="Harvest Moon",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=700),
+            damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,
@@ -460,7 +460,7 @@ def add_rpr_skills(skill_library):
         Skill(
             name="Sacrificium",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=500),
+            damage_spec=DamageSpec(potency=530),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),

@@ -8,7 +8,7 @@ from ama_xiv_combat_sim.simulator.calcs.compute_damage_utils import ComputeDamag
 from ama_xiv_combat_sim.simulator.trackers.damage_tracker import DamageTracker
 
 
-class PerInstanceDamage(namedtuple('PerInstanceDamage', ['application_time', 'snapshot_time', 'skill_name', 'potency', 'skill_modifier_condition', 'status_effects', 'expected_damage', 'standard_deviation', 'event_id'])):
+class PerInstanceDamage(namedtuple('PerInstanceDamage', ['application_time', 'snapshot_time', 'skill_name', 'potency', 'skill_modifier_condition', 'status_effects', 'expected_damage', 'standard_deviation', 'event_id', 'target'])):
   pass
 
 class DamageSimulator():
@@ -28,7 +28,9 @@ class DamageSimulator():
 
   # dmg_instances is a list in format: # (current_time, skill, (buffs, debuffs), event_id)
   def __compile_damage(self, num_samples, save_damage_matrix= False):
-    for (t, skill, skill_modifier, status_effects, event_id) in self.__dmg_instances:
+    self.__target = [0]*len(self.__dmg_instances)
+    i = 0
+    for (t, skill, skill_modifier, status_effects, event_id, target) in self.__dmg_instances:
       base_damage = ComputeDamageUtils.get_base_damage(skill, skill_modifier, self.__stats, status_effects)
       assert base_damage is not None, "base_damage should not be None."
 
@@ -38,7 +40,10 @@ class DamageSimulator():
       damage_spec = skill.get_damage_spec(skill_modifier)
       trait_damage_mult = self.__stats.processed_stats.trait_damage_mult if damage_spec.trait_damage_mult_override is None else damage_spec.trait_damage_mult_override
 
-      self.__damage_tracker.add_damage(base_damage, crit_rate, crit_bonus, dh_rate, trait_damage_mult, damage_mult, t, damage_spec.potency, skill_modifier, (status_effects[0], status_effects[1]))
+      self.__damage_tracker.add_damage(base_damage, crit_rate, crit_bonus, dh_rate, trait_damage_mult, damage_mult, t, damage_spec.potency, skill_modifier, (status_effects[0], status_effects[1]))      
+      self.__target[i] = target
+      i+=1
+      
     self.__damage_tracker.finalize()
     damage_matrix = self.__damage_tracker.compute_damage(num_samples)
 
@@ -117,7 +122,9 @@ class DamageSimulator():
                              status_effects[i],
                              self.__per_skill_damage_mean[i],
                              self.__per_skill_damage_std[i],
-                             self.__event_ids[i]) for i in range(0, len(t))]
+                             self.__event_ids[i],
+                             self.__target[i]) for i in range(0, len(t))
+           ]
     if rb is not None:
       res = self.__add_damage_snapshots(res, rb)
     return res

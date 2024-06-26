@@ -69,17 +69,9 @@ class ComputeDamageUtils():
     forced_no_crit = ComputeDamageUtils.__get_forced_no_crit_status(damage_spec, skill_modifier, status_effects)
 
     if forced_dh and forced_no_dh:
-      raise RuntimeError('Skill specifies both forced_dh and forced_no_dh; only one of these may be true. \
-                          On skill: {}. Damage spec/ skill modifier / status effect: {}/{}/{}/{}'.format(skill.name, damage_spec.guaranteed_dh,
-                                                                                                         skill_modifier.guaranteed_dh,
-                                                                                                         status_effects[0].guaranteed_dh,
-                                                                                                         status_effects[1].guaranteed_dh))
+      raise RuntimeError('Skill specifies both forced_dh and forced_no_dh; only one of these may be true.')
     if forced_crit and forced_no_crit:
-      raise RuntimeError('Skill specifies both forced_crit and forced_no_crit; only one of these may be true. \
-                          On skill: {}. Damage spec/ skill modifier / status effect: {}/{}/{}/{}'.format(skill.name, damage_spec.guaranteed_crit,
-                                                                                                         skill_modifier.guaranteed_crit,
-                                                                                                         status_effects[0].guaranteed_crit,
-                                                                                                         status_effects[1].guaranteed_crit))
+      raise RuntimeError('Skill specifies both forced_crit and forced_no_crit; only one of these may be true.')
     if forced_dh:
       dh_rate = 1
     elif forced_no_dh:

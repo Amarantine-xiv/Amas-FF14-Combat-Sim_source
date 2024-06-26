@@ -525,7 +525,7 @@ def add_rdm_skills(skill_library):
             name="Resolution",
             is_GCD=True,
             combo_spec=(ComboSpec(combo_actions=("Scorch",)),),
-            damage_spec=DamageSpec(potency=760),
+            damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1560
             ),
@@ -536,7 +536,7 @@ def add_rdm_skills(skill_library):
         Skill(
             name="Vice of Thorns",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=520),
+            damage_spec=DamageSpec(potency=700),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=630
             ),
@@ -545,7 +545,7 @@ def add_rdm_skills(skill_library):
     )
 
     grand_impact_damage_follow_up = FollowUp(
-        skill=Skill(name="Grand Impact", damage_spec=DamageSpec(potency=540)),
+        skill=Skill(name="Grand Impact", damage_spec=DamageSpec(potency=600)),
         delay_after_parent_application=760,
     )
     skill_library.add_skill(
@@ -574,7 +574,7 @@ def add_rdm_skills(skill_library):
         Skill(
             name="Cineration",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=620),
+            damage_spec=DamageSpec(potency=900),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=630
             ),
@@ -586,7 +586,7 @@ def add_rdm_skills(skill_library):
         Skill(
             name="Enchanted Riposte",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=280),
+            damage_spec=DamageSpec(potency=300),
             combo_spec=(ComboSpec(),),
             timing_spec=TimingSpec(
                 base_cast_time=0, gcd_base_recast_time=1500, application_delay=630
@@ -599,8 +599,8 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             combo_spec=(ComboSpec(combo_actions=("Riposte", "Enchanted Riposte")),),
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=340),
-                "No Combo": DamageSpec(potency=150),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
+                "No Combo": DamageSpec(potency=170),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, gcd_base_recast_time=1500, application_delay=630
@@ -613,8 +613,8 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             combo_spec=(ComboSpec(combo_actions=("Enchanted Zwerchhau",)),),
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500),
-                "No Combo": DamageSpec(potency=130),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=540),
+                "No Combo": DamageSpec(potency=170),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, gcd_base_recast_time=2200, application_delay=630
@@ -658,7 +658,7 @@ def add_rdm_skills(skill_library):
         Skill(
             name="Enchanted Reprise",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=340),
+            damage_spec=DamageSpec(potency=380),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=650
             ),

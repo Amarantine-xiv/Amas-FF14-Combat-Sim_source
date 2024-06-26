@@ -86,7 +86,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Fire in Red",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=400),
+            damage_spec=DamageSpec(potency=440),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
@@ -103,7 +103,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Aero in Green",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=440),
+            damage_spec=DamageSpec(potency=480),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
@@ -120,7 +120,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Water in Blue",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=480),
+            damage_spec=DamageSpec(potency=520),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
@@ -138,7 +138,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Fire II in Red",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=80),
+            damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
@@ -155,7 +155,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Mog of the Ages",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=1100),
+            damage_spec=DamageSpec(potency=1300),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
@@ -167,7 +167,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Pom Muse",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=1000),
+            damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
@@ -179,7 +179,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Winged Muse",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=1000),
+            damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
@@ -191,7 +191,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Aero II in Green",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=100),
+            damage_spec=DamageSpec(potency=140),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
@@ -208,7 +208,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Water II in Blue",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=120),
+            damage_spec=DamageSpec(potency=160),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
@@ -226,7 +226,7 @@ def add_pct_skills(skill_library):
             name="Hammer Stamp",
             is_GCD=True,
             damage_spec=DamageSpec(
-                potency=520,
+                potency=560,
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                 guaranteed_dh=ForcedCritOrDH.FORCE_YES,
             ),
@@ -241,7 +241,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Blizzard in Cyan",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=700),
+            damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
@@ -259,7 +259,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Blizzard II in Cyan",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=160),
+            damage_spec=DamageSpec(potency=240),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
@@ -277,7 +277,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Stone in Yellow",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=740),
+            damage_spec=DamageSpec(potency=840),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
@@ -295,7 +295,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Thunder in Magenta",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=780),
+            damage_spec=DamageSpec(potency=880),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
@@ -313,7 +313,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Stone II in Yellow",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=180),
+            damage_spec=DamageSpec(potency=260),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
@@ -331,7 +331,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Thunder II in Magenta",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=200),
+            damage_spec=DamageSpec(potency=280),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
@@ -365,7 +365,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Holy in White",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=480),
+            damage_spec=DamageSpec(potency=520),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
@@ -383,7 +383,7 @@ def add_pct_skills(skill_library):
             name="Hammer Brush",
             is_GCD=True,
             damage_spec=DamageSpec(
-                potency=580,
+                potency=620,
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                 guaranteed_dh=ForcedCritOrDH.FORCE_YES,
             ),
@@ -399,7 +399,7 @@ def add_pct_skills(skill_library):
             name="Polishing Hammer",
             is_GCD=True,
             damage_spec=DamageSpec(
-                potency=640,
+                potency=680,
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                 guaranteed_dh=ForcedCritOrDH.FORCE_YES,
             ),
@@ -414,7 +414,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Comet in Black",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=780),
+            damage_spec=DamageSpec(potency=880),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
@@ -432,7 +432,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Rainbow Drip",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=900),
+            damage_spec=DamageSpec(potency=1000),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=4000,
@@ -453,7 +453,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Clawed Muse",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=1000),
+            damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
@@ -465,7 +465,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Fanged Muse",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=1000),
+            damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
@@ -477,7 +477,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Retribution of the Madeen",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=1300),
+            damage_spec=DamageSpec(potency=1400),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
@@ -489,7 +489,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Star Prism",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=1300),
+            damage_spec=DamageSpec(potency=1400),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,

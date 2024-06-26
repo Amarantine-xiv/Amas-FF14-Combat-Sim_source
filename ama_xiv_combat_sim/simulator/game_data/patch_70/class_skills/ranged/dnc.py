@@ -35,7 +35,7 @@ def add_dnc_skills(skill_library):
             name="Cascade",
             is_GCD=True,
             combo_spec=(ComboSpec(),),
-            damage_spec=DamageSpec(potency=280),
+            damage_spec=DamageSpec(potency=220),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
@@ -47,8 +47,8 @@ def add_dnc_skills(skill_library):
             is_GCD=True,
             combo_spec=(ComboSpec(combo_actions=("Cascade",)),),
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=340),
-                "No Combo": DamageSpec(potency=160),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=280),
+                "No Combo": DamageSpec(potency=120),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=980
@@ -98,7 +98,7 @@ def add_dnc_skills(skill_library):
     )
 
     standard_finish_follow_up_damage_2 = FollowUp(
-        skill=Skill(name="Double Standard Finish", damage_spec=DamageSpec(potency=720)),
+        skill=Skill(name="Double Standard Finish", damage_spec=DamageSpec(potency=850)),
         delay_after_parent_application=530,
     )
     standard_finish_follow_up_damage_1 = FollowUp(
@@ -213,7 +213,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Fan Dance",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=180),
+            damage_spec=DamageSpec(potency=150),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -233,7 +233,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Fountainfall",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=400),
+            damage_spec=DamageSpec(potency=340),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1210
             ),
@@ -279,7 +279,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Fan Dance III",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=220),
+            damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -392,7 +392,7 @@ def add_dnc_skills(skill_library):
             name="Quadruple Technical Finish",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1300),
                 "Buff Only": None,
                 "Remove Buff": None,
             },
@@ -509,7 +509,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Saber Dance",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=540),
+            damage_spec=DamageSpec(potency=520),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=440
             ),
@@ -517,7 +517,7 @@ def add_dnc_skills(skill_library):
     )
 
     tillana_damage_follow_up = FollowUp(
-        skill=Skill(name="Tillana", damage_spec=DamageSpec(potency=440)),
+        skill=Skill(name="Tillana", damage_spec=DamageSpec(potency=600)),
         delay_after_parent_application=840,
     )
     skill_library.add_skill(
@@ -536,7 +536,7 @@ def add_dnc_skills(skill_library):
         )
     )
     finishing_move_damage_follow_up = FollowUp(
-        skill=Skill(name="Finishing Move", damage_spec=DamageSpec(potency=440)),
+        skill=Skill(name="Finishing Move", damage_spec=DamageSpec(potency=850)),
         delay_after_parent_application=840,
     )
     skill_library.add_skill(
@@ -558,7 +558,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Fan Dance IV",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=340),
+            damage_spec=DamageSpec(potency=300),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=320
             ),
@@ -582,7 +582,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Last Dance",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=420),
+            damage_spec=DamageSpec(potency=520),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=440
             ),

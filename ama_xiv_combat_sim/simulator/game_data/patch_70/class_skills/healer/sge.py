@@ -55,7 +55,7 @@ def add_sge_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1200
             ),
-            damage_spec=DamageSpec(potency=330),
+            damage_spec=DamageSpec(potency=360),
         )
     )
     skill_library.add_skill(
@@ -75,7 +75,7 @@ def add_sge_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1500, animation_lock=100, application_delay=580
             ),
-            damage_spec=DamageSpec(potency=330),
+            damage_spec=DamageSpec(potency=360),
         )
     )
     skill_library.add_skill(
@@ -90,7 +90,7 @@ def add_sge_skills(skill_library):
         )
     )
     e_dosis_iii = Skill(
-        name="Eukrasian Dosis III (dot)",
+        name="Eukrasian Dot (dot)",
         damage_spec=DamageSpec(potency=75, damage_class=DamageClass.MAGICAL_DOT),
     )
     skill_library.add_skill(
@@ -113,7 +113,7 @@ def add_sge_skills(skill_library):
     )
     #Assume it stacks with e. dosis
     e_dysk = Skill(
-        name="Eukrasian Dyskrasia (dot)",
+        name="Eukrasian Dot (dot)",
         damage_spec=DamageSpec(potency=40, damage_class=DamageClass.MAGICAL_DOT),
     )
     skill_library.add_skill(

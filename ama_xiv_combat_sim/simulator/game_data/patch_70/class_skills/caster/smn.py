@@ -174,7 +174,7 @@ def add_smn_skills(skill_library):
         Skill(
             name="Ruby Rite",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=580),
+            damage_spec=DamageSpec(potency=540),
             timing_spec=TimingSpec(
                 base_cast_time=2800,
                 gcd_base_recast_time=3000,
@@ -187,7 +187,7 @@ def add_smn_skills(skill_library):
         Skill(
             name="Topaz Rite",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=380),
+            damage_spec=DamageSpec(potency=340),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,
@@ -200,7 +200,7 @@ def add_smn_skills(skill_library):
         Skill(
             name="Emerald Rite",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=270),
+            damage_spec=DamageSpec(potency=240),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
@@ -224,7 +224,7 @@ def add_smn_skills(skill_library):
         Skill(
             name="Fountain of Fire",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=620),
+            damage_spec=DamageSpec(potency=580),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock + smn_caster_tax_ms,
@@ -343,7 +343,7 @@ def add_smn_skills(skill_library):
         Skill(
             name="Mountain Buster",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=170),
+            damage_spec=DamageSpec(potency=160),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock + smn_caster_tax_ms,
@@ -382,7 +382,7 @@ def add_smn_skills(skill_library):
         name="Inferno (pet)",
         is_GCD=True,
         damage_spec=DamageSpec(
-            potency=860,
+            potency=800,
             damage_class=DamageClass.PET,
             pet_job_mod_override=100,
             pet_scalar=0.88,
@@ -407,7 +407,7 @@ def add_smn_skills(skill_library):
         name="Earthen Fury (pet)",
         is_GCD=True,
         damage_spec=DamageSpec(
-            potency=860,
+            potency=800,
             damage_class=DamageClass.PET,
             pet_job_mod_override=100,
             pet_scalar=0.88,
@@ -432,7 +432,7 @@ def add_smn_skills(skill_library):
         name="Aerial Blast (pet)",
         is_GCD=True,
         damage_spec=DamageSpec(
-            potency=860,
+            potency=800,
             damage_class=DamageClass.PET,
             pet_job_mod_override=100,
             pet_scalar=0.88,
@@ -457,7 +457,7 @@ def add_smn_skills(skill_library):
         Skill(
             name="Necrotize",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=440),
+            damage_spec=DamageSpec(potency=420),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock + smn_caster_tax_ms,
@@ -627,7 +627,7 @@ def add_smn_skills(skill_library):
             name="Luxwave",
             is_GCD=False,
             damage_spec=DamageSpec(
-                potency=200,
+                potency=160,
                 damage_class=DamageClass.PET,
                 pet_job_mod_override=100,
                 pet_scalar=0.88,
@@ -639,7 +639,7 @@ def add_smn_skills(skill_library):
         name="Luxwave",
         is_GCD=False,
         damage_spec=DamageSpec(
-            potency=200,
+            potency=160,
             damage_class=DamageClass.PET,
             pet_job_mod_override=100,
             pet_scalar=0.88,
