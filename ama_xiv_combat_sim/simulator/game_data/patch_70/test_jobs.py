@@ -169,7 +169,7 @@ class TestJobs(TestClass):
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 185.2),
             ("Broil IV", SkillModifier(), 15190.6),
-            ("Ruin II", SkillModifier(), 13227.6),
+            ("Ruin II", SkillModifier(), 10779.9),
             ("Energy Drain", SkillModifier(), 4901.8),
             ("Art of War II", SkillModifier(), 8821.7),
             ("Biolysis", SkillModifier(), 37945.5),

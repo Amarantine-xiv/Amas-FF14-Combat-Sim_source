@@ -11,11 +11,39 @@ class GameConsts:
     MIN_GCD_RECAST_TIME = 1500
     MULTI_TARGET_DELAY_PER_TARGET = 135
     # level mods from akhmorning
-    LEVEL_DIVS = {90: 1900}
-    LEVEL_MAINS = {90: 390}
-    LEVEL_SUBS = {90: 400}
-    FAP_CONSTS = {90: 195}
-    FAP_TANK_CONSTS = {90: 156}
+
+    # Key is the version. This is interpreted as stats at max-level for now.
+    # __LEVEL_DIVS = {"6.55": 1900, "7.0": 2780, "test": 1900}
+    # __LEVEL_MAINS = {"6.55": 390, "7.0": 440, "test": 390}
+    # __LEVEL_SUBS = {"6.55": 400, "7.0": 420, "test": 400}
+    # __FAP_CONSTS = {"6.55": 195, "7.0": 225, "test": 195}
+    # __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 180, "test": 156}
+
+    __LEVEL_DIVS = {"6.55": 1900, "7.0": 1900, "test": 1900}
+    __LEVEL_MAINS = {"6.55": 390, "7.0": 390, "test": 390}
+    __LEVEL_SUBS = {"6.55": 400, "7.0": 400, "test": 400}
+    __FAP_CONSTS = {"6.55": 195, "7.0": 195, "test": 195}
+    __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 156, "test": 156}
+
+    @staticmethod
+    def get_level_div(version, level):
+        return GameConsts.__LEVEL_DIVS[version]
+
+    @staticmethod
+    def get_level_main(version, level):
+        return GameConsts.__LEVEL_MAINS[version]
+
+    @staticmethod
+    def get_level_sub(version, level):
+        return GameConsts.__LEVEL_SUBS[version]
+
+    @staticmethod
+    def get_fAP(version, level):
+        return GameConsts.__FAP_CONSTS[version]
+
+    @staticmethod
+    def get_fAP_tank(version, level):
+        return GameConsts.__FAP_TANK_CONSTS[version]
 
     BASE_SKILL_SPEED = 400
     BASE_SPELL_SPEED = 400

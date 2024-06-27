@@ -127,7 +127,10 @@ class RotationBuilder:
         )
         cast_time = (
             StatFns.get_time_using_speed_stat(
-                timing_spec.base_cast_time, self.__stats.speed_stat
+                timing_spec.base_cast_time,
+                self.__stats.speed_stat,
+                self.__stats.version,
+                self.__stats.level,
             )
             if timing_spec.affected_by_speed_stat
             else timing_spec.base_cast_time
@@ -535,7 +538,10 @@ class RotationBuilder:
                 )
                 recast_time = (
                     StatFns.get_time_using_speed_stat(
-                        timing_spec.gcd_base_recast_time, self.__stats.speed_stat
+                        timing_spec.gcd_base_recast_time,
+                        self.__stats.speed_stat,
+                        self.__stats.version,
+                        self.__stats.level,
                     )
                     if timing_spec.affected_by_speed_stat
                     else timing_spec.gcd_base_recast_time
@@ -850,7 +856,7 @@ class RotationBuilder:
                 auto_target_ind += 1
             auto_target_ind = max(0, auto_target_ind-1)
             auto_target = timestamps_and_main_target[auto_target_ind][1]
-            
+
             self._q_snapshot_and_applications.add(
                 Utils.transform_time_to_prio(snapshot_time),
                 snapshot_time,

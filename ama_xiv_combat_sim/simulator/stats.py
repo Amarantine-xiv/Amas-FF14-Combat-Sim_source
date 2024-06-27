@@ -21,4 +21,4 @@ class Stats:
 
     def __post_init__(self):
         object.__setattr__(self, "job_class_fns", get_job_class_fns(self.version))
-        object.__setattr__(self, "processed_stats", ProcessedStats(self))
+        object.__setattr__(self, "processed_stats", ProcessedStats(self, self.version, self.level))

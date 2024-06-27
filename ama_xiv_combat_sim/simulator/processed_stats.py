@@ -5,12 +5,12 @@ from ama_xiv_combat_sim.simulator.calcs.stat_fns import StatFns
 
 @dataclass(frozen=True)
 class ProcessedStats:
-    def __init__(self, stats):
-        crit_rate, crit_bonus = StatFns.get_crit_stats(stats.crit_stat)
+    def __init__(self, stats, version, level):
+        crit_rate, crit_bonus = StatFns.get_crit_stats(stats.crit_stat, version, level)
         object.__setattr__(self, "crit_rate", crit_rate)
         object.__setattr__(self, "crit_bonus", crit_bonus)
-        object.__setattr__(self, "det_bonus", StatFns.fDet(stats.det_stat))
-        object.__setattr__(self, "dh_rate", StatFns.get_dh_rate(stats.dh_stat))
+        object.__setattr__(self, "det_bonus", StatFns.fDet(stats.det_stat, version, level))
+        object.__setattr__(self, "dh_rate", StatFns.get_dh_rate(stats.dh_stat, version, level))
         object.__setattr__(
             self, "job_mod", stats.job_class_fns.JOB_MODS[stats.job_class]
         )

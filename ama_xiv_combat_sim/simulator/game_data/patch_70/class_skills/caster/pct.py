@@ -357,8 +357,14 @@ def add_pct_skills(skill_library):
             buff_spec=StatusEffectSpec(
                 damage_mult=1.05, duration=20 * 1000, is_party_effect=True
             ),
-            job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=5),),
-            follow_up_skills=(inspiration_follow_up,),
+            job_resource_spec={
+                SimConsts.DEFAULT_CONDITION: (JobResourceSpec(name="Hyperphantasia", change=5),),
+                "Buff Only": tuple(),
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (inspiration_follow_up,),
+                "Buff Only": tuple(),
+            },
         )
     )
     skill_library.add_skill(
