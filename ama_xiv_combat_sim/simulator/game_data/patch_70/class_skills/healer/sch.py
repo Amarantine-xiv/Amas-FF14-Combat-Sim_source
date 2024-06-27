@@ -45,7 +45,7 @@ def add_sch_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=940
             ),
-            damage_spec=DamageSpec(potency=270),
+            damage_spec=DamageSpec(potency=220),
         )
     )
     skill_library.add_skill(
