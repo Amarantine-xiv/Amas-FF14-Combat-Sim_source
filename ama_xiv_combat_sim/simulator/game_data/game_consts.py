@@ -25,6 +25,39 @@ class GameConsts:
     __FAP_CONSTS = {"6.55": 195, "7.0": 195, "test": 195}
     __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 156, "test": 156}
 
+    __SPEED_CONSTS = {"6.55": 130, "7.0": 130, "test": 130}
+    __CRIT_CONSTS = {
+        "6.55": (200, 50, 400),
+        "7.0": (200, 50, 400),
+        "test": (200, 50, 400),
+    }
+
+    __DH_CONSTS = {"6.55": 550, "7.0": 550, "test": 550}
+
+    __DET_CONSTS = {"6.55": 140, "7.0": 140, "test": 140}
+
+    __TEN_CONSTS = {"6.55": 100, "7.0": 100, "test": 100}
+
+    @staticmethod
+    def get_speed_const(version, level):
+        return GameConsts.__SPEED_CONSTS[version]
+
+    @staticmethod
+    def get_crit_consts(version, level):
+        return GameConsts.__CRIT_CONSTS[version]
+
+    @staticmethod
+    def get_dh_const(version, level):
+        return GameConsts.__DH_CONSTS[version]
+
+    @staticmethod
+    def get_det_const(version, level):
+        return GameConsts.__DET_CONSTS[version]
+
+    @staticmethod
+    def get_ten_const(version, level):
+        return GameConsts.__TEN_CONSTS[version]
+
     @staticmethod
     def get_level_div(version, level):
         return GameConsts.__LEVEL_DIVS[version]

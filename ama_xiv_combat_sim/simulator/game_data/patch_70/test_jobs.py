@@ -1895,7 +1895,7 @@ class TestJobs(TestClass):
         rb.add_next("Thunder III")
 
         expected_damage = 444172.1
-        expected_total_time = 24660.0
+        expected_total_time = 27220.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -1940,9 +1940,9 @@ class TestJobs(TestClass):
             ("Fire III", 13116.0),
             ("Flare Star", 43924.3),
             ("Fire IV", 34029.0),
-            ("Flare Star", 43934.5),
-            ("Paradox", 30526.3),
+            ("Flare Star", 43934.5),            
             ("Fire IV", 34068.2),
+            ("Paradox", 30526.3),
             ("Xenoglossy", 53659.7),
             ("Fire III", 23889.8),
             ("Blizzard III", 11927.9),

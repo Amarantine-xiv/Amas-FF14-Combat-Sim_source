@@ -7,8 +7,9 @@ class StatFns:
     def get_time_using_speed_stat(t_ms, speed_stat, version, level=90):
         level_sub = GameConsts.get_level_sub(version, level)
         level_div = GameConsts.get_level_div(version, level)
+        speed_const = GameConsts.get_speed_const(version, level)
 
-        tmp = np.ceil(130 * (level_sub - speed_stat) / level_div)
+        tmp = np.ceil(speed_const * (level_sub - speed_stat) / level_div)
         tmp2 = t_ms * (1000 + tmp) / 10000
         tmp3 = np.floor(tmp2) / 100
         return int(1000 * tmp3)
@@ -17,16 +18,25 @@ class StatFns:
     def get_crit_stats(crit_stat, version, level=90):
         level_sub = GameConsts.get_level_sub(version, level)
         level_div = GameConsts.get_level_div(version, level)
+        crit_consts = GameConsts.get_crit_consts(version, level)
 
-        crit_rate = (np.floor(200 * (crit_stat - level_sub) / level_div) + 50) / 1000
-        crit_bonus = (np.floor(200 * (crit_stat - level_sub) / level_div) + 400) / 1000
+        crit_rate = (
+            np.floor(crit_consts[0] * (crit_stat - level_sub) / level_div)
+            + crit_consts[1]
+        ) / 1000
+        crit_bonus = (
+            np.floor(crit_consts[0] * (crit_stat - level_sub) / level_div)
+            + crit_consts[2]
+        ) / 1000
         return crit_rate, crit_bonus
 
     @staticmethod
     def get_dh_rate(dh_stat, version, level=90):
         level_sub = GameConsts.get_level_sub(version, level)
         level_div = GameConsts.get_level_div(version, level)
-        return np.floor(550 * (dh_stat - level_sub) / level_div) / 1000
+        dh_const = GameConsts.get_dh_const(version, level)
+
+        return np.floor(dh_const * (dh_stat - level_sub) / level_div) / 1000
 
     @staticmethod
     # from Hint's repo, https://github.com/hintxiv/reassemble
@@ -39,13 +49,17 @@ class StatFns:
     def fSpd(speed_stat, version, level=90):
         level_sub = GameConsts.get_level_sub(version, level)
         level_div = GameConsts.get_level_div(version, level)
-        return np.floor(130 * (speed_stat - level_sub) / level_div + 1000)
+        speed_const = GameConsts.get_speed_const(version, level)
+
+        return np.floor(speed_const * (speed_stat - level_sub) / level_div + 1000)
 
     @staticmethod
     def fTnc(tenacity, version, level=90):
         level_sub = GameConsts.get_level_sub(version, level)
         level_div = GameConsts.get_level_div(version, level)
-        return np.floor(100 * (tenacity - level_sub) / level_div) + 1000
+        ten_const = GameConsts.get_ten_const(version, level)
+
+        return np.floor(ten_const * (tenacity - level_sub) / level_div) + 1000
 
     @staticmethod
     # from Hint's repo, https://github.com/hintxiv/reassemble
@@ -74,16 +88,19 @@ class StatFns:
     def fDet(det_stat, version, level=90):
         level_main = GameConsts.get_level_main(version, level)
         level_div = GameConsts.get_level_div(version, level)
+        det_const = GameConsts.get_det_const(version, level)
 
-        return np.floor(140 * (det_stat - level_main) / level_div) + 1000
+        return np.floor(det_const * (det_stat - level_main) / level_div) + 1000
 
     # Used for auto dh
     @staticmethod
     def fDetDH(det_stat, dh_stat, version, level=90):
         level_sub = GameConsts.get_level_sub(version, level)
         level_div = GameConsts.get_level_div(version, level)
+        det_const = GameConsts.get_det_const(version, level)
+
         return StatFns.fDet(det_stat, version, level) + np.floor(
-            140 * (dh_stat - level_sub) / level_div
+            det_const * (dh_stat - level_sub) / level_div
         )
 
     @staticmethod
