@@ -117,7 +117,7 @@ class TestJobs(TestClass):
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 37.2),
             ("Glare III", SkillModifier(), 16774.59),
-            ("Glare IV", SkillModifier(), 28982.0),
+            ("Glare IV", SkillModifier(), 32588.4),
             ("Assize", SkillModifier(), 20363.5),
             ("Dia", SkillModifier(), 40727.1),
             ("Afflatus Misery", SkillModifier(), 67102.7),
@@ -144,7 +144,7 @@ class TestJobs(TestClass):
             ("Dosis III", SkillModifier(), 18823.3),
             ("Phlegma III", SkillModifier(), 31436.4),
             ("Toxikon II", SkillModifier(), 18829.7),
-            ("Dykrasia II", SkillModifier(), 8901.3),
+            ("Dyskrasia II", SkillModifier(), 8901.3),
             ("Pneuma", SkillModifier(), 18835.1),
             ("Eukrasian Dosis III", SkillModifier(), 39979.0),
             ("Eukrasian Dyskrasia", SkillModifier(), 21179.5),
@@ -169,7 +169,7 @@ class TestJobs(TestClass):
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 185.2),
             ("Broil IV", SkillModifier(), 15190.6),
-            ("Ruin II", SkillModifier(), 10786.7),
+            ("Ruin II", SkillModifier(), 13227.6),
             ("Energy Drain", SkillModifier(), 4901.8),
             ("Art of War II", SkillModifier(), 8821.7),
             ("Biolysis", SkillModifier(), 37945.5),
@@ -241,7 +241,7 @@ class TestJobs(TestClass):
             ("Earthly Star", SkillModifier(), 14885.5),
             ("Gravity II", SkillModifier(), 6443.0),
             ("Macrocosmos", SkillModifier(), 12470.8),
-            ("Oracle", SkillModifier(), 29889.0),
+            ("Oracle", SkillModifier(), 42848.3),
             ("Lord of Crowns", SkillModifier(), 19933.8),
         )
         return self.__test_skills(stats, skills_and_expected_damage)
@@ -297,13 +297,13 @@ class TestJobs(TestClass):
             ("Heavy Swing", SkillModifier(), 5716.0),
             ("Maim", SkillModifier(force_combo=True), 8833.2),
             ("Maim", SkillModifier(), 4945.0),
-            ("Storm's Path", SkillModifier(force_combo=True), 11970.2),
-            ("Storm's Path", SkillModifier(), 4676.8),
-            ("Storm's Eye", SkillModifier(force_combo=True), 11968.8),
-            ("Storm's Eye", SkillModifier(), 4680.4),
+            ("Storm's Path", SkillModifier(force_combo=True), 12490.1),
+            ("Storm's Path", SkillModifier(), 5201.3),
+            ("Storm's Eye", SkillModifier(force_combo=True), 12494.9),
+            ("Storm's Eye", SkillModifier(), 5204.7),
             ("Upheaval", SkillModifier(), 10418.6),
             ("Onslaught", SkillModifier(), 3900.5),
-            ("Fell Cleave", SkillModifier(), 14035.7),
+            ("Fell Cleave", SkillModifier(), 15100.2),
             ("Primal Rend", SkillModifier(), 31574.8),
             ("Inner Chaos", SkillModifier(), 29773.5),
             ("Tomahawk", SkillModifier(), 3898.4),
@@ -313,7 +313,7 @@ class TestJobs(TestClass):
             ("Orogeny", SkillModifier(), 3903.3),
             ("Decimate", SkillModifier(), 4677.1),
             ("Damnation", SkillModifier(with_condition="Retaliation"), 1424.1),
-            ("Primal Wrath", SkillModifier(), 15611.6),
+            ("Primal Wrath", SkillModifier(), 18221.4),
             ("Primal Ruination", SkillModifier(), 33374.8),
         )
         return self.__test_skills(stats, skills_and_expected_damage)
@@ -354,7 +354,7 @@ class TestJobs(TestClass):
         rb.add_next("Storm's Path")
         rb.add_next("Fell Cleave")
         rb.add_next("Inner Chaos")
-        expected_damage = 367328.8
+        expected_damage = 376198.2
         expected_total_time = 32385.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
@@ -375,19 +375,19 @@ class TestJobs(TestClass):
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 2170.4),
-            ("Keen Edge", SkillModifier(), 7269.3),
+            ("Keen Edge", SkillModifier(), 7789.2),
             ("Brutal Shell", SkillModifier(force_combo=True), 9897.2),
             ("Brutal Shell", SkillModifier(), 6235.2),
             ("Demon Slice", SkillModifier(), 2594.8),
             ("Lightning Shot", SkillModifier(), 3892.1),
-            ("Solid Barrel", SkillModifier(force_combo=True), 11444.1),
-            ("Solid Barrel", SkillModifier(), 5713.8),
-            ("Burst Strike", SkillModifier(), 11446.3),
+            ("Solid Barrel", SkillModifier(force_combo=True), 11962.1),
+            ("Solid Barrel", SkillModifier(), 6244.5),
+            ("Burst Strike", SkillModifier(), 11967.1),
             ("Demon Slaughter", SkillModifier(force_combo=True), 4162.4),
             ("Demon Slaughter", SkillModifier(), 2601.2),
             ("Sonic Break", SkillModifier(), 23398.8),
-            ("Gnashing Fang", SkillModifier(), 11967.3),
-            ("Savage Claw", SkillModifier(force_combo=True), 14044.1),
+            ("Gnashing Fang", SkillModifier(), 13024.5),
+            ("Savage Claw", SkillModifier(force_combo=True), 14574.3),
             ("Wicked Talon", SkillModifier(force_combo=True), 16104.3),
             ("Bow Shock", SkillModifier(), 11704.9),
             ("Jugular Rip", SkillModifier(), 6243.4),
@@ -450,7 +450,7 @@ class TestJobs(TestClass):
             ),
             ("Intervene", SkillModifier(), 3900.0),
             ("Atonement", SkillModifier(), 11453.9),
-            ("Sepulcher", SkillModifier(), 12457.3),
+            ("Sepulchre", SkillModifier(), 12457.3),
             ("Supplication", SkillModifier(), 11964.4),
             ("Confiteor", SkillModifier(), 11453.0),
             ("Confiteor", SkillModifier(with_condition="Requiescat"), 24421.0),
@@ -461,7 +461,7 @@ class TestJobs(TestClass):
             ("Blade of Truth", SkillModifier(with_condition="Requiescat"), 21896.4),
             ("Blade of Valor", SkillModifier(), 11439.3),
             ("Blade of Valor", SkillModifier(with_condition="Requiescat"), 24417.9),
-            ("Blade of Honor", SkillModifier(), 19258.4),
+            ("Blade of Honor", SkillModifier(), 26022.5),
             ("Imperator", SkillModifier(), 15078.2),
         )
 
@@ -526,13 +526,13 @@ class TestJobs(TestClass):
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 2322.9),
-            ("Hard Slash", SkillModifier(), 6211.8),
-            ("Syphon Strike", SkillModifier(force_combo=True), 8802.9),
-            ("Syphon Strike", SkillModifier(), 5176.9),
+            ("Hard Slash", SkillModifier(), 6736.0),
+            ("Syphon Strike", SkillModifier(force_combo=True), 9323.0),
+            ("Syphon Strike", SkillModifier(), 5701.8),
             ("Unleash", SkillModifier(), 3105.4),
             ("Unmend", SkillModifier(), 3885.94),
-            ("Souleater", SkillModifier(force_combo=True), 10865.9),
-            ("Souleater", SkillModifier(), 5182.6),
+            ("Souleater", SkillModifier(force_combo=True), 11904.7),
+            ("Souleater", SkillModifier(), 6210.8),
             ("Flood of Shadow", SkillModifier(), 4140.5),
             ("Stalwart Soul", SkillModifier(force_combo=True), 4142.5),
             ("Stalwart Soul", SkillModifier(), 3102.1),
@@ -593,7 +593,7 @@ class TestJobs(TestClass):
         rb.add_next("Hard Slash")
         rb.add_next("Syphon Strike")
         rb.add_next("Souleater")
-        expected_damage = 409849.1
+        expected_damage = 417250.7
         expected_total_time = 26993.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
@@ -1021,9 +1021,9 @@ class TestJobs(TestClass):
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 3113.1),
-            ("Bootshine", SkillModifier(), 11947.4),
-            ("Bootshine", SkillModifier(with_condition="Opo-opo Form"), 16497.9),
-            ("Snap Punch", SkillModifier(), 13512.7),
+            ("Bootshine", SkillModifier(), 8735.4),
+            ("Bootshine", SkillModifier(with_condition="Opo-opo Form"), 12096.6),
+            ("Snap Punch", SkillModifier(), 14277.8),
             ("Twin Snakes", SkillModifier(), 15072.6),
             ("Demolish", SkillModifier(), 15878.9),
             ("Rockbreaker", SkillModifier(), 5170.4),
@@ -1035,14 +1035,14 @@ class TestJobs(TestClass):
             ("Enlightenment", SkillModifier(), 6757.2),
             ("Six-sided Star", SkillModifier(with_condition="5 Chakra"), 46834.1),
             ("Six-sided Star", SkillModifier(with_condition="0 Chakra"), 31007.0),
-            ("Leaping Opo", SkillModifier(), 14286.1),
+            ("Leaping Opo", SkillModifier(), 10318.2),
             ("Leaping Opo", SkillModifier(with_condition="Opo-opo's Fury"), 18279.3),
-            ("Rising Raptor", SkillModifier(), 15089.2),
+            ("Rising Raptor", SkillModifier(), 13084.2),
             ("Rising Raptor", SkillModifier(with_condition="Raptor's Fury"), 19062.8),
             ("Pouncing Coeurl", SkillModifier(), 15887.2),
             ("Pouncing Coeurl", SkillModifier(with_condition="Coeurl's Fury"), 19886.2),
-            ("Wind's Reply", SkillModifier(), 35717.6),
-            ("Fire's Reply", SkillModifier(), 51731.4),
+            ("Wind's Reply", SkillModifier(), 31798.2),
+            ("Fire's Reply", SkillModifier(), 43637.0),
         )
         return self.__test_skills(stats, skills_and_expected_damage)
 
@@ -1095,15 +1095,15 @@ class TestJobs(TestClass):
         rb.add_next("Bootshine")
 
         expected = (
-            ("Bootshine", 11930.5),
-            ("Snap Punch", 13511.2),
-            ("Bootshine", 16493.4),
+            ("Bootshine", 8727.6),
+            ("Snap Punch", 14300.5),
+            ("Bootshine", 12096.3),
             #
-            ("Rising Raptor", 15096.6),
+            ("Rising Raptor", 13098.8),
             ("Twin Snakes", 15112.2),
             ("Rising Raptor", 19062.7),
             ("Rising Raptor", 19062.8),
-            ("Rising Raptor", 15096.3),
+            ("Rising Raptor", 13118.0),
             #
             ("Pouncing Coeurl", 15887.2),
             ("Demolish", 15885.6),
@@ -1112,9 +1112,9 @@ class TestJobs(TestClass):
             ("Pouncing Coeurl", 19886.3),
             ("Pouncing Coeurl", 15887.2),
             #
-            ("Bootshine", 16505.4),
+            ("Bootshine", 12089.1),
             ("Elixir Burst", 35727.8),
-            ("Bootshine", 16497.2),
+            ("Bootshine", 12089.1),
         )
 
         return self.__test_rotation_damage(rb, expected)
@@ -1243,9 +1243,9 @@ class TestJobs(TestClass):
         
         expected = (
             ("Hyosho Ranryu", 68225.1),
-            ("Spinning Edge", 11334.9),
-            ("Gust Slash", 14550.4),
-            ("Armor Crush", 18577.1),
+            ("Spinning Edge", 12132.1),
+            ("Gust Slash", 15376.3),
+            ("Armor Crush", 19416.3),
             ("Bhavacakra", 15372.9),
             ("Hyosho Ranryu", 68306.8),
             
@@ -1312,29 +1312,29 @@ class TestJobs(TestClass):
         rb.add_next("Bhavacakra")
 
         expected = (
-            ("Aeolian Edge", 9725.6),
-            ("Aeolian Edge", 12157.7),
+            ("Aeolian Edge", 10527.2),
+            ("Aeolian Edge", 14597.0),
             #
-            ("Armor Crush", 9704.3),
-            ("Aeolian Edge", 12157.7),
-            ("Aeolian Edge", 12157.7),
-            ("Aeolian Edge", 9725.6),
+            ("Armor Crush", 11341.4),
+            ("Aeolian Edge", 14573.7),
+            ("Aeolian Edge", 14580.4),
+            ("Aeolian Edge", 10538.1),
             #
-            ("Armor Crush", 9704.3),
-            ("Armor Crush", 9704.3),
-            ("Aeolian Edge", 12157.7),
-            ("Aeolian Edge", 12157.7),
-            ("Aeolian Edge", 12157.7),
-            ("Aeolian Edge", 12157.7),
-            ("Aeolian Edge", 9725.6),
+            ("Armor Crush", 11335.1),
+            ("Armor Crush", 11335.1),
+            ("Aeolian Edge", 14566.2),
+            ("Aeolian Edge", 14566.2),
+            ("Aeolian Edge", 14566.2),
+            ("Aeolian Edge", 14566.2),
+            ("Aeolian Edge", 10545.0),
             # doku
-            ("Aeolian Edge", 9725.6),
+            ("Aeolian Edge", 10545.0),
             ("Dokumori", 12163.7),
-            ("Aeolian Edge", 10201.0),
+            ("Aeolian Edge", 11056.0),
             # Kunai
-            ("Aeolian Edge", 9725.6),
+            ("Aeolian Edge", 10526.6),
             ("Kunai's Bane", 24314.3),
-            ("Aeolian Edge", 10702.7),
+            ("Aeolian Edge", 11586.8),
             # meisui
             ("Zesho Meppo", 22275.9),
             ("Bhavacakra", 15392.6),
@@ -1375,13 +1375,13 @@ class TestJobs(TestClass):
             ("Hyosho Ranryu", 68433.6),
             ("Hyosho Ranryu", 52765.4),
             ("Gust Slash (pet)", 5984.8),
-            ("Gust Slash", 8115.2),
+            ("Gust Slash", 8913.4),
             ("Aeolian Edge (pet)", 5968.4),
-            ("Aeolian Edge", 9723.2),
+            ("Aeolian Edge", 10554.2),
             ("Hakke Mujinsatsu (pet)", 2984.0),
             ("Hakke Mujinsatsu", 4054.4),
             ("Armor Crush (pet)", 5970.8),
-            ("Armor Crush", 9727.0),
+            ("Armor Crush", 11355.8),
         )
 
         return self.__test_rotation_damage(rb, expected)
@@ -1439,7 +1439,7 @@ class TestJobs(TestClass):
         rb.add_next("Chi")
         rb.add_next("Raiton")
         rb.add_next("Forked Raiju")
-        expected_damage = 620771.8
+        expected_damage = 638909.4
         expected_total_time = 27228.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
@@ -1530,7 +1530,7 @@ class TestJobs(TestClass):
         rb.add_next("Midare Setsugekka")
         rb.add_next("Kaeshi: Setsugekka")
 
-        expected_damage = 670574.4
+        expected_damage = 678638.5
         expected_total_time = 32120.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
@@ -1936,18 +1936,18 @@ class TestJobs(TestClass):
         rb.add_next("Flare Star")
 
         expected = (
-            ("Flare Star", 16435.5),
+            ("Flare Star", 18770.2),
             ("Fire III", 13116.0),
-            ("Flare Star", 38411.7),
+            ("Flare Star", 43924.3),
             ("Fire IV", 34029.0),
-            ("Flare Star", 38426.4),
+            ("Flare Star", 43934.5),
             ("Paradox", 30526.3),
             ("Fire IV", 34068.2),
             ("Xenoglossy", 53659.7),
             ("Fire III", 23889.8),
             ("Blizzard III", 11927.9),
-            ("Flare Star", 14882.7),
-            ("Flare Star", 38413.0),
+            ("Flare Star", 17063.6),
+            ("Flare Star", 43917.0),
         )
 
         return self.__test_rotation_damage(rb, expected)

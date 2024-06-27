@@ -35,7 +35,7 @@ def add_gnb_skills(skill_library):
         Skill(
             name="Keen Edge",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=280),
+            damage_spec=DamageSpec(potency=300),
             combo_spec=(ComboSpec(combo_group=0),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=893
@@ -92,8 +92,8 @@ def add_gnb_skills(skill_library):
             name="Solid Barrel",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=440),
-                "No Combo": DamageSpec(potency=220),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=460),
+                "No Combo": DamageSpec(potency=240),
             },
             combo_spec=(ComboSpec(combo_group=0, combo_actions=("Brutal Shell",)),),
             timing_spec=TimingSpec(
@@ -105,7 +105,7 @@ def add_gnb_skills(skill_library):
         Skill(
             name="Burst Strike",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=440),
+            damage_spec=DamageSpec(potency=460),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=714
             ),
@@ -154,7 +154,7 @@ def add_gnb_skills(skill_library):
         Skill(
             name="Gnashing Fang",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=460),
+            damage_spec=DamageSpec(potency=500),
             combo_spec=(ComboSpec(combo_group=1),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
@@ -165,7 +165,7 @@ def add_gnb_skills(skill_library):
         Skill(
             name="Savage Claw",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=540),
+            damage_spec=DamageSpec(potency=560),
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Gnashing Fang",)),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=625

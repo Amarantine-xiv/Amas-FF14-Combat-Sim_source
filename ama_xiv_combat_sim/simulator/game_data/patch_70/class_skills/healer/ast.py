@@ -316,7 +316,7 @@ def add_ast_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
-            damage_spec=DamageSpec(potency=600),
+            damage_spec=DamageSpec(potency=860),
         )
     )
 

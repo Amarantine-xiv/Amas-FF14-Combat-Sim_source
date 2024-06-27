@@ -62,8 +62,8 @@ def add_war_skills(skill_library):
             ),
             combo_spec=(ComboSpec(combo_actions=("Maim",)),),
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=460),
-                "No Combo": DamageSpec(potency=180),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=480),
+                "No Combo": DamageSpec(potency=200),
             },
         )
     )
@@ -94,11 +94,11 @@ def add_war_skills(skill_library):
     )
 
     storms_eye_damage_follow_up = FollowUp(
-        skill=Skill(name="Storm's Eye", damage_spec=DamageSpec(potency=460)),
+        skill=Skill(name="Storm's Eye", damage_spec=DamageSpec(potency=480)),
         delay_after_parent_application=1649,
     )
     storms_eye_damage_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Storm's Eye", damage_spec=DamageSpec(potency=180)),
+        skill=Skill(name="Storm's Eye", damage_spec=DamageSpec(potency=200)),
         delay_after_parent_application=1649,
     )
     skill_library.add_skill(
@@ -147,7 +147,7 @@ def add_war_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
             ),
-            damage_spec=DamageSpec(potency=540),
+            damage_spec=DamageSpec(potency=580),
         )
     )
     skill_library.add_skill(
@@ -314,7 +314,7 @@ def add_war_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
             ),
-            damage_spec=DamageSpec(potency=600),
+            damage_spec=DamageSpec(potency=700),
         )
     )    
     skill_library.add_skill(

@@ -381,7 +381,7 @@ def add_mch_skills(skill_library):
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
-                "No Combo": DamageSpec(potency=120),
+                "No Combo": DamageSpec(potency=140),
                 "No Combo, Reassemble": DamageSpec(
                     potency=140,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,

@@ -218,6 +218,19 @@ def add_sam_skills(skill_library):
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
     )
+    kaeshi_higanbana_dot = Skill(
+        name="Higanbana (dot)",
+        is_GCD=False,
+        damage_spec=DamageSpec(potency=45, damage_class=DamageClass.PHYSICAL_DOT),
+    )
+    kaeshi_higanbana_follow_up = FollowUp(
+        skill=kaeshi_higanbana_dot,
+        delay_after_parent_application=0,
+        dot_duration=60 * 1000,
+        snapshot_buffs_with_parent=True,
+        snapshot_debuffs_with_parent=True,
+    )
+    
     iaijutsu_timing = TimingSpec(
         base_cast_time=1300,
         affected_by_speed_stat=False,
@@ -259,7 +272,7 @@ def add_sam_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=200),
             timing_spec=instant_timing_spec,
-            follow_up_skills=(higanbana_follow_up,),
+            follow_up_skills=(kaeshi_higanbana_follow_up,),
         )
     )
     skill_library.add_skill(
@@ -277,7 +290,7 @@ def add_sam_skills(skill_library):
             name="Kaeshi: Setsugekka",
             is_GCD=True,
             damage_spec=DamageSpec(
-                potency=640, guaranteed_crit=ForcedCritOrDH.FORCE_YES
+                potency=700, guaranteed_crit=ForcedCritOrDH.FORCE_YES
             ),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620

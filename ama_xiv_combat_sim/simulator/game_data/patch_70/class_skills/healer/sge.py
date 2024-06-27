@@ -60,7 +60,7 @@ def add_sge_skills(skill_library):
     )
     skill_library.add_skill(
         Skill(
-            name="Dykrasia II",
+            name="Dyskrasia II",
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760

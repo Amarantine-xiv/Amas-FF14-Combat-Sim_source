@@ -341,7 +341,7 @@ def add_pld_skills(skill_library):
     )
     skill_library.add_skill(
         Skill(
-            name="Sepulcher",
+            name="Sepulchre",
             is_GCD=True,
             damage_spec=DamageSpec(potency=480),
             timing_spec=TimingSpec(
@@ -419,7 +419,7 @@ def add_pld_skills(skill_library):
         Skill(
             name="Blade of Honor",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=740),
+            damage_spec=DamageSpec(potency=1000),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
