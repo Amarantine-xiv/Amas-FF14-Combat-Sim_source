@@ -93,3 +93,5 @@ class SkillLibrary:
         for job_name in self.__skills:
             for skill_name in self.__skills[job_name]:
                 print("Job name: {}, Skill name: {}".format(job_name, skill_name))
+                
+    

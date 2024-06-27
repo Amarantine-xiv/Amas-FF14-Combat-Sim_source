@@ -195,7 +195,7 @@ def add_blm_skills(skill_library):
     high_thunder_dot = Skill(
         name="Thunder (dot)",
         is_GCD=False,
-        damage_spec=DamageSpec(potency=50, damage_class=DamageClass.MAGICAL_DOT),
+        damage_spec=DamageSpec(potency=55, damage_class=DamageClass.MAGICAL_DOT),
     )
     high_thunder_follow_up = FollowUp(
         skill=high_thunder_dot,
@@ -723,7 +723,7 @@ def add_blm_skills(skill_library):
         )
     )
     flare_star_damage_spec = get_enochian_damage_spec_cross(
-        base_potency=350, is_fire_spell=True
+        base_potency=400, is_fire_spell=True
     )
     flare_star_timing_spec = get_enochian_timing_spec_cross(
         base_cast_time=3000, is_fire_spell=True, application_delay=1160

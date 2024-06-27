@@ -46,7 +46,7 @@ def add_whm_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=100, application_delay=1290
             ),
-            damage_spec=DamageSpec(potency=570),
+            damage_spec=DamageSpec(potency=640),
         )
     )
     skill_library.add_skill(

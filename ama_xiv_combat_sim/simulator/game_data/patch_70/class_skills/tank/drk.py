@@ -40,7 +40,7 @@ def add_drk_skills(skill_library):
             name="Hard Slash",
             is_GCD=True,
             combo_spec=(ComboSpec(),),
-            damage_spec=DamageSpec(potency=240),
+            damage_spec=DamageSpec(potency=260),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=581
             ),
@@ -52,8 +52,8 @@ def add_drk_skills(skill_library):
             is_GCD=True,
             combo_spec=(ComboSpec(combo_actions=("Hard Slash",)),),
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=340),
-                "No Combo": DamageSpec(potency=200),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
+                "No Combo": DamageSpec(potency=220),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=624
@@ -87,8 +87,8 @@ def add_drk_skills(skill_library):
             is_GCD=True,
             combo_spec=(ComboSpec(combo_actions=("Syphon Strike",)),),
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=420),
-                "No Combo": DamageSpec(potency=200),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=460),
+                "No Combo": DamageSpec(potency=240),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=624

@@ -575,7 +575,7 @@ class TestJobs(TestClass):
         rb.add_next("Assize")
         rb.add_next("Glare III", num_times=10)
         expected_damage = 301604.8
-        expected_total_time = 29480.0
+        expected_total_time = 29760.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
@@ -598,7 +598,7 @@ class TestJobs(TestClass):
             ("Dosis III", SkillModifier(), 17275.3),
             ("Phlegma III", SkillModifier(), 31436.4),
             ("Toxikon II", SkillModifier(), 17284.2),
-            ("Dykrasia II", SkillModifier(), 8901.3),
+            ("Dyskrasia II", SkillModifier(), 8901.3),
             ("Pneuma", SkillModifier(), 17264.3),
             ("Eukrasian Dosis III", SkillModifier(), 39979.0),
         )

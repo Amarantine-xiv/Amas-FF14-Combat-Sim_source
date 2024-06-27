@@ -64,7 +64,6 @@ def add_nin_skills(skill_library):
                     damage_class=DamageClass.PET,
                     pet_job_mod_override=100,
                 ),
-                status_effect_denylist=("Dragon Sight",),
             ),
             delay_after_parent_application=88,
             snapshot_buffs_with_parent=False,
@@ -141,7 +140,7 @@ def add_nin_skills(skill_library):
     )
 
     spinning_edge_damage = Skill(
-        name="Spinning Edge", damage_spec=DamageSpec(potency=280)
+        name="Spinning Edge", damage_spec=DamageSpec(potency=300)
     )
     spinning_edge_follow_up = FollowUp(
         skill=spinning_edge_damage, delay_after_parent_application=400
@@ -162,11 +161,11 @@ def add_nin_skills(skill_library):
     )
 
     gust_slash_damage_follow_up = FollowUp(
-        Skill(name="Gust Slash", damage_spec=DamageSpec(potency=360)),
+        Skill(name="Gust Slash", damage_spec=DamageSpec(potency=380)),
         delay_after_parent_application=400,
     )
     gust_slash_damage_no_combo_follow_up = FollowUp(
-        Skill(name="Gust Slash", damage_spec=DamageSpec(potency=200)),
+        Skill(name="Gust Slash", damage_spec=DamageSpec(potency=220)),
         delay_after_parent_application=400,
     )
     skill_library.add_skill(
@@ -212,7 +211,7 @@ def add_nin_skills(skill_library):
         delay_after_parent_application=540,
     )
     aeolian_edge_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(240)),
+        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(260)),
         delay_after_parent_application=540,
     )
     aeolian_edge_no_pos_follow_up = FollowUp(
@@ -220,24 +219,24 @@ def add_nin_skills(skill_library):
         delay_after_parent_application=540,
     )
     aeolian_edge_no_pos_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(180)),
+        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(200)),
         delay_after_parent_application=540,
     )
     # kaz. this is ugly, we can do better.
     aeolian_edge_follow_up_kaz = FollowUp(
-        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(440 + 60)),
+        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(440 + 100)),
         delay_after_parent_application=540,
     )
     aeolian_edge_no_combo_follow_up_kaz = FollowUp(
-        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(240 + 60)),
+        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(260 + 100)),
         delay_after_parent_application=540,
     )
     aeolian_edge_no_pos_follow_up_kaz = FollowUp(
-        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(380 + 60)),
+        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(380 + 100)),
         delay_after_parent_application=540,
     )
     aeolian_edge_no_pos_no_combo_follow_up_kaz = FollowUp(
-        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(180 + 60)),
+        skill=Skill(name="Aeolian Edge", damage_spec=DamageSpec(200 + 100)),
         delay_after_parent_application=540,
     )
 
@@ -356,19 +355,19 @@ def add_nin_skills(skill_library):
     )
 
     armor_crush_follow_up = FollowUp(
-        skill=Skill(name="Armor Crush", damage_spec=DamageSpec(460)),
+        skill=Skill(name="Armor Crush", damage_spec=DamageSpec(480)),
         delay_after_parent_application=620,
     )
     armor_crush_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Armor Crush", damage_spec=DamageSpec(240)),
+        skill=Skill(name="Armor Crush", damage_spec=DamageSpec(280)),
         delay_after_parent_application=620,
     )
     armor_crush_no_pos_follow_up = FollowUp(
-        skill=Skill(name="Armor Crush", damage_spec=DamageSpec(400)),
+        skill=Skill(name="Armor Crush", damage_spec=DamageSpec(420)),
         delay_after_parent_application=620,
     )
     armor_crush_no_pos_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Armor Crush", damage_spec=DamageSpec(180)),
+        skill=Skill(name="Armor Crush", damage_spec=DamageSpec(220)),
         delay_after_parent_application=620,
     )
     skill_library.add_skill(
@@ -499,7 +498,7 @@ def add_nin_skills(skill_library):
         Skill(
             name="Forked Raiju",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=600),
+            damage_spec=DamageSpec(potency=640),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -514,7 +513,7 @@ def add_nin_skills(skill_library):
         Skill(
             name="Fleeting Raiju",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=600),
+            damage_spec=DamageSpec(potency=640),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
             ),
@@ -530,7 +529,7 @@ def add_nin_skills(skill_library):
         Skill(
             name="Fuma Shuriken",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=480),
+            damage_spec=DamageSpec(potency=500),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,
@@ -579,7 +578,7 @@ def add_nin_skills(skill_library):
         Skill(
             name="Raiton",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=700),
+            damage_spec=DamageSpec(potency=740),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,
@@ -676,7 +675,7 @@ def add_nin_skills(skill_library):
         Skill(
             name="Suiton",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=540),
+            damage_spec=DamageSpec(potency=580),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,

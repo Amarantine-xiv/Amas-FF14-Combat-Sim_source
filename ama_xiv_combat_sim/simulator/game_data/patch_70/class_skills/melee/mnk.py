@@ -147,15 +147,15 @@ def add_mnk_skills(skill_library):
             name="Bootshine",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=300),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=220),
                 "Opo-opo Form": DamageSpec(
-                    potency=300, guaranteed_crit=ForcedCritOrDH.FORCE_YES
+                    potency=220, guaranteed_crit=ForcedCritOrDH.FORCE_YES
                 ),
                 "Formless Fist": DamageSpec(
-                    potency=300, guaranteed_crit=ForcedCritOrDH.FORCE_YES
+                    potency=220, guaranteed_crit=ForcedCritOrDH.FORCE_YES
                 ),
                 "Formless Fist, Opo-opo Form": DamageSpec(
-                    potency=300, guaranteed_crit=ForcedCritOrDH.FORCE_YES
+                    potency=220, guaranteed_crit=ForcedCritOrDH.FORCE_YES
                 ),
                 
             },
@@ -168,7 +168,7 @@ def add_mnk_skills(skill_library):
         Skill(
             name="True Strike",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=320),
+            damage_spec=DamageSpec(potency=290),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800, gcd_base_recast_time=2000
             ),
@@ -179,8 +179,8 @@ def add_mnk_skills(skill_library):
             name="Snap Punch",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=340),
-                "No Positional": DamageSpec(potency=280),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
+                "No Positional": DamageSpec(potency=300),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
@@ -397,15 +397,15 @@ def add_mnk_skills(skill_library):
             name="Leaping Opo",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=260),
                 "Opo-opo Form": DamageSpec(
-                    potency=360, guaranteed_crit=ForcedCritOrDH.FORCE_YES
+                    potency=260, guaranteed_crit=ForcedCritOrDH.FORCE_YES
                 ),
                 "Formless Fist": DamageSpec(
-                    potency=360, guaranteed_crit=ForcedCritOrDH.FORCE_YES
+                    potency=260, guaranteed_crit=ForcedCritOrDH.FORCE_YES
                 ),
                 "Formless Fist, Opo-opo Form": DamageSpec(
-                    potency=360, guaranteed_crit=ForcedCritOrDH.FORCE_YES
+                    potency=260, guaranteed_crit=ForcedCritOrDH.FORCE_YES
                 ),
                 # Add in opo
                 "Opo-opo's Fury": DamageSpec(potency=460),
@@ -428,7 +428,7 @@ def add_mnk_skills(skill_library):
         Skill(
             name="Rising Raptor",
             is_GCD=True,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=380),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=330),
                          "Raptor's Fury": DamageSpec(potency=480)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
@@ -464,7 +464,7 @@ def add_mnk_skills(skill_library):
         Skill(
             name="Wind's Reply",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=900),
+            damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
             )
@@ -474,7 +474,7 @@ def add_mnk_skills(skill_library):
         Skill(
             name="Fire's Reply",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=1300),
+            damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
             ),
