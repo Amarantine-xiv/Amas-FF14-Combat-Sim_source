@@ -75,6 +75,7 @@ def add_gnb_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=626
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -123,6 +124,7 @@ def add_gnb_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=626
             ),
+            has_aoe=True
         )
     )
     sonic_break_dot_gnb = Skill(
@@ -216,6 +218,7 @@ def add_gnb_skills(skill_library):
                     snapshot_debuffs_with_parent=True,
                 ),
             ),
+            has_aoe=True
         )
     )
 
@@ -257,6 +260,7 @@ def add_gnb_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=537
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -283,10 +287,12 @@ def add_gnb_skills(skill_library):
         Skill(
             name="Double Down",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=1200),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200)}, 
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=716
             ),
+            has_aoe=True,
+            aoe_dropoff= 0.85
         )
     )
 

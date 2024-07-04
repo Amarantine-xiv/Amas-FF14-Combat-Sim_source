@@ -8,11 +8,15 @@ def add_generic_skills_to_library(skill_library):
     skill_library.set_current_job_class(job_class)
     skill_library.add_skill(Skill(name='Grade 8 Tincture',
                                   is_GCD= False,
-                                  timing_spec=TimingSpec(base_cast_time=0, animation_lock=1300, application_delay=890),
+                                  timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=890),
                                   buff_spec=StatusEffectSpec(duration= int(29.97*1000), main_stat_add=262)))
     skill_library.add_skill(Skill(name='Grade 7 Tincture',
                                   is_GCD=False,
-                                  timing_spec=TimingSpec(base_cast_time=0, animation_lock=1300, application_delay=890),
+                                  timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=890),
+                                  buff_spec=StatusEffectSpec(duration= int(29.97*1000), main_stat_add=223)))
+    skill_library.add_skill(Skill(name='Grade 1 Gemsap Tincture',
+                                  is_GCD=False,
+                                  timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=890),
                                   buff_spec=StatusEffectSpec(duration= int(29.97*1000), main_stat_add=223)))
     for i in range(0, 10000, 10):
       skill_name = "Wait {:.2f}s".format(i/1000)

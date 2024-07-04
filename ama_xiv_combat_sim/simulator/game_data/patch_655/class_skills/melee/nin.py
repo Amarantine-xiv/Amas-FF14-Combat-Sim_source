@@ -546,6 +546,8 @@ def add_nin_skills(skill_library):
             follow_up_skills=(phantom_follow_up_damage,),
         )
     )
+    
+    #TODO: fix. gcds only will proc it, like bunshin. Ty An.
     skill_library.add_skill(
         Skill(
             name="Hollow Nozuchi",

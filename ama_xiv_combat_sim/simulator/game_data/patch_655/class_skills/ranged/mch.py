@@ -150,6 +150,7 @@ def add_mch_skills(skill_library):
                 dot_duration=i * 1000,
                 snapshot_buffs_with_parent=True,
                 snapshot_debuffs_with_parent=True,
+                primary_target_only=False,
             )
         return follow_ups
 
@@ -255,10 +256,12 @@ def add_mch_skills(skill_library):
         Skill(
             name="Ricochet",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=130),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=130)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -283,6 +286,7 @@ def add_mch_skills(skill_library):
                 base_cast_time=0, gcd_base_recast_time=1500, application_delay=890
             ),
             job_resource_spec=(job_resource_spec_gcd,),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -427,11 +431,13 @@ def add_mch_skills(skill_library):
         dot_duration=15 * 1000,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
             name="Bioblaster",
             is_GCD=True,
+            has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=50),
                 "Reassemble": DamageSpec(
@@ -556,6 +562,7 @@ def add_mch_skills(skill_library):
         Skill(
             name="Scattergun",
             is_GCD=True,
+            has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=150),
                 "Reassemble": DamageSpec(
@@ -589,6 +596,8 @@ def add_mch_skills(skill_library):
                 JobResourceSpec(name="Battery", change=+20),
                 job_resource_spec_gcd,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.65,
         )
     )
     skill_library.add_skill(

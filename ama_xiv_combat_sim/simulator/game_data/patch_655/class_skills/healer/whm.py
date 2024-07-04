@@ -5,6 +5,7 @@ from ama_xiv_combat_sim.simulator.game_data.patch_655.convenience_timings import
     get_auto_timing,
     get_instant_timing_spec,
 )
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
@@ -46,6 +47,7 @@ def add_whm_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
             damage_spec=DamageSpec(potency=400),
+            has_aoe = True
         )
     )
     dia_dot_whm = Skill(
@@ -79,7 +81,9 @@ def add_whm_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=580
             ),
-            damage_spec=DamageSpec(potency=1240),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1240)},
+            has_aoe = True,
+            aoe_dropoff= 0.5
         )
     )
     skill_library.add_skill(
@@ -90,6 +94,7 @@ def add_whm_skills(skill_library):
                 base_cast_time=2500, animation_lock=100, application_delay=2130
             ),
             damage_spec=DamageSpec(potency=150),
+            has_aoe = True
         )
     )
     skill_library.add_skill(

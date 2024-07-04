@@ -428,7 +428,7 @@ def add_nin_skills(skill_library):
         skill=Skill(
             name="Dokumori",
             debuff_spec=StatusEffectSpec(
-                damage_mult=1.05, duration=int(20.77 * 1000), is_party_effect=True
+                damage_mult=1.05, duration=int(21.02 * 1000), is_party_effect=True
             ),
         ),
         delay_after_parent_application=0,
@@ -484,6 +484,8 @@ def add_nin_skills(skill_library):
             follow_up_skills=(phantom_follow_up_damage,),
         )
     )
+    
+    #TODO: fix. gcds only will proc it, like bunshin. Ty An.
     skill_library.add_skill(
         Skill(
             name="Hollow Nozuchi",

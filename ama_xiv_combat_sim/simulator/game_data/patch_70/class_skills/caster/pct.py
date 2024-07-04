@@ -344,21 +344,25 @@ def add_pct_skills(skill_library):
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
         )
-    )
+    )    
 
     skill_library.add_skill(
         Skill(
             name="Starry Muse",
             is_GCD=False,
-            timing_spec=TimingSpec(
-                base_cast_time=0,
-                animation_lock=pct_caster_tax_ms
-            ),
-            buff_spec=StatusEffectSpec(
-                damage_mult=1.05, duration=20 * 1000, is_party_effect=True
-            ),
+            timing_spec=TimingSpec(base_cast_time=0, animation_lock=pct_caster_tax_ms),
+            buff_spec={
+                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+                    damage_mult=1.05, duration=int(20.35 * 1000), is_party_effect=True
+                ),
+                "Longest": StatusEffectSpec(
+                    damage_mult=1.05, duration=int(21.5 * 1000), is_party_effect=True
+                ),
+            },
             job_resource_spec={
-                SimConsts.DEFAULT_CONDITION: (JobResourceSpec(name="Hyperphantasia", change=5),),
+                SimConsts.DEFAULT_CONDITION: (
+                    JobResourceSpec(name="Hyperphantasia", change=5),
+                ),
                 "Buff Only": tuple(),
             },
             follow_up_skills={
@@ -499,7 +503,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=1250,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={

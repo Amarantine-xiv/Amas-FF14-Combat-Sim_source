@@ -1,3 +1,5 @@
+import copy
+
 from dataclasses import dataclass
 from ama_xiv_combat_sim.simulator.utils import Utils
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -30,6 +32,9 @@ class Skill:
     # # to control whether a buff applies before or after damage has gone out from
     # # the skill.
     follow_up_skills: Any = tuple()
+    has_aoe: bool = False # whether the skill has an AOE component to it (damage, or debuff)
+    # how much potency is off from the primary skill. Requires damage_spec to be a dictionary.
+    aoe_dropoff: float = None 
 
     @staticmethod
     def __canonicalize_dict(dict_to_use):
@@ -37,6 +42,28 @@ class Skill:
         for k, v in dict_to_use.items():
             tmp[frozenset(Utils.canonicalize_condition(k))] = v
         return tmp
+
+    @staticmethod
+    # will modify damage_spec in place
+    def __process_aoe_dropoff(damage_spec, damage_dropoff):
+        if not isinstance(damage_spec, dict):
+            raise RuntimeError(
+                "When adding aoe dropoff, damage spec must be a dictionary"
+            )
+        keys = tuple(damage_spec.keys())
+        for key in keys:
+            for target_num in range(2, 10):  # max of 10 targets
+                if len(key) > 0:
+                    new_key = f"{key}, Target {target_num}"
+                else:
+                    new_key = f"Target {target_num}"
+                new_damage_spec = copy.deepcopy(damage_spec[key])
+                primary_potency = new_damage_spec.potency
+                object.__setattr__(
+                    new_damage_spec, "potency", (1 - damage_dropoff) * primary_potency
+                )
+                damage_spec[new_key] = new_damage_spec
+        return damage_spec
 
     @staticmethod
     def __verify_dict_or_tuple(val, class_instance):
@@ -52,70 +79,53 @@ class Skill:
             return False
         return True
 
-    def __set_status_effect_stats(self, is_buff):
-        spec_to_use = "buff_spec" if is_buff else "debuff_spec"
-        field_to_use = "has_buff" if is_buff else "has_debuff"
-        res = False
-
-        # check if there is a party effect on main skill
-        spec = getattr(self, spec_to_use)
-        if spec is not None:
-            if isinstance(spec, StatusEffectSpec):
-                res = True
-            elif isinstance(spec, dict):
-                for _, se in spec.items():
-                    if se is not None:
-                        res = True
-                        break
-
-        # check if there is a party effect on any followup
-        if isinstance(self.follow_up_skills, tuple):
-            for follow_up in self.follow_up_skills:
-                if getattr(follow_up.skill, spec_to_use) is not None:
+    def __set_status_effect_stats(self):
+        for spec_to_use, field_to_use in zip(["buff_spec", "debuff_spec"],["has_buff", "has_debuff"]):            
+            res = False
+            # check if there is a party effect on main skill
+            spec = getattr(self, spec_to_use)
+            if spec is not None:
+                if isinstance(spec, StatusEffectSpec):
                     res = True
-                break
-        elif isinstance(self.follow_up_skills, dict):
-            for _, follow_ups in self.follow_up_skills.items():
-                for follow_up in follow_ups:
-                    # print(follow_up)
-                    # print(getattr(follow_up.skill, spec_to_use))
-
-                    if getattr(follow_up.skill, spec_to_use) is not None:
-                        res = True
-                        break
-        object.__setattr__(self, field_to_use, res)
-
-    def __set_party_status_effect_stats(self, is_buff):
-        spec_to_use = "buff_spec" if is_buff else "debuff_spec"
-        field_to_use = "has_party_buff" if is_buff else "has_party_debuff"
-        res = False
-
-        # check if there is a party effect on main skill
-        spec = getattr(self, spec_to_use)
-        if spec is not None:
-            if isinstance(spec, StatusEffectSpec) and spec.is_party_effect:
-                res = True
-            elif isinstance(spec, dict):
-                for _, se in spec.items():
-                    if se is not None and se.is_party_effect:
-                        res = True
-                        break
-
-        # check if there is a party effect on any followup
-        if isinstance(self.follow_up_skills, tuple):
-            for follow_up in self.follow_up_skills:
-                sp = getattr(follow_up.skill, spec_to_use)
-                if isinstance(sp, dict):
-                    for _, v in sp.items():
-                        if v is not None and v.is_party_effect:
+                elif isinstance(spec, dict):
+                    for _, se in spec.items():
+                        if se is not None:
                             res = True
                             break
-                elif sp is not None and sp.is_party_effect:
+
+            # check if there is a party effect on any followup
+            if isinstance(self.follow_up_skills, tuple):
+                for follow_up in self.follow_up_skills:
+                    if getattr(follow_up.skill, spec_to_use) is not None:
+                        res = True
+                    break
+            elif isinstance(self.follow_up_skills, dict):
+                for _, follow_ups in self.follow_up_skills.items():
+                    for follow_up in follow_ups:
+
+                        if getattr(follow_up.skill, spec_to_use) is not None:
+                            res = True
+                            break
+            object.__setattr__(self, field_to_use, res)
+
+    def __set_party_status_effect_stats(self):
+        for spec_to_use, field_to_use in zip(["buff_spec", "debuff_spec"],["has_party_buff", "has_party_debuff"]): 
+            res = False
+
+            # check if there is a party effect on main skill
+            spec = getattr(self, spec_to_use)
+            if spec is not None:
+                if isinstance(spec, StatusEffectSpec) and spec.is_party_effect:
                     res = True
-                break
-        elif isinstance(self.follow_up_skills, dict):
-            for _, follow_ups in self.follow_up_skills.items():
-                for follow_up in follow_ups:
+                elif isinstance(spec, dict):
+                    for _, se in spec.items():
+                        if se is not None and se.is_party_effect:
+                            res = True
+                            break
+
+            # check if there is a party effect on any followup
+            if isinstance(self.follow_up_skills, tuple):
+                for follow_up in self.follow_up_skills:
                     sp = getattr(follow_up.skill, spec_to_use)
                     if isinstance(sp, dict):
                         for _, v in sp.items():
@@ -124,8 +134,20 @@ class Skill:
                                 break
                     elif sp is not None and sp.is_party_effect:
                         res = True
-                        break
-        object.__setattr__(self, field_to_use, res)
+                    break
+            elif isinstance(self.follow_up_skills, dict):
+                for _, follow_ups in self.follow_up_skills.items():
+                    for follow_up in follow_ups:
+                        sp = getattr(follow_up.skill, spec_to_use)
+                        if isinstance(sp, dict):
+                            for _, v in sp.items():
+                                if v is not None and v.is_party_effect:
+                                    res = True
+                                    break
+                        elif sp is not None and sp.is_party_effect:
+                            res = True
+                            break
+            object.__setattr__(self, field_to_use, res)
 
     def __post_init__(self):
         is_valid = self.__verify_dict_or_tuple(self.follow_up_skills, FollowUp)
@@ -153,10 +175,13 @@ class Skill:
             self.status_effect_denylist, tuple
         ), "status_effect_denylist must be encoded as a tuple for immutability. Did you encode it as a single string by accident, when it should be a tuple of length 1?"
 
+        if self.aoe_dropoff is not None:
+            self.__process_aoe_dropoff(self.damage_spec, self.aoe_dropoff)
         if isinstance(self.damage_spec, dict):
             object.__setattr__(
                 self, "damage_spec", self.__canonicalize_dict(self.damage_spec)
             )
+
         if isinstance(self.timing_spec, dict):
             object.__setattr__(
                 self, "timing_spec", self.__canonicalize_dict(self.timing_spec)
@@ -186,11 +211,8 @@ class Skill:
                 self, "combo_spec", self.__canonicalize_dict(self.combo_spec)
             )
 
-        # This is shit code. I'm sorry but I'm in a hurry.
-        self.__set_party_status_effect_stats(is_buff=True)
-        self.__set_party_status_effect_stats(is_buff=False)
-        self.__set_status_effect_stats(is_buff=True)
-        self.__set_status_effect_stats(is_buff=False)
+        self.__set_party_status_effect_stats()
+        self.__set_status_effect_stats()        
 
     def __str__(self):
         res = "---Skill name: {}---\n".format(self.name)

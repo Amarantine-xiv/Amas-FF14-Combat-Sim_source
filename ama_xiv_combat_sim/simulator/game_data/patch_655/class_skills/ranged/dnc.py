@@ -75,6 +75,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=0,
+        primary_target_only=True,
     )
     _standard_finish_follow_up1 = FollowUp(
         skill=Skill(
@@ -85,6 +86,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=0,
+        primary_target_only=True,
     )
     _standard_remove_followup = FollowUp(
         Skill(
@@ -100,20 +102,24 @@ def add_dnc_skills(skill_library):
     standard_finish_follow_up_damage_2 = FollowUp(
         skill=Skill(name="Double Standard Finish", damage_spec=DamageSpec(potency=720)),
         delay_after_parent_application=530,
+        primary_target_only=False,
     )
     standard_finish_follow_up_damage_1 = FollowUp(
         skill=Skill(name="Single Standard Finish", damage_spec=DamageSpec(potency=540)),
         delay_after_parent_application=530,
+        primary_target_only=False,
     )
     standard_finish_follow_up_damage_0 = FollowUp(
         skill=Skill(name="Standard Finish", damage_spec=DamageSpec(potency=360)),
         delay_after_parent_application=530,
+        primary_target_only=False,
     )
 
     skill_library.add_skill(
         Skill(
             name="Double Standard Finish",
             is_GCD=True,
+            has_aoe=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,
@@ -137,6 +143,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Single Standard Finish",
             is_GCD=True,
+            has_aoe=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,
@@ -160,6 +167,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Standard Finish",
             is_GCD=True,
+            has_aoe=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,
@@ -207,6 +215,7 @@ def add_dnc_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -227,6 +236,7 @@ def add_dnc_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -247,6 +257,7 @@ def add_dnc_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -257,6 +268,7 @@ def add_dnc_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=530
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -279,10 +291,12 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Fan Dance III",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=200),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=200)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     tech4_followup = FollowUp(
@@ -294,6 +308,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=125,
+        primary_target_only=True,
     )
     tech3_followup = FollowUp(
         Skill(
@@ -304,6 +319,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=125,
+        primary_target_only=True,
     )
     tech2_followup = FollowUp(
         Skill(
@@ -314,6 +330,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=125,
+        primary_target_only=True,
     )
     tech1_followup = FollowUp(
         Skill(
@@ -324,6 +341,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=125,
+        primary_target_only=True,
     )
 
     tech4_longest_followup = FollowUp(
@@ -335,6 +353,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=125,
+        primary_target_only=True,
     )
     tech3_longest_followup = FollowUp(
         Skill(
@@ -345,6 +364,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=125,
+        primary_target_only=True,
     )
     tech2_longest_followup = FollowUp(
         Skill(
@@ -355,6 +375,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=125,
+        primary_target_only=True,
     )
     tech1_longest_followup = FollowUp(
         Skill(
@@ -365,6 +386,7 @@ def add_dnc_skills(skill_library):
             ),
         ),
         delay_after_parent_application=125,
+        primary_target_only=True,
     )
 
     tech_remove_followup = FollowUp(
@@ -372,13 +394,12 @@ def add_dnc_skills(skill_library):
             name="Technical Finish Remove buff",
             is_GCD=False,
             buff_spec=StatusEffectSpec(
-                expires_status_effects=(
-                    "Technical Finish",
-                ),
+                expires_status_effects=("Technical Finish",),
                 is_party_effect=True,
             ),
         ),
         delay_after_parent_application=0,
+        primary_target_only=True,
     )
     tech_finish_timing = TimingSpec(
         base_cast_time=0,
@@ -394,6 +415,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Quadruple Technical Finish",
             is_GCD=True,
+            has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200),
                 "Buff Only": None,
@@ -416,6 +438,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Triple Technical Finish",
             is_GCD=True,
+            has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=900),
                 "Buff Only": None,
@@ -438,6 +461,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Double Technical Finish",
             is_GCD=True,
+            has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=720),
                 "Buff Only": None,
@@ -460,6 +484,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Single Technical Finish",
             is_GCD=True,
+            has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=540),
                 "Buff Only": None,
@@ -482,6 +507,7 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Technical Finish",
             is_GCD=True,
+            has_aoe=True,
             damage_spec={
                 # Default to QUADRUPLE technical finish, unless the user specifies otherwise
                 # by passing in "Log" as the skill conditional.
@@ -512,10 +538,12 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Saber Dance",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=480),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=480)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=440
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
 
@@ -527,39 +555,43 @@ def add_dnc_skills(skill_library):
         Skill(
             name="Tillana",
             is_GCD=True,
+            has_aoe=True,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
                 affected_by_speed_stat=False,
             ),
-            follow_up_skills=(
-                tillana_damage_follow_up,
-                _standard_finish_follow_up2,
-            ),
+            follow_up_skills=(tillana_damage_follow_up,),
         )
     )
     skill_library.add_skill(
         Skill(
             name="Fan Dance IV",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=300),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=300)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=320
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Starfall Dance",
             is_GCD=True,
-            damage_spec=DamageSpec(
-                potency=600,
-                guaranteed_crit=ForcedCritOrDH.FORCE_YES,
-                guaranteed_dh=ForcedCritOrDH.FORCE_YES,
-            ),
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=600,
+                    guaranteed_crit=ForcedCritOrDH.FORCE_YES,
+                    guaranteed_dh=ForcedCritOrDH.FORCE_YES,
+                )
+            },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=890
             ),
+            has_aoe=True,
+            aoe_dropoff=0.75,
         )
     )
 

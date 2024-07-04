@@ -66,6 +66,7 @@ def add_sch_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
             damage_spec=DamageSpec(potency=180),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -106,7 +107,7 @@ def add_sch_skills(skill_library):
     baneful_dot = Skill(
         name="Baneful Impaction (dot)",
         is_GCD=False,
-        damage_spec=DamageSpec(potency=140, damage_class=DamageClass.MAGICAL_DOT),
+        damage_spec=DamageSpec(potency=140, damage_class=DamageClass.MAGICAL_DOT),               
     )
     skill_library.add_skill(
         Skill(
@@ -124,6 +125,7 @@ def add_sch_skills(skill_library):
                     snapshot_debuffs_with_parent=True,
                 ),
             ),
+            has_aoe = True
         )
     )
 

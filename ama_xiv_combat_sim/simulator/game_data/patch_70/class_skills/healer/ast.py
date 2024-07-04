@@ -93,6 +93,7 @@ def add_ast_skills(skill_library):
                 base_cast_time=1500, animation_lock=100, application_delay=1160
             ),
             damage_spec=DamageSpec(potency=130),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -102,7 +103,9 @@ def add_ast_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=100, application_delay=620
             ),
-            damage_spec=DamageSpec(potency=250),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=250)},
+            has_aoe=True,
+            aoe_dropoff= 0.4
         )
     )
     skill_library.add_skill(
@@ -113,6 +116,7 @@ def add_ast_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             damage_spec=DamageSpec(potency=400),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -266,6 +270,7 @@ def add_ast_skills(skill_library):
                 skill_allowlist=("Stellar Explosion (pet)",),
             ),
             follow_up_skills=(stellar_detonation_follow_up2,),
+            has_aoe=True
         )
     )
 
@@ -284,6 +289,7 @@ def add_ast_skills(skill_library):
                 skill_allowlist=("Stellar Explosion (pet)", "Giant Dominance"),
             ),
             follow_up_skills=(giant_dom_follow_up, stellar_detonation_follow_up),
+            has_aoe=True
         )
     )
 
@@ -293,6 +299,7 @@ def add_ast_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(base_cast_time=0, application_delay=0),
             follow_up_skills=(stellar_detonation_instant,),
+            has_aoe=True
         )
     )
 
@@ -306,6 +313,7 @@ def add_ast_skills(skill_library):
                 giant_dom_follow_up,
                 stellar_detonation_follow_up,
             ),
+            has_aoe=True
         )
     )
 
@@ -317,6 +325,7 @@ def add_ast_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             damage_spec=DamageSpec(potency=860),
+            has_aoe=True
         )
     )
 

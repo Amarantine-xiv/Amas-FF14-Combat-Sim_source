@@ -68,6 +68,7 @@ class TestClass:
         for test_name in passing:
             print(f"{test_name}")
 
+
     def run_single(self, test_name):
         for test_fn in self._get_test_methods():
             if test_name == test_fn.__name__:

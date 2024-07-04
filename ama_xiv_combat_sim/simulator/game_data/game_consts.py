@@ -13,18 +13,22 @@ class GameConsts:
     # level mods from akhmorning
 
     # Key is the version. This is interpreted as stats at max-level for now.
-    # __LEVEL_DIVS = {"6.55": 1900, "7.0": 2780, "test": 1900}
-    # __LEVEL_MAINS = {"6.55": 390, "7.0": 440, "test": 390}
-    # __LEVEL_SUBS = {"6.55": 400, "7.0": 420, "test": 400}
-    # __FAP_CONSTS = {"6.55": 195, "7.0": 225, "test": 195}
-    # __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 180, "test": 156}
-
-    __LEVEL_DIVS = {"6.55": 1900, "7.0": 1900, "test": 1900}
-    __LEVEL_MAINS = {"6.55": 390, "7.0": 390, "test": 390}
-    __LEVEL_SUBS = {"6.55": 400, "7.0": 400, "test": 400}
-    __FAP_CONSTS = {"6.55": 195, "7.0": 195, "test": 195}
-    __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 156, "test": 156}
-
+    __LEVEL_DIVS = {"6.55": 1900, "7.0": 2780, "test": 1900}
+    __LEVEL_MAINS = {"6.55": 390, "7.0": 440, "test": 390}
+    __LEVEL_SUBS = {"6.55": 400, "7.0": 420, "test": 400}
+    __FAP_CONSTS = {"6.55": 195, "7.0": 237, "test": 195}
+    __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 190, "test": 156}
+    __TEN_CONSTS = {"6.55": 100, "7.0": 112, "test": 100}
+    __DH_CONSTS = {"6.55": 550, "7.0": 550, "test": 550}
+    
+    # __LEVEL_DIVS = {"6.55": 1900, "7.0": 1900, "test": 1900}
+    # __LEVEL_MAINS = {"6.55": 390, "7.0": 390, "test": 390}
+    # __LEVEL_SUBS = {"6.55": 400, "7.0": 400, "test": 400}
+    # __FAP_CONSTS = {"6.55": 195, "7.0": 195, "test": 195}
+    # __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 156, "test": 156}
+    # __TEN_CONSTS = {"6.55": 100, "7.0": 100, "test": 100}
+    # __DH_CONSTS = {"6.55": 550, "7.0": 550, "test": 550}
+    
     __SPEED_CONSTS = {"6.55": 130, "7.0": 130, "test": 130}
     __CRIT_CONSTS = {
         "6.55": (200, 50, 400),
@@ -36,7 +40,7 @@ class GameConsts:
 
     __DET_CONSTS = {"6.55": 140, "7.0": 140, "test": 140}
 
-    __TEN_CONSTS = {"6.55": 100, "7.0": 100, "test": 100}
+    
 
     @staticmethod
     def get_speed_const(version, level):
@@ -100,6 +104,7 @@ class GameConsts:
         "BLM": 3.28,
         "SMN": 3.12,
         "RDM": 3.44,
+        "PCT": 2.96,
         #
         "WHM": 3.44,
         "SCH": 3.12,
@@ -116,6 +121,7 @@ class GameConsts:
         "SMN": 351,
         "RDM": 214,
         "BLM": 175,
+        "PCT": 214, #guess for now
     }
 
     JOB_NAME_TO_3_CODE = {
@@ -138,6 +144,8 @@ class GameConsts:
         "BlackMage": "BLM",
         "Summoner": "SMN",
         "RedMage": "RDM",
+        "Pictomancer": "PCT",
+        #
         "Dancer": "DNC",
         "Bard": "BRD",
         "Machinist": "MCH",

@@ -147,7 +147,7 @@ class ComputeDamageUtils:
             + status_effects[1].main_stat_add
         )
         main_stat = np.floor(main_stat * (1 + 0.01 * stats.num_roles_in_party))
-
+        
         damage_spec = skill.get_damage_spec(skill_modifier)
 
         # from HINT
@@ -156,7 +156,7 @@ class ComputeDamageUtils:
         wd = StatFns.fWD(
             stats.wd, stats.processed_stats.job_mod, stats.version, stats.level
         )
-
+        
         forced_dh = ComputeDamageUtils.__get_forced_dh_status(
             damage_spec, skill_modifier, status_effects
         )
@@ -467,7 +467,9 @@ class ComputeDamageUtils:
             return None
 
         damage_spec = skill.get_damage_spec(skill_modifier)
-
+        if damage_spec.potency == 0:
+            return 0
+        
         if damage_spec.damage_class == DamageClass.DIRECT:
             base_damage = ComputeDamageUtils.compute_direct_damage(
                 skill, skill_modifier, stats, status_effects
@@ -494,4 +496,4 @@ class ComputeDamageUtils:
                     damage_spec.damage_class
                 )
             )
-        return base_damage
+        return max(base_damage, 1.0) #clamp to 1

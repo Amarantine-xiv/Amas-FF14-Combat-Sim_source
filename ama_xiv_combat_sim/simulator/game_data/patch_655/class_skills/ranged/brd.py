@@ -358,6 +358,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1650
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -431,6 +432,8 @@ def add_brd_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
             job_resource_spec=(JobResourceSpec(name="Repertoire", change=-np.inf),),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -593,6 +596,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1430
             ),
+            has_aoe=True
         )
     )
 
@@ -654,6 +658,7 @@ def add_brd_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             job_resource_spec=(JobResourceSpec(name="Soul Voice", change=-np.inf),),
+            has_aoe=True
         )
     )
 
@@ -685,16 +690,19 @@ def add_brd_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "Barrage": (ladonsbite_barrage2, ladonsbite_barrage3),
             },
+            has_aoe=True
         )
     )
     skill_library.add_skill(
         Skill(
             name="Blast Arrow",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=600),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1650
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(

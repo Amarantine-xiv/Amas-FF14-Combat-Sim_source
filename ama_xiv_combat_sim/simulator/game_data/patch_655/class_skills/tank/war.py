@@ -90,7 +90,9 @@ def add_war_skills(skill_library):
         ),
     )
     surging_tempest_follow_up = FollowUp(
-        skill=surging_tempest_skill, delay_after_parent_application=0
+        skill=surging_tempest_skill,
+        delay_after_parent_application=0,
+        primary_target_only=True,
     )
 
     storms_eye_damage_follow_up = FollowUp(
@@ -157,11 +159,15 @@ def add_war_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=1300, application_delay=1160
             ),
-            damage_spec=DamageSpec(
-                potency=700,
-                guaranteed_crit=ForcedCritOrDH.FORCE_YES,
-                guaranteed_dh=ForcedCritOrDH.FORCE_YES,
-            ),
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=700,
+                    guaranteed_crit=ForcedCritOrDH.FORCE_YES,
+                    guaranteed_dh=ForcedCritOrDH.FORCE_YES,
+                )
+            },
+            has_aoe=True,
+            aoe_dropoff=0.7,
         )
     )
     skill_library.add_skill(
@@ -190,6 +196,7 @@ def add_war_skills(skill_library):
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                 guaranteed_dh=ForcedCritOrDH.FORCE_YES,
             ),
+            has_aoe=True,
         )
     )
 
@@ -212,6 +219,7 @@ def add_war_skills(skill_library):
             ),
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=110),
+            has_aoe=True,
         )
     )
 
@@ -225,16 +233,20 @@ def add_war_skills(skill_library):
         ),
     )
     mythril_tempest_inital_follow_up = FollowUp(
-        skill=mythril_tempest_skill_inital, delay_after_parent_application=0
+        skill=mythril_tempest_skill_inital,
+        delay_after_parent_application=0,
+        primary_target_only=True,
     )
 
     mythril_tempest_damage_follow_up = FollowUp(
         skill=Skill(name="Mythril Tempest", damage_spec=DamageSpec(potency=150)),
         delay_after_parent_application=490,
+        primary_target_only=False,
     )
     mythril_tempest_damage_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Storm's Eye", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(name="Mythril Tempest", damage_spec=DamageSpec(potency=100)),
         delay_after_parent_application=490,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -253,6 +265,7 @@ def add_war_skills(skill_library):
                 ),
                 "No Combo": (mythril_tempest_damage_no_combo_follow_up,),
             },
+            has_aoe=True,
         )
     )
 
@@ -264,6 +277,7 @@ def add_war_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=668
             ),
             damage_spec=DamageSpec(potency=150),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -274,6 +288,7 @@ def add_war_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1831
             ),
             damage_spec=DamageSpec(potency=200),
+            has_aoe=True,
         )
     )
 

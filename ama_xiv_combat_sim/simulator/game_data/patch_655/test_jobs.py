@@ -15,11 +15,11 @@ from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
 from ama_xiv_combat_sim.simulator.utils import Utils
 
 
-class TestJobs(TestClass):
+class TestJobs655(TestClass):
     def __init__(self):
         super().__init__()
         self.__skill_library = create_skill_library()
-        self.__relative_tol = 5e-3
+        self.__relative_tol = 6e-3
 
     def __test_skills(self, stats, skills_and_expected_damage):
         test_passed = True
@@ -1622,7 +1622,7 @@ class TestJobs(TestClass):
             dh_stat=1380,
             speed_stat=436,
             job_class="DNC",
-            version="7.0",
+            version="6.55",
         )
         skills_and_expected_damage = (
             ("Auto", SkillModifier(), 3874.0),

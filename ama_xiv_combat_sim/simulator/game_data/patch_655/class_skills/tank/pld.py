@@ -37,7 +37,8 @@ def add_pld_skills(skill_library):
         ),
     )
     divine_might_follow_up = FollowUp(
-        skill=divine_might_buff, delay_after_parent_application=0
+        skill=divine_might_buff, delay_after_parent_application=0,
+        primary_target_only=True
     )
 
     skill_library.set_current_job_class("PLD")
@@ -100,6 +101,7 @@ def add_pld_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=758
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -126,10 +128,12 @@ def add_pld_skills(skill_library):
     promimence_follow_up = FollowUp(
         skill=Skill(name="Prominence", damage_spec=DamageSpec(potency=170)),
         delay_after_parent_application=623,
+        primary_target_only=False
     )
     promimence_no_combo_follow_up = FollowUp(
         skill=Skill(name="Prominence", damage_spec=DamageSpec(potency=100)),
         delay_after_parent_application=623,
+        primary_target_only=False
     )
     skill_library.add_skill(
         Skill(
@@ -146,6 +150,7 @@ def add_pld_skills(skill_library):
                 ),
                 "No Combo": (promimence_no_combo_follow_up,),
             },
+            has_aoe=True
         )
     )
     circle_of_scorn_dot_pld = Skill(
@@ -171,6 +176,7 @@ def add_pld_skills(skill_library):
                     snapshot_debuffs_with_parent=True,
                 ),
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -268,6 +274,7 @@ def add_pld_skills(skill_library):
         Skill(
             name="Holy Circle",
             is_GCD=True,
+            has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
                 "Divine Might": DamageSpec(potency=200),
@@ -334,16 +341,20 @@ def add_pld_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
         Skill(
             name="Expiacion",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=450),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=450)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=357
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -358,6 +369,8 @@ def add_pld_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=666
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -372,6 +385,8 @@ def add_pld_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -386,6 +401,8 @@ def add_pld_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
 

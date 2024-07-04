@@ -69,6 +69,7 @@ def add_drk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=712
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -99,6 +100,7 @@ def add_drk_skills(skill_library):
     flood_of_shadow_damage_follow_up = FollowUp(
         skill=Skill(name="Flood of Shadow", damage_spec=DamageSpec(potency=160)),
         delay_after_parent_application=624,
+        primary_target_only=False
     )
     skill_library.add_skill(
         Skill(
@@ -109,8 +111,13 @@ def add_drk_skills(skill_library):
             ),
             follow_up_skills=(
                 flood_of_shadow_damage_follow_up,
-                FollowUp(skill=_darkside_buff, delay_after_parent_application=0),
+                FollowUp(
+                    skill=_darkside_buff,
+                    delay_after_parent_application=0,
+                    primary_target_only=True,
+                ),
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -126,6 +133,7 @@ def add_drk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=712
             ),
+            has_aoe=True,
         )
     )
 
@@ -174,16 +182,19 @@ def add_drk_skills(skill_library):
                     snapshot_debuffs_with_parent=False,
                 ),
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Salt and Darkness",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=500),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500)},                         
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=757
             ),
+            has_aoe=True,
+            aoe_dropoff= 0.5
         )
     )
     skill_library.add_skill(
@@ -194,6 +205,7 @@ def add_drk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=978
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -224,25 +236,30 @@ def add_drk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=757
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Shadowbringer",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=600),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=666
             ),
+            has_aoe=True,
+            aoe_dropoff= 0.5
         )
     )
-    ls_names_and_potency = [('Abyssal Drain (pet)',420),
-                            ('Plunge (pet)',420),
-                            ('Shadowbringer (pet)', 570),
-                            ('Edge of Shadow (pet)',420),
-                            ('Bloodspiller (pet)',420),                            
-                            ('Disesteem (pet)',620)]
-    
+    ls_names_and_potency = [
+        ("Abyssal Drain (pet)", 420),
+        ("Plunge (pet)", 420),
+        ("Shadowbringer (pet)", 570),
+        ("Edge of Shadow (pet)", 420),
+        ("Bloodspiller (pet)", 420),
+        ("Disesteem (pet)", 620),
+    ]
+
     _living_shadow_follow_up_skills = []
     for skill_name, potency in ls_names_and_potency:
         sk = Skill(
@@ -251,10 +268,10 @@ def add_drk_skills(skill_library):
             damage_spec=DamageSpec(
                 potency=potency, damage_class=DamageClass.PET, pet_job_mod_override=100
             ),
-            status_effect_denylist=("Darkside",),        
+            status_effect_denylist=("Darkside",),
         )
         _living_shadow_follow_up_skills.append(sk)
- 
+
     _living_shadow_follow_ups = tuple(
         FollowUp(
             skill=_living_shadow_follow_up_skills[i],
@@ -264,6 +281,8 @@ def add_drk_skills(skill_library):
         )
         for i in range(0, len(_living_shadow_follow_up_skills))
     )
+    
+    # TODO: be able to have certain parts of this skill cleave
     skill_library.add_skill(
         Skill(
             name="Living Shadow",
@@ -312,16 +331,19 @@ def add_drk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=581
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
         Skill(
             name="Disesteem",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=800),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=800)},                         
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=581
             ),
+            has_aoe=True,
+            aoe_dropoff= 0.5
         )
     )
     # These skills do not damage, but grants resources/affects future skills.
