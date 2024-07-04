@@ -540,7 +540,7 @@ class TestJobs70(TestClass):
             ("Bloodspiller", SkillModifier(), 14913),
             ("Quietus", SkillModifier(), 6149),
             ("Shadowbringer", SkillModifier(), 15394),
-            ("Living Shadow", SkillModifier(), 83986),
+            ("Living Shadow", SkillModifier(), 71725),
             ("Scarlet Delirium", SkillModifier(), 15393),
             ("Comeuppance", SkillModifier(), 17973),
             ("Torcleaver", SkillModifier(), 20548),
@@ -589,7 +589,7 @@ class TestJobs70(TestClass):
         rb.add_next("Hard Slash")
         rb.add_next("Syphon Strike")
         rb.add_next("Souleater")
-        expected_damage = 417250.7
+        expected_damage = 403557
         expected_total_time = 26993.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)

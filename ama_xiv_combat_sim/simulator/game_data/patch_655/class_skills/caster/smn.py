@@ -17,7 +17,9 @@ def add_smn_skills(skill_library):
 
     smn_caster_tax_ms = 100
     base_animation_lock = 600
-    instant_timing_spec = TimingSpec(base_cast_time=0, animation_lock=base_animation_lock+smn_caster_tax_ms)
+    instant_timing_spec = TimingSpec(
+        base_cast_time=0, animation_lock=base_animation_lock + smn_caster_tax_ms
+    )
     skill_library.set_current_job_class("SMN")
 
     skill_library.add_skill(
@@ -37,7 +39,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=340),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=930,
             ),
         )
@@ -49,7 +51,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=1070,
             ),
         )
@@ -61,9 +63,10 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=150),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=440,
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -72,6 +75,7 @@ def add_smn_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=100),
             timing_spec=instant_timing_spec,
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -81,7 +85,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=310),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=800,
             ),
         )
@@ -93,7 +97,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=440),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=670,
             ),
         )
@@ -105,33 +109,38 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=180),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=540,
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Deathflare",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=500),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=800,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Ruin IV",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=430),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=430)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=800,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -149,32 +158,37 @@ def add_smn_skills(skill_library):
         skill=Skill(
             name="Akh Morn (pet)",
             is_GCD=False,
-            damage_spec=DamageSpec(
-                potency=1300,
-                damage_class=DamageClass.PET,
-                pet_job_mod_override=100,
-                pet_scalar=0.88,
-            ),
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=1300,
+                    damage_class=DamageClass.PET,
+                    pet_job_mod_override=100,
+                    pet_scalar=0.88,
+                )
+            },
+            has_aoe=True,
+            aoe_dropoff=0.6,
         ),
         delay_after_parent_application=0,
         snapshot_buffs_with_parent=False,
         snapshot_debuffs_with_parent=False,
+        primary_target_only=False
     )
 
     skill_library.add_skill(
         Skill(
             name="Enkindle Bahamut",
-            is_GCD=False,        
+            is_GCD=False,
             timing_spec=instant_timing_spec,
-            follow_up_skills=(akh_morn_for_follow_up,)
+            follow_up_skills=(akh_morn_for_follow_up,),
         )
     )
     skill_library.add_skill(
         Skill(
             name="Akh Morn",
             is_GCD=False,
-            timing_spec=instant_timing_spec,            
-            follow_up_skills=(akh_morn_for_follow_up,)
+            timing_spec=instant_timing_spec,
+            follow_up_skills=(akh_morn_for_follow_up,),
         )
     )
     skill_library.add_skill(
@@ -185,7 +199,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2800,
                 gcd_base_recast_time=3000,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=620,
             ),
         )
@@ -198,7 +212,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=620,
             ),
         )
@@ -211,7 +225,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=620,
             ),
         )
@@ -222,8 +236,10 @@ def add_smn_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
-                base_cast_time=1500, animation_lock=base_animation_lock+smn_caster_tax_ms
+                base_cast_time=1500,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -233,7 +249,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=540),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=1070,
             ),
         )
@@ -245,9 +261,10 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=240),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=800,
             ),
+            has_aoe=True,
         )
     )
     revelation_follow_up = FollowUp(
@@ -255,32 +272,37 @@ def add_smn_skills(skill_library):
             name="Revelation (pet)",
             is_GCD=False,
             status_effect_denylist=("Dragon Sight",),
-            damage_spec=DamageSpec(
-                potency=1300,
-                damage_class=DamageClass.PET,
-                pet_job_mod_override=100,
-                pet_scalar=0.88,
-            ),
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=1300,
+                    damage_class=DamageClass.PET,
+                    pet_job_mod_override=100,
+                    pet_scalar=0.88,
+                )
+            },
             timing_spec=instant_timing_spec,
+            has_aoe=True,
+            aoe_dropoff=0.6,
         ),
         delay_after_parent_application=0,
         snapshot_buffs_with_parent=0,
         snapshot_debuffs_with_parent=0,
+        primary_target_only=False
     )
     skill_library.add_skill(
         Skill(
             name="Enkindle Phoenix",
             is_GCD=False,
             timing_spec=instant_timing_spec,
-            follow_up_skills=(revelation_follow_up,)
+            follow_up_skills=(revelation_follow_up,),
         )
     )
     skill_library.add_skill(
         Skill(
             name="Revelation",
-            is_GCD=False,            
+            is_GCD=False,
             timing_spec=instant_timing_spec,
-            follow_up_skills=(revelation_follow_up,)
+            follow_up_skills=(revelation_follow_up,),
         )
     )
     skill_library.add_skill(
@@ -291,9 +313,10 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2800,
                 gcd_base_recast_time=3000,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=535,
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -304,9 +327,10 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=535,
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -317,45 +341,52 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=535,
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Crimson Cyclone",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=430),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=430)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=800,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.65,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Crimson Strike",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=430),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=430)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=760,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.65,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Mountain Buster",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=150),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=150)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=760,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.7,
         )
     )
 
@@ -363,6 +394,7 @@ def add_smn_skills(skill_library):
         name="Slipstream (dot)",
         is_GCD=False,
         damage_spec=DamageSpec(potency=30, damage_class=DamageClass.MAGICAL_DOT),
+        has_aoe=True,
     )
     slipstream_follow_up = FollowUp(
         skill=slipstream_dot,
@@ -370,31 +402,38 @@ def add_smn_skills(skill_library):
         dot_duration=15 * 1000,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=False,
+        primary_target_only=False
     )
     skill_library.add_skill(
         Skill(
             name="Slipstream",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=430),
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=430)},
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 gcd_base_recast_time=3500,
-                animation_lock=base_animation_lock+smn_caster_tax_ms,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
                 application_delay=1020,
             ),
             follow_up_skills=(slipstream_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.65,
         )
     )
     inferno = Skill(
         name="Inferno (pet)",
         is_GCD=True,
         status_effect_denylist=("Dragon Sight",),
-        damage_spec=DamageSpec(
-            potency=750,
-            damage_class=DamageClass.PET,
-            pet_job_mod_override=100,
-            pet_scalar=0.88,
-        ),
+        damage_spec={
+            SimConsts.DEFAULT_CONDITION: DamageSpec(
+                potency=750,
+                damage_class=DamageClass.PET,
+                pet_job_mod_override=100,
+                pet_scalar=0.88,
+            )
+        },
+        has_aoe=True,
+        aoe_dropoff=0.6,
     )
     # Model the 2.1s snap with this hack. Damage will not come out correctly though.
     inferno_follow_up = FollowUp(
@@ -402,6 +441,7 @@ def add_smn_skills(skill_library):
         snapshot_buffs_with_parent=False,
         snapshot_debuffs_with_parent=False,
         delay_after_parent_application=2100,
+        primary_target_only=False
     )
     skill_library.add_skill(
         Skill(
@@ -415,12 +455,16 @@ def add_smn_skills(skill_library):
         name="Earthen Fury (pet)",
         is_GCD=True,
         status_effect_denylist=("Dragon Sight",),
-        damage_spec=DamageSpec(
-            potency=750,
-            damage_class=DamageClass.PET,
-            pet_job_mod_override=100,
-            pet_scalar=0.88,
-        ),
+        damage_spec={
+            SimConsts.DEFAULT_CONDITION: DamageSpec(
+                potency=750,
+                damage_class=DamageClass.PET,
+                pet_job_mod_override=100,
+                pet_scalar=0.88,
+            )
+        },
+        has_aoe=True,
+        aoe_dropoff=0.6,
     )
     # Model the 2.1s snap with this hack. Damage will not come out correctly though.
     earthen_fury_follow_up = FollowUp(
@@ -428,6 +472,7 @@ def add_smn_skills(skill_library):
         snapshot_buffs_with_parent=False,
         snapshot_debuffs_with_parent=False,
         delay_after_parent_application=2100,
+        primary_target_only=False
     )
     skill_library.add_skill(
         Skill(
@@ -441,12 +486,16 @@ def add_smn_skills(skill_library):
         name="Aerial Blast (pet)",
         is_GCD=True,
         status_effect_denylist=("Dragon Sight",),
-        damage_spec=DamageSpec(
-            potency=750,
-            damage_class=DamageClass.PET,
-            pet_job_mod_override=100,
-            pet_scalar=0.88,
-        ),
+        damage_spec={
+            SimConsts.DEFAULT_CONDITION: DamageSpec(
+                potency=750,
+                damage_class=DamageClass.PET,
+                pet_job_mod_override=100,
+                pet_scalar=0.88,
+            )
+        },
+        has_aoe=True,
+        aoe_dropoff=0.6,
     )
     # Model the 2.1s snap with this hack. Damage will not come out correctly though.
     aerial_blast_follow_up = FollowUp(
@@ -454,6 +503,7 @@ def add_smn_skills(skill_library):
         snapshot_buffs_with_parent=False,
         snapshot_debuffs_with_parent=False,
         delay_after_parent_application=2100,
+        primary_target_only=False
     )
     skill_library.add_skill(
         Skill(
@@ -617,7 +667,8 @@ def add_smn_skills(skill_library):
             name="Summon Carbuncle",
             is_GCD=True,
             timing_spec=TimingSpec(
-                base_cast_time=1500, animation_lock=base_animation_lock+smn_caster_tax_ms
+                base_cast_time=1500,
+                animation_lock=base_animation_lock + smn_caster_tax_ms,
             ),
         )
     )

@@ -790,7 +790,7 @@ def add_nin_skills(skill_library):
     kunai_debuff_follow_up = FollowUp(
         skill=Skill(
             name="Kunai's Bane",
-            debuff_spec=StatusEffectSpec(damage_mult=1.10, duration=int(15.77 * 1000)),
+            debuff_spec=StatusEffectSpec(damage_mult=1.10, duration=int(16.26 * 1000)),
         ),
         delay_after_parent_application=0,
     )

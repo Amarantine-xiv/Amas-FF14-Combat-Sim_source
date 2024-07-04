@@ -738,3 +738,34 @@ class TestJobsMulti(TestClass):
 
         test_passed2, err_msg2 = self.__test_rotation_damage(rb, expected)
         return test_passed1 and test_passed2, err_msg1 + "\n" + err_msg2
+
+    @TestClass.is_a_test
+    def test_smn_aoe(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.12,
+            main_stat=3379,
+            det_stat=1871,
+            crit_stat=2514,
+            dh_stat=1438,
+            speed_stat=502,
+            job_class="SMN",
+            version="7.0",
+        )
+        base_summon_ifrit_ii = 32798
+        base_ruin_iv = 25688
+        skills_and_expected_damages = (
+            (
+                "Summon Ifrit II",
+                ("t1","t2", "t3"),
+                SkillModifier(),
+                (base_summon_ifrit_ii, 0.4*base_summon_ifrit_ii, 0.4*base_summon_ifrit_ii),
+            ),
+            (
+                "Ruin IV",
+                ("t1", "t2"),
+                SkillModifier(),
+                (base_ruin_iv, 0.4*base_ruin_iv),
+            ),           
+        )        
+        return self.__test_multi_target_skills(stats, skills_and_expected_damages)

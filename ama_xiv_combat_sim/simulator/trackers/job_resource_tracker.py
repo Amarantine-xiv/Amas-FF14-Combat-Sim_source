@@ -13,9 +13,15 @@ class JobResourceTracker:
     def add_resource(self, curr_t, skill, skill_modifier):
         for resource_spec in skill.get_job_resource_spec(skill_modifier):
             name = resource_spec.name
-            self.__resources[name].append(
-                (curr_t, curr_t + resource_spec.duration, resource_spec)
-            )
+            try:
+                self.__resources[name].append(
+                    (curr_t, curr_t + resource_spec.duration, resource_spec)
+                )
+            except KeyError as err:
+                print(
+                    f"Could not find the job resource: '{name}'. Did you set the class correctly?"
+                )
+                raise err
 
     def get_resource_timeline(self, name):
         return self.__resources[name]
