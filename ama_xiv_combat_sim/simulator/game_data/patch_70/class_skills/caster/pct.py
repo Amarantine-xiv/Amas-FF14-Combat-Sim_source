@@ -17,7 +17,10 @@ def add_pct_skills(skill_library):
     auto_timing = get_auto_timing()
 
     pct_caster_tax_ms = 100
-    instant_timing_spec = TimingSpec(base_cast_time=0, animation_lock=pct_caster_tax_ms)
+    base_animation_lock = 600
+    instant_timing_spec = TimingSpec(
+        base_cast_time=0, animation_lock=base_animation_lock + pct_caster_tax_ms
+    )
     skill_library.set_current_job_class("PCT")
 
     rainbow_bright_follow_up = FollowUp(
@@ -89,7 +92,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=440),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -106,7 +109,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=480),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -123,7 +126,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=520),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -141,7 +144,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -158,7 +161,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=1300),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -170,7 +173,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -182,7 +185,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -194,7 +197,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=140),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -211,7 +214,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=160),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -232,7 +235,7 @@ def add_pct_skills(skill_library):
             ),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -244,7 +247,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
                 gcd_base_recast_time=3300,
             ),
@@ -262,7 +265,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=240),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
                 gcd_base_recast_time=3300,
             ),
@@ -280,7 +283,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=840),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
                 gcd_base_recast_time=3300,
             ),
@@ -298,7 +301,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=880),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
                 gcd_base_recast_time=3300,
             ),
@@ -316,7 +319,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=260),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
                 gcd_base_recast_time=3300,
             ),
@@ -334,7 +337,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=280),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
                 gcd_base_recast_time=3300,
             ),
@@ -350,7 +353,7 @@ def add_pct_skills(skill_library):
         Skill(
             name="Starry Muse",
             is_GCD=False,
-            timing_spec=TimingSpec(base_cast_time=0, animation_lock=pct_caster_tax_ms),
+            timing_spec=TimingSpec(base_cast_time=0, animation_lock=base_animation_lock + pct_caster_tax_ms),
             buff_spec={
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
                     damage_mult=1.05, duration=int(20.35 * 1000), is_party_effect=True
@@ -378,7 +381,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=520),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -399,7 +402,7 @@ def add_pct_skills(skill_library):
             ),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -415,7 +418,7 @@ def add_pct_skills(skill_library):
             ),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -427,7 +430,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=880),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
                 gcd_base_recast_time=3300,
             ),
@@ -446,13 +449,13 @@ def add_pct_skills(skill_library):
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=4000,
-                    animation_lock=pct_caster_tax_ms,
+                    animation_lock=base_animation_lock + pct_caster_tax_ms,
                     application_delay=650,
                     gcd_base_recast_time=6000,
                 ),
                 "Rainbow Bright": TimingSpec(
                     base_cast_time=0,
-                    animation_lock=pct_caster_tax_ms,
+                    animation_lock=base_animation_lock + pct_caster_tax_ms,
                     application_delay=650,
                     gcd_base_recast_time=int(0.4 * 6000),  # 60% reduction?
                 ),
@@ -466,7 +469,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -478,7 +481,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -490,7 +493,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=1400),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -502,7 +505,7 @@ def add_pct_skills(skill_library):
             damage_spec=DamageSpec(potency=1400),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=1250,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -560,7 +563,7 @@ def add_pct_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -571,7 +574,7 @@ def add_pct_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -582,7 +585,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),
@@ -595,7 +598,7 @@ def add_pct_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -607,7 +610,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),
@@ -620,7 +623,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),
@@ -633,7 +636,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),
@@ -645,7 +648,7 @@ def add_pct_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -656,7 +659,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),
@@ -668,7 +671,7 @@ def add_pct_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -679,7 +682,7 @@ def add_pct_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -691,7 +694,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),
@@ -703,7 +706,7 @@ def add_pct_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -714,7 +717,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),
@@ -726,7 +729,7 @@ def add_pct_skills(skill_library):
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 application_delay=650,
             ),
         )
@@ -737,7 +740,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),
@@ -749,7 +752,7 @@ def add_pct_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
-                animation_lock=pct_caster_tax_ms,
+                animation_lock=base_animation_lock + pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
                 application_delay=650,
             ),

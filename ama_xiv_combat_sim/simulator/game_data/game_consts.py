@@ -96,6 +96,7 @@ class GameConsts:
         "MNK": 2.56,
         "SAM": 2.64,
         "NIN": 2.56,
+        "VPR": 2.64,
         #
         "BRD": 3.04,
         "MCH": 2.64,
@@ -140,6 +141,7 @@ class GameConsts:
         "Reaper": "RPR",
         "Dragoon": "DRG",
         "Samurai": "SAM",
+        "Viper": "VPR",
         #
         "BlackMage": "BLM",
         "Summoner": "SMN",
