@@ -14,6 +14,7 @@ class DamageSpec:
   trait_damage_mult_override: float = None
   pet_job_mod_override: float = None #only used if the damage_class is DamageClass.PET
   pet_scalar: float = 1.0 #only used if the damage_class is DamageClass.PET
+  use_min_potency: int = None #special field if we need to use a different min potency for this spec. VPR bullshit
 
   def  __str__(self):
     res = '   potency:{}\n'.format(self.potency)

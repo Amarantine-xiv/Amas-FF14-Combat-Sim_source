@@ -17,6 +17,10 @@ def add_vpr_skills(skill_library):
     auto_timing = get_auto_timing()
     instant_timing_spec = get_instant_timing_spec()
 
+    # these are based off of pre-trait dread fang. IDK man, idk.
+    COMBO_BASE_POTENCY_NO_VENOM = 120
+    COMBO_BASE_POTENCY_WITH_VENOM = 220
+
     skill_library.set_current_job_class("VPR")
     # combo groups
     # 0: Hunter's coil -> twinfang bite. GCD->oGCD combo
@@ -78,7 +82,7 @@ def add_vpr_skills(skill_library):
         name,
         skill_allowlist,
         duration,
-        expires_status_effects = tuple(),
+        expires_status_effects=tuple(),
         delay_after_parent_application=0,
     ):
         return FollowUp(
@@ -208,10 +212,18 @@ def add_vpr_skills(skill_library):
             name="Flanksting Strike",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
-                "No Positional": DamageSpec(potency=300),
-                "Flankstung Venom": DamageSpec(potency=460),
-                "Flankstung Venom, No Positional": DamageSpec(potency=400),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=360, use_min_potency=COMBO_BASE_POTENCY_NO_VENOM
+                ),
+                "No Positional": DamageSpec(
+                    potency=300, use_min_potency=COMBO_BASE_POTENCY_NO_VENOM
+                ),
+                "Flankstung Venom": DamageSpec(
+                    potency=460, use_min_potency=COMBO_BASE_POTENCY_WITH_VENOM
+                ),
+                "Flankstung Venom, No Positional": DamageSpec(
+                    potency=400, use_min_potency=COMBO_BASE_POTENCY_WITH_VENOM
+                ),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -237,10 +249,18 @@ def add_vpr_skills(skill_library):
             name="Flanksbane Fang",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
-                "No Positional": DamageSpec(potency=300),
-                "Flanksbane Venom": DamageSpec(potency=460),
-                "Flanksbane Venom, No Positional": DamageSpec(potency=400),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=360, use_min_potency=COMBO_BASE_POTENCY_NO_VENOM
+                ),
+                "No Positional": DamageSpec(
+                    potency=300, use_min_potency=COMBO_BASE_POTENCY_NO_VENOM
+                ),
+                "Flanksbane Venom": DamageSpec(
+                    potency=460, use_min_potency=COMBO_BASE_POTENCY_WITH_VENOM
+                ),
+                "Flanksbane Venom, No Positional": DamageSpec(
+                    potency=400, use_min_potency=COMBO_BASE_POTENCY_WITH_VENOM
+                ),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -266,10 +286,18 @@ def add_vpr_skills(skill_library):
             name="Hindsting Strike",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
-                "No Positional": DamageSpec(potency=300),
-                "Hindstung Venom": DamageSpec(potency=460),
-                "Hindstung Venom, No Positional": DamageSpec(potency=400),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=360, use_min_potency=COMBO_BASE_POTENCY_NO_VENOM
+                ),
+                "No Positional": DamageSpec(
+                    potency=300, use_min_potency=COMBO_BASE_POTENCY_NO_VENOM
+                ),
+                "Hindstung Venom": DamageSpec(
+                    potency=460, use_min_potency=COMBO_BASE_POTENCY_WITH_VENOM
+                ),
+                "Hindstung Venom, No Positional": DamageSpec(
+                    potency=400, use_min_potency=COMBO_BASE_POTENCY_WITH_VENOM
+                ),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -295,10 +323,18 @@ def add_vpr_skills(skill_library):
             name="Hindsbane Fang",
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360),
-                "No Positional": DamageSpec(potency=300),
-                "Hindsbane Venom": DamageSpec(potency=460),
-                "Hindsbane Venom, No Positional": DamageSpec(potency=400),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=360, use_min_potency=COMBO_BASE_POTENCY_NO_VENOM
+                ),
+                "No Positional": DamageSpec(
+                    potency=300, use_min_potency=COMBO_BASE_POTENCY_NO_VENOM
+                ),
+                "Hindsbane Venom": DamageSpec(
+                    potency=460, use_min_potency=COMBO_BASE_POTENCY_WITH_VENOM
+                ),
+                "Hindsbane Venom, No Positional": DamageSpec(
+                    potency=400, use_min_potency=COMBO_BASE_POTENCY_WITH_VENOM
+                ),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620

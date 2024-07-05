@@ -304,7 +304,7 @@ def add_nin_skills(skill_library):
         Skill(name="Jin", is_GCD=True, timing_spec=mudra_timing_spec)
     )
     death_blossom_follow_up = FollowUp(
-        skill=Skill(name="_Death Blossom", damage_spec=DamageSpec(100)),
+        skill=Skill(name="Death Blossom", damage_spec=DamageSpec(100)),
         delay_after_parent_application=710,
     )
     skill_library.add_skill(

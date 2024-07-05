@@ -14,7 +14,7 @@ def add_generic_skills_to_library(skill_library):
                                   is_GCD=False,
                                   timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=890),
                                   buff_spec=StatusEffectSpec(duration= int(29.97*1000), main_stat_add=223)))
-    skill_library.add_skill(Skill(name='Grade 1 Gemsap Tincture',
+    skill_library.add_skill(Skill(name='Grade 1 Gemdraught',
                                   is_GCD=False,
                                   timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=890),
                                   buff_spec=StatusEffectSpec(duration= int(29.97*1000), main_stat_add=223)))

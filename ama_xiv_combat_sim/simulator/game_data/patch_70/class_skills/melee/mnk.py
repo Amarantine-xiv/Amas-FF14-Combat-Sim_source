@@ -1,3 +1,5 @@
+import math
+
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.patch_70.convenience_timings import (
@@ -23,7 +25,7 @@ def add_mnk_skills(skill_library):
             name="Raptor's Fury",
             buff_spec=StatusEffectSpec(
                 num_uses=2,
-                duration=30000,
+                duration=math.inf,
                 add_to_skill_modifier_condition=True,
                 skill_allowlist=("Rising Raptor",),
             ),
@@ -35,7 +37,7 @@ def add_mnk_skills(skill_library):
             name="Coeurl's Fury",
             buff_spec=StatusEffectSpec(
                 num_uses=3,
-                duration=30000,
+                duration=math.inf,
                 add_to_skill_modifier_condition=True,
                 skill_allowlist=("Pouncing Coeurl",),
             ),
@@ -47,7 +49,7 @@ def add_mnk_skills(skill_library):
             name="Opo-opo's Fury",
             buff_spec=StatusEffectSpec(
                 num_uses=1,
-                duration=30000,
+                duration=math.inf,
                 add_to_skill_modifier_condition=True,
                 skill_allowlist=("Leaping Opo",),
             ),
@@ -439,10 +441,10 @@ def add_mnk_skills(skill_library):
         Skill(
             name="Pouncing Coeurl",
             is_GCD=True,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=400),
-                         "Coeurl's Fury": DamageSpec(potency=500),
-                         "No Positional":  DamageSpec(potency=340),
-                         "Coeurl's Fury, No Positional":  DamageSpec(potency=440)},
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=400, use_min_potency=340),
+                         "Coeurl's Fury": DamageSpec(potency=500, use_min_potency=440),
+                         "No Positional":  DamageSpec(potency=340, use_min_potency=340),
+                         "Coeurl's Fury, No Positional":  DamageSpec(potency=440, use_min_potency=440)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
             ),

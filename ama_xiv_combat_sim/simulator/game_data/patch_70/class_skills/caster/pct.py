@@ -559,7 +559,7 @@ def add_pct_skills(skill_library):
 
     skill_library.add_skill(
         Skill(
-            name="Tempura Coat",
+            name="Tempera Coat",
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -725,7 +725,7 @@ def add_pct_skills(skill_library):
     )
     skill_library.add_skill(
         Skill(
-            name="Tempura Grassa",
+            name="Tempera Grassa",
             is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0,
