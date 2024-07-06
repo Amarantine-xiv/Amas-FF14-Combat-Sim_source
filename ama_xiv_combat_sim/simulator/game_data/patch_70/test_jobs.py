@@ -1809,7 +1809,7 @@ class TestJobs70(TestClass):
         rb.add_next("Fleche")
 
         expected_damage = 539105
-        expected_total_time = 34710
+        expected_total_time = 33710
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -1890,8 +1890,8 @@ class TestJobs70(TestClass):
         rb.add_next("Blizzard IV")
         rb.add_next("Thunder III")
 
-        expected_damage = 459741
-        expected_total_time = 28640
+        expected_damage = 456625
+        expected_total_time = 26620
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -2135,6 +2135,6 @@ class TestJobs70(TestClass):
             rb.add_next(e)
             
         expected_damage = 1113818
-        expected_total_time = 55830
+        expected_total_time = 54930
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)

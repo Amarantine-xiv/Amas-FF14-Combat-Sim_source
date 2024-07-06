@@ -24,6 +24,8 @@ def add_rdm_skills(skill_library):
 
     skill_library.set_status_effect_priority(("Swiftcast", "Acceleration", "Dualcast"))
 
+    rdm_caster_tax = 100
+
     dualcast_buff = Skill(
         name="Dualcast",
         is_GCD=False,
@@ -93,7 +95,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=650, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -119,7 +123,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=650, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -145,7 +151,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=650, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -171,7 +179,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=650, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -332,7 +342,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=650, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -358,7 +370,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=650, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -373,7 +387,7 @@ def add_rdm_skills(skill_library):
             },
         )
     )
-        
+
     impact_damage_follow_up = FollowUp(
         skill=Skill(name="Impact", damage_spec=DamageSpec(potency=210)),
         delay_after_parent_application=760,
@@ -388,7 +402,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=5000, animation_lock=650, application_delay=0
+                    base_cast_time=5000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -463,7 +479,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=5000, animation_lock=650, application_delay=0
+                    base_cast_time=5000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -497,7 +515,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=5000, animation_lock=650, application_delay=0
+                    base_cast_time=5000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -531,7 +551,7 @@ def add_rdm_skills(skill_library):
             ),
         )
     )
-    
+
     skill_library.add_skill(
         Skill(
             name="Vice of Thorns",
@@ -554,7 +574,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=5000, animation_lock=650, application_delay=0
+                    base_cast_time=5000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -565,7 +587,7 @@ def add_rdm_skills(skill_library):
                     grand_impact_damage_follow_up,
                     dualcast_follow_up,
                 ),
-                "Dualcast": (grand_impact_damage_follow_up,)
+                "Dualcast": (grand_impact_damage_follow_up,),
             },
         )
     )
@@ -581,7 +603,7 @@ def add_rdm_skills(skill_library):
             status_effect_denylist=("Manafication", "Embolden"),
         )
     )
-        
+
     skill_library.add_skill(
         Skill(
             name="Enchanted Riposte",
@@ -589,7 +611,10 @@ def add_rdm_skills(skill_library):
             damage_spec=DamageSpec(potency=300),
             combo_spec=(ComboSpec(),),
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, application_delay=630
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=650,
+                application_delay=630,
             ),
         )
     )
@@ -603,7 +628,10 @@ def add_rdm_skills(skill_library):
                 "No Combo": DamageSpec(potency=170),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, application_delay=630
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=650,
+                application_delay=630,
             ),
         )
     )
@@ -617,7 +645,10 @@ def add_rdm_skills(skill_library):
                 "No Combo": DamageSpec(potency=170),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=2200, application_delay=630
+                base_cast_time=0,
+                gcd_base_recast_time=2200,
+                animation_lock=650,
+                application_delay=630,
             ),
         )
     )
@@ -628,7 +659,10 @@ def add_rdm_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=1),),
             damage_spec=DamageSpec(potency=130),
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, application_delay=800
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=650,
+                application_delay=800,
             ),
         )
     )
@@ -636,10 +670,15 @@ def add_rdm_skills(skill_library):
         Skill(
             name="Enchanted Moulinet Deux",
             is_GCD=True,
-            combo_spec=(ComboSpec(combo_group=1, combo_actions=("Enchanted Moulinet",)),),
+            combo_spec=(
+                ComboSpec(combo_group=1, combo_actions=("Enchanted Moulinet",)),
+            ),
             damage_spec=DamageSpec(potency=140),
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, application_delay=800
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=650,
+                application_delay=800,
             ),
         )
     )
@@ -650,17 +689,22 @@ def add_rdm_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Enchanted Deux",)),),
             damage_spec=DamageSpec(potency=150),
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, application_delay=800
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=650,
+                application_delay=800,
             ),
         )
-    ) 
+    )
     skill_library.add_skill(
         Skill(
             name="Enchanted Reprise",
             is_GCD=True,
             damage_spec=DamageSpec(potency=380),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=650
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=650,
             ),
         )
     )
@@ -710,14 +754,14 @@ def add_rdm_skills(skill_library):
         Skill(
             name="Verraise",
             is_GCD=True,
-            timing_spec=TimingSpec(base_cast_time=10 * 1000, gcd_base_recast_time=2500),
+            timing_spec=TimingSpec(base_cast_time=10 * 1000, gcd_base_recast_time=2500, animation_lock=rdm_caster_tax),
         )
     )
     skill_library.add_skill(
         Skill(
             name="Vercure",
             is_GCD=True,
-            timing_spec=TimingSpec(base_cast_time=2000, gcd_base_recast_time=2500),
+            timing_spec=TimingSpec(base_cast_time=2000, gcd_base_recast_time=2500, animation_lock=rdm_caster_tax),
         )
     )
 

@@ -18,7 +18,7 @@ def add_smn_skills(skill_library):
     smn_caster_tax_ms = 100
     base_animation_lock = 600
     instant_timing_spec = TimingSpec(
-        base_cast_time=0, animation_lock=base_animation_lock + smn_caster_tax_ms
+        base_cast_time=0, animation_lock=base_animation_lock
     )
     skill_library.set_current_job_class("SMN")
 
@@ -39,7 +39,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=340),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=930,
             ),
         )
@@ -51,7 +51,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=1070,
             ),
         )
@@ -63,7 +63,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=150),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=440,
             ),
             has_aoe=True,
@@ -85,7 +85,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=310),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock= smn_caster_tax_ms,
                 application_delay=800,
             ),
         )
@@ -97,7 +97,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=440),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=670,
             ),
         )
@@ -109,7 +109,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=180),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=540,
             ),
             has_aoe=True,
@@ -122,7 +122,7 @@ def add_smn_skills(skill_library):
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=800,
             ),
             has_aoe=True,
@@ -136,7 +136,7 @@ def add_smn_skills(skill_library):
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=430)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=800,
             ),
             has_aoe=True,
@@ -199,7 +199,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2800,
                 gcd_base_recast_time=3000,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock= smn_caster_tax_ms,
                 application_delay=620,
             ),
         )
@@ -212,7 +212,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=620,
             ),
         )
@@ -225,7 +225,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=620,
             ),
         )
@@ -237,7 +237,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock= smn_caster_tax_ms,
             ),
             has_aoe=True,
         )
@@ -249,7 +249,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=540),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=1070,
             ),
         )
@@ -261,7 +261,7 @@ def add_smn_skills(skill_library):
             damage_spec=DamageSpec(potency=240),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=800,
             ),
             has_aoe=True,
@@ -313,7 +313,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2800,
                 gcd_base_recast_time=3000,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock= smn_caster_tax_ms,
                 application_delay=535,
             ),
             has_aoe=True,
@@ -327,7 +327,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock= base_animation_lock,
                 application_delay=535,
             ),
             has_aoe=True,
@@ -341,7 +341,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=535,
             ),
             has_aoe=True,
@@ -354,7 +354,7 @@ def add_smn_skills(skill_library):
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=430)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=800,
             ),
             has_aoe=True,
@@ -368,7 +368,7 @@ def add_smn_skills(skill_library):
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=430)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=760,
             ),
             has_aoe=True,
@@ -382,7 +382,7 @@ def add_smn_skills(skill_library):
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=150)},
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=base_animation_lock,
                 application_delay=760,
             ),
             has_aoe=True,
@@ -412,7 +412,7 @@ def add_smn_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 gcd_base_recast_time=3500,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock= smn_caster_tax_ms,
                 application_delay=1020,
             ),
             follow_up_skills=(slipstream_follow_up,),
@@ -668,7 +668,7 @@ def add_smn_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock= smn_caster_tax_ms,
             ),
         )
     )
