@@ -17,7 +17,7 @@ def add_generic_skills_to_library(skill_library):
     skill_library.add_skill(Skill(name='Grade 1 Gemdraught',
                                   is_GCD=False,
                                   timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=890),
-                                  buff_spec=StatusEffectSpec(duration= int(29.97*1000), main_stat_add=223)))
+                                  buff_spec=StatusEffectSpec(duration= int(29.97*1000), main_stat_add=351)))
     for i in range(0, 10000, 10):
       skill_name = "Wait {:.2f}s".format(i/1000)
       skill_library.add_skill(Skill(name=skill_name,
