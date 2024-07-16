@@ -243,6 +243,37 @@ def add_brd_skills(skill_library):
                         "Army's Paeon",
                     ),
                 ),
+                "Buff Only": StatusEffectSpec(
+                    damage_mult=1.01,
+                    duration=45 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "The Wanderer's Minuet",
+                        "Army's Paeon",
+                    ),
+                ),
+                "From Log, Buff Only": StatusEffectSpec(
+                    damage_mult=1.01,
+                    duration=5 * 1000,
+                    max_duration=5 * 1000,
+                    is_party_effect=True,
+                    extends_existing_duration=True,
+                    expires_status_effects=(
+                        "The Wanderer's Minuet",
+                        "Army's Paeon",
+                    ),
+                ),
+                "From Log": StatusEffectSpec(
+                    damage_mult=1.01,
+                    duration=5 * 1000,
+                    max_duration=5 * 1000,
+                    is_party_effect=True,
+                    extends_existing_duration=True,
+                    expires_status_effects=(
+                        "The Wanderer's Minuet",
+                        "Army's Paeon",
+                    ),
+                ),
             },
             timing_spec=instant_timing_spec,
             job_resource_spec={
@@ -300,8 +331,9 @@ def add_brd_skills(skill_library):
                 "From Log, Buff Only": StatusEffectSpec(
                     dh_rate_add=0.03,
                     duration=5 * 1000,
+                    max_duration=5 * 1000,
                     is_party_effect=True,
-                    extends_existing_duration=False,
+                    extends_existing_duration=True,
                     expires_status_effects=(
                         "The Wanderer's Minuet",
                         "Mage's Ballad",
@@ -310,8 +342,9 @@ def add_brd_skills(skill_library):
                 "From Log": StatusEffectSpec(
                     dh_rate_add=0.03,
                     duration=5 * 1000,
+                    max_duration=5 * 1000,
                     is_party_effect=True,
-                    extends_existing_duration=False,
+                    extends_existing_duration=True,
                     expires_status_effects=(
                         "The Wanderer's Minuet",
                         "Mage's Ballad",
@@ -358,7 +391,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1650
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -391,10 +424,32 @@ def add_brd_skills(skill_library):
                         "Mage's Ballad",
                     ),
                 ),
+                "Buff Only": StatusEffectSpec(
+                    crit_rate_add=0.02,
+                    duration=45 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "Army's Paeon",
+                        "Mage's Ballad",
+                    ),
+                ),
+                "From Log, Buff Only": StatusEffectSpec(
+                    crit_rate_add=0.02,
+                    duration=5 * 1000,
+                    max_duration=5 * 1000,
+                    is_party_effect=True,
+                    extends_existing_duration=True,
+                    expires_status_effects=(
+                        "Army's Paeon",
+                        "Mage's Ballad",
+                    ),
+                ),
                 "From Log": StatusEffectSpec(
                     crit_rate_add=0.02,
                     duration=5 * 1000,
+                    max_duration=5 * 1000,
                     is_party_effect=True,
+                    extends_existing_duration=True,
                     expires_status_effects=(
                         "Army's Paeon",
                         "Mage's Ballad",
@@ -433,7 +488,7 @@ def add_brd_skills(skill_library):
             ),
             job_resource_spec=(JobResourceSpec(name="Repertoire", change=-np.inf),),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -596,7 +651,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1430
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
 
@@ -658,7 +713,7 @@ def add_brd_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             job_resource_spec=(JobResourceSpec(name="Soul Voice", change=-np.inf),),
-            has_aoe=True
+            has_aoe=True,
         )
     )
 
@@ -690,7 +745,7 @@ def add_brd_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "Barrage": (ladonsbite_barrage2, ladonsbite_barrage3),
             },
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -702,7 +757,7 @@ def add_brd_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1650
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(

@@ -20,7 +20,7 @@ def add_drg_skills(skill_library):
     skill_library.set_current_job_class("DRG")
     drg_weapon_skills = (
         "True Thrust",
-        "Piercing Talon",        
+        "Piercing Talon",
         "Doom Spike",
         "Fang and Claw",
         "Wheeling Thrust",
@@ -37,7 +37,7 @@ def add_drg_skills(skill_library):
 
     _power_surge_follow_up = FollowUp(
         skill=Skill(
-            name="_Power surge buff",
+            name="Power Surge",
             is_GCD=False,
             buff_spec=StatusEffectSpec(damage_mult=1.10, duration=int(31.6 * 1000)),
         ),
@@ -96,6 +96,7 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=1290
             ),
+            has_aoe=True,
         )
     )
 
@@ -107,6 +108,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=800, application_delay=800
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -157,29 +160,50 @@ def add_drg_skills(skill_library):
     life_of_the_dragon_follow_up = FollowUp(
         skill=Skill(
             name="Life of the Dragon",
-            buff_spec=StatusEffectSpec(damage_mult=1.15, duration=20*1000),
+            buff_spec=StatusEffectSpec(damage_mult=1.15, duration=20 * 1000),
         ),
         delay_after_parent_application=0,
+    )
+    geirskogul_damage_follow_up = FollowUp(
+        skill=Skill(
+            name="Geirskogul",
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=280)},
+            has_aoe=True,  # is this needed here? What is the convention?
+            aoe_dropoff=0.5,
+        ),
+        delay_after_parent_application=670,
+        snapshot_buffs_with_parent=True,
+        snapshot_debuffs_with_parent=True,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
             name="Geirskogul",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=280),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=600, application_delay=670
+                base_cast_time=0, animation_lock=600, application_delay=0
             ),
-            follow_up_skills=(life_of_the_dragon_follow_up,)
+            follow_up_skills=(
+                geirskogul_damage_follow_up,
+                life_of_the_dragon_follow_up,
+            ),
+            has_aoe=True,
         )
     )
 
     sonic_thrust_damage_follow_up = FollowUp(
-        skill=Skill(name="Sonic Thrust", damage_spec=DamageSpec(potency=120)),
+        skill=Skill(
+            name="Sonic Thrust", damage_spec=DamageSpec(potency=120), has_aoe=True
+        ),
         delay_after_parent_application=800,
+        primary_target_only=False,
     )
     sonic_thrust_no_combo_damage_follow_up = FollowUp(
-        skill=Skill(name="Sonic Thrust", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(
+            name="Sonic Thrust", damage_spec=DamageSpec(potency=100), has_aoe=True
+        ),
         delay_after_parent_application=800,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -196,9 +220,10 @@ def add_drg_skills(skill_library):
                 ),
                 "No Combo": (sonic_thrust_no_combo_damage_follow_up,),
             },
+            has_aoe=True,
         )
     )
-    
+
     # This doesn't actually need a combo_spec, I think? Because the combo simply
     # allows this action to be taken.
     skill_library.add_skill(
@@ -206,12 +231,12 @@ def add_drg_skills(skill_library):
             name="Drakesbane",
             is_GCD=True,
             combo_spec=(ComboSpec(combo_actions=("Wheeling Thrust", "Fang and Claw")),),
-            damage_spec= DamageSpec(potency=440),
+            damage_spec=DamageSpec(potency=440),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=620
             ),
         )
-    )    
+    )
 
     skill_library.add_skill(
         Skill(
@@ -231,6 +256,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=760
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -245,6 +272,7 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=490
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -276,6 +304,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=1500, application_delay=1290
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -286,6 +316,7 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=760
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -344,6 +375,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=1200
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
 
@@ -355,6 +388,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=1200
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -405,9 +440,11 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=1200
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
-    
+
     skill_library.add_skill(
         Skill(
             name="Life Surge",

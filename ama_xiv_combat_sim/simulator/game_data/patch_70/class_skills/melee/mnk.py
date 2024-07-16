@@ -130,6 +130,7 @@ def add_mnk_skills(skill_library):
             ),
         ),
         delay_after_parent_application=0,
+        primary_target_only=True
     )
 
     skill_library.add_skill(
@@ -231,6 +232,7 @@ def add_mnk_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=940, gcd_base_recast_time=2000
             ),
             follow_up_skills=(opo_opo_form_follow_up,),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -241,6 +243,7 @@ def add_mnk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=970, gcd_base_recast_time=2000
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -273,6 +276,8 @@ def add_mnk_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1070, gcd_base_recast_time=2000
             ),
             follow_up_skills=(formless_fist_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.7
         )
     )
     skill_library.add_skill(
@@ -327,6 +332,7 @@ def add_mnk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -370,6 +376,7 @@ def add_mnk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -381,6 +388,8 @@ def add_mnk_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
             ),
             follow_up_skills=(formless_fist_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.7
         )
     )
     skill_library.add_skill(
@@ -392,6 +401,8 @@ def add_mnk_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
             ),
             follow_up_skills=(formless_fist_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -460,6 +471,8 @@ def add_mnk_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
             ),
             follow_up_skills=(formless_fist_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.7
         )
     )
     skill_library.add_skill(
@@ -469,7 +482,9 @@ def add_mnk_skills(skill_library):
             damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
-            )
+            ),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -481,6 +496,8 @@ def add_mnk_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
             ),
             follow_up_skills=(formless_fist_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
 

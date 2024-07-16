@@ -13,7 +13,6 @@ from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
 from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import (
     JobResourceTracker,
 )
-from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
 from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import (
     StatusEffectTracker,
 )
@@ -58,11 +57,11 @@ class RotationBuilder:
         downtime_windows = list(downtime_windows)
 
         # convert to ms
-        for i in range(0, len(downtime_windows)):
-            downtime_windows[i] = list(downtime_windows[i])
-            downtime_windows[i][0] *= 1000
-            downtime_windows[i][1] *= 1000
-            downtime_windows[i] = tuple(downtime_windows[i])
+        for i, downtime_window in enumerate(downtime_windows):
+            downtime_window = list(downtime_window)
+            downtime_window[0] *= 1000
+            downtime_window[1] *= 1000
+            downtime_windows[i] = tuple(downtime_window)
         self.__downtime_windows = tuple(downtime_windows)
 
     def get_button_press_timing(self):
@@ -621,8 +620,8 @@ class RotationBuilder:
         return res
 
     def __is_in_a_downtime_range(self, t):
-        for range in self.__downtime_windows:
-            if t >= range[0] and t < range[1]:
+        for r in self.__downtime_windows:
+            if r[0] <= t < r[1]:
                 return True
         return False
 
@@ -796,9 +795,9 @@ class RotationBuilder:
 
     # This is only called during a downtime window.
     def forward_to_next_non_downtime_time(self, snapshot_time):
-        for range in self.__downtime_windows:
-            if snapshot_time >= range[0] and snapshot_time < range[1]:
-                return range[1]
+        for r in self.__downtime_windows:
+            if r[0] <= snapshot_time < r[1]:
+                return r[1]
         return snapshot_time
 
     def __get_next_auto_time(self, t, cast_periods):

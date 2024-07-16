@@ -23,7 +23,7 @@ def add_rdm_skills(skill_library):
     skill_library.set_status_effect_priority(("Swiftcast", "Acceleration", "Dualcast"))
 
     rdm_caster_tax = 100
-    
+
     dualcast_buff = Skill(
         name="Dualcast",
         is_GCD=False,
@@ -84,6 +84,7 @@ def add_rdm_skills(skill_library):
     verthunder_2_damage_follow_up = FollowUp(
         skill=Skill(name="Verthunder II", damage_spec=DamageSpec(potency=140)),
         delay_after_parent_application=800,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -91,7 +92,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=rdm_caster_tax, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -104,12 +107,14 @@ def add_rdm_skills(skill_library):
                 ),
                 "Dualcast": (verthunder_2_damage_follow_up,),
             },
+            has_aoe=True,
         )
     )
 
     veraero_2_damage_follow_up = FollowUp(
         skill=Skill(name="Veraero II", damage_spec=DamageSpec(potency=140)),
         delay_after_parent_application=800,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -117,7 +122,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=rdm_caster_tax, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -130,6 +137,7 @@ def add_rdm_skills(skill_library):
                 ),
                 "Dualcast": (veraero_2_damage_follow_up,),
             },
+            has_aoe=True,
         )
     )
 
@@ -143,7 +151,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=rdm_caster_tax, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -169,7 +179,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=rdm_caster_tax, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -256,6 +268,7 @@ def add_rdm_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
             status_effect_denylist=("Manafication", "Embolden"),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -267,6 +280,7 @@ def add_rdm_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             status_effect_denylist=("Manafication", "Embolden"),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -326,7 +340,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=2000, animation_lock=rdm_caster_tax, application_delay=0
+                    base_cast_time=2000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -345,10 +361,12 @@ def add_rdm_skills(skill_library):
     impact_damage_follow_up = FollowUp(
         skill=Skill(name="Impact", damage_spec=DamageSpec(potency=210)),
         delay_after_parent_application=760,
+        primary_target_only=False,
     )
     impact_acceleration_damage_follow_up = FollowUp(
         skill=Skill(name="Impact", damage_spec=DamageSpec(potency=260)),
         delay_after_parent_application=760,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -356,7 +374,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=5000, animation_lock=rdm_caster_tax, application_delay=0
+                    base_cast_time=5000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -377,6 +397,7 @@ def add_rdm_skills(skill_library):
                 "Acceleration": (impact_acceleration_damage_follow_up,),
                 "Acceleration, Dualcast": (impact_acceleration_damage_follow_up,),
             },
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -388,6 +409,8 @@ def add_rdm_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1430
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -399,6 +422,8 @@ def add_rdm_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1430
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -418,6 +443,8 @@ def add_rdm_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1830
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
         )
     )
 
@@ -431,7 +458,9 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=5000, animation_lock=rdm_caster_tax, application_delay=0
+                    base_cast_time=5000,
+                    animation_lock=rdm_caster_tax,
+                    application_delay=0,
                 ),
                 "Dualcast": TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
@@ -497,6 +526,8 @@ def add_rdm_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1560
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -506,7 +537,10 @@ def add_rdm_skills(skill_library):
             damage_spec=DamageSpec(potency=280),
             combo_spec=(ComboSpec(),),
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, animation_lock=650, application_delay=630
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=650,
+                application_delay=630,
             ),
         )
     )
@@ -520,7 +554,10 @@ def add_rdm_skills(skill_library):
                 "No Combo": DamageSpec(potency=150),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, animation_lock=650, application_delay=630
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=650,
+                application_delay=630,
             ),
         )
     )
@@ -534,7 +571,10 @@ def add_rdm_skills(skill_library):
                 "No Combo": DamageSpec(potency=130),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=2200, animation_lock=650, application_delay=630
+                base_cast_time=0,
+                gcd_base_recast_time=2200,
+                animation_lock=650,
+                application_delay=630,
             ),
         )
     )
@@ -544,8 +584,12 @@ def add_rdm_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=130),
             timing_spec=TimingSpec(
-                base_cast_time=0, gcd_base_recast_time=1500, animation_lock=650, application_delay=800
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=650,
+                application_delay=800,
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -603,14 +647,22 @@ def add_rdm_skills(skill_library):
         Skill(
             name="Verraise",
             is_GCD=True,
-            timing_spec=TimingSpec(base_cast_time=10 * 1000, gcd_base_recast_time=2500, animation_lock=rdm_caster_tax),
+            timing_spec=TimingSpec(
+                base_cast_time=10 * 1000,
+                gcd_base_recast_time=2500,
+                animation_lock=rdm_caster_tax,
+            ),
         )
     )
     skill_library.add_skill(
         Skill(
             name="Vercure",
             is_GCD=True,
-            timing_spec=TimingSpec(base_cast_time=2000, gcd_base_recast_time=2500, animation_lock=rdm_caster_tax),
+            timing_spec=TimingSpec(
+                base_cast_time=2000,
+                gcd_base_recast_time=2500,
+                animation_lock=rdm_caster_tax,
+            ),
         )
     )
 

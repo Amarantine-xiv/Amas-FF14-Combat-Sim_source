@@ -97,6 +97,7 @@ def add_vpr_skills(skill_library):
                 ),
             ),
             delay_after_parent_application=delay_after_parent_application,
+            primary_target_only=True
         )
 
     skill_library.add_skill(
@@ -127,6 +128,7 @@ def add_vpr_skills(skill_library):
             buff_spec=StatusEffectSpec(damage_mult=1.10, duration=40 * 1000),
         ),
         delay_after_parent_application=0,
+        primary_target_only=True
     )
     skill_library.add_skill(
         Skill(
@@ -147,6 +149,7 @@ def add_vpr_skills(skill_library):
             ),
         ),
         delay_after_parent_application=0,
+        primary_target_only=True
     )
     skill_library.add_skill(
         Skill(
@@ -178,6 +181,7 @@ def add_vpr_skills(skill_library):
             ),
         ),
         delay_after_parent_application=0,
+        primary_target_only=True
     )
 
     skill_library.add_skill(
@@ -193,7 +197,7 @@ def add_vpr_skills(skill_library):
     )
 
     skill_library.add_skill(
-        Skill(name="Steel Maw", is_GCD=True, damage_spec=DamageSpec(potency=100))
+        Skill(name="Steel Maw", is_GCD=True, damage_spec=DamageSpec(potency=100), has_aoe=True)
     )
     hindstung_venom_follow_up = get_venom_follow_up(
         "Hindstung Venom",
@@ -351,6 +355,7 @@ def add_vpr_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(noxious_gnash_follow_up,),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -362,6 +367,7 @@ def add_vpr_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(hunters_instinct_follow_up,),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -373,6 +379,7 @@ def add_vpr_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(swift_scaled_follow_up,),
+            has_aoe=True
         )
     )
 
@@ -400,6 +407,7 @@ def add_vpr_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(grimskins_venom_follow_up,),
+            has_aoe=True
         )
     )
     grimhunters_venom_follow_up = get_venom_follow_up(
@@ -426,6 +434,7 @@ def add_vpr_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(grimhunters_venom_follow_up,),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -446,6 +455,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -515,7 +525,8 @@ def add_vpr_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(noxious_gnash_follow_up,),
-        )
+            has_aoe=True
+        )        
     )
 
     fellhunters_venom_follow_up = get_venom_follow_up(
@@ -534,6 +545,7 @@ def add_vpr_skills(skill_library):
                 gcd_base_recast_time=3000,
             ),
             follow_up_skills=(hunters_instinct_follow_up, fellhunters_venom_follow_up),
+            has_aoe=True
         )
     )
 
@@ -550,6 +562,7 @@ def add_vpr_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(swift_scaled_follow_up, fellskins_venom_follow_up),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -604,6 +617,7 @@ def add_vpr_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: (fellskins_venom_follow_up,),
                 "No Combo": tuple(),
             },
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -622,6 +636,7 @@ def add_vpr_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: (fellhunters_venom_follow_up,),
                 "No Combo": tuple(),
             },
+            has_aoe=True
         )
     )
 
@@ -640,6 +655,8 @@ def add_vpr_skills(skill_library):
                 gcd_base_recast_time=3500,
             ),
             follow_up_skills=(poised_for_twinfang_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -654,6 +671,8 @@ def add_vpr_skills(skill_library):
                 application_delay=620,
                 gcd_base_recast_time=2200,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -671,6 +690,8 @@ def add_vpr_skills(skill_library):
                 application_delay=620,
                 gcd_base_recast_time=2000,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -688,6 +709,8 @@ def add_vpr_skills(skill_library):
                 application_delay=620,
                 gcd_base_recast_time=2000,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -707,6 +730,8 @@ def add_vpr_skills(skill_library):
                 application_delay=620,
                 gcd_base_recast_time=2000,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -724,6 +749,8 @@ def add_vpr_skills(skill_library):
                 application_delay=620,
                 gcd_base_recast_time=2000,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     poised_for_twinblood_follow_up = get_venom_follow_up(
@@ -743,6 +770,8 @@ def add_vpr_skills(skill_library):
                 application_delay=620,
             ),
             follow_up_skills=(poised_for_twinblood_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -756,6 +785,8 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -769,6 +800,8 @@ def add_vpr_skills(skill_library):
                 application_delay=620,
                 gcd_base_recast_time=3000,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
 
@@ -780,6 +813,8 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -790,6 +825,8 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -800,6 +837,8 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -810,6 +849,8 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     # These skills do not damage, but grants resources/affects future skills.

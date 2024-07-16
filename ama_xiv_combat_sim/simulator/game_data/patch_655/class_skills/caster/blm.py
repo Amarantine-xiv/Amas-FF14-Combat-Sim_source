@@ -177,7 +177,8 @@ def add_blm_skills(skill_library):
         buff_spec=StatusEffectSpec(damage_mult=1.23, duration=15 * 1000),
     )
     enochian_buff_follow_up = FollowUp(
-        skill=enochian_buff, delay_after_parent_application=0
+        skill=enochian_buff, delay_after_parent_application=0,
+        primary_target_only=True
     )
 
     thunderiii_dot = Skill(
@@ -203,6 +204,7 @@ def add_blm_skills(skill_library):
         dot_duration=18 * 1000,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
+        primary_target_only=False
     )
     skill_library.add_skill(
         Skill(
@@ -497,6 +499,7 @@ def add_blm_skills(skill_library):
             timing_spec=get_enochian_timing_spec_cross(
                 base_cast_time=2800, is_fire_spell=False, application_delay=620
             ),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -578,6 +581,8 @@ def add_blm_skills(skill_library):
                 ),
             ),
             follow_up_skills=(enochian_buff_follow_up,),
+            has_aoe=True,
+            aoe_dropoff=0.4
         )
     )
 
@@ -646,6 +651,7 @@ def add_blm_skills(skill_library):
                     thundercloud_follow_up,
                 ),
             },
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -658,6 +664,8 @@ def add_blm_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=1160,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -712,6 +720,7 @@ def add_blm_skills(skill_library):
                 ),
             ),
             follow_up_skills=(enhanced_flare_follow_up, enochian_buff_follow_up),
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -732,6 +741,7 @@ def add_blm_skills(skill_library):
                 ),
             ),
             follow_up_skills=(enochian_buff_follow_up,),
+            has_aoe=True
         )
     )
 

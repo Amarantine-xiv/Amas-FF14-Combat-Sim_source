@@ -101,7 +101,7 @@ def add_drk_skills(skill_library):
     flood_of_shadow_damage_follow_up = FollowUp(
         skill=Skill(name="Flood of Shadow", damage_spec=DamageSpec(potency=160)),
         delay_after_parent_application=624,
-        primary_target_only=False
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -190,12 +190,12 @@ def add_drk_skills(skill_library):
         Skill(
             name="Salt and Darkness",
             is_GCD=False,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500)},   
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=757
             ),
             has_aoe=True,
-            aoe_dropoff= 0.5
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -259,39 +259,44 @@ def add_drk_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=666
             ),
             has_aoe=True,
-            aoe_dropoff= 0.5
+            aoe_dropoff=0.5,
         )
     )
-    ls_names_and_potency = [
-        ("Abyssal Drain (pet)", 350),
-        ("Plunge (pet)", 350),
-        ("Shadowbringer (pet)", 500),
-        ("Edge of Shadow (pet)", 350),
-        ("Bloodspiller (pet)", 350),
-        ("Carve and Spit (pet)", 350),
+    ls_names_and_potency_and_delays = [
+        ("Abyssal Drain (pet)", 350, 6800, True),
+        ("Plunge (pet)", 350, 6800 + 2200, True),
+        ("Shadowbringer (pet)", 500, 6800 + 2 * 2200, False),
+        ("Edge of Shadow (pet)", 350, 6800 + 3 * 2200, True),
+        ("Bloodspiller (pet)", 350, 6800 + 4 * 2200, True),
+        ("Carve and Spit (pet)", 350, 6800 + 5 * 2200, True),
     ]
-    _living_shadow_follow_up_skills = []
-    for skill_name, potency in ls_names_and_potency:
-        sk = Skill(
-            name=skill_name,
-            is_GCD=False,
-            damage_spec=DamageSpec(
-                potency=potency, damage_class=DamageClass.PET, pet_job_mod_override=100
-            ),
-            status_effect_denylist=("Darkside", "Dragon Sight"),
-        )
-        _living_shadow_follow_up_skills.append(sk)
 
-    _living_shadow_follow_ups = tuple(
-        FollowUp(
-            skill=_living_shadow_follow_up_skills[i],
-            delay_after_parent_application=6800 + i * 2200,
+    _living_shadow_follow_ups = []
+    for (
+        skill_name,
+        potency,
+        delay,
+        primary_target_only,
+    ) in ls_names_and_potency_and_delays:
+        fu = FollowUp(
+            skill=Skill(
+                name=skill_name,
+                is_GCD=False,
+                damage_spec=DamageSpec(
+                    potency=potency,
+                    damage_class=DamageClass.PET,
+                    pet_job_mod_override=100,
+                ),
+                status_effect_denylist=("Darkside", "Dragon Sight"),
+            ),
+            delay_after_parent_application=delay,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only=primary_target_only,
         )
-        for i in range(0, len(_living_shadow_follow_up_skills))
-    )
-    
+        _living_shadow_follow_ups.append(fu)
+    _living_shadow_follow_ups = tuple(_living_shadow_follow_ups)
+
     # TODO: be able to have certain parts of this skill cleave
     skill_library.add_skill(
         Skill(

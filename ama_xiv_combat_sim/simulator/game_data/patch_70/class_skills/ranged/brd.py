@@ -239,6 +239,37 @@ def add_brd_skills(skill_library):
                         "Army's Paeon",
                     ),
                 ),
+                "Buff Only": StatusEffectSpec(
+                    damage_mult=1.01,
+                    duration=45 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "The Wanderer's Minuet",
+                        "Army's Paeon",
+                    ),
+                ),
+                "From Log, Buff Only": StatusEffectSpec(
+                    damage_mult=1.01,
+                    duration=5 * 1000,
+                    max_duration=5 * 1000,
+                    is_party_effect=True,
+                    extends_existing_duration=True,
+                    expires_status_effects=(
+                        "The Wanderer's Minuet",
+                        "Army's Paeon",
+                    ),
+                ),
+                "From Log": StatusEffectSpec(
+                    damage_mult=1.01,
+                    duration=5 * 1000,
+                    max_duration=5 * 1000,
+                    is_party_effect=True,
+                    extends_existing_duration=True,
+                    expires_status_effects=(
+                        "The Wanderer's Minuet",
+                        "Army's Paeon",
+                    ),
+                ),
             },
             timing_spec=instant_timing_spec,
             job_resource_spec={
@@ -277,7 +308,7 @@ def add_brd_skills(skill_library):
                     dh_rate_add=0.03,
                     duration=45 * 1000,
                     is_party_effect=True,
-                    extends_existing_duration=False,
+                    extends_existing_duration=True,
                     expires_status_effects=(
                         "The Wanderer's Minuet",
                         "Mage's Ballad",
@@ -286,8 +317,9 @@ def add_brd_skills(skill_library):
                 "From Log, Buff Only": StatusEffectSpec(
                     dh_rate_add=0.03,
                     duration=5 * 1000,
+                    max_duration=5 * 1000,
                     is_party_effect=True,
-                    extends_existing_duration=False,
+                    extends_existing_duration=True,
                     expires_status_effects=(
                         "The Wanderer's Minuet",
                         "Mage's Ballad",
@@ -296,8 +328,9 @@ def add_brd_skills(skill_library):
                 "From Log": StatusEffectSpec(
                     dh_rate_add=0.03,
                     duration=5 * 1000,
+                    max_duration=5 * 1000,
                     is_party_effect=True,
-                    extends_existing_duration=False,
+                    extends_existing_duration=True,
                     expires_status_effects=(
                         "The Wanderer's Minuet",
                         "Mage's Ballad",
@@ -344,7 +377,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1650
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -372,10 +405,32 @@ def add_brd_skills(skill_library):
                         "Mage's Ballad",
                     ),
                 ),
+                "Buff Only": StatusEffectSpec(
+                    crit_rate_add=0.02,
+                    duration=45 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "Army's Paeon",
+                        "Mage's Ballad",
+                    ),
+                ),
+                "From Log, Buff Only": StatusEffectSpec(
+                    crit_rate_add=0.02,
+                    duration=5 * 1000,
+                    max_duration=5 * 1000,
+                    is_party_effect=True,
+                    extends_existing_duration=True,
+                    expires_status_effects=(
+                        "Army's Paeon",
+                        "Mage's Ballad",
+                    ),
+                ),
                 "From Log": StatusEffectSpec(
                     crit_rate_add=0.02,
                     duration=5 * 1000,
+                    max_duration=5 * 1000,
                     is_party_effect=True,
+                    extends_existing_duration=True,
                     expires_status_effects=(
                         "Army's Paeon",
                         "Mage's Ballad",
@@ -414,7 +469,7 @@ def add_brd_skills(skill_library):
             ),
             job_resource_spec=(JobResourceSpec(name="Repertoire", change=-np.inf),),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -466,7 +521,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1290
             ),
-            follow_up_skills= (caustic_bite_follow_up,),
+            follow_up_skills=(caustic_bite_follow_up,),
         )
     )
 
@@ -478,7 +533,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1290
             ),
-            follow_up_skills= (stormbite_follow_up,),            
+            follow_up_skills=(stormbite_follow_up,),
         )
     )
 
@@ -523,7 +578,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1430
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
 
@@ -565,7 +620,7 @@ def add_brd_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             job_resource_spec=(JobResourceSpec(name="Soul Voice", change=-np.inf),),
-            has_aoe=True
+            has_aoe=True,
         )
     )
 
@@ -577,7 +632,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1110
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -589,14 +644,14 @@ def add_brd_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1650
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
 
     encore1 = FollowUp(
         skill=Skill(
             name="1 Encore",
-            is_GCD=False,           
+            is_GCD=False,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
@@ -692,7 +747,7 @@ def add_brd_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=660
             ),
-            follow_up_skills= {
+            follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (encore2,),
                 "1 Mage's Coda": (encore1,),
                 "1 Army's Coda": (encore1,),
@@ -733,7 +788,7 @@ def add_brd_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=200
             ),
         )
-    )    
+    )
     skill_library.add_skill(
         Skill(
             name="Resonant Arrow",
@@ -743,24 +798,26 @@ def add_brd_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1470
             ),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
-    )  
+    )
     skill_library.add_skill(
         Skill(
             name="Radiant Encore",
             is_GCD=False,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=900),
-                         '3 Encore': DamageSpec(potency=900),
-                         '2 Encore': DamageSpec(potency=600),
-                         '1 Encore': DamageSpec(potency=500)},
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=900),
+                "3 Encore": DamageSpec(potency=900),
+                "2 Encore": DamageSpec(potency=600),
+                "1 Encore": DamageSpec(potency=500),
+            },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=660
             ),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
-    )  
+    )
     skill_library.add_skill(
         Skill(
             name="Add Soul Voice",

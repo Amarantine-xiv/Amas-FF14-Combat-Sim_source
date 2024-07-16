@@ -20,13 +20,14 @@ def add_rpr_skills(skill_library):
 
     _deaths_design_follow_up = FollowUp(
         skill=Skill(
-            name="_Death's Design debuff",
+            name="Death's Design",
             is_GCD=False,
             debuff_spec=StatusEffectSpec(
                 damage_mult=1.10, duration=30 * 1000, max_duration=60 * 1000
             ),
         ),
         delay_after_parent_application=0,
+        primary_target_only=False,
     )
 
     enhanced_harp = Skill(
@@ -122,6 +123,7 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -140,8 +142,11 @@ def add_rpr_skills(skill_library):
     )
 
     whorl_of_death_damage = FollowUp(
-        skill=Skill(name="Whorl of Death", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(
+            name="Whorl of Death", damage_spec=DamageSpec(potency=100), has_aoe=True
+        ),
         delay_after_parent_application=1160,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -151,6 +156,7 @@ def add_rpr_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
             follow_up_skills=(whorl_of_death_damage, _deaths_design_follow_up),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -165,6 +171,7 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -185,6 +192,7 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=580
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -213,6 +221,7 @@ def add_rpr_skills(skill_library):
                 affected_by_haste_buffs=False,
                 affected_by_speed_stat=False,
             ),
+            has_aoe=True,
         )
     )
 
@@ -282,6 +291,7 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=490
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -322,6 +332,8 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1070
             ),
+            has_aoe=True,
+            aoe_dropoff=0.25,
         )
     )
 
@@ -391,6 +403,7 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, gcd_base_recast_time=1500, application_delay=800
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -404,6 +417,8 @@ def add_rpr_skills(skill_library):
                 application_delay=1160,
                 affected_by_speed_stat=False,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -424,6 +439,7 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -444,6 +460,8 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1160
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -454,6 +472,8 @@ def add_rpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1300, application_delay=620, affected_by_speed_stat=False
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(

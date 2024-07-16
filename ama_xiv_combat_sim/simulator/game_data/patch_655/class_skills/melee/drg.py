@@ -36,7 +36,7 @@ def add_drg_skills(skill_library):
 
     _power_surge_follow_up = FollowUp(
         skill=Skill(
-            name="_Power surge buff",
+            name="Power Surge",
             is_GCD=False,
             buff_spec=StatusEffectSpec(damage_mult=1.10, duration=int(31.6 * 1000)),
         ),
@@ -133,6 +133,7 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=1290
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -153,6 +154,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=800, application_delay=800
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -226,16 +229,24 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=670
             ),
+            has_aoe=True,  # is this needed here? What is the convention?
+            aoe_dropoff=0.5,
         )
     )
 
     sonic_thrust_damage_follow_up = FollowUp(
-        skill=Skill(name="Sonic Thrust", damage_spec=DamageSpec(potency=120)),
+        skill=Skill(
+            name="Sonic Thrust", damage_spec=DamageSpec(potency=120), has_aoe=True
+        ),
         delay_after_parent_application=800,
+        primary_target_only=False,
     )
     sonic_thrust_no_combo_damage_follow_up = FollowUp(
-        skill=Skill(name="Sonic Thrust", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(
+            name="Sonic Thrust", damage_spec=DamageSpec(potency=100), has_aoe=True
+        ),
         delay_after_parent_application=800,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -252,6 +263,7 @@ def add_drg_skills(skill_library):
                 ),
                 "No Combo": (sonic_thrust_no_combo_damage_follow_up,),
             },
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -304,6 +316,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=760
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -318,6 +332,7 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=490
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -349,6 +364,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=1500, application_delay=1290
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -359,6 +376,7 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=760
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -417,6 +435,8 @@ def add_drg_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=1200
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
 

@@ -152,3 +152,33 @@ class GameConsts:
         "Bard": "BRD",
         "Machinist": "MCH",
     }
+    
+    JOB_3_CODE_TO_ROLE = {
+        "WAR": "Tank",
+        "GNB": "Tank",
+        "PLD": "Tank",
+        "DRK": "Tank",
+        #
+        "WHM": "Healer",
+        "AST": "Healer",
+        "SGE": "Healer",
+        "SCH": "Healer",
+        #
+        "BRD": "Ranged",
+        "DNC": "Ranged",
+        "MCH": "Ranged",
+        #
+        "SMN": "Caster",
+        "RDM": "Caster",
+        "BLM": "Caster",
+        "PCT": "Caster",
+        #
+        "MNK": "Melee",
+        "DRG": "Melee",
+        "SAM": "Melee",
+        "RPR": "Melee",
+        "NIN": "Melee",
+        "VPR": "Melee",
+    }
+        
+        

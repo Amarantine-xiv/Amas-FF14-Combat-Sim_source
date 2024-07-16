@@ -100,7 +100,7 @@ def add_drk_skills(skill_library):
     flood_of_shadow_damage_follow_up = FollowUp(
         skill=Skill(name="Flood of Shadow", damage_spec=DamageSpec(potency=160)),
         delay_after_parent_application=624,
-        primary_target_only=False
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -189,12 +189,12 @@ def add_drk_skills(skill_library):
         Skill(
             name="Salt and Darkness",
             is_GCD=False,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500)},                         
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=757
             ),
             has_aoe=True,
-            aoe_dropoff= 0.5
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -248,20 +248,25 @@ def add_drk_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=666
             ),
             has_aoe=True,
-            aoe_dropoff= 0.5
+            aoe_dropoff=0.5,
         )
     )
     ls_names_and_potency_and_delays = [
-        ("Abyssal Drain (pet)", 420, 6800),
+        ("Abyssal Drain (pet)", 420, 6800, True),
         # blank for where plunge was
-        ("Shadowbringer (pet)", 570, 6800 + 2*2200),
-        ("Edge of Shadow (pet)", 420, 6800 + 3*2200),
-        ("Bloodspiller (pet)", 420, 6800 + 4*2200),
-        ("Disesteem (pet)", 620, 6800 + 5*2200),
+        ("Shadowbringer (pet)", 570, 6800 + 2 * 2200, False),
+        ("Edge of Shadow (pet)", 420, 6800 + 3 * 2200, True),
+        ("Bloodspiller (pet)", 420, 6800 + 4 * 2200, True),
+        ("Disesteem (pet)", 620, 6800 + 5 * 2200, False),
     ]
 
     _living_shadow_follow_ups = []
-    for skill_name, potency, delay in ls_names_and_potency_and_delays:
+    for (
+        skill_name,
+        potency,
+        delay,
+        primary_target_only,
+    ) in ls_names_and_potency_and_delays:
         fu = FollowUp(
             skill=Skill(
                 name=skill_name,
@@ -276,8 +281,9 @@ def add_drk_skills(skill_library):
             delay_after_parent_application=delay,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only=primary_target_only,
         )
-        _living_shadow_follow_ups.append(fu)           
+        _living_shadow_follow_ups.append(fu)
 
     _living_shadow_follow_ups = tuple(_living_shadow_follow_ups)
 
@@ -330,19 +336,19 @@ def add_drk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=581
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Disesteem",
             is_GCD=True,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=800)},                         
+            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=800)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=581
             ),
             has_aoe=True,
-            aoe_dropoff= 0.5
+            aoe_dropoff=0.5,
         )
     )
     # These skills do not damage, but grants resources/affects future skills.

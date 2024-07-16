@@ -32,19 +32,19 @@ def add_nin_skills(skill_library):
     BUNSHIN_RANGED_POTENCY = 160
     BUNSHIN_AREA_POTENCY = 80
     bunshin_follow_ups = [
-        ("Spinning Edge", BUNSHIN_MELEE_POTENCY),
-        ("Gust Slash", BUNSHIN_MELEE_POTENCY),
-        ("Aeolian Edge", BUNSHIN_MELEE_POTENCY),
-        ("Armor Crush", BUNSHIN_MELEE_POTENCY),
-        ("Forked Raiju", BUNSHIN_MELEE_POTENCY),
-        ("Fleeting Raiju", BUNSHIN_MELEE_POTENCY),
-        ("Huraijin", BUNSHIN_MELEE_POTENCY),
-        ("Throwing Dagger", BUNSHIN_RANGED_POTENCY),
-        ("Hakke Mujinsatsu", BUNSHIN_AREA_POTENCY),
-        ("Death Blossom", BUNSHIN_AREA_POTENCY),
+        ("Spinning Edge", BUNSHIN_MELEE_POTENCY, True),
+        ("Gust Slash", BUNSHIN_MELEE_POTENCY, True),
+        ("Aeolian Edge", BUNSHIN_MELEE_POTENCY, True),
+        ("Armor Crush", BUNSHIN_MELEE_POTENCY, True),
+        ("Forked Raiju", BUNSHIN_MELEE_POTENCY, True),
+        ("Fleeting Raiju", BUNSHIN_MELEE_POTENCY, True),
+        ("Huraijin", BUNSHIN_MELEE_POTENCY, True),
+        ("Throwing Dagger", BUNSHIN_RANGED_POTENCY, True),
+        ("Hakke Mujinsatsu", BUNSHIN_AREA_POTENCY, False),
+        ("Death Blossom", BUNSHIN_AREA_POTENCY, False),
     ]
     all_bunshin_follow_ups = {}
-    for sk, bunshin_potency in bunshin_follow_ups:
+    for sk, bunshin_potency, primary_target_only in bunshin_follow_ups:
         all_bunshin_follow_ups[sk] = FollowUp(
             skill=Skill(
                 name=f"{sk} (pet)",
@@ -59,6 +59,7 @@ def add_nin_skills(skill_library):
             delay_after_parent_application=88,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only=primary_target_only,
         )
 
     _huton_follow_up_huton = FollowUp(
@@ -367,8 +368,9 @@ def add_nin_skills(skill_library):
         Skill(name="Jin", is_GCD=True, timing_spec=mudra_timing_spec)
     )
     death_blossom_follow_up = FollowUp(
-        skill=Skill(name="_Death Blossom", damage_spec=DamageSpec(100)),
+        skill=Skill(name="Death Blossom", damage_spec=DamageSpec(100), has_aoe=True),
         delay_after_parent_application=710,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -381,20 +383,23 @@ def add_nin_skills(skill_library):
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (death_blossom_follow_up,),
                 "Bunshin": (
-                    all_bunshin_follow_ups["Death Blossom"],
                     death_blossom_follow_up,
+                    all_bunshin_follow_ups["Death Blossom"],
                 ),
             },
+            has_aoe=True,
         )
     )
 
     hakke_follow_up = FollowUp(
-        skill=Skill(name="Hakke Mujinsatsu", damage_spec=DamageSpec(130)),
+        skill=Skill(name="Hakke Mujinsatsu", damage_spec=DamageSpec(130), has_aoe=True),
         delay_after_parent_application=620,
+        primary_target_only=False,
     )
     hakke_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Hakke Mujinsatsu", damage_spec=DamageSpec(100)),
+        skill=Skill(name="Hakke Mujinsatsu", damage_spec=DamageSpec(100), has_aoe=True),
         delay_after_parent_application=620,
+        primary_target_only=False,
     )
 
     skill_library.add_skill(
@@ -418,6 +423,7 @@ def add_nin_skills(skill_library):
                     hakke_no_combo_follow_up,
                 ),
             },
+            has_aoe=True
         )
     )
 
@@ -511,6 +517,7 @@ def add_nin_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -529,13 +536,18 @@ def add_nin_skills(skill_library):
     phantom_follow_up_damage = FollowUp(
         skill=Skill(
             name="Phantom Kamaitachi (pet)",
-            damage_spec=DamageSpec(
-                potency=600, damage_class=DamageClass.PET, pet_job_mod_override=100
-            ),
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=600, damage_class=DamageClass.PET, pet_job_mod_override=100
+                )
+            },
+            has_aoe=True,
+            aoe_dropoff=0.5,
         ),
         delay_after_parent_application=1560,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -546,8 +558,8 @@ def add_nin_skills(skill_library):
             follow_up_skills=(phantom_follow_up_damage,),
         )
     )
-    
-    #TODO: fix. gcds only will proc it, like bunshin. Ty An.
+
+    # TODO: fix. gcds only will proc it, like bunshin. Ty An.
     skill_library.add_skill(
         Skill(
             name="Hollow Nozuchi",

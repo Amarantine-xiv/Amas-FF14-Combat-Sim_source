@@ -43,18 +43,18 @@ def add_nin_skills(skill_library):
     BUNSHIN_RANGED_POTENCY = 160
     BUNSHIN_AREA_POTENCY = 80
     bunshin_follow_ups = [
-        ("Spinning Edge", BUNSHIN_MELEE_POTENCY),
-        ("Gust Slash", BUNSHIN_MELEE_POTENCY),
-        ("Aeolian Edge", BUNSHIN_MELEE_POTENCY),
-        ("Armor Crush", BUNSHIN_MELEE_POTENCY),
-        ("Forked Raiju", BUNSHIN_MELEE_POTENCY),
-        ("Fleeting Raiju", BUNSHIN_MELEE_POTENCY),
-        ("Throwing Dagger", BUNSHIN_RANGED_POTENCY),
-        ("Hakke Mujinsatsu", BUNSHIN_AREA_POTENCY),
-        ("Death Blossom", BUNSHIN_AREA_POTENCY),
+        ("Spinning Edge", BUNSHIN_MELEE_POTENCY, True),
+        ("Gust Slash", BUNSHIN_MELEE_POTENCY, True),
+        ("Aeolian Edge", BUNSHIN_MELEE_POTENCY, True),
+        ("Armor Crush", BUNSHIN_MELEE_POTENCY, True),
+        ("Forked Raiju", BUNSHIN_MELEE_POTENCY, True),
+        ("Fleeting Raiju", BUNSHIN_MELEE_POTENCY, True),
+        ("Throwing Dagger", BUNSHIN_RANGED_POTENCY, True),
+        ("Hakke Mujinsatsu", BUNSHIN_AREA_POTENCY, False),
+        ("Death Blossom", BUNSHIN_AREA_POTENCY, False),
     ]
     all_bunshin_follow_ups = {}
-    for sk, bunshin_potency in bunshin_follow_ups:
+    for sk, bunshin_potency, primary_target_only in bunshin_follow_ups:
         all_bunshin_follow_ups[sk] = FollowUp(
             skill=Skill(
                 name=f"{sk} (pet)",
@@ -68,6 +68,7 @@ def add_nin_skills(skill_library):
             delay_after_parent_application=88,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only=primary_target_only,
         )
 
     _dream_follow_ups = (
@@ -155,7 +156,10 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (spinning_edge_follow_up,),
-                "Bunshin": (all_bunshin_follow_ups['Spinning Edge'], spinning_edge_follow_up),
+                "Bunshin": (
+                    all_bunshin_follow_ups["Spinning Edge"],
+                    spinning_edge_follow_up,
+                ),
             },
         )
     )
@@ -179,9 +183,12 @@ def add_nin_skills(skill_library):
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (gust_slash_damage_follow_up,),
                 "No Combo": (gust_slash_damage_no_combo_follow_up,),
-                "Bunshin": (all_bunshin_follow_ups['Gust Slash'], gust_slash_damage_follow_up),
+                "Bunshin": (
+                    all_bunshin_follow_ups["Gust Slash"],
+                    gust_slash_damage_follow_up,
+                ),
                 "Bunshin, No Combo": (
-                    all_bunshin_follow_ups['Gust Slash'],
+                    all_bunshin_follow_ups["Gust Slash"],
                     gust_slash_damage_no_combo_follow_up,
                 ),
             },
@@ -201,7 +208,10 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (throwing_dagger_follow_up,),
-                "Bunshin": (throwing_dagger_follow_up, all_bunshin_follow_ups['Throwing Dagger']),
+                "Bunshin": (
+                    throwing_dagger_follow_up,
+                    all_bunshin_follow_ups["Throwing Dagger"],
+                ),
             },
         )
     )
@@ -254,18 +264,21 @@ def add_nin_skills(skill_library):
                 "No Combo": (aeolian_edge_no_combo_follow_up,),
                 "No Positional": (aeolian_edge_no_pos_follow_up,),
                 "No Combo, No Positional": (aeolian_edge_no_pos_no_combo_follow_up,),
-                "Bunshin": (aeolian_edge_follow_up, all_bunshin_follow_ups['Aeolian Edge']),
+                "Bunshin": (
+                    aeolian_edge_follow_up,
+                    all_bunshin_follow_ups["Aeolian Edge"],
+                ),
                 "Bunshin, No Combo": (
                     aeolian_edge_no_combo_follow_up,
-                    all_bunshin_follow_ups['Aeolian Edge'],
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
                 "Bunshin, No Positional": (
                     aeolian_edge_no_pos_follow_up,
-                    all_bunshin_follow_ups['Aeolian Edge'],
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
                 "Bunshin, No Combo, No Positional": (
                     aeolian_edge_no_pos_no_combo_follow_up,
-                    all_bunshin_follow_ups['Aeolian Edge'],
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
                 #
                 "Kazematoi": (aeolian_edge_follow_up_kaz,),
@@ -276,19 +289,19 @@ def add_nin_skills(skill_library):
                 ),
                 "Bunshin, Kazematoi": (
                     aeolian_edge_follow_up_kaz,
-                    all_bunshin_follow_ups['Aeolian Edge'],
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
                 "Bunshin, Kazematoi, No Combo": (
                     aeolian_edge_no_combo_follow_up_kaz,
-                    all_bunshin_follow_ups['Aeolian Edge'],
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
                 "Bunshin, Kazematoi, No Positional": (
                     aeolian_edge_no_pos_follow_up_kaz,
-                    all_bunshin_follow_ups['Aeolian Edge'],
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
                 "Bunshin, Kazematoi, No Combo, No Positional": (
                     aeolian_edge_no_pos_no_combo_follow_up_kaz,
-                    all_bunshin_follow_ups['Aeolian Edge'],
+                    all_bunshin_follow_ups["Aeolian Edge"],
                 ),
             },
         )
@@ -304,8 +317,9 @@ def add_nin_skills(skill_library):
         Skill(name="Jin", is_GCD=True, timing_spec=mudra_timing_spec)
     )
     death_blossom_follow_up = FollowUp(
-        skill=Skill(name="Death Blossom", damage_spec=DamageSpec(100)),
+        skill=Skill(name="Death Blossom", damage_spec=DamageSpec(100), has_aoe=True),
         delay_after_parent_application=710,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -317,18 +331,24 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (death_blossom_follow_up,),
-                "Bunshin": (all_bunshin_follow_ups['Death Blossom'], death_blossom_follow_up),
+                "Bunshin": (
+                    death_blossom_follow_up,
+                    all_bunshin_follow_ups["Death Blossom"],
+                ),
             },
+            has_aoe=True,
         )
     )
 
     hakke_follow_up = FollowUp(
-        skill=Skill(name="Hakke Mujinsatsu", damage_spec=DamageSpec(130)),
+        skill=Skill(name="Hakke Mujinsatsu", damage_spec=DamageSpec(130), has_aoe=True),
         delay_after_parent_application=620,
+        primary_target_only=False,
     )
     hakke_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Hakke Mujinsatsu", damage_spec=DamageSpec(100)),
+        skill=Skill(name="Hakke Mujinsatsu", damage_spec=DamageSpec(100), has_aoe=True),
         delay_after_parent_application=620,
+        primary_target_only=False,
     )
 
     skill_library.add_skill(
@@ -343,14 +363,15 @@ def add_nin_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: (hakke_follow_up,),
                 "No Combo": (hakke_no_combo_follow_up,),
                 "Bunshin": (
-                    all_bunshin_follow_ups['Hakke Mujinsatsu'],
+                    all_bunshin_follow_ups["Hakke Mujinsatsu"],
                     hakke_follow_up,
                 ),
                 "Bunshin, No Combo": (
-                    all_bunshin_follow_ups['Hakke Mujinsatsu'],
+                    all_bunshin_follow_ups["Hakke Mujinsatsu"],
                     hakke_no_combo_follow_up,
                 ),
             },
+            has_aoe=True,
         )
     )
 
@@ -386,19 +407,19 @@ def add_nin_skills(skill_library):
                 "No Combo, No Positional": (armor_crush_no_pos_no_combo_follow_up,),
                 "Bunshin": (
                     armor_crush_follow_up,
-                    all_bunshin_follow_ups['Armor Crush'],
+                    all_bunshin_follow_ups["Armor Crush"],
                 ),
                 "Bunshin, No Combo": (
                     armor_crush_no_combo_follow_up,
-                    all_bunshin_follow_ups['Armor Crush'],
+                    all_bunshin_follow_ups["Armor Crush"],
                 ),
                 "Bunshin, No Positional": (
                     armor_crush_no_pos_follow_up,
-                    all_bunshin_follow_ups['Armor Crush'],
+                    all_bunshin_follow_ups["Armor Crush"],
                 ),
                 "Bunshin, No Combo, No Positional": (
                     armor_crush_no_pos_no_combo_follow_up,
-                    all_bunshin_follow_ups['Armor Crush'],
+                    all_bunshin_follow_ups["Armor Crush"],
                 ),
             },
         )
@@ -421,6 +442,7 @@ def add_nin_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
+            has_aoe=True,
         )
     )
 
@@ -467,14 +489,21 @@ def add_nin_skills(skill_library):
             ),
         )
     )
-    phantom_follow_up_damage = FollowUp(skill=Skill(
-        name="Phantom Kamaitachi (pet)",
-        damage_spec=DamageSpec(
-            potency=600, damage_class=DamageClass.PET, pet_job_mod_override=100
-        )),
+    phantom_follow_up_damage = FollowUp(
+        skill=Skill(
+            name="Phantom Kamaitachi (pet)",
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=600, damage_class=DamageClass.PET, pet_job_mod_override=100
+                )
+            },
+            has_aoe=True,
+            aoe_dropoff=0.5,
+        ),
         delay_after_parent_application=1560,
         snapshot_buffs_with_parent=True,
-        snapshot_debuffs_with_parent=True    
+        snapshot_debuffs_with_parent=True,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -482,10 +511,11 @@ def add_nin_skills(skill_library):
             is_GCD=True,
             timing_spec=TimingSpec(base_cast_time=0, application_delay=1560),
             follow_up_skills=(phantom_follow_up_damage,),
+            has_aoe=True,
         )
     )
-    
-    #TODO: fix. gcds only will proc it, like bunshin. Ty An.
+
+    # TODO: fix. gcds only will proc it, like bunshin. Ty An.
     skill_library.add_skill(
         Skill(
             name="Hollow Nozuchi",
@@ -506,11 +536,11 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
-                "Bunshin": (all_bunshin_follow_ups['Forked Raiju'],),
+                "Bunshin": (all_bunshin_follow_ups["Forked Raiju"],),
             },
         )
     )
-    
+
     skill_library.add_skill(
         Skill(
             name="Fleeting Raiju",
@@ -521,7 +551,7 @@ def add_nin_skills(skill_library):
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
-                "Bunshin": (all_bunshin_follow_ups['Fleeting Raiju'],),
+                "Bunshin": (all_bunshin_follow_ups["Fleeting Raiju"],),
             },
         )
     )
@@ -784,8 +814,9 @@ def add_nin_skills(skill_library):
     )
 
     kunai_damage_follow_up = FollowUp(
-        skill=Skill("Kunai's Bane", damage_spec=DamageSpec(potency=600)),
+        skill=Skill("Kunai's Bane", damage_spec=DamageSpec(potency=600), has_aoe=True),
         delay_after_parent_application=800,
+        primary_target_only=False,
     )
     kunai_debuff_follow_up = FollowUp(
         skill=Skill(
@@ -793,6 +824,7 @@ def add_nin_skills(skill_library):
             debuff_spec=StatusEffectSpec(damage_mult=1.10, duration=int(16.26 * 1000)),
         ),
         delay_after_parent_application=0,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -802,9 +834,10 @@ def add_nin_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
             follow_up_skills=(kunai_damage_follow_up, kunai_debuff_follow_up),
+            has_aoe=True,
         )
     )
-    
+
     skill_library.add_skill(
         Skill(
             name="Deathfrog Medium",
@@ -838,6 +871,8 @@ def add_nin_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
 

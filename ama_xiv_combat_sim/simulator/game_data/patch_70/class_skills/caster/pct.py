@@ -154,6 +154,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -166,6 +167,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -178,6 +181,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -190,6 +195,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -207,6 +214,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -224,6 +232,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -240,6 +249,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -258,6 +269,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -330,6 +342,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True
         )
     )
     skill_library.add_skill(
@@ -348,6 +361,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True
         )
     )
 
@@ -393,6 +407,8 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -409,6 +425,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -425,6 +443,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -443,6 +463,8 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -464,6 +486,8 @@ def add_pct_skills(skill_library):
                     gcd_base_recast_time=int(0.4 * 6000),  # 60% reduction?
                 ),
             },
+            has_aoe=True,
+            aoe_dropoff=0.85
         )
     )
     skill_library.add_skill(
@@ -476,6 +500,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -488,6 +514,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -500,6 +528,8 @@ def add_pct_skills(skill_library):
                 animation_lock=base_animation_lock,
                 application_delay=650,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
     skill_library.add_skill(
@@ -517,6 +547,8 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
+            has_aoe=True,
+            aoe_dropoff=0.6
         )
     )
 

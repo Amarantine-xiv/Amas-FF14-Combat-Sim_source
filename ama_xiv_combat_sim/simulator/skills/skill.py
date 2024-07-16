@@ -1,13 +1,15 @@
 import copy
 
 from dataclasses import dataclass
-from ama_xiv_combat_sim.simulator.utils import Utils
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.utils import Utils
+
 from typing import Any
 
 
@@ -47,9 +49,7 @@ class Skill:
     # will modify damage_spec in place
     def __process_aoe_dropoff(damage_spec, damage_dropoff):
         if not isinstance(damage_spec, dict):
-            raise RuntimeError(
-                "When adding aoe dropoff, damage spec must be a dictionary"
-            )
+            damage_spec = {SimConsts.DEFAULT_CONDITION: damage_spec}            
         keys = tuple(damage_spec.keys())
         for key in keys:
             for target_num in range(2, 10):  # max of 10 targets

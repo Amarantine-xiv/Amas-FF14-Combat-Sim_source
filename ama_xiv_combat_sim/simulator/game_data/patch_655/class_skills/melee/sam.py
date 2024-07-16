@@ -286,12 +286,14 @@ def add_sam_skills(skill_library):
     )
 
     magnetsu_follow_up = FollowUp(
-        skill=Skill(name="Magnetsu", damage_spec=DamageSpec(potency=120)),
+        skill=Skill(name="Mangetsu", damage_spec=DamageSpec(potency=120), has_aoe=True),
         delay_after_parent_application=620,
+        primary_target_only=False,
     )
     magnetsu_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Magnetsu", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(name="Mangetsu", damage_spec=DamageSpec(potency=100), has_aoe=True),
         delay_after_parent_application=620,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -312,6 +314,7 @@ def add_sam_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: (magnetsu_follow_up, _fugetsu_follow_up),
                 "No Combo": (magnetsu_no_combo_follow_up,),
             },
+            has_aoe=True,
         )
     )
 
@@ -369,12 +372,14 @@ def add_sam_skills(skill_library):
         )
     )
     oka_follow_up = FollowUp(
-        skill=Skill(name="Oka", damage_spec=DamageSpec(potency=120)),
+        skill=Skill(name="Oka", damage_spec=DamageSpec(potency=120), has_aoe=True),
         delay_after_parent_application=620,
+        primary_target_only=False,
     )
     oka_no_combo_follow_up = FollowUp(
-        skill=Skill(name="Oka", damage_spec=DamageSpec(potency=100)),
+        skill=Skill(name="Oka", damage_spec=DamageSpec(potency=100), has_aoe=True),
         delay_after_parent_application=620,
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -395,6 +400,7 @@ def add_sam_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: (oka_follow_up, _fuka_follow_up),
                 "No Combo": (oka_no_combo_follow_up,),
             },
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -456,6 +462,7 @@ def add_sam_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -466,6 +473,8 @@ def add_sam_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
+            has_aoe=True,
+            aoe_dropoff=0.25,
         )
     )
     skill_library.add_skill(
@@ -486,6 +495,8 @@ def add_sam_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=580
             ),
+            has_aoe=True,
+            aoe_dropoff=0.65,
         )
     )
     skill_library.add_skill(
@@ -507,6 +518,7 @@ def add_sam_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
             ),
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -522,6 +534,8 @@ def add_sam_skills(skill_library):
                 affected_by_haste_buffs=False,
                 application_delay=490,
             ),
+            has_aoe=True,
+            aoe_dropoff=0.75,
         )
     )
     skill_library.add_skill(
@@ -534,6 +548,8 @@ def add_sam_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=490
             ),
+            has_aoe=True,
+            aoe_dropoff=0.75,
         )
     )
     skill_library.add_skill(
