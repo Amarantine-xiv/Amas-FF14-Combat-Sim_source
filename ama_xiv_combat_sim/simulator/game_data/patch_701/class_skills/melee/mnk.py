@@ -24,7 +24,7 @@ def add_mnk_skills(skill_library):
         skill=Skill(
             name="Raptor's Fury",
             buff_spec=StatusEffectSpec(
-                num_uses=2,
+                num_uses=1,
                 duration=math.inf,
                 add_to_skill_modifier_condition=True,
                 skill_allowlist=("Rising Raptor","True Strike"),
@@ -36,7 +36,7 @@ def add_mnk_skills(skill_library):
         skill=Skill(
             name="Coeurl's Fury",
             buff_spec=StatusEffectSpec(
-                num_uses=3,
+                num_uses=2,
                 duration=math.inf,
                 add_to_skill_modifier_condition=True,
                 skill_allowlist=("Pouncing Coeurl","Snap Punch"),
