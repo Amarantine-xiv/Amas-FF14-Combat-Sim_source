@@ -12,11 +12,12 @@ from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
 
+GAME_VERSION="7.01"
 
-class TestJobsMulti70(TestClass):
+class TestJobsMulti701(TestClass):
     def __init__(self):
         super().__init__()
-        self.__skill_library = create_skill_library("7.0")
+        self.__skill_library = create_skill_library(GAME_VERSION)
         self.__relative_tol = 6e-3
 
     def __test_multi_target_skills(self, stats, skills_and_expected_damages):
@@ -128,7 +129,7 @@ class TestJobsMulti70(TestClass):
             speed_stat=1062,
             job_class="WHM",
             healer_or_caster_strength=214,
-            version="7.0",
+            version=GAME_VERSION,
         )
         holy_iii_base = 7574
         afflatus_misery_base = 66702
@@ -167,7 +168,7 @@ class TestJobsMulti70(TestClass):
             speed_stat=954,
             job_class="SCH",
             healer_or_caster_strength=351,
-            version="7.0",
+            version=GAME_VERSION,
         )
         baneful_base = 7000
         skills_and_expected_damages = (
@@ -198,7 +199,7 @@ class TestJobsMulti70(TestClass):
             speed_stat=664,
             job_class="SGE",
             healer_or_caster_strength=214,
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_phlegma = 30885
         base_toxikon_ii = 18551
@@ -251,9 +252,9 @@ class TestJobsMulti70(TestClass):
             speed_stat=1350,
             job_class="AST",
             healer_or_caster_strength=214,
-            version="7.0",
+            version=GAME_VERSION,
         )
-        base_marcocosmos = 12448.1
+        base_marcocosmos = 13457
         base_lord_of_crowns = 19967.9
         skills_and_expected_damages = (
             (
@@ -283,7 +284,7 @@ class TestJobsMulti70(TestClass):
             speed_stat=650,
             tenacity=631,
             job_class="DRK",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_quietus = 6163
         base_impalement = 8211
@@ -375,7 +376,7 @@ class TestJobsMulti70(TestClass):
             speed_stat=400,
             tenacity=751,
             job_class="GNB",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_double_down = 30611
         base_reign = 20406
@@ -440,7 +441,7 @@ class TestJobsMulti70(TestClass):
             speed_stat=400,
             tenacity=751,
             job_class="PLD",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_expiacion = 11487
         base_holy_circle = 5096
@@ -505,13 +506,13 @@ class TestJobsMulti70(TestClass):
             speed_stat=592,
             tenacity=631,
             job_class="WAR",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_chaotic_cyclone = 13530
         base_orogeny = 3867.3
         base_primal_rend = 31575
         base_primal_wrath = 18032
-        base_primal_ruination = 33384
+        base_primal_ruination = 35066
 
         skills_and_expected_damages = (
             (
@@ -589,7 +590,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1380,
             speed_stat=436,
             job_class="DNC",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_fan_dance_iv = 14570
 
@@ -676,7 +677,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1254,
             speed_stat=400,
             job_class="MCH",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_bioblaster = 2428
         base_bioblaster_dot = 2421
@@ -757,7 +758,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1344,
             speed_stat=479,
             job_class="BRD",
-            version="7.0",
+            version=GAME_VERSION,
         )
         pitch_perfect_base = 17407
         apex_arrow_base = 29003
@@ -824,7 +825,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1438,
             speed_stat=502,
             job_class="SMN",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_summon_ifrit_ii = 32798
         base_ruin_iv = 25688
@@ -860,7 +861,7 @@ class TestJobsMulti70(TestClass):
             speed_stat=502,
             job_class="RDM",
             healer_or_caster_strength=214,
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_grand_impact = 31439
         skills_and_expected_damages = (
@@ -884,7 +885,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1547,
             speed_stat=2469,
             job_class="BLM",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_flare = 11556
         base_flare_star = 19299
@@ -930,7 +931,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1818,
             speed_stat=400,
             job_class="DRG",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_geirskogul = 11503
         base_sonic_thrust = 4098
@@ -962,7 +963,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1582,
             speed_stat=400,
             job_class="NIN",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_phantom = 21794
 
@@ -1035,7 +1036,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="SAM",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_mangetsu = 3990        
 
@@ -1078,7 +1079,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1558,
             speed_stat=436,
             job_class="RPR",
-            version="7.0",
+            version=GAME_VERSION,
         )
         base_plentiful = 40401        
 
@@ -1126,7 +1127,7 @@ class TestJobsMulti70(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="VPR",
-            version="7.0",
+            version=GAME_VERSION,
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
