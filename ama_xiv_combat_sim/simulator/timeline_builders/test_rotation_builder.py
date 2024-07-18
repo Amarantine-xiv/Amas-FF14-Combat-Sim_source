@@ -2207,7 +2207,7 @@ class TestRotationBuilder(TestClass):
     @TestClass.is_a_test
     def test_dot_set_target(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)        
-        rb.add(0,"test_magical_dot_instant_gcd", targets=("t1",))
+        rb.add(0,"test_magical_dot_instant_gcd", targets="t1")
 
         # include priority and event id
         expected = (
@@ -2261,7 +2261,7 @@ class TestRotationBuilder(TestClass):
     @TestClass.is_a_test
     def test_follow_up_all_target_only(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
-        rb.add(0, "test_follow_up_for_multi_target_main", targets=("t1","t2"))
+        rb.add(0, "test_follow_up_for_multi_target_main", targets="t1, t2")
 
         expected = (
             (
@@ -2291,7 +2291,7 @@ class TestRotationBuilder(TestClass):
     @TestClass.is_a_test
     def test_follow_up_primary_target_only(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
-        rb.add(0, "test_follow_up_for_multi_target_primary_only", targets=("t1","t2"))
+        rb.add(0, "test_follow_up_for_multi_target_primary_only", targets="t1, t2")
 
         expected = (
             (

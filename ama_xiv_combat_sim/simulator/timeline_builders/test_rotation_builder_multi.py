@@ -33,7 +33,7 @@ class TestRotationBuilderMulti(TestClass):
     @TestClass.is_a_test
     def test_multi_target_add_next(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
-        rb.add_next("test_instant_gcd", targets=("t1", "t2"))
+        rb.add_next("test_instant_gcd", targets="t1, t2")
 
         # include priority and event id
         expected = (
@@ -51,7 +51,7 @@ class TestRotationBuilderMulti(TestClass):
     @TestClass.is_a_test
     def test_multi_target_add_instant(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
-        rb.add(1, "test_instant_gcd", targets=("t1", "t2"))
+        rb.add(1, "test_instant_gcd", targets="t1, t2")
 
         # include priority and event id
         expected = (
@@ -69,7 +69,7 @@ class TestRotationBuilderMulti(TestClass):
     @TestClass.is_a_test
     def test_multi_target_add(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
-        rb.add(1, "test_gcd", targets=("t1", "t2"))
+        rb.add(1, "test_gcd", targets="t1, t2")
 
         # include priority and event id
         expected = (
@@ -99,7 +99,7 @@ class TestRotationBuilderMulti(TestClass):
     @TestClass.is_a_test
     def test_multi_target_dot_no_refresh(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
-        rb.add(0, "test_magical_dot_instant_gcd_short", targets=("t1", "t2"))
+        rb.add(0, "test_magical_dot_instant_gcd_short", targets="t1, t2")
 
         expected = frozenset(
             (
@@ -126,8 +126,8 @@ class TestRotationBuilderMulti(TestClass):
             fight_start_time=0,
             snap_dots_to_server_tick_starting_at=0,
         )
-        rb.add(0, "test_magical_dot_instant_gcd_short", targets=("t1", "t2"))
-        rb.add(5, "test_magical_dot_instant_gcd_short", targets=("t2",))
+        rb.add(0, "test_magical_dot_instant_gcd_short", targets="t1, t2")
+        rb.add(5, "test_magical_dot_instant_gcd_short", targets="t2")
 
         expected = frozenset(
             (
@@ -155,11 +155,11 @@ class TestRotationBuilderMulti(TestClass):
         rb = RotationBuilder(
             self.__stats, self.__skill_library, fight_start_time=0, enable_autos=True
         )
-        rb.add(0, "test_instant_gcd", targets=("t1",))
-        rb.add(10, "test_instant_gcd", targets=("t2",))
-        rb.add(13, "test_instant_gcd", targets=("t2", "t1"))
-        rb.add(15, "test_instant_gcd", targets=("t1",))
-        rb.add(20, "test_instant_gcd", targets=("t1",))
+        rb.add(0, "test_instant_gcd", targets="t1")
+        rb.add(10, "test_instant_gcd", targets="t2")
+        rb.add(13, "test_instant_gcd", targets="t2, t1")
+        rb.add(15, "test_instant_gcd", targets="t1")
+        rb.add(20, "test_instant_gcd", targets="t1")
 
         # include priority and event id
         expected = (
@@ -249,10 +249,10 @@ class TestRotationBuilderMulti(TestClass):
         rb = RotationBuilder(
             self.__stats, self.__skill_library, fight_start_time=0, enable_autos=True, snap_dots_to_server_tick_starting_at=0
         )
-        rb.add(0, "test_magical_dot_instant_gcd_short", targets=("t1",))
-        rb.add(5, "test_magical_dot_instant_gcd_short", targets=("t2",))
-        rb.add(15, "test_instant_gcd", targets=("t1",))
-        rb.add(20, "test_instant_gcd", targets=("t1",))
+        rb.add(0, "test_magical_dot_instant_gcd_short", targets="t1")
+        rb.add(5, "test_magical_dot_instant_gcd_short", targets="t2")
+        rb.add(15, "test_instant_gcd", targets="t1")
+        rb.add(20, "test_instant_gcd", targets="t1")
 
         expected = frozenset(
             (

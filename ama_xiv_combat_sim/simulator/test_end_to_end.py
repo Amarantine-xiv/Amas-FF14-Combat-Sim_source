@@ -105,12 +105,12 @@ class TestEndToEnd(TestClass):
         )
         db = DamageBuilder(stats, self.__skill_library)
 
-        rb.add(0, "test_instant_gcd", targets=("t1", "t2"))
-        rb.add(5, "test_simple_buff_gcd", targets=("t1",))
-        rb.add(10, "test_instant_gcd", targets=("t1", "t2"))
-        rb.add(15, "test_simple_debuff_gcd", targets=("t1",))
-        rb.add(20, "test_instant_gcd", targets=("t1",))
-        rb.add(25, "test_instant_gcd", targets=("t1", "t2"))
+        rb.add(0, "test_instant_gcd", targets="t1, t2")
+        rb.add(5, "test_simple_buff_gcd", targets="t1")
+        rb.add(10, "test_instant_gcd", targets="t1, t2")
+        rb.add(15, "test_simple_debuff_gcd", targets="t1")
+        rb.add(20, "test_instant_gcd", targets="t1")
+        rb.add(25, "test_instant_gcd", targets="t1, t2")
 
         # Reasoning:
         # first 2 damage instances are on t1, t2. They should be equal
@@ -160,9 +160,9 @@ class TestEndToEnd(TestClass):
         )
         db = DamageBuilder(stats, self.__skill_library)
 
-        rb.add(0, "test_magical_dot_gcd", targets=("t1", "t2"))
-        rb.add(5, "test_simple_buff_gcd", targets=("t1",))
-        rb.add(10, "test_magical_dot_gcd", targets=("t1",))
+        rb.add(0, "test_magical_dot_gcd", targets="t1, t2")
+        rb.add(5, "test_simple_buff_gcd", targets="t1")
+        rb.add(10, "test_magical_dot_gcd", targets="t1")
 
         expected = (
             2325, #t1

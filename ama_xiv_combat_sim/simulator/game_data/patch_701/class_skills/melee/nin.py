@@ -833,7 +833,7 @@ def add_nin_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
-            follow_up_skills=(kunai_damage_follow_up, kunai_debuff_follow_up),
+            follow_up_skills= (kunai_damage_follow_up, kunai_debuff_follow_up),
             has_aoe=True,
         )
     )

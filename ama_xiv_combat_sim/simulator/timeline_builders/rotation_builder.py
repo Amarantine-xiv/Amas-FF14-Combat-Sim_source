@@ -53,7 +53,7 @@ class RotationBuilder:
         self.__timestamps_and_main_target = []
         assert isinstance(
             default_target, str
-        ), "Default target should be a string since it's just 1 target- did you accidentally make it a tuple?"
+        ), "Default target should be a string- did you accidentally make it a tuple?"
 
         self.__default_target = default_target
 
@@ -80,6 +80,14 @@ class RotationBuilder:
 
     def set_enable_autos(self, enable_autos):
         self.__enable_autos = enable_autos
+    
+    def __process_and_check_targets(self, targets):
+        if targets is None:
+            targets = self.__default_target
+        assert isinstance(
+            targets, str
+        ), "'targets' must be specified as a comma-separate string. Perhaps you made it a tuple? Got: {targets}"
+        return tuple(x.strip() for x in targets.split(','))        
 
     @staticmethod
     def _print_q(q):
@@ -95,12 +103,8 @@ class RotationBuilder:
         num_times=1,
         targets=None,
     ):
-        if targets is None:
-            targets = (self.__default_target,)
-        assert isinstance(
-            targets, tuple
-        ), "'targets' must be specified as a tuple- perhaps you forgot a comma? Got: {targets}"
-
+        targets = self.__process_and_check_targets(targets)
+        
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
         for _ in range(num_times):
@@ -114,12 +118,7 @@ class RotationBuilder:
         job_class=None,
         targets=None,
     ):
-
-        if targets is None:
-            targets = (self.__default_target,)
-        assert isinstance(
-            targets, tuple
-        ), "'targets' must be specified as a tuple- perhaps you forgot a comma? Got: {targets}"
+        targets = self.__process_and_check_targets(targets)
 
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)

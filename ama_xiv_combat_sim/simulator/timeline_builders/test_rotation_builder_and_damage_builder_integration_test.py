@@ -216,7 +216,7 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
     @TestClass.is_a_test
     def multi_target(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
-        rb.add(0.6, "test_gcd", targets=("t1", "t2"))
+        rb.add(0.6, "test_gcd", targets="t1, t2")
 
         db = DamageBuilder(self.__stats, self.__skill_library)
 
@@ -244,7 +244,7 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
     def multi_target_with_buff(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
         rb.add(0.0, "test_simple_buff_gcd")
-        rb.add(1.6, "test_gcd", targets=("t1", "t2"))
+        rb.add(1.6, "test_gcd", targets="t1, t2")
 
         db = DamageBuilder(self.__stats, self.__skill_library)
 
@@ -271,8 +271,8 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
     @TestClass.is_a_test
     def multi_target_with_debuff(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
-        rb.add(0.0, "test_simple_debuff_gcd", targets=("t1",))
-        rb.add(1.6, "test_gcd", targets=("t1", "t2"))
+        rb.add(0.0, "test_simple_debuff_gcd", targets="t1")
+        rb.add(1.6, "test_gcd", targets="t1, t2")
 
         db = DamageBuilder(self.__stats, self.__skill_library)
 
@@ -299,7 +299,7 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
     @TestClass.is_a_test
     def multi_target_follow_up(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)        
-        rb.add(0, "test_follow_up_for_multi_target_main", targets=("t1", "t2"))
+        rb.add(0, "test_follow_up_for_multi_target_main", targets="t1, t2")
 
         db = DamageBuilder(self.__stats, self.__skill_library)
 

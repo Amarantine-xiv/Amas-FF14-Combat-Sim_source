@@ -134,11 +134,11 @@ class TestJobsMulti70(TestClass):
         afflatus_misery_base = 66702
         glare_iv_base = 32290
         skills_and_expected_damages = (
-            ("Holy III", ("t1",), SkillModifier(), (holy_iii_base,)),
-            ("Holy III", ("t1", "t2"), SkillModifier(), (holy_iii_base, holy_iii_base)),
+            ("Holy III", "t1", SkillModifier(), (holy_iii_base,)),
+            ("Holy III", "t1, t2", SkillModifier(), (holy_iii_base, holy_iii_base)),
             (
                 "Afflatus Misery",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (
                     afflatus_misery_base,
@@ -148,7 +148,7 @@ class TestJobsMulti70(TestClass):
             ),
             (
                 "Glare IV",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (glare_iv_base, 0.6 * glare_iv_base, 0.6 * glare_iv_base),
             ),
@@ -173,13 +173,13 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Baneful Impaction",
-                ("t1",),
+                "t1",
                 SkillModifier(),
                 tuple([baneful_base] * 5),
             ),
             (
                 "Baneful Impaction",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 tuple([baneful_base] * 10),
             ),
@@ -208,31 +208,31 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Phlegma III",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_phlegma, 0.5 * base_phlegma, 0.5 * base_phlegma),
             ),
             (
                 "Toxikon II",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_toxikon_ii, 0.5 * base_toxikon_ii, 0.5 * base_toxikon_ii),
             ),
             (
                 "Pneuma",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_pneuma, 0.6 * base_pneuma, 0.6 * base_pneuma),
             ),
             (
                 "Psyche",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_psyche, 0.5 * base_psyche, 0.5 * base_psyche),
             ),
             (
                 "Dyskrasia II",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_dyskii, base_dyskii, base_dyskii),
             ),
@@ -258,13 +258,13 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Macrocosmos",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_marcocosmos, 0.6 * base_marcocosmos, 0.6 * base_marcocosmos),
             ),
             (
                 "Lord of Crowns",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 (base_lord_of_crowns, base_lord_of_crowns),
             ),
@@ -292,25 +292,25 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Quietus",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 (base_quietus, base_quietus),
             ),
             (
                 "Impalement",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 (base_impalement, base_impalement),
             ),
             (
                 "Disesteem",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_disesteem, 0.5 * base_disesteem, 0.5 * base_disesteem),
             ),
             (
                 "Salt and Darkness",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (
                     base_salt_and_darkness,
@@ -324,19 +324,15 @@ class TestJobsMulti70(TestClass):
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
-        rb.add(0, "Stalwart Soul", skill_modifier=SkillModifier(), targets=("t2",))
-        rb.add(3, "Unleash", skill_modifier=SkillModifier(), targets=("t1",))
-        rb.add(6, "Stalwart Soul", skill_modifier=SkillModifier(), targets=("t1", "t2"))
+        rb.add(0, "Stalwart Soul", skill_modifier=SkillModifier(), targets="t2")
+        rb.add(3, "Unleash", skill_modifier=SkillModifier(), targets="t1")
+        rb.add(6, "Stalwart Soul", skill_modifier=SkillModifier(), targets="t1, t2")
 
-        rb.add(
-            100, "Flood of Shadow", skill_modifier=SkillModifier(), targets=("t1", "t2")
-        )
-        rb.add(128, "Hard Slash", skill_modifier=SkillModifier(), targets=("t1", "t2"))
-        rb.add(133, "Hard Slash", skill_modifier=SkillModifier(), targets=("t1", "t2"))
+        rb.add(100, "Flood of Shadow", skill_modifier=SkillModifier(), targets="t1, t2")
+        rb.add(128, "Hard Slash", skill_modifier=SkillModifier(), targets="t1, t2")
+        rb.add(133, "Hard Slash", skill_modifier=SkillModifier(), targets="t1, t2")
 
-        rb.add(
-            200, "Living Shadow", skill_modifier=SkillModifier(), targets=("t1", "t2")
-        )
+        rb.add(200, "Living Shadow", skill_modifier=SkillModifier(), targets="t1, t2")
 
         expected = (
             ("Stalwart Soul", 3076),
@@ -384,25 +380,25 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Double Down",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_double_down, 0.85 * base_double_down, 0.85 * base_double_down),
             ),
             (
                 "Reign of Beasts",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_reign, 0.4 * base_reign, 0.4 * base_reign),
             ),
             (
                 "Noble Blood",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_noble_blood, 0.4 * base_noble_blood, 0.4 * base_noble_blood),
             ),
             (
                 "Lion Heart",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_lion_heart, 0.4 * base_lion_heart, 0.4 * base_lion_heart),
             ),
@@ -412,11 +408,9 @@ class TestJobsMulti70(TestClass):
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
-        rb.add(0, "Demon Slaughter", skill_modifier=SkillModifier(), targets=("t2",))
-        rb.add(3, "Demon Slice", skill_modifier=SkillModifier(), targets=("t1",))
-        rb.add(
-            6, "Demon Slaughter", skill_modifier=SkillModifier(), targets=("t1", "t2")
-        )
+        rb.add(0, "Demon Slaughter", skill_modifier=SkillModifier(), targets="t2")
+        rb.add(3, "Demon Slice", skill_modifier=SkillModifier(), targets="t1")
+        rb.add(6, "Demon Slaughter", skill_modifier=SkillModifier(), targets="t1, t2")
 
         expected = (
             ("Demon Slaughter", 2550),
@@ -447,13 +441,13 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Expiacion",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_expiacion, 0.4 * base_expiacion, 0.4 * base_expiacion),
             ),
             (
                 "Holy Circle",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(with_condition="Divine Might"),
                 (base_holy_circle, base_holy_circle),
             ),
@@ -463,17 +457,17 @@ class TestJobsMulti70(TestClass):
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
-        rb.add(0, "Prominence", skill_modifier=SkillModifier(), targets=("t2",))
-        rb.add(3, "Total Eclipse", skill_modifier=SkillModifier(), targets=("t1",))
-        rb.add(6, "Prominence", skill_modifier=SkillModifier(), targets=("t1", "t2"))
+        rb.add(0, "Prominence", skill_modifier=SkillModifier(), targets="t2")
+        rb.add(3, "Total Eclipse", skill_modifier=SkillModifier(), targets="t1")
+        rb.add(6, "Prominence", skill_modifier=SkillModifier(), targets="t1, t2")
 
         rb.add(100, "Requiescat")
-        rb.add(103, "Confiteor", targets=("t1", "t2"))
-        rb.add(106, "Confiteor", targets=("t1", "t2"))
-        rb.add(109, "Confiteor", targets=("t1",))
-        rb.add(112, "Confiteor", targets=("t1",))
+        rb.add(103, "Confiteor", targets="t1, t2")
+        rb.add(106, "Confiteor", targets="t1, t2")
+        rb.add(109, "Confiteor", targets="t1")
+        rb.add(112, "Confiteor", targets="t1")
         # this one should be weaker now
-        rb.add(115, "Confiteor", targets=("t1",))
+        rb.add(115, "Confiteor", targets="t1")
         expected = (
             ("Prominence", 2550),
             ("Total Eclipse", 2546),
@@ -516,31 +510,31 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Chaotic Cyclone",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 (base_chaotic_cyclone, base_chaotic_cyclone),
             ),
             (
                 "Orogeny",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 (base_orogeny, base_orogeny),
             ),
             (
                 "Primal Rend",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_primal_rend, 0.3 * base_primal_rend, 0.3 * base_primal_rend),
             ),
             (
                 "Primal Wrath",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_primal_wrath, 0.3 * base_primal_wrath, 0.3 * base_primal_wrath),
             ),
             (
                 "Primal Ruination",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (
                     base_primal_ruination,
@@ -555,14 +549,12 @@ class TestJobsMulti70(TestClass):
 
         rb = RotationBuilder(stats, self.__skill_library)
 
-        rb.add(0, "Heavy Swing", skill_modifier=SkillModifier(), targets=("t2",))
-        rb.add(3, "Mythril Tempest", skill_modifier=SkillModifier(), targets=("t2",))
-        rb.add(6, "Overpower", skill_modifier=SkillModifier(), targets=("t1",))
-        rb.add(
-            9, "Mythril Tempest", skill_modifier=SkillModifier(), targets=("t1", "t2")
-        )
-        rb.add(23, "Heavy Swing", skill_modifier=SkillModifier(), targets=("t1",))
-        rb.add(43, "Heavy Swing", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(0, "Heavy Swing", skill_modifier=SkillModifier(), targets="t2")
+        rb.add(3, "Mythril Tempest", skill_modifier=SkillModifier(), targets="t2")
+        rb.add(6, "Overpower", skill_modifier=SkillModifier(), targets="t1")
+        rb.add(9, "Mythril Tempest", skill_modifier=SkillModifier(), targets="t1, t2")
+        rb.add(23, "Heavy Swing", skill_modifier=SkillModifier(), targets="t1")
+        rb.add(43, "Heavy Swing", skill_modifier=SkillModifier(), targets="t2")
 
         expected = (
             ("Heavy Swing", 5674),
@@ -596,7 +588,7 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Fan Dance IV",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_fan_dance_iv, 0.5 * base_fan_dance_iv, 0.5 * base_fan_dance_iv),
             ),
@@ -607,38 +599,38 @@ class TestJobsMulti70(TestClass):
 
         rb = RotationBuilder(stats, self.__skill_library)
 
-        rb.add(0, "Cascade", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(0, "Cascade", skill_modifier=SkillModifier(), targets="t2")
         rb.add(
             3,
             "Double Standard Finish",
             skill_modifier=SkillModifier(),
-            targets=("t2", "t1"),
+            targets="t2, t1",
         )
-        rb.add(6, "Cascade", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(6, "Cascade", skill_modifier=SkillModifier(), targets="t2")
 
-        rb.add(100, "Cascade", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(100, "Cascade", skill_modifier=SkillModifier(), targets="t2")
         rb.add(
-            103, "Standard Finish", skill_modifier=SkillModifier(), targets=("t2", "t1")
+            103, "Standard Finish", skill_modifier=SkillModifier(), targets="t2, t1"
         )
-        rb.add(106, "Cascade", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(106, "Cascade", skill_modifier=SkillModifier(), targets="t2")
 
-        rb.add(200, "Cascade", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(200, "Cascade", skill_modifier=SkillModifier(), targets="t2")
         rb.add(
             203,
             "Quadruple Technical Finish",
             skill_modifier=SkillModifier(),
-            targets=("t2", "t1"),
+            targets="t2, t1",
         )
-        rb.add(206, "Cascade", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(206, "Cascade", skill_modifier=SkillModifier(), targets="t2")
 
-        rb.add(300, "Cascade", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(300, "Cascade", skill_modifier=SkillModifier(), targets="t2")
         rb.add(
             303,
             "Quadruple Technical Finish",
             skill_modifier=SkillModifier(),
-            targets=("t2", "t1"),
+            targets="t2, t1",
         )
-        rb.add(306, "Cascade", skill_modifier=SkillModifier(), targets=("t2",))
+        rb.add(306, "Cascade", skill_modifier=SkillModifier(), targets="t2")
 
         expected = (
             ("Cascade", 10671),
@@ -684,7 +676,7 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Bioblaster",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 (
                     base_bioblaster,
@@ -708,10 +700,10 @@ class TestJobsMulti70(TestClass):
 
         rb = RotationBuilder(stats, self.__skill_library)
 
-        rb.add(0, "Heat Blast", skill_modifier=SkillModifier(), targets=("t1",))
-        rb.add(3, "Reassemble", skill_modifier=SkillModifier(), targets=("t1",))
-        rb.add(6, "Auto Crossbow", skill_modifier=SkillModifier(), targets=("t2", "t1"))
-        rb.add(9, "Heat Blast", skill_modifier=SkillModifier(), targets=("t1",))
+        rb.add(0, "Heat Blast", skill_modifier=SkillModifier(), targets="t1")
+        rb.add(3, "Reassemble", skill_modifier=SkillModifier(), targets="t1")
+        rb.add(6, "Auto Crossbow", skill_modifier=SkillModifier(), targets="t2, t1")
+        rb.add(9, "Heat Blast", skill_modifier=SkillModifier(), targets="t1")
 
         expected = (
             ("Heat Blast", 9710),
@@ -726,16 +718,16 @@ class TestJobsMulti70(TestClass):
         rb2 = RotationBuilder(stats, self.__skill_library)
         rb2.add_next("Automaton Queen", SkillModifier(with_condition="50 Battery"))
         rb2.add_next("Heated Clean Shot")
-        rb2.add_next("Chain Saw", targets=("t1", "t2"))
-        rb2.add_next("Chain Saw", targets=("t1", "t2"))
+        rb2.add_next("Chain Saw", targets="t1, t2")
+        rb2.add_next("Chain Saw", targets="t1, t2")
         test_passed3, err_msg3 = self.__test_aggregate_rotation(
             rb2, expected_damage_rb2_rb3, None
         )
 
         rb3 = RotationBuilder(stats, self.__skill_library)
         rb3.add_next("Heated Clean Shot")
-        rb3.add_next("Chain Saw", targets=("t1", "t2"))
-        rb3.add_next("Chain Saw", targets=("t1", "t2"))
+        rb3.add_next("Chain Saw", targets="t1, t2")
+        rb3.add_next("Chain Saw", targets="t1, t2")
         rb3.add_next("Automaton Queen")
         test_passed4, err_msg4 = self.__test_aggregate_rotation(
             rb3, expected_damage_rb2_rb3, None
@@ -765,7 +757,7 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Pitch Perfect",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (
                     pitch_perfect_base,
@@ -775,7 +767,7 @@ class TestJobsMulti70(TestClass):
             ),
             (
                 "Apex Arrow",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (apex_arrow_base, apex_arrow_base, apex_arrow_base),
             ),
@@ -790,16 +782,12 @@ class TestJobsMulti70(TestClass):
             0,
             "Radiant Encore",
             skill_modifier=SkillModifier(with_condition="2 Encore"),
-            targets=("t1", "t2"),
+            targets="t1, t2",
         )
-        rb.add(3, "Mage's Ballad", skill_modifier=SkillModifier(), targets=("t1",))
-        rb.add(
-            6, "The Wanderer's Minuet", skill_modifier=SkillModifier(), targets=("t2",)
-        )
-        rb.add(9, "Radiant Finale", skill_modifier=SkillModifier(), targets=("t2",))
-        rb.add(
-            20, "Radiant Encore", skill_modifier=SkillModifier(), targets=("t1", "t2")
-        )
+        rb.add(3, "Mage's Ballad", skill_modifier=SkillModifier(), targets="t1")
+        rb.add(6, "The Wanderer's Minuet", skill_modifier=SkillModifier(), targets="t2")
+        rb.add(9, "Radiant Finale", skill_modifier=SkillModifier(), targets="t2")
+        rb.add(20, "Radiant Encore", skill_modifier=SkillModifier(), targets="t1, t2")
 
         expected = (
             ("Radiant Encore", 29040),
@@ -831,7 +819,7 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Summon Ifrit II",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (
                     base_summon_ifrit_ii,
@@ -841,7 +829,7 @@ class TestJobsMulti70(TestClass):
             ),
             (
                 "Ruin IV",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 (base_ruin_iv, 0.4 * base_ruin_iv),
             ),
@@ -866,7 +854,7 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Grand Impact",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_grand_impact, 0.4 * base_grand_impact, 0.4 * base_grand_impact),
             ),
@@ -900,19 +888,19 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Flare",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_flare, 0.6 * base_flare, 0.6 * base_flare),
             ),
             (
                 "Flare Star",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_flare_star, 0.35 * base_flare_star, 0.35 * base_flare_star),
             ),
             (
                 "Thunder IV",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 tuple(base_thunder_iv_tmp),
             ),
@@ -938,13 +926,13 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Geirskogul",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_geirskogul, 0.5 * base_geirskogul, 0.5 * base_geirskogul),
             ),
             (
                 "Sonic Thrust",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_sonic_thrust, base_sonic_thrust, base_sonic_thrust),
             ),
@@ -969,7 +957,7 @@ class TestJobsMulti70(TestClass):
         skills_and_expected_damages = (
             (
                 "Phantom Kamaitachi",
-                ("t1", "t2", "t3"),
+                "t1, t2, t3",
                 SkillModifier(),
                 (base_phantom, 0.5 * base_phantom, 0.5 * base_phantom),
             ),
@@ -980,32 +968,31 @@ class TestJobsMulti70(TestClass):
 
         rb = RotationBuilder(stats, self.__skill_library)
         rb.add(0, "Bunshin")
-        rb.add(3, "Death Blossom", targets=("t1","t2"))
-        rb.add(6, "Death Blossom", targets=("t1",))
-        rb.add(9, "Death Blossom", targets=("t1",))
-        rb.add(12, "Death Blossom", targets=("t1",))
-        rb.add(15, "Hakke Mujinsatsu", targets=("t1","t2"))
-        rb.add(18, "Death Blossom", targets=("t1",))
-        rb.add(100, "Kunai's Bane", targets=("t1","t2"))
-        rb.add(103, "Spinning Edge", targets=("t1",))
-        rb.add(106, "Spinning Edge", targets=("t2",))
-        rb.add(109, "Spinning Edge", targets=("t3",))
-        
-        
+        rb.add(3, "Death Blossom", targets="t1, t2")
+        rb.add(6, "Death Blossom", targets="t1")
+        rb.add(9, "Death Blossom", targets="t1")
+        rb.add(12, "Death Blossom", targets="t1")
+        rb.add(15, "Hakke Mujinsatsu", targets="t1, t2")
+        rb.add(18, "Death Blossom", targets="t1")
+        rb.add(100, "Kunai's Bane", targets="t1, t2")
+        rb.add(103, "Spinning Edge", targets="t1")
+        rb.add(106, "Spinning Edge", targets="t2")
+        rb.add(109, "Spinning Edge", targets="t3")
+
         expected = (
             ("Death Blossom (pet)", 2898),
             ("Death Blossom (pet)", 2898),
             ("Death Blossom", 3967),
-            ("Death Blossom", 3967),            
+            ("Death Blossom", 3967),
             #
             ("Death Blossom (pet)", 2898),
-            ("Death Blossom", 3967),            
+            ("Death Blossom", 3967),
             #
             ("Death Blossom (pet)", 2898),
-            ("Death Blossom", 3967),            
+            ("Death Blossom", 3967),
             #
             ("Death Blossom (pet)", 2898),
-            ("Death Blossom", 3967),            
+            ("Death Blossom", 3967),
             #
             ("Hakke Mujinsatsu (pet)", 2898),
             ("Hakke Mujinsatsu (pet)", 2898),
@@ -1037,12 +1024,12 @@ class TestJobsMulti70(TestClass):
             job_class="SAM",
             version="7.0",
         )
-        base_mangetsu = 3990        
+        base_mangetsu = 3990
 
         skills_and_expected_damages = (
             (
                 "Mangetsu",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
                 (base_mangetsu, base_mangetsu),
             ),
@@ -1052,10 +1039,10 @@ class TestJobsMulti70(TestClass):
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
-        rb.add(0, "Mangetsu", targets=("t1",))
-        rb.add(3, "Fuko", targets=("t1","t2"))
-        rb.add(6, "Mangetsu", targets=("t1","t2"))
-        
+        rb.add(0, "Mangetsu", targets="t1")
+        rb.add(3, "Fuko", targets="t1, t2")
+        rb.add(6, "Mangetsu", targets="t1, t2")
+
         expected = (
             ("Mangetsu", 3984),
             ("Fuko", 3988),
@@ -1066,7 +1053,7 @@ class TestJobsMulti70(TestClass):
 
         test_passed2, err_msg2 = self.__test_rotation_damage(rb, expected)
         return test_passed1 and test_passed2, err_msg1 + "\n" + err_msg2
-    
+
     @TestClass.is_a_test
     def test_rpr_aoe(self):
         stats = Stats(
@@ -1080,26 +1067,26 @@ class TestJobsMulti70(TestClass):
             job_class="RPR",
             version="7.0",
         )
-        base_plentiful = 40401        
+        base_plentiful = 40401
 
         skills_and_expected_damages = (
             (
                 "Plentiful Harvest",
-                ("t1", "t2"),
+                "t1, t2",
                 SkillModifier(),
-                (base_plentiful, 0.4*base_plentiful),
+                (base_plentiful, 0.4 * base_plentiful),
             ),
         )
         test_passed1, err_msg1 = self.__test_multi_target_skills(
             stats, skills_and_expected_damages
         )
-        
+
         rb = RotationBuilder(stats, self.__skill_library)
-        rb.add(0, "Spinning Scythe", targets=("t1","t2"))
-        rb.add(3, "Whorl of Death", targets=("t1","t2"))
-        rb.add(6, "Spinning Scythe", targets=("t1","t2", "t3"))
-        rb.add(40, "Spinning Scythe", targets=("t1","t2"))
-        
+        rb.add(0, "Spinning Scythe", targets="t1, t2")
+        rb.add(3, "Whorl of Death", targets="t1, t2")
+        rb.add(6, "Spinning Scythe", targets="t1, t2, t3")
+        rb.add(40, "Spinning Scythe", targets="t1, t2")
+
         expected = (
             ("Spinning Scythe", 6463),
             ("Spinning Scythe", 6463),
@@ -1107,14 +1094,14 @@ class TestJobsMulti70(TestClass):
             ("Whorl of Death", 4043),
             ("Spinning Scythe", 7115),
             ("Spinning Scythe", 7115),
-            ("Spinning Scythe", 6463), # target 3, no debuff
-            ("Spinning Scythe", 6463), # death's design dropped off
+            ("Spinning Scythe", 6463),  # target 3, no debuff
+            ("Spinning Scythe", 6463),  # death's design dropped off
             ("Spinning Scythe", 6463),
         )
 
         test_passed2, err_msg2 = self.__test_rotation_damage(rb, expected)
         return test_passed1 and test_passed2, err_msg1 + "\n" + err_msg2
-    
+
     @TestClass.is_a_test
     def test_vpr_aoe(self):
         stats = Stats(
@@ -1130,15 +1117,15 @@ class TestJobsMulti70(TestClass):
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
-        rb.add(0, "Uncoiled Twinfang", targets=("t1",))
-        rb.add(3, "Uncoiled Fury", targets=("t1","t2"))
-        rb.add(6, "Uncoiled Twinfang", targets=("t1","t2"))
-        
+        rb.add(0, "Uncoiled Twinfang", targets="t1")
+        rb.add(3, "Uncoiled Fury", targets="t1, t2")
+        rb.add(6, "Uncoiled Twinfang", targets="t1, t2")
+
         expected = (
             ("Uncoiled Twinfang", 3970),
             ("Uncoiled Fury", 23825),
             ("Uncoiled Fury", 23825),
             ("Uncoiled Twinfang", 5958),
-            ("Uncoiled Twinfang", 2979),            
+            ("Uncoiled Twinfang", 2979),
         )
-        return self.__test_rotation_damage(rb, expected)        
+        return self.__test_rotation_damage(rb, expected)
