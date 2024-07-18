@@ -8,6 +8,8 @@ def add_tank_rotations_to_rotation_library(skill_library, rotation_library, vers
             patch_use = patch655
         case "7.0":
             patch_use = patch70
+        case "7.01":
+            patch_use = patch70
         case _:
             raise RuntimeError("Bad version: {}".format(version))
 

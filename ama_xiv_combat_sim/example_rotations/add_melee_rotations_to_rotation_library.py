@@ -9,6 +9,9 @@ def add_melee_rotations_to_rotation_library(skill_library, rotation_library, ver
         case "7.0":
             patch_use = patch70
             patch_use.add_vpr_rotations(skill_library, rotation_library)
+        case "7.01":
+            patch_use = patch70
+            patch_use.add_vpr_rotations(skill_library, rotation_library)
         case _:
             raise RuntimeError("Bad version: {}".format(version))
 
