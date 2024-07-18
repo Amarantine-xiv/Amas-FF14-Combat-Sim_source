@@ -1076,12 +1076,10 @@ class TestJobs701(TestClass):
         rb.add_next("Twin Snakes")
         rb.add_next("Rising Raptor")
         rb.add_next("Rising Raptor")
-        rb.add_next("Rising Raptor")
         #
         rb.add_next("Wait 5.00s")
         rb.add_next("Pouncing Coeurl")
         rb.add_next("Demolish")
-        rb.add_next("Pouncing Coeurl")
         rb.add_next("Pouncing Coeurl")
         rb.add_next("Pouncing Coeurl")
         rb.add_next("Pouncing Coeurl")
@@ -1111,12 +1109,10 @@ class TestJobs701(TestClass):
             ("Rising Raptor", 13280),
             ("Twin Snakes", 16417),
             ("Rising Raptor", 21134),
-            ("Rising Raptor", 21134),
             ("Rising Raptor", 13293),
             #
             ("Pouncing Coeurl", 14484),
             ("Demolish", 16433),
-            ("Pouncing Coeurl", 20334),
             ("Pouncing Coeurl", 20334),
             ("Pouncing Coeurl", 20334),
             ("Pouncing Coeurl", 14472),

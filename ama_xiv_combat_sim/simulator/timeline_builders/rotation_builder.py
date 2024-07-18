@@ -31,6 +31,7 @@ class RotationBuilder:
         ignore_trailing_dots=False,
         fight_start_time=None,
         downtime_windows=(),
+        default_target=SimConsts.DEFAULT_TARGET,
     ):
         self.__stats = stats
         # snap_dots_to_server_tick_starting_at is in SECONDS
@@ -50,6 +51,11 @@ class RotationBuilder:
             stats.job_class
         )
         self.__timestamps_and_main_target = []
+        assert isinstance(
+            default_target, str
+        ), "Default target should be a string since it's just 1 target- did you accidentally make it a tuple?"
+
+        self.__default_target = default_target
 
         # Each downtime range is the semi-open interval [start_time, end_time). In other
         # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
@@ -87,11 +93,14 @@ class RotationBuilder:
         skill_modifier=SkillModifier(),
         job_class=None,
         num_times=1,
-        targets=(SimConsts.DEFAULT_TARGET,),
+        targets=None,
     ):
-        assert (
-            type(targets) is tuple
-        ), f"Targetting error- targets is supposed to be a tuple. Did you forget a comma? Got: {targets}"
+        if targets is None:
+            targets = (self.__default_target,)
+        assert isinstance(
+            targets, tuple
+        ), "'targets' must be specified as a tuple- perhaps you forgot a comma? Got: {targets}"
+
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
         for _ in range(num_times):
@@ -103,12 +112,15 @@ class RotationBuilder:
         skill_name,
         skill_modifier=SkillModifier(),
         job_class=None,
-        targets=(SimConsts.DEFAULT_TARGET,),
+        targets=None,
     ):
-        """Time (t) is assumed to be in seconds"""
-        assert (
-            type(targets) is tuple
-        ), f"Targetting error- targets is supposed to be a tuple. Did you forget a comma? Got: {targets}"
+
+        if targets is None:
+            targets = (self.__default_target,)
+        assert isinstance(
+            targets, tuple
+        ), "'targets' must be specified as a tuple- perhaps you forgot a comma? Got: {targets}"
+
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
         self._q_timed.append((int(1000 * t), skill, skill_modifier, job_class, targets))
@@ -787,7 +799,7 @@ class RotationBuilder:
                 res.append((t, t + cast_time))
             # assume target does not affect speed....dangerous....
             se_tracker.add_to_status_effects(
-                t, skill, skill_modifier, targets=(SimConsts.DEFAULT_TARGET)
+                t, skill, skill_modifier, targets=(self.__default_target,)
             )
             job_resource_tracker.add_resource(t, skill, skill_modifier)
         res.sort()
@@ -849,11 +861,12 @@ class RotationBuilder:
 
         auto_target_ind = 0
         while application_time < last_event_time:
-            while auto_target_ind < len(timestamps_and_main_target) and timestamps_and_main_target[auto_target_ind][
-                0
-            ] <= snapshot_time:
+            while (
+                auto_target_ind < len(timestamps_and_main_target)
+                and timestamps_and_main_target[auto_target_ind][0] <= snapshot_time
+            ):
                 auto_target_ind += 1
-            auto_target_ind = max(0, auto_target_ind-1)
+            auto_target_ind = max(0, auto_target_ind - 1)
             auto_target = timestamps_and_main_target[auto_target_ind][1]
 
             self._q_snapshot_and_applications.add(
@@ -874,8 +887,7 @@ class RotationBuilder:
                 snapshot_time,
                 auto_skill,
                 SkillModifier(),
-                # TODO: set this to an auto-target, and process it
-                targets=(SimConsts.DEFAULT_TARGET,),
+                targets=(self.__default_target,),
             )
 
             # Don't need the skill modifiers, since they're just autos
