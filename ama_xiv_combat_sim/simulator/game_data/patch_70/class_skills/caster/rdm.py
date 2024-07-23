@@ -368,7 +368,7 @@ def add_rdm_skills(skill_library):
 
     jolt_3_damage_follow_up = FollowUp(
         skill=Skill(name="Jolt III", damage_spec=DamageSpec(potency=360)),
-        delay_after_parent_application=760,
+        delay_after_parent_application=800,
     )
     skill_library.add_skill(
         Skill(
@@ -575,7 +575,7 @@ def add_rdm_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=700),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=630
+                base_cast_time=0, animation_lock=650, application_delay=800
             ),
             status_effect_denylist=("Manafication", "Embolden"),
             has_aoe=True,
@@ -592,10 +592,10 @@ def add_rdm_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=5000,
                     animation_lock=rdm_caster_tax,
-                    application_delay=760,
+                    application_delay=1559,
                 ),
                 "Dualcast": TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=760
+                    base_cast_time=0, animation_lock=650, application_delay=1550
                 ),
             },
             follow_up_skills={
@@ -613,7 +613,7 @@ def add_rdm_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=900),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=630
+                base_cast_time=0, animation_lock=650, application_delay=1420
             ),
             status_effect_denylist=("Manafication", "Embolden"),
             has_aoe=True,

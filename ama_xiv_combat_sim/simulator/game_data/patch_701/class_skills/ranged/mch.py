@@ -146,7 +146,7 @@ def add_mch_skills(skill_library):
                 dot_duration=i * 1000,
                 snapshot_buffs_with_parent=True,
                 snapshot_debuffs_with_parent=True,
-                primary_target_only=False
+                primary_target_only=False,
             )
         return follow_ups
 
@@ -229,7 +229,9 @@ def add_mch_skills(skill_library):
         Skill(
             name="Wildfire",
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=670
+            ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (wildfire_follow_up,),
                 "Manual": tuple(),
@@ -257,7 +259,7 @@ def add_mch_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -436,7 +438,7 @@ def add_mch_skills(skill_library):
                 ),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1150
+                base_cast_time=0, animation_lock=650, application_delay=850
             ),
             job_resource_spec=(job_resource_spec_gcd,),
         )
@@ -453,7 +455,7 @@ def add_mch_skills(skill_library):
         dot_duration=15 * 1000,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
-        primary_target_only=False
+        primary_target_only=False,
     )
     skill_library.add_skill(
         Skill(
@@ -619,7 +621,7 @@ def add_mch_skills(skill_library):
                 job_resource_spec_gcd,
             ),
             has_aoe=True,
-            aoe_dropoff=0.65
+            aoe_dropoff=0.65,
         )
     )
     skill_library.add_skill(
@@ -687,23 +689,23 @@ def add_mch_skills(skill_library):
             is_GCD=False,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=160)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=800
+                base_cast_time=0, animation_lock=650, application_delay=710
             ),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
 
     skill_library.add_skill(
         Skill(
             name="Double Check",
-            is_GCD=False,            
+            is_GCD=False,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=160)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=800
+                base_cast_time=0, animation_lock=650, application_delay=710
             ),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
 
@@ -720,14 +722,14 @@ def add_mch_skills(skill_library):
                 ),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1030
+                base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             job_resource_spec=(
                 JobResourceSpec(name="Battery", change=+20),
                 job_resource_spec_gcd,
             ),
             has_aoe=True,
-            aoe_dropoff=0.65
+            aoe_dropoff=0.65,
         )
     )
 
@@ -735,17 +737,19 @@ def add_mch_skills(skill_library):
         Skill(
             name="Full Metal Field",
             is_GCD=True,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(
-                potency=700,
-                guaranteed_crit=ForcedCritOrDH.FORCE_YES,
-                guaranteed_dh=ForcedCritOrDH.FORCE_YES,
-            )},
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=700,
+                    guaranteed_crit=ForcedCritOrDH.FORCE_YES,
+                    guaranteed_dh=ForcedCritOrDH.FORCE_YES,
+                )
+            },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1030
             ),
             job_resource_spec=(job_resource_spec_gcd,),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
 

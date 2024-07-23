@@ -457,7 +457,7 @@ def add_nin_skills(skill_library):
     )
     dokumori_damage_follow_up = FollowUp(
         skill=Skill("Dokumori", damage_spec=DamageSpec(potency=300)),
-        delay_after_parent_application=620,
+        delay_after_parent_application=1070,
     )
     skill_library.add_skill(
         Skill(
@@ -815,7 +815,7 @@ def add_nin_skills(skill_library):
 
     kunai_damage_follow_up = FollowUp(
         skill=Skill("Kunai's Bane", damage_spec=DamageSpec(potency=600), has_aoe=True),
-        delay_after_parent_application=800,
+        delay_after_parent_application=1290,
         primary_target_only=False,
     )
     kunai_debuff_follow_up = FollowUp(
@@ -858,7 +858,7 @@ def add_nin_skills(skill_library):
                 "Meisui": DamageSpec(potency=700),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1030
             ),
         )
     )
@@ -869,7 +869,7 @@ def add_nin_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=1000),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=800
+                base_cast_time=0, animation_lock=650, application_delay=1690
             ),
             has_aoe=True,
             aoe_dropoff=0.5,

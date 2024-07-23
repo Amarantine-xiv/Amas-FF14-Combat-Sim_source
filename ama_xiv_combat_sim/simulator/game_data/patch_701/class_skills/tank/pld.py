@@ -272,7 +272,7 @@ def add_pld_skills(skill_library):
             is_GCD=False,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=580)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=623
+                base_cast_time=0, animation_lock=650, application_delay=1290
             ),
             follow_up_skills=(req_charges_follow_up,),
             has_aoe=True,
@@ -344,7 +344,7 @@ def add_pld_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=460),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1293
+                base_cast_time=0, animation_lock=650, application_delay=1160
             ),
         )
     )
@@ -354,7 +354,7 @@ def add_pld_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=480),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1293
+                base_cast_time=0, animation_lock=650, application_delay=1290
             ),
         )
     )
@@ -440,7 +440,7 @@ def add_pld_skills(skill_library):
             is_GCD=False,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1000)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=891
+                base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True,
             aoe_dropoff=0.5

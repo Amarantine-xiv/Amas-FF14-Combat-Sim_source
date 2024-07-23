@@ -1,14 +1,19 @@
 import numpy as np
 
 from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
-from ama_xiv_combat_sim.simulator.skills.create_skill_library import create_skill_library
+from ama_xiv_combat_sim.simulator.skills.create_skill_library import (
+    create_skill_library,
+)
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
-from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import RotationBuilder
+from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
+    RotationBuilder,
+)
 
-GAME_VERSION="7.01"
+GAME_VERSION = "7.01"
+
 
 class TestJobs701(TestClass):
     def __init__(self):
@@ -216,7 +221,6 @@ class TestJobs701(TestClass):
         expected_damage = 292932.5
         expected_total_time = 31200.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
-    
 
     @TestClass.is_a_test
     def test_ast_skills(self):
@@ -390,7 +394,7 @@ class TestJobs701(TestClass):
             ("Jugular Rip", SkillModifier(), 6114),
             ("Abdomen Tear", SkillModifier(), 7137),
             ("Eye Gouge", SkillModifier(), 8166),
-            ("Fated Circle", SkillModifier(),  7650),
+            ("Fated Circle", SkillModifier(), 7650),
             ("Blasting Zone", SkillModifier(), 20397),
             ("Double Down", SkillModifier(), 30636),
             ("Hypervelocity", SkillModifier(), 5613),
@@ -549,7 +553,7 @@ class TestJobs701(TestClass):
             ("Disesteem", SkillModifier(), 20531),
         )
         return self.__test_skills(stats, skills_and_expected_damage)
-    
+
     @TestClass.is_a_test
     def test_drk_aggregate_rotation(self):
         stats = Stats(
@@ -662,7 +666,6 @@ class TestJobs701(TestClass):
 
         return test_passed1 and test_passed2, ", ".join([err_msg1, err_msg2])
 
-    
     @TestClass.is_a_test
     def test_dnc_aggregate_rotation(self):
         stats = Stats(
@@ -712,7 +715,6 @@ class TestJobs701(TestClass):
         expected_damage = 526743
         expected_total_time = 27410
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
-
 
     @TestClass.is_a_test
     def test_dnc_skills(self):
@@ -891,12 +893,12 @@ class TestJobs701(TestClass):
 
         expected = (
             ("Sidewinder", 19547),
-            ("Sidewinder", 19539),  # does not get buff yet. Application delay.
-            ("Radiant Encore", 46662),
+            ("Sidewinder", 20719),
             (
                 "Sidewinder",
-                20706,
-            ),  # does not get overriden radiant finale buff yet. Application delay.
+                20316,
+            ),
+            ("Radiant Encore", 46662),
             ("Radiant Encore", 30510),
             ("Radiant Encore", 24841),
         )
@@ -1090,8 +1092,8 @@ class TestJobs701(TestClass):
         rb.add_next("Bootshine")
         rb.add_next("Elixir Burst")
         rb.add_next("Bootshine")
-        
-        #formless on dragon kick
+
+        # formless on dragon kick
         for _ in range(0, 10):
             rb.add_next("Wait 5.00s")
         rb.add_next("Leaping Opo")
@@ -1100,7 +1102,7 @@ class TestJobs701(TestClass):
         rb.add_next("Formless Fist")
         rb.add_next("Dragon Kick")
         rb.add_next("Leaping Opo")
-        
+
         expected = (
             ("Bootshine", 8599),
             ("Snap Punch", 12910),
@@ -1238,20 +1240,20 @@ class TestJobs701(TestClass):
             enable_autos=False,
             ignore_trailing_dots=True,
             snap_dots_to_server_tick_starting_at=0,
-        )        
-        rb.add(1, "Kassatsu")        
+        )
+        rb.add(1, "Kassatsu")
         rb.add(3, "Hyosho Ranryu")
-            
-        rb.add(423.369, "Spinning Edge") ##
+
+        rb.add(423.369, "Spinning Edge")  ##
         rb.add(425.947, "Kassatsu")
-        
+
         rb.add(427.369, "Gust Slash")
         rb.add(429.506, "Armor Crush")
         rb.add(430.798, "Bhavacakra")
         rb.add(431.642, "Ten")
         rb.add(432.132, "Jin")
         rb.add(432.622, "Hyosho Ranryu")
-        
+
         expected = (
             ("Hyosho Ranryu", 67050),
             ("Spinning Edge", 11880),
@@ -1259,7 +1261,6 @@ class TestJobs701(TestClass):
             ("Armor Crush", 18986),
             ("Bhavacakra", 15062),
             ("Hyosho Ranryu", 66992),
-            
         )
 
         return self.__test_rotation_damage(rb, expected)
@@ -1763,14 +1764,13 @@ class TestJobs701(TestClass):
         rb.add_next("Aethercharge")
         rb.add_next("Ruin III")
         rb.add_next("Ruin III")
-        
+
         expected = (
             ("Ruin III", 18849),
             ("Ruin III", 21488),
             ("Ruin III", 18847),
         )
         return self.__test_rotation_damage(rb, expected)
-
 
     @TestClass.is_a_test
     def test_rdm_aggregate_rotation(self):
@@ -1951,7 +1951,7 @@ class TestJobs701(TestClass):
             ("Fire III", 13489),
             ("Flare Star", 45094),
             ("Fire IV", 34968),
-            ("Flare Star", 45158),            
+            ("Flare Star", 45158),
             ("Fire IV", 34996),
             ("Paradox", 31356),
             ("Xenoglossy", 55127),
@@ -2018,9 +2018,8 @@ class TestJobs701(TestClass):
         for e in skill_seq:
             rb.add_next(e)
 
-        expected_damage = 583589
-        expected_total_time = 28980
-
+        expected_damage = 583590
+        expected_total_time = 29380
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -2118,7 +2117,7 @@ class TestJobs701(TestClass):
             ("Holy in White"),
             ("Pom Muse"),
             ("Swiftcast"),
-            ("Wing Motif"),            
+            ("Wing Motif"),
             ("Striking Muse"),
             ("Fire in Red"),
             ("Starry Muse"),
@@ -2148,8 +2147,8 @@ class TestJobs701(TestClass):
 
         for e in skill_seq:
             rb.add_next(e)
-            
+
         expected_damage = 1113818
-        expected_total_time = 54620
+        expected_total_time = 54360
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)

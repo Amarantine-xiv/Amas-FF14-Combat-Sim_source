@@ -45,11 +45,11 @@ def add_whm_skills(skill_library):
             name="Glare IV",
             is_GCD=True,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=100, application_delay=1290
+                base_cast_time=0, animation_lock=100, application_delay=850
             ),
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=640)},
             has_aoe=True,
-            aoe_dropoff= 0.4
+            aoe_dropoff=0.4,
         )
     )
     skill_library.add_skill(
@@ -60,7 +60,7 @@ def add_whm_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
             damage_spec=DamageSpec(potency=400),
-            has_aoe = True
+            has_aoe=True,
         )
     )
     dia_dot_whm = Skill(
@@ -95,8 +95,8 @@ def add_whm_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=580
             ),
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1320)},
-            has_aoe = True,
-            aoe_dropoff= 0.5
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -107,14 +107,16 @@ def add_whm_skills(skill_library):
                 base_cast_time=2500, animation_lock=100, application_delay=2130
             ),
             damage_spec=DamageSpec(potency=150),
-            has_aoe = True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
         Skill(
             name="Presence of Mind",
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=530
+            ),
             debuff_spec=StatusEffectSpec(
                 duration=15000,
                 haste_time_reduction=0.20,
@@ -123,10 +125,22 @@ def add_whm_skills(skill_library):
         )
     )
     skill_library.add_skill(
-        Skill(name="Afflatus Rapture", is_GCD=True, timing_spec=instant_timing_spec)
+        Skill(
+            name="Afflatus Rapture",
+            is_GCD=True,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=580
+            ),
+        )
     )
     skill_library.add_skill(
-        Skill(name="Afflatus Solace", is_GCD=True, timing_spec=instant_timing_spec)
+        Skill(
+            name="Afflatus Solace",
+            is_GCD=True,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=580
+            ),
+        )
     )
     skill_library.add_skill(
         Skill(

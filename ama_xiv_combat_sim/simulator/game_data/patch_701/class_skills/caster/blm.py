@@ -185,8 +185,7 @@ def add_blm_skills(skill_library):
         buff_spec=StatusEffectSpec(damage_mult=1.30, duration=15 * 1000),
     )
     enochian_buff_follow_up = FollowUp(
-        skill=enochian_buff, delay_after_parent_application=0,
-        primary_target_only=True
+        skill=enochian_buff, delay_after_parent_application=0, primary_target_only=True
     )
 
     thunderiii_dot = Skill(
@@ -212,7 +211,7 @@ def add_blm_skills(skill_library):
         dot_duration=21 * 1000,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
-        primary_target_only=False
+        primary_target_only=False,
     )
     high_thunder_dot = Skill(
         name="Thunder (dot)",
@@ -237,7 +236,7 @@ def add_blm_skills(skill_library):
         dot_duration=24 * 1000,
         snapshot_buffs_with_parent=True,
         snapshot_debuffs_with_parent=True,
-        primary_target_only=False
+        primary_target_only=False,
     )
 
     skill_library.add_skill(
@@ -461,7 +460,7 @@ def add_blm_skills(skill_library):
                 base_potency=280, is_fire_spell=False
             ),
             timing_spec=get_enochian_timing_spec_cross(
-                base_cast_time=3500, is_fire_spell=False, application_delay=890
+                base_cast_time=3500, is_fire_spell=False, application_delay=840
             ),
             job_resource_spec=(
                 clear_astral_fire,
@@ -482,7 +481,7 @@ def add_blm_skills(skill_library):
             timing_spec=get_enochian_timing_spec_cross(
                 base_cast_time=2800, is_fire_spell=False, application_delay=620
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -492,7 +491,7 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=160),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock= blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=1030,
             ),
             follow_up_skills=(thunderiii_follow_up,),
@@ -521,7 +520,7 @@ def add_blm_skills(skill_library):
             ),
             follow_up_skills=(enochian_buff_follow_up,),
             has_aoe=True,
-            aoe_dropoff=0.4
+            aoe_dropoff=0.4,
         )
     )
 
@@ -568,11 +567,11 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=80),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock= blm_caster_tax_ms,
+                animation_lock=blm_caster_tax_ms,
                 application_delay=1160,
             ),
             follow_up_skills=(thunderiv_follow_up,),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -586,7 +585,7 @@ def add_blm_skills(skill_library):
                 application_delay=1160,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -641,7 +640,7 @@ def add_blm_skills(skill_library):
                 ),
             ),
             follow_up_skills=(enochian_buff_follow_up,),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -661,7 +660,7 @@ def add_blm_skills(skill_library):
                 ),
             ),
             follow_up_skills=(enochian_buff_follow_up,),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -729,8 +728,8 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock= blm_caster_tax_ms,
-                application_delay=1160,
+                animation_lock=blm_caster_tax_ms,
+                application_delay=760,
             ),
             follow_up_skills=(high_thunder_follow_up,),
         )
@@ -743,18 +742,18 @@ def add_blm_skills(skill_library):
             damage_spec=DamageSpec(potency=100),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
-                animation_lock= blm_caster_tax_ms,
-                application_delay=1160,
+                animation_lock=blm_caster_tax_ms,
+                application_delay=760,
             ),
             follow_up_skills=(high_thunder_ii_follow_up,),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     flare_star_damage_spec = get_enochian_damage_spec_cross(
         base_potency=400, is_fire_spell=True
     )
     flare_star_timing_spec = get_enochian_timing_spec_cross(
-        base_cast_time=3000, is_fire_spell=True, application_delay=1160
+        base_cast_time=3000, is_fire_spell=True, application_delay=620
     )
     skill_library.add_skill(
         Skill(
@@ -763,7 +762,7 @@ def add_blm_skills(skill_library):
             damage_spec=flare_star_damage_spec,
             timing_spec=flare_star_timing_spec,
             has_aoe=True,
-            aoe_dropoff=0.65
+            aoe_dropoff=0.65,
         ),
     )
 

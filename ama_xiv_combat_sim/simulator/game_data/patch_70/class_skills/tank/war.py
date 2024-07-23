@@ -186,7 +186,7 @@ def add_war_skills(skill_library):
             name="Chaotic Cyclone",
             is_GCD=True,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=668
+                base_cast_time=0, animation_lock=650, application_delay=1430
             ),
             damage_spec=DamageSpec(
                 potency=300,
@@ -324,7 +324,7 @@ def add_war_skills(skill_library):
             name="Primal Wrath",
             is_GCD=False,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=623
+                base_cast_time=0, animation_lock=650, application_delay=1150
             ),
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=700)},
             has_aoe=True,
@@ -336,7 +336,7 @@ def add_war_skills(skill_library):
             name="Primal Ruination",
             is_GCD=True,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=1300, application_delay=1160
+                base_cast_time=0, animation_lock=1300, application_delay=1060
             ),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(

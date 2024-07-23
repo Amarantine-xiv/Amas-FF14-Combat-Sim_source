@@ -567,7 +567,7 @@ def add_dnc_skills(skill_library):
     )
     finishing_move_damage_follow_up = FollowUp(
         skill=Skill(name="Finishing Move", damage_spec=DamageSpec(potency=850)),
-        delay_after_parent_application=2200,
+        delay_after_parent_application=2050,
         primary_target_only=False,
     )
     skill_library.add_skill(
@@ -592,7 +592,7 @@ def add_dnc_skills(skill_library):
             is_GCD=False,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=300)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=320
+                base_cast_time=0, animation_lock=650, application_delay=620
             ),
             has_aoe=True,
             aoe_dropoff=0.5,
@@ -634,7 +634,7 @@ def add_dnc_skills(skill_library):
             is_GCD=True,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1000)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=2300
+                base_cast_time=0, animation_lock=650, application_delay=2360
             ),
             has_aoe=True,
             aoe_dropoff=0.5,

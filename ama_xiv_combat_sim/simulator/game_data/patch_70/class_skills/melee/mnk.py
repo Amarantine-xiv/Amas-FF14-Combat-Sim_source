@@ -55,7 +55,7 @@ def add_mnk_skills(skill_library):
             ),
         ),
         delay_after_parent_application=0,
-    )    
+    )
     opo_opo_form_skill = Skill(
         name="Opo-opo Form",
         is_GCD=False,
@@ -68,7 +68,7 @@ def add_mnk_skills(skill_library):
                 "Bootshine",
                 "Dragon Kick",
                 "Shadow of the Destroyer",
-                'Leaping Opo'
+                "Leaping Opo",
             ),
         ),
     )
@@ -118,19 +118,19 @@ def add_mnk_skills(skill_library):
                     "True Strike",
                     "Snap Punch",
                     "Dragon Kick",
-                    "Shadow of the Destroyer",                    
+                    "Shadow of the Destroyer",
                     "Twin Snakes",
                     "Demolish",
                     "Rockbreaker",
                     "Four-point Fury",
                     "Elixir Burst",
                     "Fire's Reply",
-                    "Leaping Opo"
+                    "Leaping Opo",
                 ),
             ),
         ),
         delay_after_parent_application=0,
-        primary_target_only=True
+        primary_target_only=True,
     )
 
     skill_library.add_skill(
@@ -160,10 +160,12 @@ def add_mnk_skills(skill_library):
                 "Formless Fist, Opo-opo Form": DamageSpec(
                     potency=220, guaranteed_crit=ForcedCritOrDH.FORCE_YES
                 ),
-                
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1110, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1110,
+                gcd_base_recast_time=2000,
             ),
         )
     )
@@ -173,7 +175,10 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=290),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=800, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=800,
+                gcd_base_recast_time=2000,
             ),
         )
     )
@@ -186,7 +191,10 @@ def add_mnk_skills(skill_library):
                 "No Positional": DamageSpec(potency=300),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=760,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(opo_opo_form_follow_up,),
         )
@@ -197,7 +205,10 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=380),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=840, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=840,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(raptor_fury_follow_up,),
         )
@@ -218,9 +229,16 @@ def add_mnk_skills(skill_library):
             name="Demolish",
             is_GCD=True,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=0, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=0,
+                gcd_base_recast_time=2000,
             ),
-            follow_up_skills=(demolish_damage_follow_up, opo_opo_form_follow_up, coeurl_fury_follow_up),
+            follow_up_skills=(
+                demolish_damage_follow_up,
+                opo_opo_form_follow_up,
+                coeurl_fury_follow_up,
+            ),
         )
     )
     skill_library.add_skill(
@@ -229,10 +247,13 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=130),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=940, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=940,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(opo_opo_form_follow_up,),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -241,9 +262,12 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=970, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=970,
+                gcd_base_recast_time=2000,
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -252,7 +276,10 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=320),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1290, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1290,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(opo_opo_fury_follow_up,),
         )
@@ -263,7 +290,7 @@ def add_mnk_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=400),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1480
+                base_cast_time=0, animation_lock=650, application_delay=1420
             ),
         )
     )
@@ -273,11 +300,14 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1070, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1070,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(formless_fist_follow_up,),
             has_aoe=True,
-            aoe_dropoff=0.7
+            aoe_dropoff=0.7,
         )
     )
     skill_library.add_skill(
@@ -286,7 +316,10 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=450),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=890, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=890,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(formless_fist_follow_up,),
         )
@@ -332,7 +365,7 @@ def add_mnk_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -340,20 +373,25 @@ def add_mnk_skills(skill_library):
             name="Six-sided Star",
             is_GCD=True,
             # can just construct dictionary in a loop, but i am lazy
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=780+5*80),
-                         '10 Chakra': DamageSpec(potency=780+10*80),
-                         '9 Chakra': DamageSpec(potency=780+9*80),
-                         '8 Chakra': DamageSpec(potency=780+8*80),
-                         '7 Chakra': DamageSpec(potency=780+7*80),
-                         '6 Chakra': DamageSpec(potency=780+6*80),
-                         '5 Chakra': DamageSpec(potency=780+5*80),
-                         '4 Chakra': DamageSpec(potency=780+4*80),
-                         '3 Chakra': DamageSpec(potency=780+3*80),
-                         '2 Chakra': DamageSpec(potency=780+2*80),
-                         '1 Chakra': DamageSpec(potency=780+1*80),
-                         '0 Chakra': DamageSpec(potency=780)},
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=780 + 5 * 80),
+                "10 Chakra": DamageSpec(potency=780 + 10 * 80),
+                "9 Chakra": DamageSpec(potency=780 + 9 * 80),
+                "8 Chakra": DamageSpec(potency=780 + 8 * 80),
+                "7 Chakra": DamageSpec(potency=780 + 7 * 80),
+                "6 Chakra": DamageSpec(potency=780 + 6 * 80),
+                "5 Chakra": DamageSpec(potency=780 + 5 * 80),
+                "4 Chakra": DamageSpec(potency=780 + 4 * 80),
+                "3 Chakra": DamageSpec(potency=780 + 3 * 80),
+                "2 Chakra": DamageSpec(potency=780 + 2 * 80),
+                "1 Chakra": DamageSpec(potency=780 + 1 * 80),
+                "0 Chakra": DamageSpec(potency=780),
+            },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620, gcd_base_recast_time=4000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=620,
+                gcd_base_recast_time=4000,
             ),
         )
     )
@@ -374,9 +412,12 @@ def add_mnk_skills(skill_library):
                 ),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=400,
+                gcd_base_recast_time=2000,
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -385,11 +426,14 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=900),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=760,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(formless_fist_follow_up,),
             has_aoe=True,
-            aoe_dropoff=0.7
+            aoe_dropoff=0.7,
         )
     )
     skill_library.add_skill(
@@ -398,11 +442,14 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=1400),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=400,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(formless_fist_follow_up,),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -433,7 +480,10 @@ def add_mnk_skills(skill_library):
                 ),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=620,
+                gcd_base_recast_time=2000,
             ),
         )
     )
@@ -441,10 +491,15 @@ def add_mnk_skills(skill_library):
         Skill(
             name="Rising Raptor",
             is_GCD=True,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=330),
-                         "Raptor's Fury": DamageSpec(potency=480)},
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=330),
+                "Raptor's Fury": DamageSpec(potency=480),
+            },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=890,
+                gcd_base_recast_time=2000,
             ),
         )
     )
@@ -452,14 +507,23 @@ def add_mnk_skills(skill_library):
         Skill(
             name="Pouncing Coeurl",
             is_GCD=True,
-            damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=400, use_min_potency=340),
-                         "Coeurl's Fury": DamageSpec(potency=500, use_min_potency=440),
-                         "No Positional":  DamageSpec(potency=340, use_min_potency=340),
-                         "Coeurl's Fury, No Positional":  DamageSpec(potency=440, use_min_potency=440)},
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=400, use_min_potency=340
+                ),
+                "Coeurl's Fury": DamageSpec(potency=500, use_min_potency=440),
+                "No Positional": DamageSpec(potency=340, use_min_potency=340),
+                "Coeurl's Fury, No Positional": DamageSpec(
+                    potency=440, use_min_potency=440
+                ),
+            },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1020,
+                gcd_base_recast_time=2000,
             ),
-            follow_up_skills=(opo_opo_form_follow_up,)
+            follow_up_skills=(opo_opo_form_follow_up,),
         )
     )
     skill_library.add_skill(
@@ -468,11 +532,14 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=900),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1420,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(formless_fist_follow_up,),
             has_aoe=True,
-            aoe_dropoff=0.7
+            aoe_dropoff=0.7,
         )
     )
     skill_library.add_skill(
@@ -481,10 +548,13 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1200,
+                gcd_base_recast_time=2000,
             ),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -493,11 +563,14 @@ def add_mnk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=1100),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=400, gcd_base_recast_time=2000
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1200,
+                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(formless_fist_follow_up,),
             has_aoe=True,
-            aoe_dropoff=0.5
+            aoe_dropoff=0.5,
         )
     )
 
@@ -529,13 +602,19 @@ def add_mnk_skills(skill_library):
         Skill(name="Steeled Meditation", is_GCD=False, timing_spec=instant_timing_spec)
     )
     skill_library.add_skill(
-        Skill(name="Inspirited Meditation", is_GCD=False, timing_spec=instant_timing_spec)
+        Skill(
+            name="Inspirited Meditation", is_GCD=False, timing_spec=instant_timing_spec
+        )
     )
     skill_library.add_skill(
-        Skill(name="Forbidden Meditation", is_GCD=False, timing_spec=instant_timing_spec)
+        Skill(
+            name="Forbidden Meditation", is_GCD=False, timing_spec=instant_timing_spec
+        )
     )
     skill_library.add_skill(
-        Skill(name="Enlightened Meditation", is_GCD=False, timing_spec=instant_timing_spec)
+        Skill(
+            name="Enlightened Meditation", is_GCD=False, timing_spec=instant_timing_spec
+        )
     )
 
     skill_library.add_skill(

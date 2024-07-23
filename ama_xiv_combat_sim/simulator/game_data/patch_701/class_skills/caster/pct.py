@@ -95,7 +95,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=840,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={
@@ -112,7 +112,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=890,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={
@@ -129,7 +129,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=980,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={
@@ -147,7 +147,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=840,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={
@@ -165,10 +165,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=1150,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -179,10 +179,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=620,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -193,10 +193,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=980,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -207,14 +207,14 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=890,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -225,14 +225,14 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=980,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -247,10 +247,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=1380,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -261,7 +261,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=750,
                 gcd_base_recast_time=3300,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -269,7 +269,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -280,7 +280,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=750,
                 gcd_base_recast_time=3300,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -298,7 +298,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=800,
                 gcd_base_recast_time=3300,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -316,7 +316,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=850,
                 gcd_base_recast_time=3300,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -334,7 +334,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=800,
                 gcd_base_recast_time=3300,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -342,7 +342,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -353,7 +353,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=2300,
                 animation_lock=pct_caster_tax_ms,
-                application_delay=650,
+                application_delay=850,
                 gcd_base_recast_time=3300,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -361,7 +361,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
-            has_aoe=True
+            has_aoe=True,
         )
     )
 
@@ -370,7 +370,9 @@ def add_pct_skills(skill_library):
             name="Starry Muse",
             is_GCD=False,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=base_animation_lock
+                base_cast_time=0,
+                animation_lock=base_animation_lock,
+                application_delay=620,
             ),
             buff_spec={
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
@@ -400,7 +402,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=1340,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={
@@ -408,7 +410,7 @@ def add_pct_skills(skill_library):
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -423,10 +425,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=1250,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -441,10 +443,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=2100,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -455,7 +457,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=1870,
                 gcd_base_recast_time=3300,
             ),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
@@ -464,7 +466,7 @@ def add_pct_skills(skill_library):
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -476,18 +478,18 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=4000,
                     animation_lock=pct_caster_tax_ms,
-                    application_delay=650,
+                    application_delay=1240,
                     gcd_base_recast_time=6000,
                 ),
                 "Rainbow Bright": TimingSpec(
                     base_cast_time=0,
                     animation_lock=base_animation_lock,
-                    application_delay=650,
+                    application_delay=1240,
                     gcd_base_recast_time=int(0.4 * 6000),  # 60% reduction?
                 ),
             },
             has_aoe=True,
-            aoe_dropoff=0.85
+            aoe_dropoff=0.85,
         )
     )
     skill_library.add_skill(
@@ -498,10 +500,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=980,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -512,10 +514,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=1160,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -526,10 +528,10 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=650,
+                application_delay=1300,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
     skill_library.add_skill(
@@ -548,7 +550,7 @@ def add_pct_skills(skill_library):
                 "1 Hyperphantasia": (rainbow_bright_follow_up,),
             },
             has_aoe=True,
-            aoe_dropoff=0.6
+            aoe_dropoff=0.6,
         )
     )
 

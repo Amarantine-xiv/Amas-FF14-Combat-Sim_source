@@ -55,7 +55,7 @@ def add_sam_skills(skill_library):
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=240),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=850
             ),
         )
     )
@@ -561,7 +561,7 @@ def add_sam_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=900),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=580
+                base_cast_time=0, animation_lock=650, application_delay=1030
             ),
             has_aoe=True,
             aoe_dropoff=0.6,
@@ -573,7 +573,7 @@ def add_sam_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=420),
             timing_spec=TimingSpec(
-                base_cast_time=1300, animation_lock=650, application_delay=580
+                base_cast_time=1300, animation_lock=650, application_delay=360
             ),
         )
     )
@@ -587,7 +587,7 @@ def add_sam_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=1300,
                 animation_lock=650,
-                application_delay=580,
+                application_delay=1030,
                 gcd_base_recast_time=2500,
             ),
         )
@@ -598,7 +598,7 @@ def add_sam_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=420),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=580
+                base_cast_time=0, animation_lock=650, application_delay=360
             ),
         )
     )
@@ -612,7 +612,7 @@ def add_sam_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=580,
+                application_delay=1030,
                 gcd_base_recast_time=2500,
             ),
         )

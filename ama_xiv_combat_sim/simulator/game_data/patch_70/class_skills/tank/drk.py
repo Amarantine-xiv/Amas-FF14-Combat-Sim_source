@@ -314,7 +314,7 @@ def add_drk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=700),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=581
+                base_cast_time=0, animation_lock=650, application_delay=670
             ),
         )
     )
@@ -324,7 +324,7 @@ def add_drk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=800),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=581
+                base_cast_time=0, animation_lock=650, application_delay=620
             ),
         )
     )
@@ -334,7 +334,7 @@ def add_drk_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=320),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=581
+                base_cast_time=0, animation_lock=650, application_delay=980
             ),
             has_aoe=True,
         )
@@ -345,7 +345,7 @@ def add_drk_skills(skill_library):
             is_GCD=True,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=800)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=581
+                base_cast_time=0, animation_lock=650, application_delay=1650
             ),
             has_aoe=True,
             aoe_dropoff=0.5,

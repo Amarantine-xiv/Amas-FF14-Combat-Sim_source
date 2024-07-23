@@ -55,11 +55,12 @@ class RotationBuilder:
             default_target, str
         ), "Default target should be a string- did you accidentally make it a tuple?"
 
-        self.__default_target = default_target
+        self.__downtime_windows = downtime_windows
+        self.__default_target = default_target        
+        self.__all_targets = set()
 
-        # Each downtime range is the semi-open interval [start_time, end_time). In other
-        # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
-        # Windows are assumed to be non-overlapping.
+    @staticmethod
+    def __do_process_downtime_windows(downtime_windows):
         downtime_windows = list(downtime_windows)
 
         # convert to ms
@@ -68,7 +69,22 @@ class RotationBuilder:
             downtime_window[0] *= 1000
             downtime_window[1] *= 1000
             downtime_windows[i] = tuple(downtime_window)
-        self.__downtime_windows = tuple(downtime_windows)
+        return tuple(downtime_windows)
+
+    def __process_downtime_windows(self):
+        res = {}
+        if isinstance(self.__downtime_windows, tuple):
+            downtime_windows = RotationBuilder.__do_process_downtime_windows(
+                self.__downtime_windows
+            )            
+            for k in self.__all_targets:
+                res[k] = downtime_windows
+        else:
+            for target, downtime_windows_use in self.__downtime_windows.items():
+                res[target] = RotationBuilder.__do_process_downtime_windows(
+                    downtime_windows_use
+                )
+        self.__downtime_windows = res
 
     def get_button_press_timing(self):
         res = copy.deepcopy(self.__q_button_press_timing)
@@ -80,14 +96,17 @@ class RotationBuilder:
 
     def set_enable_autos(self, enable_autos):
         self.__enable_autos = enable_autos
-    
+
     def __process_and_check_targets(self, targets):
         if targets is None:
             targets = self.__default_target
         assert isinstance(
             targets, str
         ), "'targets' must be specified as a comma-separate string. Perhaps you made it a tuple? Got: {targets}"
-        return tuple(x.strip() for x in targets.split(','))        
+        all_targets = tuple(x.strip() for x in targets.split(','))
+        for target in all_targets:
+            self.__all_targets.add(target)
+        return all_targets
 
     @staticmethod
     def _print_q(q):
@@ -104,7 +123,7 @@ class RotationBuilder:
         targets=None,
     ):
         targets = self.__process_and_check_targets(targets)
-        
+
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
         for _ in range(num_times):
@@ -630,8 +649,8 @@ class RotationBuilder:
             )
         return res
 
-    def __is_in_a_downtime_range(self, t):
-        for r in self.__downtime_windows:
+    def __is_in_a_downtime_range(self, t, target):
+        for r in self.__downtime_windows.get(target, tuple()):
             if r[0] <= t < r[1]:
                 return True
         return False
@@ -656,25 +675,38 @@ class RotationBuilder:
                 primary_time if secondary_time is None else secondary_time
             )
             snapshot_time = primary_time
-            if skill.get_damage_spec(skill_modifier) is not None and (
-                self.__is_in_a_downtime_range(application_time)
-                or self.__is_in_a_downtime_range(snapshot_time)
-            ):
+
+            all_valid_targets = []
+            for target in targets:
+                if skill.get_damage_spec(skill_modifier) is not None and (
+                    self.__is_in_a_downtime_range(application_time, target)
+                    or self.__is_in_a_downtime_range(snapshot_time, target)
+                ):
+                    continue
+                else:
+                    all_valid_targets.append(target)        
                 continue
-            res.add(
-                priority,
-                primary_time,
-                secondary_time,
-                skill,
-                skill_modifier,
-                snapshot_status,
-                targets=targets,
-            )
+            if len(all_valid_targets) > 0:
+                res.add(
+                    priority,
+                    primary_time,
+                    secondary_time,
+                    skill,
+                    skill_modifier,
+                    snapshot_status,
+                    targets=tuple(all_valid_targets),
+                )
         return res
 
     # Result: a heap encapsualted by SnapshotAndApplicationEvents. See
     # SnapshotAndApplicationEvents's documentation for what the data format is.
     def get_skill_timing(self):
+
+        # Each downtime range is the semi-open interval [start_time, end_time). In other
+        # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
+        # Windows are assumed to be non-overlapping.
+        self.__process_downtime_windows()
+        
         self._q_snapshot_and_applications = SnapshotAndApplicationEvents()
         self.__q_button_press_timing.clear()
         self.__process_q_sequence()
@@ -805,14 +837,14 @@ class RotationBuilder:
         return res
 
     # This is only called during a downtime window.
-    def forward_to_next_non_downtime_time(self, snapshot_time):
-        for r in self.__downtime_windows:
+    def forward_to_next_non_downtime_time(self, snapshot_time, auto_target):
+        for r in self.__downtime_windows.get(auto_target, tuple()):
             if r[0] <= snapshot_time < r[1]:
                 return r[1]
         return snapshot_time
 
-    def __get_next_auto_time(self, t, cast_periods):
-        t = self.forward_to_next_non_downtime_time(t)
+    def __get_next_auto_time(self, t, cast_periods, auto_target):
+        t = self.forward_to_next_non_downtime_time(t, auto_target)
         intersecting_cast_periods = list(
             filter(lambda x: (x[0] <= t) and (x[1] >= t), cast_periods)
         )
@@ -900,7 +932,7 @@ class RotationBuilder:
                 * curr_debuffs.auto_attack_delay_mult,
                 2,
             )
-            snapshot_time = self.__get_next_auto_time(snapshot_time, cast_periods)
+            snapshot_time = self.__get_next_auto_time(snapshot_time, cast_periods, auto_target)
             application_time = snapshot_time + auto_skill.timing_spec.application_delay
 
     def get_stats(self):

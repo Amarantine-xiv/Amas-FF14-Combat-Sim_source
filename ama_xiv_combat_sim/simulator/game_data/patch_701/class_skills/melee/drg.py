@@ -386,7 +386,7 @@ def add_drg_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=550),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=600, application_delay=1200
+                base_cast_time=0, animation_lock=600, application_delay=1160
             ),
             has_aoe=True,
             aoe_dropoff=0.5,
@@ -402,18 +402,18 @@ def add_drg_skills(skill_library):
                 "No Combo": DamageSpec(potency=130),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=600, application_delay=1020
+                base_cast_time=0, animation_lock=600, application_delay=940
             ),
         )
     )
 
     spiral_blow_damage_follow_up = FollowUp(
         skill=Skill(name="Spiral Blow", damage_spec=DamageSpec(potency=300)),
-        delay_after_parent_application=1650,
+        delay_after_parent_application=1380,
     )
     spiral_blow_no_combo_damage_follow_up = FollowUp(
         skill=Skill(name="Spiral Blow", damage_spec=DamageSpec(potency=140)),
-        delay_after_parent_application=1650,
+        delay_after_parent_application=1380,
     )
     skill_library.add_skill(
         Skill(
@@ -438,7 +438,7 @@ def add_drg_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=700),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=600, application_delay=1200
+                base_cast_time=0, animation_lock=600, application_delay=980
             ),
             has_aoe=True,
             aoe_dropoff=0.5,

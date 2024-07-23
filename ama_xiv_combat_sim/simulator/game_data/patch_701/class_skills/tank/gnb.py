@@ -290,7 +290,7 @@ def add_gnb_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=758
+                base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True
         )
@@ -301,7 +301,7 @@ def add_gnb_skills(skill_library):
             is_GCD=True,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=800)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=758
+                base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True,
             aoe_dropoff=0.6
@@ -313,7 +313,7 @@ def add_gnb_skills(skill_library):
             is_GCD=True,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1000)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=758
+                base_cast_time=0, animation_lock=650, application_delay=1650
             ),
             has_aoe=True,
             aoe_dropoff=0.6
@@ -325,7 +325,7 @@ def add_gnb_skills(skill_library):
             is_GCD=True,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=1200)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=758
+                base_cast_time=0, animation_lock=650, application_delay=1790
             ),
             has_aoe=True,
             aoe_dropoff=0.6

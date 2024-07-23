@@ -387,7 +387,9 @@ def add_brd_skills(skill_library):
             buff_spec=StatusEffectSpec(
                 dh_rate_add=0.20, duration=20 * 1000, is_party_effect=True
             ),
-            timing_spec=instant_timing_spec,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=620
+            ),
         )
     )
 
@@ -745,7 +747,7 @@ def add_brd_skills(skill_library):
                 "Buff Only": tuple(),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=660
+                base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (encore2,),
@@ -785,7 +787,7 @@ def add_brd_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=180),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=200
+                base_cast_time=0, animation_lock=650, application_delay=1650
             ),
         )
     )
@@ -795,7 +797,7 @@ def add_brd_skills(skill_library):
             is_GCD=False,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600)},
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1470
+                base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True,
             aoe_dropoff=0.5,
@@ -812,7 +814,7 @@ def add_brd_skills(skill_library):
                 "1 Encore": DamageSpec(potency=500),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=660
+                base_cast_time=0, animation_lock=650, application_delay=1960
             ),
             has_aoe=True,
             aoe_dropoff=0.5,

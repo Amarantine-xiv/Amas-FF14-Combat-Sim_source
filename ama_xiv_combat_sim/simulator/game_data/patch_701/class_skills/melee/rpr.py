@@ -482,7 +482,7 @@ def add_rpr_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=530),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=670
+                base_cast_time=0, animation_lock=650, application_delay=760
             ),
             has_aoe=True,
             aoe_dropoff=0.5,
@@ -500,7 +500,7 @@ def add_rpr_skills(skill_library):
                 "Enhanced Gibbet, No Positional": DamageSpec(potency=760),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=490
+                base_cast_time=0, animation_lock=650, application_delay=620
             ),
             follow_up_skills=(enhanced_gallows_follow_up,),
         )
@@ -516,7 +516,7 @@ def add_rpr_skills(skill_library):
                 "Enhanced Gallows, No Positional": DamageSpec(potency=760),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=490
+                base_cast_time=0, animation_lock=650, application_delay=2140
             ),
             follow_up_skills=(enhanced_gibbet_follow_up,),
         )
@@ -527,7 +527,7 @@ def add_rpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=300),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=490
+                base_cast_time=0, animation_lock=650, application_delay=540
             ),
             has_aoe=True,
         )
@@ -547,7 +547,7 @@ def add_rpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=1200),
             timing_spec=TimingSpec(
-                base_cast_time=0, application_delay=620, affected_by_speed_stat=False
+                base_cast_time=0, application_delay=1290, affected_by_speed_stat=False
             ),
             has_aoe=True,
             aoe_dropoff=0.6,

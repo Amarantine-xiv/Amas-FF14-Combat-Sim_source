@@ -47,8 +47,8 @@ def add_sge_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600)},
-            has_aoe = True,
-            aoe_dropoff= 0.5
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -59,8 +59,8 @@ def add_sge_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=1200
             ),
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360)},
-            has_aoe = True,
-            aoe_dropoff= 0.5
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
     )
     skill_library.add_skill(
@@ -71,9 +71,9 @@ def add_sge_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=760
             ),
             damage_spec=DamageSpec(potency=170),
-            has_aoe=True
+            has_aoe=True,
         )
-    )  
+    )
     skill_library.add_skill(
         Skill(
             name="Pneuma",
@@ -83,7 +83,7 @@ def add_sge_skills(skill_library):
             ),
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=360)},
             has_aoe=True,
-            aoe_dropoff= 0.4
+            aoe_dropoff=0.4,
         )
     )
     skill_library.add_skill(
@@ -106,7 +106,10 @@ def add_sge_skills(skill_library):
             name="Eukrasian Dosis III",
             is_GCD=True,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=1500,
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=760,
+                gcd_base_recast_time=1500,
             ),
             follow_up_skills=(
                 FollowUp(
@@ -119,7 +122,7 @@ def add_sge_skills(skill_library):
             ),
         )
     )
-    #Assume it stacks with e. dosis
+    # Assume it stacks with e. dosis
     e_dysk = Skill(
         name="Eukrasian Dot (dot)",
         damage_spec=DamageSpec(potency=40, damage_class=DamageClass.MAGICAL_DOT),
@@ -129,7 +132,10 @@ def add_sge_skills(skill_library):
             name="Eukrasian Dyskrasia",
             is_GCD=True,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=760, gcd_base_recast_time=1500,
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=1030,
+                gcd_base_recast_time=1500,
             ),
             follow_up_skills=(
                 FollowUp(
@@ -140,7 +146,7 @@ def add_sge_skills(skill_library):
                     snapshot_debuffs_with_parent=True,
                 ),
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -148,14 +154,14 @@ def add_sge_skills(skill_library):
             name="Psyche",
             is_GCD=False,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=100, application_delay=670
+                base_cast_time=0, animation_lock=100, application_delay=1100
             ),
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600)},
             has_aoe=True,
-            aoe_dropoff= 0.5
+            aoe_dropoff=0.5,
         )
     )
-        
+
     skill_library.add_skill(
         Skill(
             name="Swiftcast",

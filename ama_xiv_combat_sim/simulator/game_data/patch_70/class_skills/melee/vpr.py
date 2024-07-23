@@ -117,7 +117,7 @@ def add_vpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1160
             ),
         )
     )
@@ -136,7 +136,7 @@ def add_vpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=260),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=890
             ),
             follow_up_skills=(hunters_instinct_follow_up,),
         )
@@ -157,7 +157,7 @@ def add_vpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=140),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1290
             ),
             follow_up_skills=(noxious_gnash_follow_up,),
         )
@@ -168,7 +168,7 @@ def add_vpr_skills(skill_library):
             name="Writhing Snap",
             is_GCD=True,
             damage_spec=DamageSpec(potency=200),
-            timing_spec=instant_timing_spec,
+            timing_spec=TimingSpec(base_cast_time=0, animation_lock=650, application_delay=490),
         )
     )
     swift_scaled_follow_up = FollowUp(
@@ -190,14 +190,22 @@ def add_vpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=260),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             follow_up_skills=(swift_scaled_follow_up,),
         )
     )
 
     skill_library.add_skill(
-        Skill(name="Steel Maw", is_GCD=True, damage_spec=DamageSpec(potency=100), has_aoe=True)
+        Skill(
+            name="Steel Maw",
+            is_GCD=True,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1020
+            ),
+            damage_spec=DamageSpec(potency=100),
+            has_aoe=True,
+        )
     )
     hindstung_venom_follow_up = get_venom_follow_up(
         "Hindstung Venom",
@@ -230,7 +238,7 @@ def add_vpr_skills(skill_library):
                 ),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=620 #application delay is a bit off due to venom timing
             ),
             follow_up_skills=(hindstung_venom_follow_up,),
         )
@@ -267,9 +275,9 @@ def add_vpr_skills(skill_library):
                 ),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=620 #application delay is a bit off due to venom timing
             ),
-            follow_up_skills=(hindsbane_venom_follow_up,),
+            follow_up_skills=(hindsbane_venom_follow_up,), #application delay is a bit off due to venom timing
         )
     )
 
@@ -304,7 +312,7 @@ def add_vpr_skills(skill_library):
                 ),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=620 #application delay is a bit off due to venom timing
             ),
             follow_up_skills=(flanksbane_venom_follow_up,),
         )
@@ -364,7 +372,7 @@ def add_vpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             follow_up_skills=(hunters_instinct_follow_up,),
             has_aoe=True
@@ -376,7 +384,7 @@ def add_vpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=120),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1380
             ),
             follow_up_skills=(swift_scaled_follow_up,),
             has_aoe=True
@@ -404,7 +412,7 @@ def add_vpr_skills(skill_library):
                 "Grimhunter's Venom": DamageSpec(potency=160),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=620 #application delay is a bit off due to venom timing
             ),
             follow_up_skills=(grimskins_venom_follow_up,),
             has_aoe=True
@@ -431,7 +439,7 @@ def add_vpr_skills(skill_library):
                 "Grimskin's Venom": DamageSpec(potency=160),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=620 #application delay is a bit off due to venom timing
             ),
             follow_up_skills=(grimhunters_venom_follow_up,),
             has_aoe=True
@@ -443,7 +451,7 @@ def add_vpr_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1700
             ),
         )
     )
@@ -453,7 +461,7 @@ def add_vpr_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=100),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True
         )
@@ -466,7 +474,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=580,
                 gcd_base_recast_time=3000,
             ),
             follow_up_skills=(noxious_gnash_follow_up,),
@@ -488,7 +496,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=620, #application delay is a bit off due to venom timing
                 gcd_base_recast_time=3000,
             ),
             follow_up_skills=(hunters_instinct_follow_up, hunters_venom_follow_up),
@@ -510,7 +518,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=620, #application delay is a bit off due to venom timing
                 gcd_base_recast_time=3000,
             ),
             follow_up_skills=(swift_scaled_follow_up, swiftskins_venom_follow_up),
@@ -522,7 +530,7 @@ def add_vpr_skills(skill_library):
             is_GCD=True,
             damage_spec=DamageSpec(potency=200),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=760
             ),
             follow_up_skills=(noxious_gnash_follow_up,),
             has_aoe=True
@@ -541,7 +549,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=490,
                 gcd_base_recast_time=3000,
             ),
             follow_up_skills=(hunters_instinct_follow_up, fellhunters_venom_follow_up),
@@ -559,9 +567,9 @@ def add_vpr_skills(skill_library):
             combo_spec=(ComboSpec(combo_group=3),),
             damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=790
             ),
-            follow_up_skills=(swift_scaled_follow_up, fellskins_venom_follow_up),
+            follow_up_skills=(swift_scaled_follow_up, fellskins_venom_follow_up), #application delay is a bit off due to venom timing
             has_aoe=True
         )
     )
@@ -593,7 +601,7 @@ def add_vpr_skills(skill_library):
                 "Swiftskin's Venom": DamageSpec(potency=150),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=670
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (hunters_venom_follow_up,),
@@ -611,7 +619,7 @@ def add_vpr_skills(skill_library):
                 "Fellskin's Venom": DamageSpec(potency=80),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=670
             ),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (fellskins_venom_follow_up,),
@@ -643,20 +651,28 @@ def add_vpr_skills(skill_library):
     poised_for_twinfang_follow_up = get_venom_follow_up(
         "Poised for Twinfang", ("Uncoiled Twinfang",), 60 * 1000
     )
+    uncoiled_fury_follow_up = FollowUp(
+        Skill(
+            name="Uncoiled Fury", damage_spec=DamageSpec(potency=600), aoe_dropoff=0.5
+        ),
+        delay_after_parent_application=800,
+        primary_target_only=False,
+    )
     skill_library.add_skill(
         Skill(
             name="Uncoiled Fury",
             is_GCD=True,
-            damage_spec=DamageSpec(potency=600),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=0,
                 gcd_base_recast_time=3500,
             ),
-            follow_up_skills=(poised_for_twinfang_follow_up,),
+            follow_up_skills=(
+                uncoiled_fury_follow_up,
+                poised_for_twinfang_follow_up,
+            ),
             has_aoe=True,
-            aoe_dropoff=0.5
         )
     )
     skill_library.add_skill(
@@ -687,7 +703,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=1700,
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
@@ -706,7 +722,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=1470,
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
@@ -727,7 +743,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=1470,
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
@@ -746,7 +762,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=1470,
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
@@ -767,7 +783,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=620, #application delay is a bit off due to venom timing
             ),
             follow_up_skills=(poised_for_twinblood_follow_up,),
             has_aoe=True,
@@ -783,7 +799,7 @@ def add_vpr_skills(skill_library):
                 "Poised for Twinblood": DamageSpec(potency=150),
             },
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=980
             ),
             has_aoe=True,
             aoe_dropoff=0.5
@@ -797,7 +813,7 @@ def add_vpr_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,
+                application_delay=2330,
                 gcd_base_recast_time=3000,
             ),
             has_aoe=True,
@@ -811,7 +827,7 @@ def add_vpr_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1290
             ),
             has_aoe=True,
             aoe_dropoff=0.6
@@ -823,7 +839,7 @@ def add_vpr_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             has_aoe=True,
             aoe_dropoff=0.6
@@ -835,7 +851,7 @@ def add_vpr_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1210
             ),
             has_aoe=True,
             aoe_dropoff=0.6
@@ -847,7 +863,7 @@ def add_vpr_skills(skill_library):
             is_GCD=False,
             damage_spec=DamageSpec(potency=250),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
+                base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             has_aoe=True,
             aoe_dropoff=0.6

@@ -125,6 +125,143 @@ class TestRotationBuilder(TestClass):
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
+    def test_multi_target_downtime_windows(self):
+        # intentionally have really long delay
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job",
+            version="test",
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=True,
+            fight_start_time=0,
+            downtime_windows=({"Boss1": ((8,14.7),),
+                               "Boss2": ((18.1, 100),)}),
+            ignore_trailing_dots=True
+        )
+        rb.add(0, "test_instant_gcd", targets="Boss1")
+        rb.add(3, "test_magical_dot_gcd", targets="Boss1")
+        rb.add(9, "test_instant_gcd", targets="Boss2")
+        rb.add(12, "test_magical_dot_gcd", targets="Boss2")
+        rb.add(15, "test_instant_gcd", targets="Boss1")
+        rb.add(18, "test_instant_gcd", targets="Boss1")
+        rb.add(21, "test_instant_gcd", targets="Boss1")
+        
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, 500),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(5000, 5500),
+                self.__skill_library.get_skill("test_magical_dot_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(5000, 5500),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),            
+            (
+                SnapshotAndApplicationEvents.EventTimes(5000, 17500),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(5500, 6000),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(9000, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss2',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(14000, 14500),
+                self.__skill_library.get_skill("test_magical_dot_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss2',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(14000, 14500),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss2',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(14000, 17500),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss2',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(14700, 15200),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss2',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(15000, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(18000, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(21000, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ('Boss1',)
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [result[i][1:6] for i in range(0, len(result))]
+
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
     def test_bonus_percent(self):
         stats = Stats(
             wd=126,
