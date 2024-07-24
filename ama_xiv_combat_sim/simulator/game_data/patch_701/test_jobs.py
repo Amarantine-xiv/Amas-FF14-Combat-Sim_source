@@ -2018,7 +2018,7 @@ class TestJobs701(TestClass):
         for e in skill_seq:
             rb.add_next(e)
 
-        expected_damage = 583590
+        expected_damage = 583522
         expected_total_time = 29380
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
