@@ -498,22 +498,37 @@ def add_vpr_skills(skill_library):
     hunters_venom_follow_up = get_venom_follow_up(
         "Hunter's Venom", ("Twinfang Bite",), 30 * 1000
     )
+    hunters_coil_follow_up = FollowUp(
+        skill=Skill(name="Hunter's Coil", damage_spec=DamageSpec(potency=550)),
+        delay_after_parent_application=980,
+    )
+    hunters_coil_no_pos_follow_up = FollowUp(
+        skill=Skill(name="Hunter's Coil", damage_spec=DamageSpec(potency=500)),
+        delay_after_parent_application=980,
+    )
     skill_library.add_skill(
         Skill(
             name="Hunter's Coil",
             combo_spec=(ComboSpec(combo_group=0),),
             is_GCD=True,
-            damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=550),
-                "No Positional": DamageSpec(potency=500),
-            },
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
-                application_delay=620,  # application delay is a bit off due to venom timing
+                application_delay=0,
                 gcd_base_recast_time=3000,
             ),
-            follow_up_skills=(hunters_instinct_follow_up, hunters_venom_follow_up),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    hunters_coil_follow_up,
+                    hunters_instinct_follow_up,
+                    hunters_venom_follow_up,
+                ),
+                "No Positional": (
+                    hunters_coil_no_pos_follow_up,
+                    hunters_instinct_follow_up,
+                    hunters_venom_follow_up,
+                ),
+            },
         )
     )
 
