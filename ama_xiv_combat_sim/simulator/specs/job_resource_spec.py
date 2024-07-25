@@ -1,13 +1,17 @@
 import math
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True)
 class JobResourceSpec:
-  name: str = ""
-  change: int= 0
-  duration: int = math.inf
+    name: str = ""
+    change: int = 0
+    duration: int = math.inf
 
-  # Does not refresh the charges on their own. This is for keeping tracking of
-  # expirations of an entire resource at once (like enochian). See
-  # JobResourceSettings.expiry_from_last_gain
-  refreshes_duration_of_last_gained: bool = False
+    # Does not refresh the charges on their own. This is for keeping tracking of
+    # expirations of an entire resource at once (like enochian). See
+    # JobResourceSettings.expiry_from_last_gain
+    refreshes_duration_of_last_gained: bool = False
+    
+    # If this is set, do not set any other field. This is a special flag, sort of.
+    clear_all_resources_only: bool = False

@@ -536,6 +536,24 @@ class TestComputeDamageUtils(TestClass):
     return test_passed, err_msg
 
   @TestClass.is_a_test
+  def test_weakness_base_damage(self):
+    test_passed = True
+    err_msg = ""
+
+    skill = self.__skill_library.get_skill('test_gcd', self.__stats.job_class)
+    skill_modifier = SkillModifier()
+    actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
+                                                            skill_modifier,
+                                                            self.__stats,
+                                                            (StatusEffects(main_stat_mult=0.75), StatusEffects()))
+    expected_base_damage = 13010.0
+
+    if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
+      test_passed = False
+      err_msg = "Base damage is not close. Expected: {}. Actual: {}.".format(expected_base_damage, actual_base_damage)
+    return test_passed, err_msg
+
+  @TestClass.is_a_test
   def test_physical_dot_tick_damage(self):
     test_passed = True
     err_msg = ""

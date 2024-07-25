@@ -112,6 +112,8 @@ class StatusEffectTracker:
         debuff_spec = skill.get_debuff_spec(skill_modifier)
 
         if buff_spec is not None:
+            if buff_spec.clear_all_status_effects:
+                self.buffs = {}
             self.__add_to_status_effects(self.buffs, t, skill.name, buff_spec)
             for expired_effect_name in buff_spec.expires_status_effects:
                 self.__expire_named_effect(expired_effect_name, t)
@@ -168,6 +170,7 @@ class StatusEffectTracker:
         dh_rate_add = 0.0
         damage_mult = 1.0
         main_stat_add = 0.0
+        main_stat_mult = 1.0
         auto_attack_delay_mult = 1.0
         haste_time_mult = 1.0
         flat_cast_time_reduction = 0
@@ -195,6 +198,7 @@ class StatusEffectTracker:
             crit_rate_add += spec.crit_rate_add
             dh_rate_add += spec.dh_rate_add
             damage_mult *= spec.damage_mult
+            main_stat_mult *= spec.main_stat_mult
             main_stat_add += spec.main_stat_add
             auto_attack_delay_mult *= 1 - spec.auto_attack_delay_reduction
             haste_time_mult *= 1 - spec.haste_time_reduction
@@ -217,8 +221,9 @@ class StatusEffectTracker:
         status_effects = StatusEffects(
             crit_rate_add=crit_rate_add,
             dh_rate_add=dh_rate_add,
-            damage_mult=damage_mult,
+            damage_mult=damage_mult,            
             main_stat_add=main_stat_add,
+            main_stat_mult=main_stat_mult,
             auto_attack_delay_mult=auto_attack_delay_mult,
             haste_time_mult=haste_time_mult,
             flat_cast_time_reduction=flat_cast_time_reduction,

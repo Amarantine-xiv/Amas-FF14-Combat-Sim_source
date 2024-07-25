@@ -1,17 +1,33 @@
+import math
+
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 
 
 class JobResourceTracker:
+        
     def __init__(self, resource_names_and_configs):
         self.__resources = {}  # key: resource name. value: list of (time, change)
         self.__resource_conigs = {}
+        
         for resource_name, resource_config in resource_names_and_configs.items():
             self.__resources[resource_name] = []
             self.__resource_conigs[resource_name] = resource_config
 
-    def add_resource(self, curr_t, skill, skill_modifier):
+    def __clear_resources(self, curr_t):        
+        for resource_name in self.__resources:
+            resource_spec_use = JobResourceSpec(name=resource_name, change=-math.inf)
+            self.__resources[resource_name].append(
+                    (curr_t, curr_t + resource_spec_use.duration, resource_spec_use)
+                )
+
+    def add_resource(self, curr_t, skill, skill_modifier):        
         for resource_spec in skill.get_job_resource_spec(skill_modifier):
+            if resource_spec.clear_all_resources_only:
+                self.__clear_resources(curr_t)
+                continue
+            
             name = resource_spec.name
             try:
                 self.__resources[name].append(

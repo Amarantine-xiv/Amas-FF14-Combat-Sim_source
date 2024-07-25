@@ -115,7 +115,9 @@ def add_blm_skills(skill_library):
                 if is_fire_spell
                 else ice_potency_modifiers[elem_str]
             )
-            res[elem_str] = DamageSpec(potency=int(potency_modifier * base_potency))
+            res[elem_str] = DamageSpec(potency=int(base_potency),
+                                       single_damage_mult= potency_modifier)
+            # res[elem_str] = DamageSpec(potency=int(potency_modifier * base_potency))
         return res
 
     def get_enochian_timing_spec_cross(

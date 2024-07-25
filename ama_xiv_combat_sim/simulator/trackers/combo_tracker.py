@@ -27,10 +27,14 @@ class ComboTracker:
         self.last_combo_skill_used[combo_group_to_be_broken] = (-math.inf, None)
 
   def compile_and_update_combo(self, curr_t, skill, skill_modifier):
-    combo_specs = skill.get_combo_spec(skill_modifier)
+    combo_specs = skill.get_combo_spec(skill_modifier)    
 
     combo_succeeded = True
     for combo_spec in combo_specs:
+      if combo_spec.break_all_combos_only:
+        self.last_combo_skill_used = {}
+        continue
+      
       if combo_spec.combo_group not in self.last_combo_skill_used.keys():
         self.last_combo_skill_used[combo_spec.combo_group] = (-math.inf, None)
 
