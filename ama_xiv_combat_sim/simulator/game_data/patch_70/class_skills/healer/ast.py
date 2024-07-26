@@ -348,60 +348,45 @@ def add_ast_skills(skill_library):
     skill_library.add_skill(
         Skill(name="Umbral Draw", is_GCD=False, timing_spec=instant_timing_spec)
     )
-    skill_library.add_skill(
-        Skill(
-            name="the Arrow",
-            is_GCD=False,
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
-            ),
+
+    for name in [
+        "the Arrow",
+        "The Arrow",
+        "the Ewer",
+        "The Ewer",
+        "the Spire",
+        "The Spire",
+        "the Bole",
+        "The Bole",
+    ]:
+        skill_library.add_skill(
+            Skill(
+                name=name,
+                is_GCD=False,
+                timing_spec=TimingSpec(
+                    base_cast_time=0, animation_lock=650, application_delay=620
+                ),
+            )
         )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Balance",
-            is_GCD=False,
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
-            ),
+    for name in ["the Spear", "The Spear", "the Balance", "The Balance"]:
+        skill_library.add_skill(
+            Skill(
+                name=name,
+                is_GCD=False,
+                timing_spec=TimingSpec(
+                    base_cast_time=0, animation_lock=650, application_delay=620
+                ),
+                buff_spec={
+                    SimConsts.DEFAULT_CONDITION: None,
+                    "Big": StatusEffectSpec(
+                        duration=15 * 1000, damage_mult=1.06, is_party_effect=True
+                    ),
+                    "Small": StatusEffectSpec(
+                        duration=15 * 1000, damage_mult=1.03, is_party_effect=True
+                    ),
+                },
+            )
         )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Ewer",
-            is_GCD=False,
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
-            ),
-        )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Spire",
-            is_GCD=False,
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
-            ),
-        )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Spear",
-            is_GCD=False,
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
-            ),
-        )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Bole",
-            is_GCD=False,
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
-            ),
-        )
-    )
     skill_library.add_skill(
         Skill(
             name="Minor Arcana",

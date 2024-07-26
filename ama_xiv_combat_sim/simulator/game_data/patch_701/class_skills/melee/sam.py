@@ -94,7 +94,7 @@ def add_sam_skills(skill_library):
     )
 
     enhanced_enpi_buff = Skill(
-        name="Enhanced_Enpi",
+        name="Enhanced Enpi",
         buff_spec=StatusEffectSpec(
             add_to_skill_modifier_condition=True,
             num_uses=1,
@@ -112,7 +112,7 @@ def add_sam_skills(skill_library):
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
-                "Enhanced_Enpi": DamageSpec(potency=260),
+                "Enhanced Enpi": DamageSpec(potency=260),
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=710

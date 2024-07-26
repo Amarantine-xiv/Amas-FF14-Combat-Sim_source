@@ -124,7 +124,7 @@ def add_ast_skills(skill_library):
                 base_cast_time=1500, animation_lock=100, application_delay=1160
             ),
             damage_spec=DamageSpec(potency=130),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -136,7 +136,7 @@ def add_ast_skills(skill_library):
             ),
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=250)},
             has_aoe=True,
-            aoe_dropoff= 0.4
+            aoe_dropoff=0.4,
         )
     )
     skill_library.add_skill(
@@ -147,7 +147,7 @@ def add_ast_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             damage_spec=DamageSpec(potency=250),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -304,7 +304,7 @@ def add_ast_skills(skill_library):
                 skill_allowlist=("Stellar Explosion (pet)",),
             ),
             follow_up_skills=(stellar_detonation_follow_up2,),
-            has_aoe=True
+            has_aoe=True,
         )
     )
 
@@ -323,7 +323,7 @@ def add_ast_skills(skill_library):
                 skill_allowlist=("Stellar Explosion (pet)", "Giant Dominance"),
             ),
             follow_up_skills=(giant_dom_follow_up, stellar_detonation_follow_up),
-            has_aoe=True
+            has_aoe=True,
         )
     )
 
@@ -334,7 +334,7 @@ def add_ast_skills(skill_library):
             status_effect_denylist=("Dragon Sight",),
             timing_spec=TimingSpec(base_cast_time=0, application_delay=0),
             follow_up_skills=(stellar_detonation_instant,),
-            has_aoe=True
+            has_aoe=True,
         )
     )
     skill_library.add_skill(
@@ -347,7 +347,7 @@ def add_ast_skills(skill_library):
                 giant_dom_follow_up,
                 stellar_detonation_follow_up,
             ),
-            has_aoe=True
+            has_aoe=True,
         )
     )
 
@@ -383,55 +383,43 @@ def add_ast_skills(skill_library):
         ),
     )
 
-    skill_library.add_skill(
-        Skill(
-            name="the Arrow",
-            is_GCD=False,
-            job_resource_spec=(JobResourceSpec(name="Moon", change=+1),),
-            timing_spec=instant_timing_spec,
+    for name, sign in [
+        ("the Arrow", "Moon"),
+        ("The Arrow", "Moon"),
+        ("the Ewer", "Moon"),
+        ("The Ewer", "Moon"),
+        ("the Balance", "Asterisk"),
+        ("The Balance", "Asterisk"),
+        ("the Bole", "Asterisk"),
+        ("The Bole", "Asterisk"),
+        ("the Spire", "Circle"),
+        ("The Spire", "Circle"),
+        ("the Spear", "Circle"),
+        ("The Spear", "Circle"),
+    ]:
+        skill_library.add_skill(
+            Skill(
+                name=name,
+                is_GCD=False,
+                job_resource_spec={
+                    SimConsts.DEFAULT_CONDITION: (
+                        JobResourceSpec(name=sign, change=+1),
+                    ),
+                    "Big": tuple(),
+                    "Small": tuple(),
+                },
+                timing_spec=instant_timing_spec,
+                buff_spec={
+                    SimConsts.DEFAULT_CONDITION: None,
+                    "Big": StatusEffectSpec(
+                        duration=15 * 1000, damage_mult=1.06, is_party_effect=True
+                    ),
+                    "Small": StatusEffectSpec(
+                        duration=15 * 1000, damage_mult=1.03, is_party_effect=True
+                    ),
+                },
+            )
         )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Balance",
-            is_GCD=False,
-            job_resource_spec=(JobResourceSpec(name="Asterisk", change=+1),),
-            timing_spec=instant_timing_spec,
-        )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Ewer",
-            is_GCD=False,
-            job_resource_spec=(JobResourceSpec(name="Moon", change=+1),),
-            timing_spec=instant_timing_spec,
-        )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Spire",
-            is_GCD=False,
-            job_resource_spec=(JobResourceSpec(name="Circle", change=+1),),
-            timing_spec=instant_timing_spec,
-        )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Spear",
-            is_GCD=False,
-            job_resource_spec=(JobResourceSpec(name="Circle", change=+1),),
-            timing_spec=instant_timing_spec,
-        )
-    )
-    skill_library.add_skill(
-        Skill(
-            name="the Bole",
-            is_GCD=False,
-            job_resource_spec=(JobResourceSpec(name="Asterisk", change=+1),),
-            timing_spec=instant_timing_spec,
-        )
-    )
-
     skill_library.add_skill(
         Skill(name="Minor Arcana", is_GCD=False, timing_spec=instant_timing_spec)
     )

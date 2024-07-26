@@ -212,6 +212,8 @@ def add_smn_skills(skill_library):
             ),
         )
     )
+    
+    # Recast really isn't affected by sps for some reason. You can check this in-game.
     skill_library.add_skill(
         Skill(
             name="Emerald Rite",
@@ -222,6 +224,8 @@ def add_smn_skills(skill_library):
                 gcd_base_recast_time=1500,
                 animation_lock=base_animation_lock,
                 application_delay=620,
+                affected_by_speed_stat=False,
+                affected_by_haste_buffs=False
             ),
         )
     )
@@ -327,6 +331,8 @@ def add_smn_skills(skill_library):
             has_aoe=True,
         )
     )
+    
+    # Recast really isn't affected by sps for some reason. You can check this in-game.
     skill_library.add_skill(
         Skill(
             name="Emerald Catastrophe",
@@ -337,6 +343,8 @@ def add_smn_skills(skill_library):
                 gcd_base_recast_time=1500,
                 animation_lock=base_animation_lock,
                 application_delay=535,
+                affected_by_speed_stat=False,
+                affected_by_haste_buffs=False
             ),
             has_aoe=True,
         )

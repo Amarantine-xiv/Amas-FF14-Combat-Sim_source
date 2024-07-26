@@ -1719,7 +1719,7 @@ class TestJobs70(TestClass):
         rb.add_next("Enkindle Solar Bahamut")
 
         expected_damage = 703667
-        expected_total_time = 47040
+        expected_total_time = 47080
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test

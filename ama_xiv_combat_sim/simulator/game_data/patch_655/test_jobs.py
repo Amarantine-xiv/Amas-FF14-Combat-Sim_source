@@ -1750,7 +1750,7 @@ class TestJobs655(TestClass):
         rb.add_next("Summon Phoenix")  # idk just because, to test the subsequent autos
 
         expected_damage = 529126.8
-        expected_total_time = 44440.0
+        expected_total_time = 44480.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
