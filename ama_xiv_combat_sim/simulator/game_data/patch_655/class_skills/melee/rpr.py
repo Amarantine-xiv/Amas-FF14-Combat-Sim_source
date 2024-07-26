@@ -321,7 +321,9 @@ def add_rpr_skills(skill_library):
             buff_spec=StatusEffectSpec(
                 damage_mult=1.03, duration=int(19.98 * 1000), is_party_effect=True
             ),
-            timing_spec=instant_timing_spec,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=625
+            ),
         )
     )
     skill_library.add_skill(

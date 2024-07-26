@@ -116,7 +116,9 @@ def add_drg_skills(skill_library):
         Skill(
             name="Battle Litany",
             is_GCD=False,
-            timing_spec=TimingSpec(base_cast_time=0, animation_lock=600),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=600, application_delay=625
+            ),
             buff_spec=StatusEffectSpec(
                 crit_rate_add=0.10, duration=20 * 1000, is_party_effect=True
             ),
