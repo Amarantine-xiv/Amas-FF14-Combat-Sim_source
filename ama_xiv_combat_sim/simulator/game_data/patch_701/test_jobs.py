@@ -1823,7 +1823,7 @@ class TestJobs701(TestClass):
         rb.add_next("Verthunder III")
         rb.add_next("Fleche")
 
-        expected_damage = 539105
+        expected_damage = 540403
         expected_total_time = 33710
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 

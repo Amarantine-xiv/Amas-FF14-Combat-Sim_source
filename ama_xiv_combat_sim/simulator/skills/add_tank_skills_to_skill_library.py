@@ -1,7 +1,7 @@
 import ama_xiv_combat_sim.simulator.game_data.patch_655.class_skills.tank as patch655
 import ama_xiv_combat_sim.simulator.game_data.patch_70.class_skills.tank as patch70
 import ama_xiv_combat_sim.simulator.game_data.patch_701.class_skills.tank as patch701
-
+import ama_xiv_combat_sim.simulator.game_data.patch_705.class_skills.tank as patch705
 
 def add_tank_skills_to_skill_library(skill_library, version="6.55"):
     match version:
@@ -11,6 +11,8 @@ def add_tank_skills_to_skill_library(skill_library, version="6.55"):
             patch_use = patch70
         case "7.01":
             patch_use = patch701
+        case "7.05":
+            patch_use = patch705
         case _:
             raise RuntimeError(f"Bad version: {version}")
 

@@ -117,7 +117,7 @@ def add_whm_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=530
             ),
-            debuff_spec=StatusEffectSpec(
+            buff_spec=StatusEffectSpec(
                 duration=15000,
                 haste_time_reduction=0.20,
                 auto_attack_delay_reduction=0.20,

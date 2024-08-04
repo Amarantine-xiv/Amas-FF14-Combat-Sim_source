@@ -102,7 +102,7 @@ def add_whm_skills(skill_library):
             name="Presence of Mind",
             is_GCD=False,
             timing_spec=instant_timing_spec,
-            debuff_spec=StatusEffectSpec(duration=15000, haste_time_reduction=0.20),
+            buff_spec=StatusEffectSpec(duration=15000, haste_time_reduction=0.20),
         )
     )
     skill_library.add_skill(

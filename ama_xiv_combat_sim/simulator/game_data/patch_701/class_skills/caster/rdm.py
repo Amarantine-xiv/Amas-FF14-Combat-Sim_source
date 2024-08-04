@@ -279,7 +279,7 @@ def add_rdm_skills(skill_library):
         Skill(
             name="Contre Sixte",
             is_GCD=False,
-            damage_spec=DamageSpec(potency=380),
+            damage_spec=DamageSpec(potency=400),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1160
             ),

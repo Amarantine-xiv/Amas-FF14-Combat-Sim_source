@@ -1,6 +1,7 @@
 import ama_xiv_combat_sim.simulator.game_data.patch_655.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library655
 import ama_xiv_combat_sim.simulator.game_data.patch_70.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library70
 import ama_xiv_combat_sim.simulator.game_data.patch_701.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library701
+import ama_xiv_combat_sim.simulator.game_data.patch_705.generic_skills.add_generic_skills_to_library as add_generic_skills_to_library705
 
 from ama_xiv_combat_sim.simulator.skills.add_caster_skills_to_skill_library import (
     add_caster_skills_to_skill_library,
@@ -46,6 +47,12 @@ def create_skill_library(version="6.55"):
         case "7.01":
             skill_library = (
                 add_generic_skills_to_library701.add_generic_skills_to_library(
+                    skill_library
+                )
+            )
+        case "7.05":
+            skill_library = (
+                add_generic_skills_to_library705.add_generic_skills_to_library(
                     skill_library
                 )
             )

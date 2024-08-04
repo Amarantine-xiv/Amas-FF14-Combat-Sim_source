@@ -1,5 +1,6 @@
 import ama_xiv_combat_sim.example_rotations.patch_655.melee as patch655
 import ama_xiv_combat_sim.example_rotations.patch_70.melee as patch70
+import ama_xiv_combat_sim.example_rotations.patch_705.melee as patch705
 
 
 def add_melee_rotations_to_rotation_library(skill_library, rotation_library, version="6.55"):
@@ -11,6 +12,9 @@ def add_melee_rotations_to_rotation_library(skill_library, rotation_library, ver
             patch_use.add_vpr_rotations(skill_library, rotation_library)
         case "7.01":
             patch_use = patch70
+            patch_use.add_vpr_rotations(skill_library, rotation_library)
+        case "7.05":
+            patch_use = patch705
             patch_use.add_vpr_rotations(skill_library, rotation_library)
         case _:
             raise RuntimeError("Bad version: {}".format(version))
