@@ -8,7 +8,7 @@ from ama_xiv_combat_sim.simulator.calcs.compute_damage_utils import ComputeDamag
 from ama_xiv_combat_sim.simulator.trackers.damage_tracker import DamageTracker
 
 
-class PerInstanceDamage(namedtuple('PerInstanceDamage', ['application_time', 'snapshot_time', 'skill_name', 'potency', 'skill_modifier_condition', 'status_effects', 'expected_damage', 'standard_deviation', 'event_id', 'target'])):
+class PerInstanceDamage(namedtuple('PerInstanceDamage', ['application_time', 'snapshot_time', 'skill_name', 'potency', 'skill_modifier_condition', 'status_effects', 'expected_damage', 'standard_deviation', 'event_id', 'target', 'damage_class'])):
   pass
 
 class DamageSimulator():
@@ -38,9 +38,10 @@ class DamageSimulator():
       damage_mult = ComputeDamageUtils.compute_damage_mult(status_effects)
 
       damage_spec = skill.get_damage_spec(skill_modifier)
+      damage_class = damage_spec.damage_class      
       trait_damage_mult = self.__stats.processed_stats.trait_damage_mult if damage_spec.trait_damage_mult_override is None else damage_spec.trait_damage_mult_override
 
-      self.__damage_tracker.add_damage(base_damage, crit_rate, crit_bonus, dh_rate, trait_damage_mult, damage_mult, t, damage_spec.potency, skill_modifier, (status_effects[0], status_effects[1]))      
+      self.__damage_tracker.add_damage(base_damage, crit_rate, crit_bonus, dh_rate, trait_damage_mult, damage_mult, t, damage_spec.potency, skill_modifier, (status_effects[0], status_effects[1]), damage_class)
       self.__target[i] = target
       i+=1
       
@@ -114,6 +115,7 @@ class DamageSimulator():
     status_effects = self.__damage_tracker.status_effects
     skill_modifier_condition = self.__damage_tracker.skill_modifier_condition
     skill_names = [x[1].name for x in self.__dmg_instances]
+    damage_classes = [x for x in self.__damage_tracker.damage_classes]
     res = [PerInstanceDamage(t[i],
                              None, #Snapshot time- not known yet. Sus implementation.
                              skill_names[i],
@@ -123,7 +125,9 @@ class DamageSimulator():
                              self.__per_skill_damage_mean[i],
                              self.__per_skill_damage_std[i],
                              self.__event_ids[i],
-                             self.__target[i]) for i in range(0, len(t))
+                             self.__target[i],
+                             damage_classes[i]) for i in range(0, len(t),
+                             )
            ]
     if rb is not None:
       res = self.__add_damage_snapshots(res, rb)

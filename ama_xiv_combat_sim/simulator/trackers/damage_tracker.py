@@ -15,6 +15,7 @@ class DamageTracker:
         self.potency = np.zeros(5000)
         self.skill_modifier_condition = [""] * 5000
         self.status_effects = [""] * 5000
+        self.damage_classes = [""] * 5000
         self.it = 0
         self.isFinalized = False
 
@@ -33,6 +34,7 @@ class DamageTracker:
         potency,
         skill_modifier,
         status_effects,
+        damage_class
     ):
         if self.isFinalized:
             raise RuntimeError(
@@ -48,6 +50,7 @@ class DamageTracker:
         self.potency[self.it] = potency
         self.skill_modifier_condition[self.it] = skill_modifier.with_condition
         self.status_effects[self.it] = status_effects
+        self.damage_classes[self.it]  = damage_class
         self.it += 1
 
     def finalize(self):
@@ -61,6 +64,7 @@ class DamageTracker:
         self.potency = self.potency[0 : self.it]
         self.skill_modifier_condition = self.skill_modifier_condition[0 : self.it]
         self.status_effects = self.status_effects[0 : self.it]
+        self.damage_classes = self.damage_classes[0 : self.it]
         self.isFinalized = True
 
     # For each damage instance, returns the damage distrubtion of that instance
