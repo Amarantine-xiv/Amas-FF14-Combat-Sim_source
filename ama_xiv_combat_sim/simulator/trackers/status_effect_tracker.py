@@ -174,6 +174,7 @@ class StatusEffectTracker:
         auto_attack_delay_mult = 1.0
         haste_time_mult = 1.0
         flat_cast_time_reduction = 0
+        flat_gcd_recast_time_reduction = 0
         guaranteed_crit = ForcedCritOrDH.DEFAULT
         guaranteed_dh = ForcedCritOrDH.DEFAULT
         skill_modifier_conditions = []
@@ -203,6 +204,7 @@ class StatusEffectTracker:
             auto_attack_delay_mult *= 1 - spec.auto_attack_delay_reduction
             haste_time_mult *= 1 - spec.haste_time_reduction
             flat_cast_time_reduction += spec.flat_cast_time_reduction
+            flat_gcd_recast_time_reduction += spec.flat_gcd_recast_time_reduction
             if spec.guaranteed_crit is not ForcedCritOrDH.DEFAULT:
                 assert (
                     guaranteed_crit is ForcedCritOrDH.DEFAULT
@@ -227,6 +229,7 @@ class StatusEffectTracker:
             auto_attack_delay_mult=auto_attack_delay_mult,
             haste_time_mult=haste_time_mult,
             flat_cast_time_reduction=flat_cast_time_reduction,
+            flat_gcd_recast_time_reduction=flat_gcd_recast_time_reduction,
             guaranteed_crit=guaranteed_crit,
             guaranteed_dh=guaranteed_dh,
             status_effects=tuple(valid_and_prioritized_status_effects),

@@ -586,13 +586,13 @@ class RotationBuilder:
                     if timing_spec.affected_by_haste_buffs
                     else recast_time
                 )
+                recast_time -= curr_buffs.flat_gcd_recast_time_reduction
                 # default (2500 ms, at the time of writing) gcd recasts are hard
                 # stopped by a particular recast time.
                 if timing_spec.gcd_base_recast_time == GameConsts.GCD_RECAST_TIME:
                     recast_time = max(recast_time, GameConsts.MIN_GCD_RECAST_TIME)
-
+                
                 next_gcd_time = curr_t + recast_time
-
                 cast_time = self.__get_cast_time(
                     timing_spec, skill_modifier, curr_buffs
                 )

@@ -21,6 +21,7 @@ class StatusEffectSpec:
     # cast/gcd time is ~= cast_time*(1-haste_time_reduction)
     haste_time_reduction: float = 0
     flat_cast_time_reduction: float = 0
+    flat_gcd_recast_time_reduction: float = 0
     # If this buff is re-applied, indicates whether the duration should be extended
     extends_existing_duration: bool = True
     # A tuple of status effects (strings) that this skill will cause to expire on use.

@@ -13,6 +13,7 @@ class StatusEffects:
     main_stat_mult: float = 1
     haste_time_mult: float = 1
     flat_cast_time_reduction: float = 0
+    flat_gcd_recast_time_reduction: float = 0
     guaranteed_crit: ForcedCritOrDH = ForcedCritOrDH.DEFAULT
     guaranteed_dh: ForcedCritOrDH = ForcedCritOrDH.DEFAULT
     status_effects: tuple = tuple()
@@ -28,6 +29,7 @@ class StatusEffects:
             and self.auto_attack_delay_mult == other.auto_attack_delay_mult
             and self.haste_time_mult == other.haste_time_mult
             and self.flat_cast_time_reduction == other.flat_cast_time_reduction
+            and self.flat_gcd_recast_time_reduction == other.flat_gcd_recast_time_reduction
             and self.guaranteed_crit == other.guaranteed_crit
             and self.guaranteed_dh == other.guaranteed_dh
         )

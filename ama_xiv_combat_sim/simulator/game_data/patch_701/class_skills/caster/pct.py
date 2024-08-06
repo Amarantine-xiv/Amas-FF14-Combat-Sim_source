@@ -32,6 +32,7 @@ def add_pct_skills(skill_library):
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=30 * 1000,
+                flat_gcd_recast_time_reduction=3500,
                 skill_allowlist=("Rainbow Drip",),
             ),
         ),
@@ -485,7 +486,7 @@ def add_pct_skills(skill_library):
                     base_cast_time=0,
                     animation_lock=base_animation_lock,
                     application_delay=1240,
-                    gcd_base_recast_time=int(0.4 * 6000),  # 60% reduction?
+                    gcd_base_recast_time=6000
                 ),
             },
             has_aoe=True,
