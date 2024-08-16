@@ -56,7 +56,7 @@ class RotationBuilder:
         ), "Default target should be a string- did you accidentally make it a tuple?"
 
         self.__downtime_windows = downtime_windows
-        self.__default_target = default_target        
+        self.__default_target = default_target
         self.__all_targets = set()
 
     @staticmethod
@@ -76,7 +76,7 @@ class RotationBuilder:
         if isinstance(self.__downtime_windows, tuple):
             downtime_windows = RotationBuilder.__do_process_downtime_windows(
                 self.__downtime_windows
-            )            
+            )
             for k in self.__all_targets:
                 res[k] = downtime_windows
         else:
@@ -103,7 +103,7 @@ class RotationBuilder:
         assert isinstance(
             targets, str
         ), "'targets' must be specified as a comma-separate string. Perhaps you made it a tuple? Got: {targets}"
-        all_targets = tuple(x.strip() for x in targets.split(','))
+        all_targets = tuple(x.strip() for x in targets.split(","))
         for target in all_targets:
             self.__all_targets.add(target)
         return all_targets
@@ -392,10 +392,21 @@ class RotationBuilder:
         snapshot_time = t + max(
             0, cast_time - GameConsts.DAMAGE_SNAPSHOT_TIME_BEFORE_CAST_FINISHES
         )
+
         application_time = t + cast_time
 
         if not skill_modifier.ignore_application_delay:
-            application_time += skill.get_timing_spec(skill_modifier).application_delay
+            if cast_time > 1e-6:
+                application_delay = max(
+                    0,
+                    -GameConsts.DAMAGE_SNAPSHOT_TIME_BEFORE_CAST_FINISHES
+                    + skill.get_timing_spec(skill_modifier).application_delay,
+                )
+            else:
+                application_delay = skill.get_timing_spec(
+                    skill_modifier
+                ).application_delay
+            application_time += application_delay
 
         priority = Utils.transform_time_to_prio(snapshot_time)
         self._q_snapshot_and_applications.add(
@@ -591,7 +602,7 @@ class RotationBuilder:
                 # stopped by a particular recast time.
                 if timing_spec.gcd_base_recast_time == GameConsts.GCD_RECAST_TIME:
                     recast_time = max(recast_time, GameConsts.MIN_GCD_RECAST_TIME)
-                
+
                 next_gcd_time = curr_t + recast_time
                 cast_time = self.__get_cast_time(
                     timing_spec, skill_modifier, curr_buffs
@@ -684,7 +695,7 @@ class RotationBuilder:
                 ):
                     continue
                 else:
-                    all_valid_targets.append(target)        
+                    all_valid_targets.append(target)
                 continue
             if len(all_valid_targets) > 0:
                 res.add(
@@ -706,7 +717,7 @@ class RotationBuilder:
         # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
         # Windows are assumed to be non-overlapping.
         self.__process_downtime_windows()
-        
+
         self._q_snapshot_and_applications = SnapshotAndApplicationEvents()
         self.__q_button_press_timing.clear()
         self.__process_q_sequence()
@@ -932,7 +943,9 @@ class RotationBuilder:
                 * curr_debuffs.auto_attack_delay_mult,
                 2,
             )
-            snapshot_time = self.__get_next_auto_time(snapshot_time, cast_periods, auto_target)
+            snapshot_time = self.__get_next_auto_time(
+                snapshot_time, cast_periods, auto_target
+            )
             application_time = snapshot_time + auto_skill.timing_spec.application_delay
 
     def get_stats(self):

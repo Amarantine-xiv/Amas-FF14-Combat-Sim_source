@@ -19,11 +19,11 @@ def create_test_skill_library():
     skill_library = SkillLibrary(version="test")
 
     # TimingSpecs
-    gcd_2500 = TimingSpec(base_cast_time=2500, animation_lock=5)
-    gcd_1500_lock = TimingSpec(base_cast_time=1500, animation_lock=50)
+    gcd_2500 = TimingSpec(base_cast_time=2500, animation_lock=5, application_delay=500)
+    gcd_1500_lock = TimingSpec(base_cast_time=1500, animation_lock=50, application_delay=500)
     gcd_instant = TimingSpec(base_cast_time=0, animation_lock=5)
     gcd_instant_no_lock = TimingSpec(base_cast_time=0, animation_lock=0)
-    gcd_2500_app_delay = TimingSpec(base_cast_time=2500, application_delay=100)
+    gcd_2500_app_delay = TimingSpec(base_cast_time=2500, application_delay=600)
     ogcd_instant = TimingSpec(base_cast_time=0, animation_lock=0)
     ogcd_instant_animation_lock = TimingSpec(base_cast_time=0, animation_lock=35)
     gcd_1500_const_cast = TimingSpec(
@@ -31,9 +31,10 @@ def create_test_skill_library():
         animation_lock=5,
         affected_by_speed_stat=False,
         affected_by_haste_buffs=False,
+        application_delay=500
     )
     gcd_1500_no_haste = TimingSpec(
-        base_cast_time=1500, animation_lock=5, affected_by_haste_buffs=False
+        base_cast_time=1500, animation_lock=5, affected_by_haste_buffs=False, application_delay=500
     )
     auto_timing = TimingSpec(base_cast_time=0, animation_lock=0, application_delay=500)
 

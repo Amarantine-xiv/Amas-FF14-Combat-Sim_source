@@ -517,13 +517,13 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(35, None),
+                SnapshotAndApplicationEvents.EventTimes(35, 535),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(35 + 2500, None),
+                SnapshotAndApplicationEvents.EventTimes(35 + 2500, 35 + 2500 + 500),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
@@ -1050,7 +1050,7 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(6000, None),
+                SnapshotAndApplicationEvents.EventTimes(6000, 6500),
                 self.__skill_library.get_skill(
                     "test_gcd_1500_lock", self.__stats.job_class
                 ),
@@ -1058,7 +1058,7 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(9000, None),
+                SnapshotAndApplicationEvents.EventTimes(9000, 9500),
                 self.__skill_library.get_skill("test_gcd", self.__stats.job_class),
                 SkillModifier(),
                 [True, True],
@@ -1095,7 +1095,7 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(2440, None),
+                SnapshotAndApplicationEvents.EventTimes(2440, 2940),
                 self.__skill_library.get_skill(
                     "test_gcd_1500_lock", self.__stats.job_class
                 ),
@@ -1103,7 +1103,7 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(4880, None),
+                SnapshotAndApplicationEvents.EventTimes(4880, 5380),
                 self.__skill_library.get_skill("test_gcd", self.__stats.job_class),
                 SkillModifier(),
                 [True, True],

@@ -369,7 +369,7 @@ class TestJobs655(TestClass):
         rb.add_next("Atonement")
         rb.add_next("Atonement")
         expected_damage = 312325.9
-        expected_total_time = 29035.0
+        expected_total_time = 29535.0
 
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
@@ -575,8 +575,8 @@ class TestJobs655(TestClass):
         rb.add_next("Assize")
         rb.add_next("Glare III", num_times=10)
         expected_damage = 301604.8
-        expected_total_time = 29760.0
-
+        expected_total_time = 29480.0
+        
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -692,7 +692,7 @@ class TestJobs655(TestClass):
         rb.add_next("Fall Malefic", num_times=8)
 
         expected_damage = 222414.8
-        expected_total_time = 27480.0
+        expected_total_time = 27980.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -1151,7 +1151,7 @@ class TestJobs655(TestClass):
         rb.add_next("Gibbet")
 
         expected_damage = 464185.7
-        expected_total_time = 24240.0
+        expected_total_time = 24740.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -1608,7 +1608,7 @@ class TestJobs655(TestClass):
         rb.add_next("Thunder III")
 
         expected_damage = 423107.9
-        expected_total_time = 23380.0
+        expected_total_time = 23850.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
@@ -1750,7 +1750,7 @@ class TestJobs655(TestClass):
         rb.add_next("Summon Phoenix")  # idk just because, to test the subsequent autos
 
         expected_damage = 529126.8
-        expected_total_time = 44480.0
+        expected_total_time = 44980.0
         return self.__test_aggregate_rotation(rb, expected_damage, expected_total_time)
 
     @TestClass.is_a_test
