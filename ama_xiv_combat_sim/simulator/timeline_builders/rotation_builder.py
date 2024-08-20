@@ -55,12 +55,12 @@ class RotationBuilder:
             default_target, str
         ), "Default target should be a string- did you accidentally make it a tuple?"
 
-        self.__downtime_windows = downtime_windows
+        self.__downtime_windows = RotationBuilder.__init_downtime_windows(downtime_windows)
         self.__default_target = default_target
         self.__all_targets = set()
 
     @staticmethod
-    def __do_process_downtime_windows(downtime_windows):
+    def __do_init_downtime_windows(downtime_windows):
         downtime_windows = list(downtime_windows)
 
         # convert to ms
@@ -71,21 +71,26 @@ class RotationBuilder:
             downtime_windows[i] = tuple(downtime_window)
         return tuple(downtime_windows)
 
-    def __process_downtime_windows(self):
-        res = {}
-        if isinstance(self.__downtime_windows, tuple):
-            downtime_windows = RotationBuilder.__do_process_downtime_windows(
-                self.__downtime_windows
+    @staticmethod
+    def __init_downtime_windows(downtime_windows):
+        if isinstance(downtime_windows, tuple):
+            downtime_windows = RotationBuilder.__do_init_downtime_windows(
+                downtime_windows
             )
-            for k in self.__all_targets:
-                res[k] = downtime_windows
         else:
-            for target, downtime_windows_use in self.__downtime_windows.items():
-                res[target] = RotationBuilder.__do_process_downtime_windows(
+            for target, downtime_windows_use in downtime_windows.items():
+                downtime_windows[target] = RotationBuilder.__do_init_downtime_windows(
                     downtime_windows_use
                 )
-        self.__downtime_windows = res
+        return downtime_windows
 
+    def __process_downtime_windows(self):        
+        if isinstance(self.__downtime_windows, tuple):            
+            res = {}
+            for k in self.__all_targets:
+                res[k] = self.__downtime_windows
+            self.__downtime_windows = res
+        
     def get_button_press_timing(self):
         res = copy.deepcopy(self.__q_button_press_timing)
         res.sort(key=lambda x: x[0])

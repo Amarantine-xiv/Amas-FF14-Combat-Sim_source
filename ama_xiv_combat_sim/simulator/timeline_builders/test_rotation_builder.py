@@ -56,6 +56,7 @@ class TestRotationBuilder(TestClass):
         rb.add(7, "test_simple_buff_gcd")
         rb.add(11.1, "test_instant_gcd")
         rb.add(15.3, "test_instant_gcd")
+        rb.add(17.3, "test_instant_gcd")
         rb.add(
             18.1, "test_gcd"
         )  # this will snapshot at 20.1s, which is during downtime, so it should ghost
@@ -121,6 +122,203 @@ class TestRotationBuilder(TestClass):
 
         result = rb.get_skill_timing().get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
+
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_downtime_windows_idempotent(self):
+        # intentionally have really long delay
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job",
+            version="test",
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=True,
+            fight_start_time=0,
+            downtime_windows=((1, 10), (15.4, 20.2)),
+        )
+
+        rb.add(0, "test_instant_gcd")
+        rb.add(2, "test_instant_gcd")
+        rb.add(7, "test_simple_buff_gcd")
+        rb.add(11.1, "test_instant_gcd")
+        rb.add(15.3, "test_instant_gcd")
+        rb.add(17.3, "test_instant_gcd")
+        rb.add(
+            18.1, "test_gcd"
+        )  # this will snapshot at 20.1s, which is during downtime, so it should ghost
+        rb.add(23.1, "test_instant_gcd")
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, 500),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(7000, None),
+                self.__skill_library.get_skill("test_simple_buff_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(10000, 10500),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(11100, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(14500, 15000),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(15300, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            # this auto is delayed by casting
+            (
+                SnapshotAndApplicationEvents.EventTimes(20600, 21100),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(23100, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+        
+        # test double call
+        _ = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().get_q()
+        result = [result[i][1:5] for i in range(0, len(result))]
+
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_downtime_windows_with_dot(self):
+        # intentionally have really long delay
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job",
+            version="test",
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=True,
+            fight_start_time=0,
+            downtime_windows= ((387.027, 399.01),)
+            # downtime_windows={'Default Target': ((387.027, 399.01),)}
+        )
+
+        rb.add(383, "test_physical_long_dot_gcd")       
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 385500),
+                self.__skill_library.get_skill("test_physical_long_dot_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 385500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 400500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 403500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 406500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 409500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 412500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(385500, 386000),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(399010.0, 399510.0),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(403510.0, 404010.0),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(408010.0, 408510.0),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [result[i][1:5] for i in range(0, len(result))]        
 
         return self._compare_sequential(result, expected)
 

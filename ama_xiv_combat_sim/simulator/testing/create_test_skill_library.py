@@ -279,6 +279,21 @@ def create_test_skill_library():
         ),
     )
 
+    test_physical_long_dot_gcd = Skill(
+        name="test_physical_long_dot_gcd",
+        is_GCD=True,
+        timing_spec=gcd_2500,
+        follow_up_skills=(
+            FollowUp(
+                skill=test_physical_dot_tick,
+                delay_after_parent_application=0,
+                dot_duration=30 * 1000,
+                snapshot_buffs_with_parent=True,
+                snapshot_debuffs_with_parent=True,
+            ),
+        ),
+    )
+
     test_magical_dot_instant_gcd = Skill(
         name="test_magical_dot_instant_gcd",
         is_GCD=True,
@@ -818,6 +833,7 @@ def create_test_skill_library():
     skill_library.add_skill(test_non_dot_follow_up)
     skill_library.add_skill(test_follow_up)
     skill_library.add_skill(test_magical_dot_gcd)
+    skill_library.add_skill(test_physical_long_dot_gcd)
     skill_library.add_skill(test_physical_dot_gcd)
     skill_library.add_skill(test_ground_dot_gcd)
     skill_library.add_skill(test_magical_dot_tick)
