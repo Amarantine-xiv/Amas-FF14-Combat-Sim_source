@@ -2,6 +2,7 @@ import copy
 import heapq
 import math
 
+from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.stat_fns import StatFns
 from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
@@ -30,6 +31,19 @@ class RotationBuilder:
         enable_autos=False,
         ignore_trailing_dots=False,
         fight_start_time=None,
+        # downtime_windows can either be: 1) a tuple of tuples, containing downtime windows, or
+        # 2) a dict of tuples, keyed by the name of the target for which the downtime window applies to.
+        # Each downtime window is a tuple of the form (start, end, optional damage_class) which is
+        # interpreted as a downtime window of the half-open interval [start, end). All damage of type
+        # damage_class (assumed to be of type DamageClass) will be disabled in this window. If
+        # damage_class is not specified, ALL damage that otherwise could've applied in the given
+        # window will be removed. Example:
+        # downtime_windows={'Default Target': ((5.2, 9.3), (102.1, 120.2, DamageClass.AUTO),)}
+        # to indicate downtimes for the target named "Default Target", where the boss cannot
+        # be damaged in the interval [5.2, 9.3), and the player simply does not auto-attack 
+        # the boss in the interval [102.1, 120.2)- eg, the player had to disengage from the boss,
+        # but the boss was still targetable and still generally takes damage.
+        
         downtime_windows=(),
         default_target=SimConsts.DEFAULT_TARGET,
     ):
@@ -68,6 +82,9 @@ class RotationBuilder:
             downtime_window = list(downtime_window)
             downtime_window[0] *= 1000
             downtime_window[1] *= 1000
+            if len(downtime_window) < 3:
+                downtime_window.append(None)
+
             downtime_windows[i] = tuple(downtime_window)
         return tuple(downtime_windows)
 
@@ -90,11 +107,13 @@ class RotationBuilder:
             for k in self.__all_targets:
                 res[k] = self.__downtime_windows
             self.__downtime_windows = res
-        
+
     def get_button_press_timing(self):
         res = copy.deepcopy(self.__q_button_press_timing)
         res.sort(key=lambda x: x[0])
         return res
+
+    # def add_downtime_window(self, downtime_window, damageType=None):
 
     def set_ignore_trailing_dots(self, ignore_trailing_dots):
         self.__ignore_trailing_dots = ignore_trailing_dots
@@ -665,9 +684,11 @@ class RotationBuilder:
             )
         return res
 
-    def __is_in_a_downtime_range(self, t, target):
+    def __filter_by_downtime_range_and_damage_class(self, t, target, damage_class):
         for r in self.__downtime_windows.get(target, tuple()):
-            if r[0] <= t < r[1]:
+            # None indicates filtering all damage types
+            is_filtered_damage_type = (r[2] is None) or (r[2] == damage_class)
+            if (r[0] <= t < r[1]) and is_filtered_damage_type:
                 return True
         return False
 
@@ -694,9 +715,10 @@ class RotationBuilder:
 
             all_valid_targets = []
             for target in targets:
-                if skill.get_damage_spec(skill_modifier) is not None and (
-                    self.__is_in_a_downtime_range(application_time, target)
-                    or self.__is_in_a_downtime_range(snapshot_time, target)
+                skill_damage_spec = skill.get_damage_spec(skill_modifier)
+                if skill_damage_spec is not None and (
+                    self.__filter_by_downtime_range_and_damage_class(application_time, target, skill_damage_spec.damage_class)
+                    or self.__filter_by_downtime_range_and_damage_class(snapshot_time, target,  skill_damage_spec.damage_class)
                 ):
                     continue
                 else:
@@ -855,7 +877,9 @@ class RotationBuilder:
     # This is only called during a downtime window.
     def forward_to_next_non_downtime_time(self, snapshot_time, auto_target):
         for r in self.__downtime_windows.get(auto_target, tuple()):
-            if r[0] <= snapshot_time < r[1]:
+            if r[0] <= snapshot_time < r[1] and (
+                r[2] is None or r[2] == DamageClass.AUTO
+            ):
                 return r[1]
         return snapshot_time
 
