@@ -373,7 +373,7 @@ def add_pct_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=base_animation_lock,
-                application_delay=620,
+                application_delay=0,
             ),
             buff_spec={
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
