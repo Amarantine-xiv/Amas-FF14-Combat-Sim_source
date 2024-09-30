@@ -33,16 +33,12 @@ class ProcessedStats:
         )
 
     def __str__(self):
-        res = "Crit rate: {}\n".format(self.crit_rate)
-        res += "Crit bonus: {}\n".format(self.crit_bonus)
-        res += "Det bonus: {}\n".format(self.det_bonus)
-        res += "DH Rate: {}\n".format(self.dh_rate)
-        res += "Job mod: {}\n".format(self.job_mod)
-        res += "Trait damage mult: {}\n".format(self.trait_damage_mult)
-        res += "Trait haste time reduction: {}\n".format(
-            self.trait_haste_time_reduction
-        )
-        res += "Trait auto attack delay reduction: {}\n".format(
-            self.trait_auto_attack_delay_reduction
-        )
+        res = f"Crit rate: {self.crit_rate}\n"
+        res += f"Crit bonus: {self.crit_bonus}\n"
+        res += f"Det bonus: {self.det_bonus}\n"
+        res += f"DH Rate: {self.dh_rate}\n"
+        res += f"Job mod: {self.job_mod}\n"
+        res += f"Trait damage mult: {self.trait_damage_mult}\n"
+        res += f"Trait haste time reduction: {self.trait_haste_time_reduction}\n"        
+        res += "Trait auto attack delay reduction: {self.trait_auto_attack_delay_reduction}\n"        
         return res

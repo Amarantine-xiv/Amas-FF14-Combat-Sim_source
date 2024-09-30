@@ -794,7 +794,7 @@ def add_brd_skills(skill_library):
     skill_library.add_skill(
         Skill(
             name="Resonant Arrow",
-            is_GCD=False,
+            is_GCD=True,
             damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600)},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1160
@@ -806,7 +806,7 @@ def add_brd_skills(skill_library):
     skill_library.add_skill(
         Skill(
             name="Radiant Encore",
-            is_GCD=False,
+            is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(potency=900),
                 "3 Encore": DamageSpec(potency=900),

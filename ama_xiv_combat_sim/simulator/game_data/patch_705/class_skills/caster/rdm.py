@@ -615,7 +615,7 @@ def add_rdm_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1420
             ),
-            status_effect_denylist=("Manafication", "Embolden"),
+            status_effect_denylist=("Manafication",),
             has_aoe=True,
             aoe_dropoff=0.6,
         )

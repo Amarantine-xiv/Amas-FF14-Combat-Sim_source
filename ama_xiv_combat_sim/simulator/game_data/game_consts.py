@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from ama_xiv_combat_sim.simulator.utils import Utils
+
 
 @dataclass(frozen=True)
 class GameConsts:
@@ -13,72 +15,127 @@ class GameConsts:
     # level mods from akhmorning
 
     # Key is the version. This is interpreted as stats at max-level for now.
-    __LEVEL_DIVS = {"6.55": 1900, "7.0": 2780, "7.01": 2780, "7.05": 2780, "test": 1900}
-    __LEVEL_MAINS = {"6.55": 390, "7.0": 440, "7.01": 440, "7.05": 440, "test": 390}
-    __LEVEL_SUBS = {"6.55": 400, "7.0": 420, "7.01": 420, "7.05": 420, "test": 400}
-    __FAP_CONSTS = {"6.55": 195, "7.0": 237, "7.01": 237, "7.05": 237, "test": 195}
-    __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 190, "7.01": 190, "7.05": 190, "test": 156}
-    __TEN_CONSTS = {"6.55": 100, "7.0": 112, "7.01": 112, "7.05": 112, "test": 100}
-    __DH_CONSTS = {"6.55": 550, "7.0": 550, "7.01": 550, "7.05": 550, "test": 550}
-    
-    
-    __SPEED_CONSTS = {"6.55": 130, "7.0": 130, "7.01": 130, "7.05": 130, "test": 130}
+    kTestStr = "test"
+    __LEVEL_DIV_TEST = 1900
+    __LEVEL_MAIN_TEST = 390
+    __LEVEL_SUB_TEST = 400
+
+    __FAP_CONST_TEST = 195
+    __FAP_TANK_CONST_TEST = 156
+    __TEN_CONST_TEST = 100
+    __DH_CONST_TEST = 550
+    __SPEED_CONST_TEST = 130
+    __CRIT_CONST_TEST = (200, 50, 400)
+    __DET_CONST_TEST = 140
+
+    __LEVEL_DIVS = {"6.55": 1900, "7.0": 2780}
+    __LEVEL_MAINS = {"6.55": 390, "7.0": 440}
+    __LEVEL_SUBS = {"6.55": 400, "7.0": 420}
+
+    __FAP_CONSTS = {"6.55": 195, "7.0": 237}
+    __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 190}
+    __TEN_CONSTS = {"6.55": 100, "7.0": 112}
+    # Explicitly set the 7.0 values even though they haven't,
+    # changed for readability.
+    __DH_CONSTS = {"6.55": 550, "7.0": 550}
+    __DET_CONSTS = {"6.55": 140, "7.0": 140}
+    __SPEED_CONSTS = {"6.55": 130, "7.0": 130}
     __CRIT_CONSTS = {
         "6.55": (200, 50, 400),
         "7.0": (200, 50, 400),
         "7.01": (200, 50, 400),
         "7.05": (200, 50, 400),
-        "test": (200, 50, 400),
     }
-
-    __DH_CONSTS = {"6.55": 550, "7.0": 550, "7.01": 550, "7.05": 550, "test": 550}
-
-    __DET_CONSTS = {"6.55": 140, "7.0": 140, "7.01": 140, "7.05": 140, "test": 140}
-
-    
+    __BASE_SKILL_SPEED = 400
+    __BASE_SPELL_SPEED = 400
 
     @staticmethod
     def get_speed_const(version, level):
-        return GameConsts.__SPEED_CONSTS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__SPEED_CONST_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__SPEED_CONSTS, version
+        )
 
     @staticmethod
     def get_crit_consts(version, level):
-        return GameConsts.__CRIT_CONSTS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__CRIT_CONST_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__CRIT_CONSTS, version
+        )
 
     @staticmethod
     def get_dh_const(version, level):
-        return GameConsts.__DH_CONSTS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__DH_CONST_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__DH_CONSTS, version
+        )
 
     @staticmethod
     def get_det_const(version, level):
-        return GameConsts.__DET_CONSTS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__DET_CONST_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__DET_CONSTS, version
+        )
 
     @staticmethod
     def get_ten_const(version, level):
-        return GameConsts.__TEN_CONSTS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__TEN_CONST_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__TEN_CONSTS, version
+        )
 
     @staticmethod
     def get_level_div(version, level):
-        return GameConsts.__LEVEL_DIVS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__LEVEL_DIV_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__LEVEL_DIVS, version
+        )
 
     @staticmethod
     def get_level_main(version, level):
-        return GameConsts.__LEVEL_MAINS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__LEVEL_MAIN_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__LEVEL_MAINS, version
+        )
 
     @staticmethod
     def get_level_sub(version, level):
-        return GameConsts.__LEVEL_SUBS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__LEVEL_SUB_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__LEVEL_SUBS, version
+        )
 
     @staticmethod
     def get_fAP(version, level):
-        return GameConsts.__FAP_CONSTS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__FAP_CONST_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__FAP_CONSTS, version
+        )
 
     @staticmethod
     def get_fAP_tank(version, level):
-        return GameConsts.__FAP_TANK_CONSTS[version]
+        if version == GameConsts.kTestStr:
+            return GameConsts.__FAP_TANK_CONST_TEST
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__FAP_TANK_CONSTS, version
+        )
 
-    BASE_SKILL_SPEED = 400
-    BASE_SPELL_SPEED = 400
+    @staticmethod
+    def get_base_skill_speed(version, level):
+        return GameConsts.__BASE_SKILL_SPEED
+
+    @staticmethod
+    def get_base_spell_speed(version, level):
+        return GameConsts.__BASE_SPELL_SPEED
 
     WEAPON_DELAYS = {
         "PLD": 2.24,
@@ -117,7 +174,7 @@ class GameConsts:
         "SMN": 351,
         "RDM": 214,
         "BLM": 175,
-        "PCT": 214, #guess for now
+        "PCT": 214,  # guess for now
     }
 
     JOB_NAME_TO_3_CODE = {
@@ -147,7 +204,7 @@ class GameConsts:
         "Bard": "BRD",
         "Machinist": "MCH",
     }
-    
+
     JOB_3_CODE_TO_ROLE = {
         "WAR": "Tank",
         "GNB": "Tank",
@@ -175,5 +232,3 @@ class GameConsts:
         "NIN": "Melee",
         "VPR": "Melee",
     }
-        
-        

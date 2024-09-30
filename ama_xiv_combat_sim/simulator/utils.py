@@ -6,6 +6,20 @@ from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 
 
 class Utils:
+
+    @staticmethod
+    def get_greatest_val_less_than_query(vals, query_val):
+        # Linear scan- we can change to BST later with some refactoring,
+        # but vals really should only be a handful (<20) values so it
+        # won't really matter.
+        return max(k for k in vals if k <= query_val)
+
+    @staticmethod
+    def get_greatest_dict_key_val_less_than_query(ex_dict, query_val):
+        return ex_dict[
+            Utils.get_greatest_val_less_than_query(ex_dict.keys(), query_val)
+        ]
+
     @staticmethod
     def transform_time_to_prio(t):
         return int(1000 * t)
@@ -131,9 +145,5 @@ class Utils:
                 return ", ".join(to_try.with_condition)
 
         raise ValueError(
-            "Could not find match for skill {} with bonusPercent {} and condition {}. Please contact a dev.\n".format(
-                skill.name,
-                init_skill_modifier.bonus_percent,
-                init_skill_modifier.with_condition,
-            )
+            f"Could not find match for skill {skill.name} with bonusPercent {init_skill_modifier.bonus_percent} and condition {init_skill_modifier.with_condition}. Please contact a dev.\n"
         )

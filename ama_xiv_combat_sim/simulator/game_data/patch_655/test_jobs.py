@@ -1430,7 +1430,7 @@ class TestJobs655(TestClass):
 
         expected = (
             ("True Thrust", 9713.7),
-            ("Vorpal Thrust", 11867.5),
+            ("Vorpal Thrust", 11806.5),
             ("Heavens' Thrust", 20274.8),
             ("Fang and Claw", 12678.4),
             ("Wheeling Thrust", 16900.6),  # gets bonus

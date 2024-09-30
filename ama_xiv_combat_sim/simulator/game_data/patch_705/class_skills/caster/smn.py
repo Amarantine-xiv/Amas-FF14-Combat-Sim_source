@@ -427,7 +427,7 @@ def add_smn_skills(skill_library):
         is_GCD=True,
         damage_spec={
             SimConsts.DEFAULT_CONDITION: DamageSpec(
-                potency=800,
+                potency=750,
                 damage_class=DamageClass.PET,
                 pet_job_mod_override=100,
                 pet_scalar=0.88,
@@ -457,7 +457,7 @@ def add_smn_skills(skill_library):
         is_GCD=True,
         damage_spec={
             SimConsts.DEFAULT_CONDITION: DamageSpec(
-                potency=800,
+                potency=750,
                 damage_class=DamageClass.PET,
                 pet_job_mod_override=100,
                 pet_scalar=0.88,
@@ -487,7 +487,7 @@ def add_smn_skills(skill_library):
         is_GCD=True,
         damage_spec={
             SimConsts.DEFAULT_CONDITION: DamageSpec(
-                potency=800,
+                potency=750,
                 damage_class=DamageClass.PET,
                 pet_job_mod_override=100,
                 pet_scalar=0.88,

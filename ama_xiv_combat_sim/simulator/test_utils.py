@@ -10,6 +10,24 @@ class TestUtils(TestClass):
     self.__skill_library = create_test_skill_library()
 
   @TestClass.is_a_test
+  def test_get_greatest_dict_key_val_less_than_query(self):
+    test_passed = True
+    err_msg = ""
+    
+    ex_dict = {'6.55': 0,
+               '7.05': 1}
+    res1 = Utils.get_greatest_dict_key_val_less_than_query(ex_dict, '7.00')
+    res2 = Utils.get_greatest_dict_key_val_less_than_query(ex_dict, '7.10')
+    
+    if res1 != 0:      
+      test_passed = False
+      err_msg += f'Expected: 0. Actual: {res1}\n'
+    if res2 != 1:
+      test_passed = False
+      err_msg += f'Expected: 1. Actual: {res2}\n'    
+    return test_passed, err_msg
+
+  @TestClass.is_a_test
   def test_get_best_keys(self):
     test_passed = True
     err_msg = ""
