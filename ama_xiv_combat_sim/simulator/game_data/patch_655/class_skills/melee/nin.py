@@ -813,7 +813,7 @@ def add_nin_skills(skill_library):
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=5,
-                duration=45 * 1000,
+                duration=int(30.7 * 1000),
                 skill_allowlist=(
                     "Spinning Edge",
                     "Gust Slash",
