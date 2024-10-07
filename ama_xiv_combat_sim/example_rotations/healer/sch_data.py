@@ -1,0 +1,86 @@
+from ama_xiv_combat_sim.example_rotations.specific_rotations import SpecificRotations
+
+all_sch_rotations = SpecificRotations()
+
+ALL_SCH_ROTATIONS = {
+    "SCH": {
+        90: {
+            "stats": {
+                "wd": 132,
+                "main_stat": 3369,
+                "det_stat": 2087,
+                "crit_stat": 2454,
+                "dh_stat": 832,
+                "speed_stat": 946,
+                "job_class": "SCH",
+            },
+            "skills": (
+                "Grade 8 Tincture",
+                "Broil IV",
+                "Biolysis",
+                "Aetherflow",
+                "Broil IV",
+                "Broil IV",
+                "Chain Stratagem",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Broil IV",
+                "Broil IV",
+            ),
+            "start_version": "6.55",
+            "end_version": "6.55",
+        },
+        100: {
+            "stats": {
+                "wd": 146,
+                "main_stat": 4883,
+                "det_stat": 2831,
+                "crit_stat": 3041,
+                "dh_stat": 1014,
+                "speed_stat": 420,
+                "job_class": "SCH",
+            },
+            "skills": (
+                "Broil IV",
+                "Grade 2 Gemdraught",
+                "Biolysis",
+                "Dissipation",
+                "Broil IV",
+                "Chain Stratagem",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Aetherflow",
+                "Broil IV",
+                "Baneful Impaction",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Energy Drain",
+                "Broil IV",
+                "Energy Drain",
+                "Biolysis",
+            ),
+            "start_version": "7.05",
+        },
+    },
+}
+
+for k, v in ALL_SCH_ROTATIONS.items():
+    all_sch_rotations.add_rotation_data(k, v)

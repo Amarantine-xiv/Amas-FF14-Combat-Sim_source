@@ -34,9 +34,11 @@ class Skill:
     # # to control whether a buff applies before or after damage has gone out from
     # # the skill.
     follow_up_skills: Any = tuple()
-    has_aoe: bool = False # whether the skill has an AOE component to it (damage, or debuff)
+    has_aoe: bool = (
+        False  # whether the skill has an AOE component to it (damage, or debuff)
+    )
     # how much potency is off from the primary skill. Requires damage_spec to be a dictionary.
-    aoe_dropoff: float = None 
+    aoe_dropoff: float = None
 
     @staticmethod
     def __canonicalize_dict(dict_to_use):
@@ -49,7 +51,7 @@ class Skill:
     # will modify damage_spec in place
     def __process_aoe_dropoff(damage_spec, damage_dropoff):
         if not isinstance(damage_spec, dict):
-            damage_spec = {SimConsts.DEFAULT_CONDITION: damage_spec}            
+            damage_spec = {SimConsts.DEFAULT_CONDITION: damage_spec}
         keys = tuple(damage_spec.keys())
         for key in keys:
             for target_num in range(2, 10):  # max of 10 targets
@@ -80,7 +82,9 @@ class Skill:
         return True
 
     def __set_status_effect_stats(self):
-        for spec_to_use, field_to_use in zip(["buff_spec", "debuff_spec"],["has_buff", "has_debuff"]):            
+        for spec_to_use, field_to_use in zip(
+            ["buff_spec", "debuff_spec"], ["has_buff", "has_debuff"]
+        ):
             res = False
             # check if there is a party effect on main skill
             spec = getattr(self, spec_to_use)
@@ -109,7 +113,9 @@ class Skill:
             object.__setattr__(self, field_to_use, res)
 
     def __set_party_status_effect_stats(self):
-        for spec_to_use, field_to_use in zip(["buff_spec", "debuff_spec"],["has_party_buff", "has_party_debuff"]): 
+        for spec_to_use, field_to_use in zip(
+            ["buff_spec", "debuff_spec"], ["has_party_buff", "has_party_debuff"]
+        ):
             res = False
 
             # check if there is a party effect on main skill
@@ -150,6 +156,10 @@ class Skill:
             object.__setattr__(self, field_to_use, res)
 
     def __post_init__(self):
+        assert isinstance(
+            getattr(self, "name"), str
+        ), f"Name of skill must be a str. Got: {self.name}"
+
         is_valid = self.__verify_dict_or_tuple(self.follow_up_skills, FollowUp)
         assert (
             is_valid
@@ -212,7 +222,7 @@ class Skill:
             )
 
         self.__set_party_status_effect_stats()
-        self.__set_status_effect_stats()        
+        self.__set_status_effect_stats()
 
     def __str__(self):
         res = "---Skill name: {}---\n".format(self.name)

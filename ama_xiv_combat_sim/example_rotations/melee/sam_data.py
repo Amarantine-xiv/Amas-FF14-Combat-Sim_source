@@ -1,0 +1,93 @@
+from ama_xiv_combat_sim.example_rotations.specific_rotations import SpecificRotations
+
+
+all_sam_rotations = SpecificRotations()
+
+ALL_SAM_ROTATIONS = {
+    "SAM": {
+        90: {
+            "stats": {
+                "wd": 132,
+                "main_stat": 3367,
+                "det_stat": 1736,
+                "crit_stat": 2587,
+                "dh_stat": 1494,
+                "speed_stat": 508,
+                "job_class": "SAM",
+            },
+            "skills": (
+                "Meikyo Shisui",
+                "True North",
+                "Gekko",
+                "Grade 8 Tincture",
+                "Kasha",
+                "Yukikaze",
+                "Midare Setsugekka",
+                "Hissatsu: Senei",
+                "Kaeshi: Setsugekka",
+                "Meikyo Shisui",
+                "Gekko",
+                "Hissatsu: Shinten",
+                "Higanbana",
+                "Hissatsu: Shinten",
+                "Ogi Namikiri",
+                "Shoha",
+                "Kaeshi: Namikiri",
+                "Kasha",
+                "Hissatsu: Shinten",
+                "Gekko",
+                "Hissatsu: Gyoten",
+                "Hakaze",
+                "Hissatsu: Shinten",
+                "Yukikaze",
+                "Midare Setsugekka",
+                "Kaeshi: Setsugekka",
+            ),
+            "start_version": "6.55",
+            "end_version": "6.55",
+        },
+        100: {
+            "stats": {
+                "wd": 146,
+                "main_stat": 4869,
+                "det_stat": 2093,
+                "crit_stat": 3103,
+                "dh_stat": 1933,
+                "speed_stat": 693,
+                "job_class": "SAM",
+            },
+            "skills": (
+                "Meikyo Shisui",
+                "True North",
+                "Gekko",
+                "Grade 2 Gemdraught",
+                "Kasha",
+                "Ikishoten",
+                "Yukikaze",
+                "Tendo Setsugekka",
+                "Hissatsu: Senei",
+                "Tendo Kaeshi Setsugekka",
+                "Meikyo Shisui",
+                "Gekko",
+                "Zanshin",
+                "Higanbana",
+                "Ogi Namikiri",
+                "Shoha",
+                "Kaeshi: Namikiri",
+                "Kasha",
+                "Hissatsu: Shinten",
+                "Gekko",
+                "Hissatsu: Gyoten",
+                "Gyofu",
+                "Yukikaze",
+                "Hissatsu: Shinten",
+                "Tendo Setsugekka",
+                "Tendo Kaeshi Setsugekka",
+            ),
+            "start_version": "7.05",
+        },
+    },
+}
+
+for k, v in ALL_SAM_ROTATIONS.items():
+    all_sam_rotations.add_rotation_data(k, v)

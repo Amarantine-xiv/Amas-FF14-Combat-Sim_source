@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 class SkillLibrary:
-    def __init__(self, version):
+    def __init__(self, version, level=100):
         self.__skills = {}
         self.__status_effect_priority = {}
         self.__job_resources = (
@@ -14,9 +14,13 @@ class SkillLibrary:
             {}
         )  # dict of dict. keys are jobs, vals are dicts of {name} to ComboBreakers.
         self.__version = version
+        self.__level = level
 
     def get_version(self):
         return self.__version
+
+    def get_level(self):
+        return self.__level
 
     def add_combo_breaker(self, combo_group, combo_breaker):
       #combo_group is the group to be broken

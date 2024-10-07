@@ -12,13 +12,20 @@ class Utils:
         # Linear scan- we can change to BST later with some refactoring,
         # but vals really should only be a handful (<20) values so it
         # won't really matter.
-        return max(k for k in vals if k <= query_val)
+        st = tuple(k for k in vals if k <= query_val)
+        if len(st) == 0:
+            raise ValueError(f"No values found for query val: {query_val}")
+        return max(st)
 
     @staticmethod
     def get_greatest_dict_key_val_less_than_query(ex_dict, query_val):
-        return ex_dict[
-            Utils.get_greatest_val_less_than_query(ex_dict.keys(), query_val)
-        ]
+        try:
+            key_to_use = Utils.get_greatest_val_less_than_query(
+                ex_dict.keys(), query_val
+            )
+        except ValueError:
+            return None
+        return ex_dict[key_to_use]
 
     @staticmethod
     def transform_time_to_prio(t):

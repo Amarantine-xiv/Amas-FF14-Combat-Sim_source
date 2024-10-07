@@ -9,26 +9,34 @@ class ProcessedStats:
         crit_rate, crit_bonus = StatFns.get_crit_stats(stats.crit_stat, version, level)
         object.__setattr__(self, "crit_rate", crit_rate)
         object.__setattr__(self, "crit_bonus", crit_bonus)
-        object.__setattr__(self, "det_bonus", StatFns.fDet(stats.det_stat, version, level))
-        object.__setattr__(self, "dh_rate", StatFns.get_dh_rate(stats.dh_stat, version, level))
+        object.__setattr__(
+            self, "det_bonus", StatFns.fDet(stats.det_stat, version, level)
+        )
+        object.__setattr__(
+            self, "dh_rate", StatFns.get_dh_rate(stats.dh_stat, version, level)
+        )
         object.__setattr__(
             self, "job_mod", stats.job_class_fns.JOB_MODS[stats.job_class]
         )
         object.__setattr__(
             self,
             "trait_damage_mult",
-            stats.job_class_fns.compute_trait_damage_mult(stats.job_class),
+            stats.job_class_fns.compute_trait_damage_mult(
+                stats.job_class, version, level
+            ),
         )
         object.__setattr__(
             self,
             "trait_haste_time_reduction",
-            stats.job_class_fns.compute_trait_haste_time_reduction(stats.job_class),
+            stats.job_class_fns.compute_trait_haste_time_reduction(
+                stats.job_class, version, level
+            ),
         )
         object.__setattr__(
             self,
             "trait_auto_attack_delay_reduction",
             stats.job_class_fns.compute_trait_auto_attack_delay_reduction(
-                stats.job_class
+                stats.job_class, version, level
             ),
         )
 
@@ -39,6 +47,6 @@ class ProcessedStats:
         res += f"DH Rate: {self.dh_rate}\n"
         res += f"Job mod: {self.job_mod}\n"
         res += f"Trait damage mult: {self.trait_damage_mult}\n"
-        res += f"Trait haste time reduction: {self.trait_haste_time_reduction}\n"        
-        res += "Trait auto attack delay reduction: {self.trait_auto_attack_delay_reduction}\n"        
+        res += f"Trait haste time reduction: {self.trait_haste_time_reduction}\n"
+        res += "Trait auto attack delay reduction: {self.trait_auto_attack_delay_reduction}\n"
         return res

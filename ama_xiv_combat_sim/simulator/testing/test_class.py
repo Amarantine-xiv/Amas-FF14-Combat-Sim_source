@@ -27,7 +27,9 @@ class TestClass:
             return test_passed, err_msg
         if expected != result:
             test_passed = False
-            err_msg += f"Sets are not equal.Expected vs actual: {expected} \n\n {result}"
+            err_msg += (
+                f"Sets are not equal.Expected vs actual: {expected} \n\n {result}"
+            )
         return test_passed, err_msg
 
     @staticmethod
@@ -36,24 +38,18 @@ class TestClass:
         err_msg = ""
         if len(expected) != len(result):
             test_passed = False
-            err_msg += "Expected {} skills returned. Instead got {}. ".format(
-                len(expected), len(result)
-            )
+            err_msg += f"Expected {len(expected)} skills returned. Instead got {len(result)}. "
             return test_passed, err_msg
-        for i in range(0, len(expected)):
+        for i, expect in enumerate(expected):
             if relative_tol is None:
-                if expected[i] != result[i]:
+                if expect != result[i]:
                     test_passed = False
-                    err_msg += "Position {} was not the same.\n Expected: {}\n Actual:   {}\n".format(
-                        i, expected[i], result[i]
-                    )
+                    err_msg += "Position {i} was not the same.\n Expected: {expect}\n Actual: {result[i]}\n"
             else:
                 diff = abs(result[i] - expected[i])
                 if diff / expected[i] >= relative_tol:
                     test_passed = False
-                    err_msg += "Position {} was not the same.\n Expected: {}\n Actual:   {}\n".format(
-                        i, expected[i], result[i]
-                    )
+                    err_msg += "Position {i} was not the same.\n Expected: {expect}\n Actual: {result[i]}\n"
         return test_passed, err_msg
 
     def print_result(self, passing, failing):
@@ -63,11 +59,10 @@ class TestClass:
         if len(failing) > 0:
             print("Failing tests:")
             for test_info in failing:
-                print("{}: {}\n".format(test_info[0], test_info[1]))
+                print(f"{test_info[0]}: {test_info[1]}\n")
         print("Passing tests:")
         for test_name in passing:
             print(f"{test_name}")
-
 
     def run_single(self, test_name):
         for test_fn in self._get_test_methods():

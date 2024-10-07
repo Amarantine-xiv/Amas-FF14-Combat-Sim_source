@@ -9,7 +9,7 @@ class JobClassFns:
     USES_SKS = {"test_job", "test_tank_job"}
 
     @staticmethod
-    def compute_trait_damage_mult(job_class):
+    def compute_trait_damage_mult(job_class, version, level=100):
         if job_class == "test_job2":
             return 1.40
         elif job_class == "test_healer_job":
@@ -18,14 +18,14 @@ class JobClassFns:
             return 1
 
     @staticmethod
-    def compute_trait_haste_time_reduction(job_class):
+    def compute_trait_haste_time_reduction(job_class, version, level=100):
         job_to_trait_haste_time_reduction = {"test_job_haste": 0.2}
         if job_class in job_to_trait_haste_time_reduction:
             return job_to_trait_haste_time_reduction[job_class]
         return 0
 
     @staticmethod
-    def compute_trait_auto_attack_delay_reduction(job_class):
+    def compute_trait_auto_attack_delay_reduction(job_class, version, level=100):
         job_to_trait_auto_attack_delay_reduction = {"test_job_haste": 0.2}
         if job_class in job_to_trait_auto_attack_delay_reduction:
             return job_to_trait_auto_attack_delay_reduction[job_class]
