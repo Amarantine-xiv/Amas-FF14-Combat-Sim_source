@@ -16,8 +16,10 @@ class Stats:
     version: str
     tenacity: float = None
     num_roles_in_party: float = 5
-    healer_or_caster_strength: float = None
+    healer_or_caster_strength: float = None    
     level: int = 90
+    processed_stats = None
+    job_class_fns = None
 
     def __post_init__(self):
         object.__setattr__(self, "job_class_fns", get_job_class_fns(self.version))

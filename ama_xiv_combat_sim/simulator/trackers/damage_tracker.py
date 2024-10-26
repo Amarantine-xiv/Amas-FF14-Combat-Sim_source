@@ -17,7 +17,7 @@ class DamageTracker:
         self.status_effects = [""] * 5000
         self.damage_classes = [""] * 5000
         self.it = 0
-        self.isFinalized = False
+        self.is_finalized = False
 
         # for debugging
         self.base_damage = np.zeros((5000, 1))
@@ -34,9 +34,9 @@ class DamageTracker:
         potency,
         skill_modifier,
         status_effects,
-        damage_class
+        damage_class,
     ):
-        if self.isFinalized:
+        if self.is_finalized:
             raise RuntimeError(
                 "DamageTracker is finalized. Cannot add damage instances."
             )
@@ -50,7 +50,7 @@ class DamageTracker:
         self.potency[self.it] = potency
         self.skill_modifier_condition[self.it] = skill_modifier.with_condition
         self.status_effects[self.it] = status_effects
-        self.damage_classes[self.it]  = damage_class
+        self.damage_classes[self.it] = damage_class
         self.it += 1
 
     def finalize(self):
@@ -65,7 +65,7 @@ class DamageTracker:
         self.skill_modifier_condition = self.skill_modifier_condition[0 : self.it]
         self.status_effects = self.status_effects[0 : self.it]
         self.damage_classes = self.damage_classes[0 : self.it]
-        self.isFinalized = True
+        self.is_finalized = True
 
     # For each damage instance, returns the damage distrubtion of that instance
 
@@ -110,7 +110,8 @@ class DamageTracker:
         return total_damage
 
     def get_damage_ranges_and_probabilities(self):
-        if not self.isFinalized:
+        # return[i]: (string to identify crit/dh status, low damage, high damage, probability)
+        if not self.is_finalized:
             raise RuntimeError(
                 "DamageTracker must be finalized before computing damage ranges"
             )
@@ -231,7 +232,7 @@ class DamageTracker:
         return res
 
     def __sample_damage_instances(self, num_samples):
-        if not self.isFinalized:
+        if not self.is_finalized:
             raise RuntimeError("DamageTracker must be finalized before sampling damage")
         return self.__get_damage(
             self.base_damage,
@@ -247,14 +248,14 @@ class DamageTracker:
         return self.__sample_damage_instances(num_samples)
 
     def get_crit_and_dh_rates(self):
-        if not self.isFinalized:
+        if not self.is_finalized:
             raise RuntimeError(
                 "DamageTracker must be finalized before calling get_crit_and_dh_rates"
             )
         return (np.squeeze(self.crit_rate), np.squeeze(self.dh_rate))
 
     def get_trait_damage_mult(self):
-        if not self.isFinalized:
+        if not self.is_finalized:
             raise RuntimeError(
                 "DamageTracker must be finalized before calling get_trait_damage_mult"
             )

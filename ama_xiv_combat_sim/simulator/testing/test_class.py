@@ -44,12 +44,12 @@ class TestClass:
             if relative_tol is None:
                 if expect != result[i]:
                     test_passed = False
-                    err_msg += "Position {i} was not the same.\n Expected: {expect}\n Actual: {result[i]}\n"
+                    err_msg += f"Position {i} was not the same.\n Expected: {expect}\n Actual: {result[i]}\n"
             else:
                 diff = abs(result[i] - expected[i])
                 if diff / expected[i] >= relative_tol:
                     test_passed = False
-                    err_msg += "Position {i} was not the same.\n Expected: {expect}\n Actual: {result[i]}\n"
+                    err_msg += f"Position {i} was not the same.\n Expected: {expect}\n Actual: {result[i]}\n"
         return test_passed, err_msg
 
     def print_result(self, passing, failing):

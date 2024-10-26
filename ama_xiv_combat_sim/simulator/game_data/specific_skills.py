@@ -1,5 +1,6 @@
 from ama_xiv_combat_sim.simulator.utils import Utils
 
+
 class SpecificSkills:
     def __init__(self):
         self.skills = {}
@@ -28,20 +29,26 @@ class SpecificSkills:
         return Utils.get_greatest_dict_key_val_less_than_query(
             self.skills[skill_name][self.level][param_name], self.version
         )
-    
+
     # convenience function
     def get_potency(self, skill_name):
         res = self.get_skill_data(skill_name, "potency")
-        assert res is not None, f'Could not find appropriate level/patch version for skill: {skill_name}'
+        assert (
+            res is not None
+        ), f"Could not find appropriate level/patch version for skill: {skill_name}. level/patch: {self.level}/{self.version}"
         return res
-    
+
     # convenience functions
     def get_potency_no_combo(self, skill_name):
         res = self.get_skill_data(skill_name, "potency_no_combo")
-        assert res is not None, f'Could not find appropriate level/patch version for skill: {skill_name}'
+        assert (
+            res is not None
+        ), f"Could not find appropriate level/patch version for skill: {skill_name}"
         return res
-    
+
     def get_potency_no_positional(self, skill_name):
         res = self.get_skill_data(skill_name, "potency_no_pos")
-        assert res is not None, f'Could not find appropriate level/patch version for skill: {skill_name}'
+        assert (
+            res is not None
+        ), f"Could not find appropriate level/patch version for skill: {skill_name}"
         return res
