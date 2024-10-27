@@ -1,6 +1,3 @@
-import numpy as np
-
-from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
 from ama_xiv_combat_sim.simulator.game_data.job_class_tester_util import (
     JobClassTesterUtil,
 )
@@ -10,7 +7,6 @@ from ama_xiv_combat_sim.simulator.skills.create_skill_library import (
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
-from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
 from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
@@ -644,7 +640,7 @@ class TestJobsMultiUnified701(TestClass):
         )
 
         expected_damage_rb2_rb3 = 143450
-        expected_time_rb2=14050
+        expected_time_rb2 = 14050
         rb2 = RotationBuilder(stats, self.__skill_library)
         rb2.add_next("Automaton Queen", SkillModifier(with_condition="50 Battery"))
         rb2.add_next("Heated Clean Shot")
@@ -654,7 +650,7 @@ class TestJobsMultiUnified701(TestClass):
             rb2, expected_damage_rb2_rb3, expected_time_rb2
         )
 
-        expected_time_rb3=20350
+        expected_time_rb3 = 20350
         rb3 = RotationBuilder(stats, self.__skill_library)
         rb3.add_next("Heated Clean Shot")
         rb3.add_next("Chain Saw", targets="t1, t2")

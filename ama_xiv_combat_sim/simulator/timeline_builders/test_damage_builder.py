@@ -17,6 +17,7 @@ from ama_xiv_combat_sim.simulator.utils import Utils
 
 class TestDamageBuilder(TestClass):
     def __init__(self):
+        super().__init__()
         self.__stats = Stats(
             wd=126,
             weapon_delay=3.44,

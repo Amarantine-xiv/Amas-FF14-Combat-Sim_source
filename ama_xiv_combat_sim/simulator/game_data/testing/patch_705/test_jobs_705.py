@@ -1,6 +1,3 @@
-import numpy as np
-
-from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
 from ama_xiv_combat_sim.simulator.game_data.job_class_tester_util import (
     JobClassTesterUtil,
 )
@@ -8,15 +5,11 @@ from ama_xiv_combat_sim.simulator.skills.create_skill_library import (
     create_skill_library,
 )
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
-from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
-from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
 from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
-from ama_xiv_combat_sim.simulator.utils import Utils
-
 
 class TestJobsUnified705(TestClass):
     def __init__(self):
@@ -837,7 +830,7 @@ class TestJobsUnified705(TestClass):
         rb.add_next("Radiant Finale")
         rb.add_next("Sidewinder")
         rb.add_next("Radiant Encore")  # should be 3 coda
-        rb.add_next("Radiant Finale", SkillModifier(with_condition="2 Coda, Buff Only"))
+        rb.add_next("Radiant Finale", SkillModifier(with_condition="1 Mage's Coda, 1 Army's Coda"))
         rb.add_next("Sidewinder")
         rb.add_next("Radiant Encore")  # should be 2 coda
         rb.add_next("Army's Paeon")

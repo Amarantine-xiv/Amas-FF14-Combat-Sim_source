@@ -105,6 +105,9 @@ def create_test_skill_library():
     simple_buff_2 = StatusEffectSpec(
         duration=10000, crit_rate_add=0.06, dh_rate_add=0.2
     )
+    mega_buff = StatusEffectSpec(
+        duration=30000, max_duration=60000, damage_mult=10.5, is_party_effect=True
+    )
     simple_debuff = StatusEffectSpec(
         duration=30000, max_duration=60000, damage_mult=1.2, is_party_effect=True
     )
@@ -817,6 +820,21 @@ def create_test_skill_library():
             ),
         },
     )
+    test_off_class_conditional = Skill(
+        name="test_off_class_conditional",
+        is_GCD=False,
+        timing_spec=gcd_instant,
+        buff_spec={
+            SimConsts.DEFAULT_CONDITION: None,
+            "other": simple_buff,
+            "mega": mega_buff,
+        },
+        damage_spec={
+            SimConsts.DEFAULT_CONDITION: DamageSpec(potency=500),
+            "other": None,
+        },
+        off_class_default_condition="other",
+    )
 
     skill_library.set_current_job_class("test_job")
     skill_library.add_resource(
@@ -904,7 +922,7 @@ def create_test_skill_library():
     skill_library.add_skill(test_follow_up_for_multi_target_main)
     skill_library.add_skill(test_folllow_up_for_multi_target_primary_only)
     skill_library.add_skill(test_follow_up_for_multi_target_main_primary_only)
-    
+
     skill_library.set_status_effect_priority(
         ("test_num_uses_buff_with_priority1", "test_num_uses_buff_with_priority2")
     )
@@ -914,6 +932,9 @@ def create_test_skill_library():
     skill_library.add_skill(test_gcd)
     skill_library.add_skill(test_gcd_trait_override)
     skill_library.add_skill(test_party_buff)
+    skill_library.add_skill(test_off_class_conditional)
+    skill_library.add_skill(test_instant_gcd)
+    skill_library.add_skill(test_ogcd)
 
     skill_library.set_current_job_class("test_tank_job")
     skill_library.add_skill(test_auto)
@@ -927,7 +948,7 @@ def create_test_skill_library():
     skill_library.set_current_job_class("test_job_haste")
     skill_library.add_skill(test_auto)
     skill_library.add_skill(test_instant_gcd)
-    skill_library.add_skill(test_gcd)
+    skill_library.add_skill(test_gcd)    
 
     skill_library = add_lbs_to_skill_library(skill_library)
 

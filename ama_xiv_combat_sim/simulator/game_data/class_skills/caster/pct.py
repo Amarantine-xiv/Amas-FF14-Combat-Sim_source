@@ -435,6 +435,7 @@ def add_pct_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: (inspiration_follow_up,),
                 "Buff Only": tuple(),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 

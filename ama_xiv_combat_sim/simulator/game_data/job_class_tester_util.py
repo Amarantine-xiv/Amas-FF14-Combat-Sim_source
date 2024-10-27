@@ -50,7 +50,7 @@ class JobClassTesterUtil(TestClass):
 
         if len(results) != len(expected_damage_instances):
             test_passed = False
-            err_msg += f"Expected {len(expected_damage_instances)} skills returned. Instead got {len(results)}.\n"
+            err_msg += f"Expected {len(expected_damage_instances)} skills returned. Instead got {len(results)}. Skill names: {list(res[0] for res in results)}\n"
             return test_passed, err_msg
         for i, result in enumerate(results):
             result_skill_name, expected_skill_name = (

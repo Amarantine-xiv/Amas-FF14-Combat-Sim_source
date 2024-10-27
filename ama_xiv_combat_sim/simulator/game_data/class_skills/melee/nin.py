@@ -319,6 +319,7 @@ def add_nin_skills(skill_library):
                     ),
                     "Debuff Only": (mug_debuff_follow_up,),
                 },
+                off_class_default_condition="Debuff Only"
             )
         )
 
@@ -731,6 +732,7 @@ def add_nin_skills(skill_library):
                     ),
                     "Debuff Only": (dokumori_debuff_follow_up,),
                 },
+                off_class_default_condition="Debuff Only"
             )
         )
 

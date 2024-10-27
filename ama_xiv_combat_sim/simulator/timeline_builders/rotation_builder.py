@@ -40,10 +40,9 @@ class RotationBuilder:
         # window will be removed. Example:
         # downtime_windows={'Default Target': ((5.2, 9.3), (102.1, 120.2, DamageClass.AUTO),)}
         # to indicate downtimes for the target named "Default Target", where the boss cannot
-        # be damaged in the interval [5.2, 9.3), and the player simply does not auto-attack 
+        # be damaged in the interval [5.2, 9.3), and the player simply does not auto-attack
         # the boss in the interval [102.1, 120.2)- eg, the player had to disengage from the boss,
         # but the boss was still targetable and still generally takes damage.
-        
         downtime_windows=(),
         default_target=SimConsts.DEFAULT_TARGET,
     ):
@@ -69,7 +68,9 @@ class RotationBuilder:
             default_target, str
         ), "Default target should be a string- did you accidentally make it a tuple?"
 
-        self.__downtime_windows = RotationBuilder.__init_downtime_windows(downtime_windows)
+        self.__downtime_windows = RotationBuilder.__init_downtime_windows(
+            downtime_windows
+        )
         self.__default_target = default_target
         self.__all_targets = set()
 
@@ -101,8 +102,8 @@ class RotationBuilder:
                 )
         return downtime_windows
 
-    def __process_downtime_windows(self):        
-        if isinstance(self.__downtime_windows, tuple):            
+    def __process_downtime_windows(self):
+        if isinstance(self.__downtime_windows, tuple):
             res = {}
             for k in self.__all_targets:
                 res[k] = self.__downtime_windows
@@ -112,8 +113,6 @@ class RotationBuilder:
         res = copy.deepcopy(self.__q_button_press_timing)
         res.sort(key=lambda x: x[0])
         return res
-
-    # def add_downtime_window(self, downtime_window, damageType=None):
 
     def set_ignore_trailing_dots(self, ignore_trailing_dots):
         self.__ignore_trailing_dots = ignore_trailing_dots
@@ -136,12 +135,18 @@ class RotationBuilder:
     def _print_q(q):
         q.sort(key=lambda x: x[0])
         for time, skill in q:
-            print("{}: {}".format(time, skill.name))
+            print(f"{time}: {skill.name}")
+
+    def get_default_skill_modifier(self, skill, job_class):
+        job_class_provided = (job_class is not None) or (job_class != "")
+        if job_class_provided and (job_class != self.__stats.job_class):
+            return SkillModifier(with_condition=skill.off_class_default_condition)
+        return SkillModifier()
 
     def add_next(
         self,
         skill_name,
-        skill_modifier=SkillModifier(),
+        skill_modifier=None,
         job_class=None,
         num_times=1,
         targets=None,
@@ -150,6 +155,8 @@ class RotationBuilder:
 
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
+        if skill_modifier is None:
+            skill_modifier = self.get_default_skill_modifier(skill, job_class)
         for _ in range(num_times):
             self._q_sequence.append((skill, skill_modifier, job_class, targets))
 
@@ -157,7 +164,7 @@ class RotationBuilder:
         self,
         t,
         skill_name,
-        skill_modifier=SkillModifier(),
+        skill_modifier=None,
         job_class=None,
         targets=None,
     ):
@@ -165,6 +172,8 @@ class RotationBuilder:
 
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
+        if skill_modifier is None:
+            skill_modifier = self.get_default_skill_modifier(skill, job_class)            
         self._q_timed.append((int(1000 * t), skill, skill_modifier, job_class, targets))
 
     @staticmethod
@@ -321,7 +330,7 @@ class RotationBuilder:
             )
         return sorted(app_times, key=lambda x: x[0])
 
-    def __get_consolidated_dot_timing(self, dot_name, base_dot_times):
+    def __get_consolidated_dot_timing(self, base_dot_times):
         consolidated_dots = []
         for i in range(0, len(base_dot_times)):
             curr_start_time, curr_end_time, parent_snapshot_time, priority_modifier = (
@@ -347,7 +356,7 @@ class RotationBuilder:
                     target, follow_up_dot_skill
                 )
                 consolidated_dot_times = self.__get_consolidated_dot_timing(
-                    follow_up_dot_skill, base_dot_times
+                    base_dot_times
                 )
                 dot_skill = follow_up_dot_skill.skill
 
@@ -489,7 +498,7 @@ class RotationBuilder:
                 curr_buffs_and_skill_modifier[0],
                 curr_buffs_and_skill_modifier[1],
             )
-            curr_debuffs, skill_modifier_from_debuffs = (
+            _, skill_modifier_from_debuffs = (
                 curr_debuffs_and_skill_modifier[0],
                 curr_debuffs_and_skill_modifier[1],
             )
@@ -717,8 +726,12 @@ class RotationBuilder:
             for target in targets:
                 skill_damage_spec = skill.get_damage_spec(skill_modifier)
                 if skill_damage_spec is not None and (
-                    self.__filter_by_downtime_range_and_damage_class(application_time, target, skill_damage_spec.damage_class)
-                    or self.__filter_by_downtime_range_and_damage_class(snapshot_time, target,  skill_damage_spec.damage_class)
+                    self.__filter_by_downtime_range_and_damage_class(
+                        application_time, target, skill_damage_spec.damage_class
+                    )
+                    or self.__filter_by_downtime_range_and_damage_class(
+                        snapshot_time, target, skill_damage_spec.damage_class
+                    )
                 ):
                     continue
                 else:
@@ -822,7 +835,7 @@ class RotationBuilder:
             curr_debuffs_and_skill_modifier,
         ), job_resource_tracker.compile_job_resources(curr_t, skill)
 
-    def get_cast_periods(self, speed_status_effects_timeline):
+    def get_cast_periods(self):
         q = copy.deepcopy(self._q_timed)
         res = []
         se_tracker = StatusEffectTracker(self.__status_effect_priority)
@@ -910,8 +923,8 @@ class RotationBuilder:
         timestamps_and_main_target.sort(key=lambda x: x[0])
         timestamps_and_main_target = shorten_sequence(timestamps_and_main_target)
 
-        speed_status_effects_timeline = self.__assemble_speed_status_effects_timeline()
-        cast_periods = self.get_cast_periods(speed_status_effects_timeline)
+        
+        cast_periods = self.get_cast_periods()
         weapon_delay = int(1000 * self.__stats.weapon_delay)  # convert to ms
 
         if self._skill_library.has_skill("Shot", self.__stats.job_class):
@@ -947,9 +960,10 @@ class RotationBuilder:
                 auto_skill,
                 SkillModifier(),
                 [True, True],
-                # TODO: set this to an auto-target, and process it
                 targets=(auto_target,),
             )
+            
+            speed_status_effects_timeline = self.__assemble_speed_status_effects_timeline()
             (
                 curr_buffs_and_skill_modifier,
                 curr_debuffs_and_skill_modifier,

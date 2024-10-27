@@ -182,6 +182,7 @@ def add_dnc_skills(skill_library):
                 "Buff Only": (_standard_finish_follow_up2,),
                 "Remove Buff": (_standard_remove_followup,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -208,6 +209,7 @@ def add_dnc_skills(skill_library):
                 "Buff Only": (_standard_finish_follow_up1,),
                 "Remove Buff": (_standard_remove_followup,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -239,6 +241,7 @@ def add_dnc_skills(skill_library):
                 "Buff Only, Log": tuple(),
                 "Remove Buff, Log": (_standard_remove_followup,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -496,7 +499,7 @@ def add_dnc_skills(skill_library):
         affected_by_speed_stat=False,
         application_delay=535,
     )
-    tech_finish_status_effect_only = TimingSpec(
+    tech_finish_status_effect_only_timing = TimingSpec(
         base_cast_time=0, gcd_base_recast_time=0, application_delay=0
     )
 
@@ -517,14 +520,15 @@ def add_dnc_skills(skill_library):
             },
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: tech_finish_timing,
-                "Buff Only": tech_finish_status_effect_only,
-                "Remove Buff": tech_finish_status_effect_only,
+                "Buff Only": tech_finish_status_effect_only_timing,
+                "Remove Buff": tech_finish_status_effect_only_timing,
             },
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (tech4_followup,),
                 "Longest": (tech4_longest_followup,),
                 "Remove Buff": (tech_remove_followup,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -543,14 +547,15 @@ def add_dnc_skills(skill_library):
             },
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: tech_finish_timing,
-                "Buff Only": tech_finish_status_effect_only,
-                "Remove Buff": tech_finish_status_effect_only,
+                "Buff Only": tech_finish_status_effect_only_timing,
+                "Remove Buff": tech_finish_status_effect_only_timing,
             },
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (tech3_followup,),
                 "Longest": (tech3_longest_followup,),
                 "Remove Buff": (tech_remove_followup,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -569,14 +574,15 @@ def add_dnc_skills(skill_library):
             },
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: tech_finish_timing,
-                "Buff Only": tech_finish_status_effect_only,
-                "Remove Buff": tech_finish_status_effect_only,
+                "Buff Only": tech_finish_status_effect_only_timing,
+                "Remove Buff": tech_finish_status_effect_only_timing,
             },
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (tech2_followup,),
                 "Longest": (tech2_longest_followup,),
                 "Remove Buff": (tech_remove_followup,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -595,14 +601,15 @@ def add_dnc_skills(skill_library):
             },
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: tech_finish_timing,
-                "Buff Only": tech_finish_status_effect_only,
-                "Remove Buff": tech_finish_status_effect_only,
+                "Buff Only": tech_finish_status_effect_only_timing,
+                "Remove Buff": tech_finish_status_effect_only_timing,
             },
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (tech1_followup,),
                 "Longest": (tech1_longest_followup,),
                 "Remove Buff": (tech_remove_followup,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -622,8 +629,8 @@ def add_dnc_skills(skill_library):
             },
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: tech_finish_timing,
-                "Buff Only": tech_finish_status_effect_only,
-                "Remove Buff": tech_finish_status_effect_only,
+                "Buff Only": tech_finish_status_effect_only_timing,
+                "Remove Buff": tech_finish_status_effect_only_timing,
             },
             follow_up_skills={
                 # assume QUADRUPLE technical finish, unless the user specifies otherwise
@@ -633,8 +640,9 @@ def add_dnc_skills(skill_library):
                 "Log": tuple(),
                 "Log, Longest": tuple(),
                 "Remove Buff": (tech_remove_followup,),
-                "Remove Buff, Log": (tech_remove_followup,),
+                "Log, Remove Buff": (tech_remove_followup,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 

@@ -198,10 +198,14 @@ def add_ast_skills(skill_library):
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
                     duration=15 * 1000, damage_mult=1.06, is_party_effect=True
                 ),
+                "Big": StatusEffectSpec(
+                    duration=15 * 1000, damage_mult=1.06, is_party_effect=True
+                ),
                 "Small": StatusEffectSpec(
                     duration=15 * 1000, damage_mult=1.03, is_party_effect=True
                 ),
             },
+            off_class_default_condition="Big"
         )
     )
 
@@ -498,6 +502,7 @@ def add_ast_skills(skill_library):
                             duration=15 * 1000, damage_mult=1.03, is_party_effect=True
                         ),
                     },
+                    off_class_default_condition="Big"
                 )
             )
 
@@ -547,6 +552,7 @@ def add_ast_skills(skill_library):
                             duration=15 * 1000, damage_mult=1.03, is_party_effect=True
                         ),
                     },
+                    off_class_default_condition="Big"
                 )
             )
                 

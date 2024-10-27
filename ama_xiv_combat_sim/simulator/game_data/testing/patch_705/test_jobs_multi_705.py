@@ -1,5 +1,3 @@
-import numpy as np
-
 from ama_xiv_combat_sim.simulator.game_data.job_class_tester_util import (
     JobClassTesterUtil,
 )
@@ -9,7 +7,6 @@ from ama_xiv_combat_sim.simulator.skills.create_skill_library import (
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
-from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
 from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
@@ -370,7 +367,7 @@ class TestJobsMultiUnified705(TestClass):
                 "Imperator",
                 "t1, t2",
                 SkillModifier(),
-                (base_imperator, 0.5*base_imperator),
+                (base_imperator, 0.5 * base_imperator),
             ),
         )
         test_passed1, err_msg1 = self.__job_class_tester.test_multi_target_skills(

@@ -15,9 +15,9 @@ from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
 
-
 class TestRotationBuilder(TestClass):
     def __init__(self):
+        super().__init__()
         self.__stats = Stats(
             wd=126,
             weapon_delay=3.44,
@@ -145,9 +145,13 @@ class TestRotationBuilder(TestClass):
             stats,
             self.__skill_library,
             enable_autos=True,
-            fight_start_time=0,            
-            downtime_windows={'Default Target': ((387.027, 399.01, DamageClass.AUTO),
-                                                 (383, 500, DamageClass.PET))}
+            fight_start_time=0,
+            downtime_windows={
+                "Default Target": (
+                    (387.027, 399.01, DamageClass.AUTO),
+                    (383, 500, DamageClass.PET),
+                )
+            },
         )
 
         rb.add(383, "test_physical_long_dot_gcd")
@@ -166,7 +170,7 @@ class TestRotationBuilder(TestClass):
                 self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
                 SkillModifier(),
                 [True, True],
-            ),            
+            ),
             (
                 SnapshotAndApplicationEvents.EventTimes(385000, 388500),
                 self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
@@ -190,7 +194,7 @@ class TestRotationBuilder(TestClass):
                 self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
                 SkillModifier(),
                 [True, True],
-            ),            
+            ),
             (
                 SnapshotAndApplicationEvents.EventTimes(385000, 400500),
                 self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
@@ -369,7 +373,7 @@ class TestRotationBuilder(TestClass):
             self.__skill_library,
             enable_autos=True,
             fight_start_time=0,
-            downtime_windows={'Default Target': ((387.027, 399.01),)}
+            downtime_windows={"Default Target": ((387.027, 399.01),)},
         )
 
         rb.add(383, "test_physical_long_dot_gcd")
@@ -2782,4 +2786,129 @@ class TestRotationBuilder(TestClass):
 
         result = rb.get_skill_timing().get_q()
         result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_off_class_job_condition(self):
+        rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
+        rb.add(0, "test_instant_gcd")
+        rb.add(3, "test_off_class_conditional", job_class="test_job2")
+        rb.add(6, "test_instant_gcd")
+        rb.add(
+            15,
+            "test_off_class_conditional",
+            job_class="test_job2",
+            skill_modifier=SkillModifier(with_condition="mega"),
+        )
+        rb.add(20, "test_instant_gcd")
+        
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(3000, None),
+                self.__skill_library.get_skill(
+                    "test_off_class_conditional", "test_job2"
+                ),
+                SkillModifier(with_condition="other"),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(6000, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(15000, None),
+                self.__skill_library.get_skill(
+                    "test_off_class_conditional", "test_job2"
+                ),
+                SkillModifier(with_condition="mega"),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(20000, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_off_class_job_condition_with_on_job(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=3.44,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=708,
+            job_class="test_job2",
+            version="test",
+        )
+
+        rb = RotationBuilder(stats, self.__skill_library, fight_start_time=0)
+        rb.add(0, "test_instant_gcd")
+        rb.add(3, "test_off_class_conditional")
+        rb.add(6, "test_off_class_conditional", job_class="test_job2")
+        rb.add(9, "test_instant_gcd")
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(3000, None),
+                self.__skill_library.get_skill(
+                    "test_off_class_conditional", "test_job2"
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(6000, None),
+                self.__skill_library.get_skill(
+                    "test_off_class_conditional", "test_job2"
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(9000, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
         return self._compare_sequential(result, expected)

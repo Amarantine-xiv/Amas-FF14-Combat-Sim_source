@@ -1,6 +1,3 @@
-import numpy as np
-
-from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
 from ama_xiv_combat_sim.simulator.game_data.job_class_tester_util import (
     JobClassTesterUtil,
 )
@@ -11,7 +8,6 @@ from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
-from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
 from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
@@ -718,7 +714,7 @@ class TestJobsUnified655(TestClass):
         rb.add(1, "Kassatsu")
         rb.add(3, "Hyosho Ranryu")
 
-        rb.add(423.369, "Spinning Edge") ##
+        rb.add(423.369, "Spinning Edge")  ##
         rb.add(425.947, "Kassatsu")
 
         rb.add(427.369, "Gust Slash")
@@ -738,7 +734,6 @@ class TestJobsUnified655(TestClass):
             ("Trick Attack", 16176.34),
             ("Bhavacakra", 15577.1),
             ("Hyosho Ranryu", 75066.2),
-
         )
 
         return self.__job_class_tester.test_rotation_damage(rb, expected)
@@ -800,7 +795,9 @@ class TestJobsUnified655(TestClass):
         expected_damage = 566924.6
         expected_total_time = 24748.0
 
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_drg_aggregate_rotation(self):
@@ -853,7 +850,9 @@ class TestJobsUnified655(TestClass):
 
         expected_damage = 465784.9
         expected_total_time = 32360.0
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_drg_bonus_percent_e2e(self):
@@ -1015,7 +1014,9 @@ class TestJobsUnified655(TestClass):
 
         expected_damage = 126529.1
         expected_total_time = 17860.0
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_sam_aggregate_rotation(self):
@@ -1068,7 +1069,9 @@ class TestJobsUnified655(TestClass):
 
         expected_damage = 630124.6
         expected_total_time = 32120.0
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_rpr_aggregate_rotation(self):
@@ -1115,7 +1118,9 @@ class TestJobsUnified655(TestClass):
 
         expected_damage = 464185.7
         expected_total_time = 24740.0
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_mnk_aggregate_rotation(self):
@@ -1163,7 +1168,9 @@ class TestJobsUnified655(TestClass):
 
         expected_damage = 368724
         expected_total_time = 18970
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_brd_add_gauge(self):
@@ -1417,7 +1424,9 @@ class TestJobsUnified655(TestClass):
             ),  # eat the Wheeling Thrust/Lance mastery buff, wasting it.
             ("Fang and Claw", 12674.8),
         )
-        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(rb, expected)
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb, expected
+        )
 
         rb = RotationBuilder(
             stats,
@@ -1431,7 +1440,9 @@ class TestJobsUnified655(TestClass):
 
         expected = (("Vorpal Thrust", 5488.0), ("Heavens' Thrust", 4231.9))
 
-        test_passed2, err_msg2 = self.__job_class_tester.test_rotation_damage(rb, expected)
+        test_passed2, err_msg2 = self.__job_class_tester.test_rotation_damage(
+            rb, expected
+        )
         return test_passed1 and test_passed2, ",".join([err_msg1, err_msg2])
 
     @TestClass.is_a_test

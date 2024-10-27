@@ -1,6 +1,3 @@
-import numpy as np
-
-from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
 from ama_xiv_combat_sim.simulator.game_data.job_class_tester_util import (
     JobClassTesterUtil,
 )
@@ -10,7 +7,6 @@ from ama_xiv_combat_sim.simulator.skills.create_skill_library import (
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
-from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
 from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )

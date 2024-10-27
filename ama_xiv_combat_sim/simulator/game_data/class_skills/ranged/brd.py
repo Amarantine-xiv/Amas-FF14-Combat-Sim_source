@@ -335,6 +335,7 @@ def add_brd_skills(skill_library):
                 "Army's Muse, 4 Repertoire": (army_muse_4_follow_up,),
                 "Buff Only": tuple(),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -432,6 +433,7 @@ def add_brd_skills(skill_library):
                 "3 Repertoire": (army_paeon_rep3,),
                 "4 Repertoire": (army_paeon_rep4,),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -537,6 +539,7 @@ def add_brd_skills(skill_library):
                 "Army's Muse, 4 Repertoire": (army_muse_4_follow_up,),
                 "Buff Only": tuple(),
             },
+            off_class_default_condition="Buff Only"
         )
     )
 
@@ -1008,13 +1011,13 @@ def add_brd_skills(skill_library):
                 "1 Mage's Coda, 1 Army's Coda, 1 Wanderer's Coda": StatusEffectSpec(
                     damage_mult=1.06, duration=all_brd_skills.get_skill_data(name, "duration"), is_party_effect=True
                 ),
-                "1 Coda, Buff Only": StatusEffectSpec(
+                "1 Coda": StatusEffectSpec(
                     damage_mult=1.02, duration=all_brd_skills.get_skill_data(name, "duration"), is_party_effect=True
                 ),
-                "2 Coda, Buff Only": StatusEffectSpec(
+                "2 Coda": StatusEffectSpec(
                     damage_mult=1.04, duration=all_brd_skills.get_skill_data(name, "duration"), is_party_effect=True
                 ),
-                "3 Coda, Buff Only": StatusEffectSpec(
+                "3 Coda": StatusEffectSpec(
                     damage_mult=1.06, duration=all_brd_skills.get_skill_data(name, "duration"), is_party_effect=True
                 ),
             },
@@ -1023,8 +1026,15 @@ def add_brd_skills(skill_library):
                     JobResourceSpec(name="Mage's Coda", change=-1),
                     JobResourceSpec(name="Army's Coda", change=-1),
                     JobResourceSpec(name="Wanderer's Coda", change=-1),
-                ),
-                "Buff Only": tuple(),
+                ),                
+                "1 Coda": tuple(),
+                "2 Coda": tuple(),
+                "3 Coda": tuple(),
+                #for backwards compatibility
+                "1 Coda, Buff Only": tuple(),
+                "2 Coda, Buff Only": tuple(),
+                "3 Coda, Buff Only": tuple(),
+                "Buff Only": tuple()
             },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=625
@@ -1038,9 +1048,9 @@ def add_brd_skills(skill_library):
                 "1 Mage's Coda, 1 Wanderer's Coda": (encore2,),
                 "1 Army's Coda, 1 Wanderer's Coda": (encore2,),
                 "1 Mage's Coda, 1 Army's Coda, 1 Wanderer's Coda": (encore3,),
-                "1 Coda, Buff Only": (encore1,),
-                "2 Coda, Buff Only": (encore2,),
-                "3 Coda, Buff Only": (encore3,),
+                "1 Coda": tuple(),
+                "2 Coda": tuple(),
+                "3 Coda": tuple(),
             } if level in [100] else tuple(),
             
         )

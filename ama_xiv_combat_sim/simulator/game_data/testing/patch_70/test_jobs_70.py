@@ -1,6 +1,3 @@
-import numpy as np
-
-from ama_xiv_combat_sim.simulator.damage_simulator import DamageSimulator
 from ama_xiv_combat_sim.simulator.game_data.job_class_tester_util import (
     JobClassTesterUtil,
 )
@@ -8,14 +5,11 @@ from ama_xiv_combat_sim.simulator.skills.create_skill_library import (
     create_skill_library,
 )
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
-from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
-from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
 from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
-from ama_xiv_combat_sim.simulator.utils import Utils
 
 
 class TestJobsUnified70(TestClass):
@@ -837,7 +831,10 @@ class TestJobsUnified70(TestClass):
         rb.add_next("Radiant Finale")
         rb.add_next("Sidewinder")
         rb.add_next("Radiant Encore")  # should be 3 coda
-        rb.add_next("Radiant Finale", SkillModifier(with_condition="2 Coda, Buff Only"))
+        rb.add_next(
+            "Radiant Finale",
+            SkillModifier(with_condition="1 Mage's Coda, 1 Army's Coda"),
+        )
         rb.add_next("Sidewinder")
         rb.add_next("Radiant Encore")  # should be 2 coda
         rb.add_next("Army's Paeon")
@@ -973,11 +970,11 @@ class TestJobsUnified70(TestClass):
             dh_stat=1453,
             speed_stat=771,
             job_class="MNK",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
         skills_and_expected_damage = (
-            ("Auto", SkillModifier(), 3036),            
+            ("Auto", SkillModifier(), 3036),
             ("Twin Snakes", SkillModifier(), 14867),
             ("Demolish", SkillModifier(), 15636),
             ("Rockbreaker", SkillModifier(), 5086),
@@ -1011,8 +1008,8 @@ class TestJobsUnified70(TestClass):
             dh_stat=1453,
             speed_stat=771,
             job_class="MNK",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
 
         rb = RotationBuilder(
@@ -1155,246 +1152,247 @@ class TestJobsUnified70(TestClass):
         )
         return self.__job_class_tester.test_rotation_damage(rb, expected)
 
-    # @TestClass.is_a_test
-    # def test_nin_hyosho_regression(self):
-    #     stats = Stats(
-    #         wd=132,
-    #         weapon_delay=2.56,
-    #         main_stat=3360,
-    #         dh_stat=1582,
-    #         crit_stat=2554,
-    #         # det_stat=1679,
-    #         det_stat=1679,
-    #         speed_stat=400,
-    #         job_class="NIN",
-    #             version=self.__version,
-    #             level=self.__level,
-    #     )
+    @TestClass.is_a_test
+    def test_nin_hyosho_regression(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            dh_stat=1582,
+            crit_stat=2554,
+            # det_stat=1679,
+            det_stat=1679,
+            speed_stat=400,
+            job_class="NIN",
+            version=self.__version,
+            level=self.__level,
+        )
 
-    #     rb = RotationBuilder(
-    #         stats,
-    #         self.__skill_library,
-    #         enable_autos=False,
-    #         ignore_trailing_dots=True,
-    #         snap_dots_to_server_tick_starting_at=0,
-    #     )
-    #     rb.add(1, "Kassatsu")
-    #     rb.add(3, "Hyosho Ranryu")
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        rb.add(1, "Kassatsu")
+        rb.add(3, "Hyosho Ranryu")
 
-    #     rb.add(423.369, "Spinning Edge")  ##
-    #     rb.add(425.947, "Kassatsu")
+        rb.add(423.369, "Spinning Edge")  ##
+        rb.add(425.947, "Kassatsu")
 
-    #     rb.add(427.369, "Gust Slash")
-    #     rb.add(429.506, "Armor Crush")
-    #     rb.add(430.798, "Bhavacakra")
-    #     rb.add(431.642, "Ten")
-    #     rb.add(432.132, "Jin")
-    #     rb.add(432.622, "Hyosho Ranryu")
+        rb.add(427.369, "Gust Slash")
+        rb.add(429.506, "Armor Crush")
+        rb.add(430.798, "Bhavacakra")
+        rb.add(431.642, "Ten")
+        rb.add(432.132, "Jin")
+        rb.add(432.622, "Hyosho Ranryu")
 
-    #     expected = (
-    #         ("Hyosho Ranryu", 67050),
-    #         ("Spinning Edge", 11880),
-    #         ("Gust Slash", 15051),
-    #         ("Armor Crush", 18986),
-    #         ("Bhavacakra", 15062),
-    #         ("Hyosho Ranryu", 66992),
-    #     )
+        expected = (
+            ("Hyosho Ranryu", 67050),
+            ("Spinning Edge", 11880),
+            ("Gust Slash", 15051),
+            ("Armor Crush", 18986),
+            ("Bhavacakra", 15062),
+            ("Hyosho Ranryu", 66992),
+        )
 
-    #     return self.__job_class_tester.test_rotation_damage(rb, expected)
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
 
-    # @TestClass.is_a_test
-    # def test_nin_damage_instances(self):
-    #     stats = Stats(
-    #         wd=132,
-    #         weapon_delay=2.56,
-    #         main_stat=3360,
-    #         det_stat=1697,
-    #         crit_stat=2554,
-    #         dh_stat=1582,
-    #         speed_stat=400,
-    #         job_class="NIN",
-    #             version=self.__version,
-    #             level=self.__level,
-    #     )
+    @TestClass.is_a_test
+    def test_nin_damage_instances(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            det_stat=1697,
+            crit_stat=2554,
+            dh_stat=1582,
+            speed_stat=400,
+            job_class="NIN",
+            version=self.__version,
+            level=self.__level,
+        )
 
-    #     rb = RotationBuilder(
-    #         stats,
-    #         self.__skill_library,
-    #         enable_autos=False,
-    #         ignore_trailing_dots=True,
-    #         snap_dots_to_server_tick_starting_at=0,
-    #     )
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next(
-    #         "Aeolian Edge", skill_modifier=SkillModifier(with_condition="Kazematoi")
-    #     )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        rb.add_next("Aeolian Edge")
+        rb.add_next(
+            "Aeolian Edge", skill_modifier=SkillModifier(with_condition="Kazematoi")
+        )
 
-    #     # armor crush tests
-    #     rb.add_next("Armor Crush")
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Aeolian Edge")
-    #     # 4 charges
-    #     rb.add_next("Armor Crush")
-    #     rb.add_next("Armor Crush")
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Aeolian Edge")
-    #     # doku
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Dokumori")
-    #     rb.add_next("Wait 3.00s")
-    #     rb.add_next("Aeolian Edge")
-    #     for _ in range(0, 5):
-    #         rb.add_next("Wait 9.00s")
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Kunai's Bane")
-    #     rb.add_next("Aeolian Edge")
-    #     # meisui
-    #     for _ in range(0, 5):
-    #         rb.add_next("Wait 9.00s")
-    #     rb.add_next("Zesho Meppo")
-    #     rb.add_next("Bhavacakra")
-    #     rb.add_next("Meisui")
-    #     rb.add_next("Zesho Meppo")
-    #     rb.add_next("Bhavacakra")
+        # armor crush tests
+        rb.add_next("Armor Crush")
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Aeolian Edge")
+        # 4 charges
+        rb.add_next("Armor Crush")
+        rb.add_next("Armor Crush")
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Aeolian Edge")
+        # doku
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Dokumori")
+        rb.add_next("Wait 3.00s")
+        rb.add_next("Aeolian Edge")
+        for _ in range(0, 5):
+            rb.add_next("Wait 9.00s")
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Kunai's Bane")
+        rb.add_next("Aeolian Edge")
+        # meisui
+        for _ in range(0, 5):
+            rb.add_next("Wait 9.00s")
+        rb.add_next("Zesho Meppo")
+        rb.add_next("Bhavacakra")
+        rb.add_next("Meisui")
+        rb.add_next("Zesho Meppo")
+        rb.add_next("Bhavacakra")
 
-    #     expected = (
-    #         ("Aeolian Edge", 10309),
-    #         ("Aeolian Edge", 14290),
-    #         #
-    #         ("Armor Crush", 11118),
-    #         ("Aeolian Edge", 14285),
-    #         ("Aeolian Edge", 14285),
-    #         ("Aeolian Edge", 10305),
-    #         #
-    #         ("Armor Crush", 11097),
-    #         ("Armor Crush", 11097),
-    #         ("Aeolian Edge", 14266),
-    #         ("Aeolian Edge", 14266),
-    #         ("Aeolian Edge", 14266),
-    #         ("Aeolian Edge", 14266),
-    #         ("Aeolian Edge", 10303),
-    #         # doku
-    #         ("Aeolian Edge", 10303),
-    #         ("Dokumori", 11892),
-    #         ("Aeolian Edge", 10812),
-    #         # Kunai
-    #         ("Aeolian Edge", 10319),
-    #         ("Kunai's Bane", 23791),
-    #         ("Aeolian Edge", 11353),
-    #         # meisui
-    #         ("Zesho Meppo", 21788),
-    #         ("Bhavacakra", 15089),
-    #         ("Zesho Meppo", 27753),
-    #         ("Bhavacakra", 15089),
-    #     )
-    #     return self.__job_class_tester.test_rotation_damage(rb, expected)
+        expected = (
+            ("Aeolian Edge", 10309),
+            ("Aeolian Edge", 14290),
+            #
+            ("Armor Crush", 11118),
+            ("Aeolian Edge", 14285),
+            ("Aeolian Edge", 14285),
+            ("Aeolian Edge", 10305),
+            #
+            ("Armor Crush", 11097),
+            ("Armor Crush", 11097),
+            ("Aeolian Edge", 14266),
+            ("Aeolian Edge", 14266),
+            ("Aeolian Edge", 14266),
+            ("Aeolian Edge", 14266),
+            ("Aeolian Edge", 10303),
+            # doku
+            ("Aeolian Edge", 10303),
+            ("Dokumori", 11892),
+            ("Aeolian Edge", 10812),
+            # Kunai
+            ("Aeolian Edge", 10319),
+            ("Kunai's Bane", 23791),
+            ("Aeolian Edge", 11353),
+            # meisui
+            ("Zesho Meppo", 21788),
+            ("Bhavacakra", 15089),
+            ("Zesho Meppo", 27753),
+            ("Bhavacakra", 15089),
+        )
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
 
-    # @TestClass.is_a_test
-    # def test_nin_rotation_damage_instances(self):
-    #     stats = Stats(
-    #         wd=132,
-    #         weapon_delay=2.56,
-    #         main_stat=3360,
-    #         det_stat=1697,
-    #         crit_stat=2554,
-    #         dh_stat=1582,
-    #         speed_stat=400,
-    #         job_class="NIN",
-    #             version=self.__version,
-    #             level=self.__level,
-    #     )
+    @TestClass.is_a_test
+    def test_nin_rotation_damage_instances(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            det_stat=1697,
+            crit_stat=2554,
+            dh_stat=1582,
+            speed_stat=400,
+            job_class="NIN",
+            version=self.__version,
+            level=self.__level,
+        )
 
-    #     rb = RotationBuilder(
-    #         stats, self.__skill_library, enable_autos=False, ignore_trailing_dots=True
-    #     )
-    #     rb.add(0, "Kassatsu")
-    #     rb.add(14, "Hyosho Ranryu")
-    #     rb.add(20, "Kassatsu")
-    #     rb.add(36, "Hyosho Ranryu")
+        rb = RotationBuilder(
+            stats, self.__skill_library, enable_autos=False, ignore_trailing_dots=True
+        )
+        rb.add(0, "Kassatsu")
+        rb.add(14, "Hyosho Ranryu")
+        rb.add(20, "Kassatsu")
+        rb.add(36, "Hyosho Ranryu")
 
-    #     rb.add(100, "Bunshin")
-    #     rb.add(102, "Gust Slash")
-    #     rb.add(104, "Aeolian Edge")
-    #     rb.add(106, "Hakke Mujinsatsu")
-    #     rb.add(108, "Armor Crush")
+        rb.add(100, "Bunshin")
+        rb.add(102, "Gust Slash")
+        rb.add(104, "Aeolian Edge")
+        rb.add(106, "Hakke Mujinsatsu")
+        rb.add(108, "Armor Crush")
 
-    #     expected = (
-    #         ("Hyosho Ranryu", 67006),
-    #         ("Hyosho Ranryu", 51565),
-    #         ("Gust Slash (pet)", 5801),
-    #         ("Gust Slash", 8722),
-    #         ("Aeolian Edge (pet)", 5799),
-    #         ("Aeolian Edge", 10317),
-    #         ("Hakke Mujinsatsu (pet)", 2902),
-    #         ("Hakke Mujinsatsu", 3963),
-    #         ("Armor Crush (pet)", 5802),
-    #         ("Armor Crush", 11091),
-    #     )
+        expected = (
+            ("Hyosho Ranryu", 67006),
+            ("Hyosho Ranryu", 51565),
+            ("Gust Slash (pet)", 5801),
+            ("Gust Slash", 8722),
+            ("Aeolian Edge (pet)", 5799),
+            ("Aeolian Edge", 10317),
+            ("Hakke Mujinsatsu (pet)", 2902),
+            ("Hakke Mujinsatsu", 3963),
+            ("Armor Crush (pet)", 5802),
+            ("Armor Crush", 11091),
+        )
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
 
-    #     return self.__job_class_tester.test_rotation_damage(rb, expected)
+    @TestClass.is_a_test
+    def test_nin_aggregate_rotation(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            det_stat=1697,
+            crit_stat=2554,
+            dh_stat=1582,
+            speed_stat=400,
+            job_class="NIN",
+            version=self.__version,
+            level=self.__level,
+        )
 
-    # @TestClass.is_a_test
-    # def test_nin_aggregate_rotation(self):
-    #     stats = Stats(
-    #         wd=132,
-    #         weapon_delay=2.56,
-    #         main_stat=3360,
-    #         det_stat=1697,
-    #         crit_stat=2554,
-    #         dh_stat=1582,
-    #         speed_stat=400,
-    #         job_class="NIN",
-    #             version=self.__version,
-    #             level=self.__level,
-    #     )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=True,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        rb.add_next("Huton")
+        rb.add_next("Hide")
+        rb.add_next("Suiton")
+        rb.add_next("Kassatsu")
+        rb.add_next("Spinning Edge")
+        rb.add_next("Grade 8 Tincture")
+        rb.add_next("Gust Slash")
+        rb.add_next("Dokumori")
+        rb.add_next("Bunshin")
+        rb.add_next("Phantom Kamaitachi")
+        rb.add_next("Kunai's Bane")
+        rb.add_next("Aeolian Edge")
+        rb.add_next("Dream Within a Dream")
+        rb.add_next("Ten")
+        rb.add_next("Jin")
+        rb.add_next("Hyosho Ranryu")
+        rb.add_next("Ten")
+        rb.add_next("Chi")
+        rb.add_next("Raiton")
+        rb.add_next("Ten Chi Jin")
+        rb.add_next("Fuma Shuriken")
+        rb.add_next("Raiton")
+        rb.add_next("Suiton")
+        rb.add_next("Meisui")
+        rb.add_next("Forked Raiju")
+        rb.add_next("Bhavacakra")
+        rb.add_next("Forked Raiju")
+        rb.add_next("Bhavacakra")
+        rb.add_next("Ten")
+        rb.add_next("Chi")
+        rb.add_next("Raiton")
+        rb.add_next("Forked Raiju")
+        expected_damage = 625945
+        expected_total_time = 27228.0
 
-    #     rb = RotationBuilder(
-    #         stats,
-    #         self.__skill_library,
-    #         enable_autos=True,
-    #         ignore_trailing_dots=True,
-    #         snap_dots_to_server_tick_starting_at=0,
-    #     )
-    #     rb.add_next("Huton")
-    #     rb.add_next("Hide")
-    #     rb.add_next("Suiton")
-    #     rb.add_next("Kassatsu")
-    #     rb.add_next("Spinning Edge")
-    #     rb.add_next("Grade 8 Tincture")
-    #     rb.add_next("Gust Slash")
-    #     rb.add_next("Dokumori")
-    #     rb.add_next("Bunshin")
-    #     rb.add_next("Phantom Kamaitachi")
-    #     rb.add_next("Kunai's Bane")
-    #     rb.add_next("Aeolian Edge")
-    #     rb.add_next("Dream Within a Dream")
-    #     rb.add_next("Ten")
-    #     rb.add_next("Jin")
-    #     rb.add_next("Hyosho Ranryu")
-    #     rb.add_next("Ten")
-    #     rb.add_next("Chi")
-    #     rb.add_next("Raiton")
-    #     rb.add_next("Ten Chi Jin")
-    #     rb.add_next("Fuma Shuriken")
-    #     rb.add_next("Raiton")
-    #     rb.add_next("Suiton")
-    #     rb.add_next("Meisui")
-    #     rb.add_next("Forked Raiju")
-    #     rb.add_next("Bhavacakra")
-    #     rb.add_next("Forked Raiju")
-    #     rb.add_next("Bhavacakra")
-    #     rb.add_next("Ten")
-    #     rb.add_next("Chi")
-    #     rb.add_next("Raiton")
-    #     rb.add_next("Forked Raiju")
-    #     expected_damage = 625945
-    #     expected_total_time = 27228.0
-
-    #     return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_sam_combos(self):
@@ -1407,8 +1405,8 @@ class TestJobsUnified70(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="SAM",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
 
         rb = RotationBuilder(
@@ -1433,7 +1431,9 @@ class TestJobsUnified70(TestClass):
 
         expected_damage = 137348
         expected_total_time = 17940
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_sam_aggregate_rotation(self):
@@ -1446,8 +1446,8 @@ class TestJobsUnified70(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="SAM",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
 
         rb = RotationBuilder(
@@ -1486,7 +1486,9 @@ class TestJobsUnified70(TestClass):
 
         expected_damage = 666727
         expected_total_time = 32220
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_sam_rotation_damage_instances(self):
@@ -1499,8 +1501,8 @@ class TestJobsUnified70(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="SAM",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
 
         rb = RotationBuilder(
@@ -1542,8 +1544,8 @@ class TestJobsUnified70(TestClass):
             dh_stat=1558,
             speed_stat=436,
             job_class="RPR",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
 
         rb = RotationBuilder(
@@ -1576,7 +1578,9 @@ class TestJobsUnified70(TestClass):
 
         expected_damage = 482862
         expected_total_time = 24800
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_rpr_damage_instances(self):
@@ -1589,8 +1593,8 @@ class TestJobsUnified70(TestClass):
             dh_stat=1558,
             speed_stat=436,
             job_class="RPR",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
 
         rb = RotationBuilder(
@@ -1931,8 +1935,8 @@ class TestJobsUnified70(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="VPR",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
 
         rb = RotationBuilder(
@@ -1978,7 +1982,9 @@ class TestJobsUnified70(TestClass):
 
         expected_damage = 583522
         expected_total_time = 29380
-        return self.__job_class_tester.test_aggregate_rotation(rb, expected_damage, expected_total_time)
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
 
     @TestClass.is_a_test
     def test_vpr_rotation_damage_instances(self):
@@ -1991,8 +1997,8 @@ class TestJobsUnified70(TestClass):
             dh_stat=1494,
             speed_stat=508,
             job_class="VPR",
-                version=self.__version,
-                level=self.__level,
+            version=self.__version,
+            level=self.__level,
         )
         rb = RotationBuilder(
             stats,
@@ -2115,3 +2121,507 @@ class TestJobsUnified70(TestClass):
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time
         )
+
+    @TestClass.is_a_test
+    def test_nin_dokumori_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(1, "Dokumori", job_class="NIN")
+        rb1.add(5, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 5953),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        stats2 = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            dh_stat=1582,
+            crit_stat=2554,
+            # det_stat=1679,
+            det_stat=1679,
+            speed_stat=400,
+            job_class="NIN",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb2 = RotationBuilder(
+            stats2,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb2.add(0.0, "Spinning Edge")
+        rb2.add(1, "Dokumori", job_class="NIN")
+        rb2.add(5, "Spinning Edge")
+
+        expected = (
+            ("Spinning Edge", 11885),
+            ("Dokumori", 11885),
+            ("Spinning Edge", 12479),
+        )
+        test_passed2, err_msg2 = self.__job_class_tester.test_rotation_damage(
+            rb2, expected
+        )
+
+        return test_passed1 and test_passed2, ", ".join([err_msg1, err_msg2])
+
+    @TestClass.is_a_test
+    def test_pct_starry_muse_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(1, "Starry Muse", job_class="PCT")
+        rb1.add(5, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 5953),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        return test_passed1, err_msg1
+
+    @TestClass.is_a_test
+    def test_brd_mages_ballad_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(1, "Mage's Ballad", job_class="BRD")
+        rb1.add(5, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 5726),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        stats2 = Stats(
+            wd=132,
+            weapon_delay=3.04,
+            main_stat=3379,
+            det_stat=1885,
+            crit_stat=2598,
+            dh_stat=1344,
+            speed_stat=479,
+            job_class="BRD",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb2 = RotationBuilder(
+            stats2,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb2.add(0.0, "Burst Shot")
+        rb2.add(1, "Mage's Ballad")
+        rb2.add(5, "Burst Shot")
+
+        expected = (
+            ("Burst Shot", 10635),
+            ("Burst Shot", 10741),
+        )
+        test_passed2, err_msg2 = self.__job_class_tester.test_rotation_damage(
+            rb2, expected
+        )
+
+        return test_passed1 and test_passed2, ", ".join([err_msg1, err_msg2])
+
+    @TestClass.is_a_test
+    def test_brd_wanderers_minuet_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(1, "The Wanderer's Minuet", job_class="BRD")
+        rb1.add(5, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 5726),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        stats2 = Stats(
+            wd=132,
+            weapon_delay=3.04,
+            main_stat=3379,
+            det_stat=1885,
+            crit_stat=2598,
+            dh_stat=1344,
+            speed_stat=479,
+            job_class="BRD",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb2 = RotationBuilder(
+            stats2,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb2.add(0.0, "Burst Shot")
+        rb2.add(1, "The Wanderer's Minuet")
+        rb2.add(5, "Burst Shot")
+
+        expected = (
+            ("Burst Shot", 10635),
+            ("Burst Shot", 10741),
+        )
+        test_passed2, err_msg2 = self.__job_class_tester.test_rotation_damage(
+            rb2, expected
+        )
+
+        return test_passed1 and test_passed2, ", ".join([err_msg1, err_msg2])
+
+    @TestClass.is_a_test
+    def test_brd_armys_paeon_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(1, "Army's Paeon", job_class="BRD")
+        rb1.add(5, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 5726),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        stats2 = Stats(
+            wd=132,
+            weapon_delay=3.04,
+            main_stat=3379,
+            det_stat=1885,
+            crit_stat=2598,
+            dh_stat=1344,
+            speed_stat=479,
+            job_class="BRD",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb2 = RotationBuilder(
+            stats2,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb2.add(0.0, "Burst Shot")
+        rb2.add(1, "Army's Paeon")
+        rb2.add(5, "Burst Shot")
+
+        expected = (
+            ("Burst Shot", 10635),
+            ("Burst Shot", 10741),
+        )
+        test_passed2, err_msg2 = self.__job_class_tester.test_rotation_damage(
+            rb2, expected
+        )
+
+        return test_passed1 and test_passed2, ", ".join([err_msg1, err_msg2])
+
+    @TestClass.is_a_test
+    def test_brd_radiant_finale_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(
+            1,
+            "Radiant Finale",
+            job_class="BRD",
+            skill_modifier=SkillModifier(with_condition="2 Coda"),
+        )
+        rb1.add(5, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 5897),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        return test_passed1, err_msg1
+
+    @TestClass.is_a_test
+    def test_dnc_tech_finish_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(1, "Quadruple Technical Finish", job_class="DNC")
+        rb1.add(5, "Heavy Swing")
+        rb1.add(100, "Double Technical Finish", job_class="DNC")
+        rb1.add(105, "Heavy Swing")
+        rb1.add(201, "Technical Finish", job_class="DNC")
+        rb1.add(205, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 5953),
+            ("Heavy Swing", 5783),
+            ("Heavy Swing", 5953),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        return test_passed1, err_msg1
+
+    @TestClass.is_a_test
+    def test_dnc_standard_finish_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(1, "Double Standard Finish", job_class="DNC")
+        rb1.add(5, "Heavy Swing")
+        rb1.add(100, "Single Technical Finish", job_class="DNC")
+        rb1.add(105, "Heavy Swing")
+        rb1.add(200, "Standard Finish", job_class="DNC")
+        rb1.add(205, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 5953),
+            ("Heavy Swing", 5726),
+            ("Heavy Swing", 5953),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        return test_passed1, err_msg1
+
+    @TestClass.is_a_test
+    def test_ast_off_class_default_condition(self):
+        stats1 = Stats(
+            wd=126,
+            weapon_delay=3.36,
+            main_stat=2910,
+            det_stat=1980,
+            crit_stat=2313,
+            dh_stat=868,
+            speed_stat=592,
+            tenacity=631,
+            job_class="WAR",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb1 = RotationBuilder(
+            stats1,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+            fight_start_time=0,
+        )
+        rb1.add(0.0, "Heavy Swing")
+        rb1.add(1, "The Spear", job_class="AST")
+        rb1.add(5, "Heavy Swing")
+        rb1.add(
+            100,
+            "The Spear",
+            job_class="AST",
+            skill_modifier=SkillModifier(with_condition="Small"),
+        )
+        rb1.add(105, "Heavy Swing")
+        rb1.add(200, "Card", job_class="AST")
+        rb1.add(205, "Heavy Swing")
+
+        expected = (
+            ("Heavy Swing", 5670),
+            ("Heavy Swing", 6010),
+            ("Heavy Swing", 5840),
+            ("Heavy Swing", 6010),
+        )
+        test_passed1, err_msg1 = self.__job_class_tester.test_rotation_damage(
+            rb1, expected
+        )
+
+        return test_passed1, err_msg1

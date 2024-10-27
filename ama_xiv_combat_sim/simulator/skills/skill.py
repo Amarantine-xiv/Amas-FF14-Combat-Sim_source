@@ -39,6 +39,8 @@ class Skill:
     )
     # how much potency is off from the primary skill. Requires damage_spec to be a dictionary.
     aoe_dropoff: float = None
+    # the skill conditional to use by default if this skill is used by another class
+    off_class_default_condition: str = SimConsts.DEFAULT_CONDITION
 
     @staticmethod
     def __canonicalize_dict(dict_to_use):
