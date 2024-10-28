@@ -153,3 +153,5 @@ Cless
 Kaiser08259
 
 Mahdi (from the Allagan Studies Discord server)
+#   P a t h O f E x i l e C r a f t S o l v e r  
+ 
