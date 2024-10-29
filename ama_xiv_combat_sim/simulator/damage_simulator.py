@@ -112,11 +112,11 @@ class DamageSimulator:
         if save_damage_matrix:
             self.__damage_matrix = damage_matrix
 
-        self.__damage = np.sum(damage_matrix, axis=0)
-        self.__dps = (
-            self.__damage / fight_time
+        self.__sampled_damage = np.sum(damage_matrix, axis=0)
+        self.__sampled_dps = (
+            self.__sampled_damage / fight_time
             if fight_time > 0
-            else np.full(self.__damage.shape, math.inf)
+            else np.full(self.__sampled_damage.shape, math.inf)
         )
 
     @staticmethod
@@ -155,10 +155,10 @@ class DamageSimulator:
         return self.__damage_tracker.get_trait_damage_mult()
 
     def get_raw_damage(self):
-        return self.__damage
+        return self.__sampled_damage
 
     def get_dps(self):
-        return self.__dps
+        return self.__sampled_dps
 
     def get_damage_time(self):
         return self.__damage_tracker.time
