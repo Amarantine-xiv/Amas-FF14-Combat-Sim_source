@@ -31,7 +31,7 @@ class PerInstanceDamage(
 
 class DamageSimulator:
     def __init__(
-        self, stats, dmg_instances, num_samples, verbose=False, save_damage_matrix=False
+        self, stats, dmg_instances, num_samples, verbose=False, save_damage_matrix=False, save_crit_dh_status = False,
     ):
         self.__dmg_instances = copy.deepcopy(dmg_instances)
         # defensively sort
@@ -41,13 +41,13 @@ class DamageSimulator:
         start_time = time.time()
         self.__damage_matrix = None
 
-        self.__compile_damage(num_samples, save_damage_matrix)
+        self.__compile_damage(num_samples, save_damage_matrix, save_crit_dh_status)
         end_time = time.time()
         if verbose:
             print(f"Simulation time took: {end_time - start_time}")
 
     # dmg_instances is a list in format: # (current_time, skill, (buffs, debuffs), event_id)
-    def __compile_damage(self, num_samples, save_damage_matrix=False):
+    def __compile_damage(self, num_samples, save_damage_matrix=False, save_crit_dh_status=False):
         self.__target = [0] * len(self.__dmg_instances)
         i = 0
         for (
@@ -107,11 +107,17 @@ class DamageSimulator:
         expected_mean, expected_variance = self.__get_expected_damage_and_variance_per_damage_instance()
         self.__per_skill_damage_mean = expected_mean
         self.__per_skill_damage_std = list(np.sqrt(expected_variance))
-            
-        damage_matrix = self.__damage_tracker.compute_damage(num_samples)
+        
+        if save_crit_dh_status:
+            damage_matrix, crit_status, dh_status = self.__damage_tracker.compute_damage(num_samples)        
+            self.__crit_status = crit_status
+            self.__dh_status = dh_status
+        else:
+            damage_matrix, _, _ = self.__damage_tracker.compute_damage(num_samples)        
+        
         if save_damage_matrix:
             self.__damage_matrix = damage_matrix
-
+        
         self.__sampled_damage = np.sum(damage_matrix, axis=0)
         self.__sampled_dps = (
             self.__sampled_damage / fight_time
@@ -165,6 +171,12 @@ class DamageSimulator:
 
     def get_damage_matrix(self):
         return self.__damage_matrix
+    
+    def get_crit_status(self):
+        return self.__crit_status
+
+    def get_dh_status(self):
+        return self.__dh_status
 
     def get_damage_ranges(self):
         skill_names = [x[1].name for x in self.__dmg_instances]

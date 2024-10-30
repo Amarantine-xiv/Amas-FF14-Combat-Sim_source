@@ -81,7 +81,7 @@ class DamageTracker:
     ):
         low_damage = 1 - base_damage_range / 2
 
-        num_damage_instances = base_damage.shape[0]
+        num_damage_instances = base_damage.shape[0]        
         total_damage = np.floor(
             base_damage
             * (
@@ -89,25 +89,27 @@ class DamageTracker:
                 + base_damage_range * np.random.rand(num_damage_instances, num_samples)
             )
         )
+        crit_status = crit_rate >= np.random.rand(num_damage_instances, num_samples)
         total_damage += np.floor(
             np.multiply(
                 total_damage,
                 np.multiply(
                     crit_bonus,
-                    crit_rate >= np.random.rand(num_damage_instances, num_samples),
+                    crit_status,
                 ),
             )
         )
+        dh_status = dh_rate >= np.random.rand(num_damage_instances, num_samples)        
         total_damage += np.floor(
             np.multiply(
                 total_damage,
                 GameConsts.DH_DAMAGE_MULT_BONUS
-                * (dh_rate >= np.random.rand(num_damage_instances, num_samples)),
+                * dh_status,
             )
         )
         total_damage = np.floor(np.multiply(total_damage, self.trait_damage_mult))
         total_damage = np.floor(np.multiply(total_damage, damage_mult))
-        return total_damage
+        return total_damage, crit_status, dh_status
 
     def get_damage_ranges_and_probabilities(self):
         # return[i]: (string to identify crit/dh status, low damage, high damage, probability)
@@ -119,7 +121,7 @@ class DamageTracker:
         low_init_base_damage = np.floor(0.95 * self.base_damage)
         high_init_base_damage = np.floor(1.05 * self.base_damage)
 
-        low_base_damage = self.__get_damage(
+        low_base_damage, _, _ = self.__get_damage(
             low_init_base_damage,
             self.crit_bonus,
             0,
@@ -128,7 +130,7 @@ class DamageTracker:
             1,
             base_damage_range=0,
         )
-        high_base_damage = self.__get_damage(
+        high_base_damage, _, _ = self.__get_damage(
             high_init_base_damage,
             self.crit_bonus,
             0,
@@ -138,7 +140,7 @@ class DamageTracker:
             base_damage_range=0,
         )
 
-        low_crit = self.__get_damage(
+        low_crit, _, _ = self.__get_damage(
             low_init_base_damage,
             self.crit_bonus,
             1,
@@ -147,7 +149,7 @@ class DamageTracker:
             1,
             base_damage_range=0,
         )
-        high_crit = self.__get_damage(
+        high_crit, _, _ = self.__get_damage(
             high_init_base_damage,
             self.crit_bonus,
             1,
@@ -157,7 +159,7 @@ class DamageTracker:
             base_damage_range=0,
         )
 
-        low_dh = self.__get_damage(
+        low_dh, _, _ = self.__get_damage(
             low_init_base_damage,
             self.crit_bonus,
             0,
@@ -166,7 +168,7 @@ class DamageTracker:
             1,
             base_damage_range=0,
         )
-        high_dh = self.__get_damage(
+        high_dh, _, _ = self.__get_damage(
             high_init_base_damage,
             self.crit_bonus,
             0,
@@ -176,7 +178,7 @@ class DamageTracker:
             base_damage_range=0,
         )
 
-        low_crit_dh = self.__get_damage(
+        low_crit_dh, _, _ = self.__get_damage(
             low_init_base_damage,
             self.crit_bonus,
             1,
@@ -185,7 +187,7 @@ class DamageTracker:
             1,
             base_damage_range=0,
         )
-        high_crit_dh = self.__get_damage(
+        high_crit_dh, _, _ = self.__get_damage(
             high_init_base_damage,
             self.crit_bonus,
             1,
@@ -243,7 +245,7 @@ class DamageTracker:
             num_samples,
         )
 
-    # Return matrix of [#of damages instances x # of samples]
+    # Return matrix of [#of damages instances x # of samples] of damage, crit, and dh statuses
     def compute_damage(self, num_samples):
         return self.__sample_damage_instances(num_samples)
 
