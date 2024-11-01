@@ -7,7 +7,7 @@ If you would like to run the sim but do not want to install it, go to the [Pytho
 If you would like to install the sim to run locally, run ```pip install ama-xiv-combat-sim``` on your machine to install the core packages. You may want to refer to some of the code in the [Python Notebook](https://github.com/Amarantine-xiv/Amas-FF14-Combat-Sim/blob/main/CoreSimulator.ipynb) to grab some visualization/plotting code that visualizes the sim's output.
 
 # About
-This open-source package simulates the damage of given gearsets and rotations, producing the full distributions over damage values and various statistics, like the expected max damage over N runs (useful for parsers). Currently, all lvl 90 standard combat classes are supported (lvl 100 and Dawntrail support will come in the future, after Dawntrail is released). For issues/feature requests and news, join the [Discord](https://discord.gg/CV6sHj8h9D) server.
+This open-source package simulates the damage of given gearsets and rotations, producing the full distributions over damage values and various statistics, like the expected max damage over N runs (useful for parsers). Currently, all lvl 100 standard combat classes are supported. For issues/feature requests and news, join the [Discord](https://discord.gg/CV6sHj8h9D) server.
 
 Unlike other simulators/spreadsheets, this gives more than just expected damage with an approximation of damage variance- this is an accurate [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method) simulation that gives the full range and distribution over all possible damage values. This tool is an installable pip package, and is also in a standalone [Python Notebook](https://github.com/Amarantine-xiv/Amas-FF14-Combat-Sim/blob/main/CoreSimulator.ipynb) that can be run on Google's Colab in 2 mouse clicks.
 
@@ -55,8 +55,7 @@ rb.add(6.3, 'Chain Stratagem', job_class='SCH')
 rb.add(7.1, 'Battle Litany', job_class='DRG')
 rb.add(0.8, 'Arcane Circle', job_class='RPR')
 rb.add(6.28, 'Embolden', job_class='RDM')
-# Mug also does damage. To indicate we only want the debuff portion of the skill, we indicate so with the "Debuff Only" tag.
-rb.add(6.3, 'Mug', job_class='NIN', skill_modifier=SkillModifier(with_condition='Debuff Only')) 
+rb.add(6.3, 'Dokumori', job_class='NIN') 
 
 # Actual skill usage for our class, WAR.
 # Note here, when uses add_next, we need only specify the name of the skill. In general, this is whatever the name of the button you would press in-game is.
