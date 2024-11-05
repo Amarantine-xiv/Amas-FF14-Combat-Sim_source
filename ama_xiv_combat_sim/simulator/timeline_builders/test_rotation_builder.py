@@ -2912,3 +2912,76 @@ class TestRotationBuilder(TestClass):
         result = rb.get_skill_timing().get_q()
         result = [x[1:5] for x in rb.get_skill_timing().get_q()]
         return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_channeling(self):
+        rb = RotationBuilder(
+            self.__stats,
+            self.__skill_library,
+            enable_autos=True,
+            fight_start_time=0,
+        )
+
+        rb.add(0, "test_instant_gcd")
+        rb.add(2, "test_channeling")
+        rb.add(8, "test_instant_gcd")
+        rb.add(12, "test_channeling")
+        rb.add(25, "test_instant_gcd")        
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, 500),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(2000, None),
+                self.__skill_library.get_skill("test_channeling", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(8000, 8500),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(8000, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(11440, 11940),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(12000, None),
+                self.__skill_library.get_skill("test_channeling", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(22000, 22500),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(25000, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),)
+        result = rb.get_skill_timing().get_q()
+        result = [result[i][1:5] for i in range(0, len(result))]        
+        return self._compare_sequential(result, expected)

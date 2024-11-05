@@ -7,6 +7,7 @@ from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.skills.skill_library import SkillLibrary
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
+from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
@@ -162,11 +163,15 @@ def create_test_skill_library():
         num_uses=1,
         skill_allowlist=("test_instant_gcd",),
     )
+    simple_channeling_spec = ChannelingSpec(duration=10000)
+    num_uses_channeling_spec = ChannelingSpec(duration=10000,
+                                              num_uses=3,
+                                              skill_allowlist=(("test_gcd"),))
 
     # Skill creation
     test_gcd = Skill(
         name="test_gcd", is_GCD=True, timing_spec=gcd_2500, damage_spec=simple_damage
-    )
+    )    
     test_gcd_1500_lock = Skill(
         name="test_gcd_1500_lock",
         is_GCD=True,
@@ -844,6 +849,18 @@ def create_test_skill_library():
             skill_allowlist=(("test_instant_gcd", "test_skill_use_gauge")),
         ),
     )
+    test_channeling = Skill(
+        name="test_channeling",
+        is_GCD=True,
+        timing_spec=ogcd_instant,
+        channeling_spec=simple_channeling_spec,
+    )
+    test_channeling_num_uses = Skill(
+        name="test_channeling_num_uses",
+        is_GCD=True,
+        timing_spec=ogcd_instant,
+        channeling_spec=num_uses_channeling_spec,
+    )
 
     skill_library.add_skill(test_gcd)
     skill_library.add_skill(test_ogcd)
@@ -922,7 +939,8 @@ def create_test_skill_library():
     skill_library.add_skill(test_follow_up_for_multi_target_main)
     skill_library.add_skill(test_folllow_up_for_multi_target_primary_only)
     skill_library.add_skill(test_follow_up_for_multi_target_main_primary_only)
-
+    skill_library.add_skill(test_channeling)
+    skill_library.add_skill(test_channeling_num_uses)
     skill_library.set_status_effect_priority(
         ("test_num_uses_buff_with_priority1", "test_num_uses_buff_with_priority2")
     )

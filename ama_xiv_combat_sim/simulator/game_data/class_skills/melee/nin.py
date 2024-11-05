@@ -3,6 +3,7 @@ from ama_xiv_combat_sim.simulator.game_data.convenience_timings import (
     get_auto_timing,
     get_instant_timing_spec,
 )
+from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
@@ -1087,6 +1088,15 @@ def add_nin_skills(skill_library):
         )
     )
 
+    ninjutsus = (
+        "Fuma Shuriken",
+        "Katon",
+        "Raiton",
+        "Hyoton",
+        "Huton",
+        "Doton",
+        "Suiton",
+    )
     name = "Ten Chi Jin"
     skill_library.add_skill(
         Skill(
@@ -1096,16 +1106,11 @@ def add_nin_skills(skill_library):
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=3,
-                duration=6 * 1000,
-                skill_allowlist=(
-                    "Fuma Shuriken",
-                    "Katon",
-                    "Raiton",
-                    "Hyoton",
-                    "Huton",
-                    "Doton",
-                    "Suiton",
-                ),
+                duration=6000,
+                skill_allowlist=ninjutsus,
+            ),
+            channeling_spec=ChannelingSpec(
+                duration=6000, skill_allowlist=ninjutsus, num_uses=3
             ),
         )
     )

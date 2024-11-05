@@ -11,6 +11,7 @@ from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
 
+
 class TestJobsUnified705(TestClass):
     def __init__(self):
         super().__init__()
@@ -830,7 +831,10 @@ class TestJobsUnified705(TestClass):
         rb.add_next("Radiant Finale")
         rb.add_next("Sidewinder")
         rb.add_next("Radiant Encore")  # should be 3 coda
-        rb.add_next("Radiant Finale", SkillModifier(with_condition="1 Mage's Coda, 1 Army's Coda"))
+        rb.add_next(
+            "Radiant Finale",
+            SkillModifier(with_condition="1 Mage's Coda, 1 Army's Coda"),
+        )
         rb.add_next("Sidewinder")
         rb.add_next("Radiant Encore")  # should be 2 coda
         rb.add_next("Army's Paeon")
@@ -1337,6 +1341,81 @@ class TestJobsUnified705(TestClass):
             ("Hakke Mujinsatsu", 3963),
             ("Armor Crush (pet)", 5802),
             ("Armor Crush", 11091),
+        )
+
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
+    def test_nin_tcj_use_all_charges(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            det_stat=1697,
+            crit_stat=2554,
+            dh_stat=1582,
+            speed_stat=400,
+            job_class="NIN",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb = RotationBuilder(
+            stats, self.__skill_library, enable_autos=True, ignore_trailing_dots=True
+        )
+        rb.add(0, "Spinning Edge")        
+        rb.add(2, "Ten Chi Jin")
+        rb.add(3, "Fuma Shuriken")
+        rb.add(5, "Raiton")
+        rb.add(7, "Suiton")
+        rb.add(9.8, "Spinning Edge")
+
+        expected = (
+            ("Spinning Edge", 11899),
+            ("Auto", 3027),            
+            ("Fuma Shuriken", 19833),
+            ("Raiton", 29351),
+            ("Auto", 3027),
+            ("Suiton", 23005),
+            ("Auto", 3027),
+            ("Spinning Edge", 11899),
+            
+        )
+
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
+    def test_nin_tcj_expire_charges(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            det_stat=1697,
+            crit_stat=2554,
+            dh_stat=1582,
+            speed_stat=400,
+            job_class="NIN",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb = RotationBuilder(
+            stats, self.__skill_library, enable_autos=True, ignore_trailing_dots=True
+        )
+        rb.add(0, "Spinning Edge")        
+        rb.add(2, "Ten Chi Jin")
+        rb.add(3, "Fuma Shuriken")
+        rb.add(5, "Raiton")        
+        rb.add(9.8, "Spinning Edge")
+
+        expected = (
+            ("Spinning Edge", 11899),
+            ("Auto", 3027),            
+            ("Fuma Shuriken", 19833),
+            ("Raiton", 29351),
+            ("Auto", 3027), #only 1 auto, since we wait for TCJ to expire
+            ("Spinning Edge", 11899),
+            
         )
 
         return self.__job_class_tester.test_rotation_damage(rb, expected)

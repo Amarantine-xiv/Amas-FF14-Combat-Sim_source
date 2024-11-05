@@ -10,6 +10,7 @@ from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_eve
     SnapshotAndApplicationEvents,
 )
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.trackers.channeling_tracker import ChannelingTracker
 from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
 from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import (
     JobResourceTracker,
@@ -751,6 +752,7 @@ class RotationBuilder:
 
     # Result: a heap encapsualted by SnapshotAndApplicationEvents. See
     # SnapshotAndApplicationEvents's documentation for what the data format is.
+    # This function takes up a lot of time for some reason.
     def get_skill_timing(self):
 
         # Each downtime range is the semi-open interval [start_time, end_time). In other
@@ -835,10 +837,11 @@ class RotationBuilder:
             curr_debuffs_and_skill_modifier,
         ), job_resource_tracker.compile_job_resources(curr_t, skill)
 
-    def get_cast_periods(self):
+    def get_no_auto_periods(self):
         q = copy.deepcopy(self._q_timed)
-        res = []
+        cast_periods = []
         se_tracker = StatusEffectTracker(self.__status_effect_priority)
+        c_tracker = ChannelingTracker()
         job_resource_tracker = JobResourceTracker(
             self._skill_library.get_all_resource_settings(self.__stats.job_class)
         )
@@ -849,6 +852,7 @@ class RotationBuilder:
         while len(q) > 0:
             (t, skill, skill_modifier, _, _) = heapq.heappop(q)
             se_tracker.expire_status_effects(t)
+            c_tracker.process_channeling(t, skill, skill_modifier)
             curr_buffs_and_skill_modifier = se_tracker.compile_buffs(t, skill)
             curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(t, skill)
 
@@ -878,14 +882,17 @@ class RotationBuilder:
                 skill.get_timing_spec(skill_modifier), skill_modifier, curr_buffs
             )
             if cast_time > 0:
-                res.append((t, t + cast_time))
+                cast_periods.append((t, t + cast_time))
             # assume target does not affect speed....dangerous....
             se_tracker.add_to_status_effects(
                 t, skill, skill_modifier, targets=(self.__default_target,)
             )
             job_resource_tracker.add_resource(t, skill, skill_modifier)
-        res.sort()
-        return res
+        c_tracker.finalize()
+        non_auto_periods = list(c_tracker.get_channeling_windows())
+        non_auto_periods.extend(cast_periods)
+        non_auto_periods.sort()
+        return non_auto_periods
 
     # This is only called during a downtime window.
     def forward_to_next_non_downtime_time(self, snapshot_time, auto_target):
@@ -896,15 +903,15 @@ class RotationBuilder:
                 return r[1]
         return snapshot_time
 
-    def __get_next_auto_time(self, t, cast_periods, auto_target):
+    def __get_next_auto_time(self, t, no_auto_periods, auto_target):        
         t = self.forward_to_next_non_downtime_time(t, auto_target)
-        intersecting_cast_periods = list(
-            filter(lambda x: (x[0] <= t) and (x[1] >= t), cast_periods)
+        intersecting_no_auto_periods = list(
+            filter(lambda x: (x[0] <= t) and (x[1] >= t), no_auto_periods)
         )
         return (
             t
-            if len(intersecting_cast_periods) == 0
-            else intersecting_cast_periods[-1][1]
+            if len(intersecting_no_auto_periods) == 0
+            else max(x[1] for x in intersecting_no_auto_periods)            
         )
 
     # Autos, if enabled, always start at first event application time.
@@ -922,9 +929,7 @@ class RotationBuilder:
         timestamps_and_main_target = copy.deepcopy(self.__timestamps_and_main_target)
         timestamps_and_main_target.sort(key=lambda x: x[0])
         timestamps_and_main_target = shorten_sequence(timestamps_and_main_target)
-
-        
-        cast_periods = self.get_cast_periods()
+                
         weapon_delay = int(1000 * self.__stats.weapon_delay)  # convert to ms
 
         if self._skill_library.has_skill("Shot", self.__stats.job_class):
@@ -986,8 +991,9 @@ class RotationBuilder:
                 * curr_debuffs.auto_attack_delay_mult,
                 2,
             )
+            no_auto_periods = self.get_no_auto_periods()
             snapshot_time = self.__get_next_auto_time(
-                snapshot_time, cast_periods, auto_target
+                snapshot_time, no_auto_periods, auto_target
             )
             application_time = snapshot_time + auto_skill.timing_spec.application_delay
 

@@ -1,3 +1,6 @@
+import time
+
+
 class TestClass:
     def __init__(self):
         self.test_fns = []
@@ -28,7 +31,7 @@ class TestClass:
         if expected != result:
             test_passed = False
             err_msg += (
-                f"Sets are not equal.Expected vs actual: {expected} \n\n {result}"
+                f"Sets are not equal. Expected vs actual: {expected} \n\n {result}"
             )
         return test_passed, err_msg
 
@@ -38,7 +41,9 @@ class TestClass:
         err_msg = ""
         if len(expected) != len(result):
             test_passed = False
-            err_msg += f"Expected {len(expected)} skills returned. Instead got {len(result)}. "
+            err_msg += (
+                f"Expected {len(expected)} skills returned. Instead got {len(result)}. "
+            )
             return test_passed, err_msg
         for i, expect in enumerate(expected):
             if relative_tol is None:
@@ -64,29 +69,40 @@ class TestClass:
         for test_name in passing:
             print(f"{test_name}")
 
-    def run_single(self, test_name):
+    def run_single(self, test_name, show_timing=False):
         for test_fn in self._get_test_methods():
             if test_name == test_fn.__name__:
+                t0 = time.time()
                 test_passed, err_msg = test_fn()
                 if test_passed:
                     print(f"{test_name} passed!")
-                    return
                 else:
                     print(f"{test_name} failed: {err_msg}")
-                    return
+                t1 = time.time()
+                if show_timing:
+                    print(f"Test '{test_name}' took {t1-t0:.2f}s")
+                return
         print(f"No test found with name {test_name}")
 
-    def run_all(self, verbose=False):
+    def run_all(self, verbose=False, show_timing=False):
         passing = []
         failing = []
+        tot_time = 0
         for test_fn in self._get_test_methods():
+            t0 = time.time()
             test_name = test_fn.__name__
             test_passed, err_msg = test_fn()
             if test_passed:
                 passing.append(test_name)
             else:
                 failing.append((test_name, err_msg))
+            t1 = time.time()
+            if show_timing:
+                print(f"Test '{test_name}' took {t1-t0:.2f}s")
+            tot_time += t1 - t0
         if verbose or len(failing) > 0:
             self.print_result(passing, failing)
             print("================")
+        if show_timing:
+            print(f"total time taken: {tot_time:.2f}s")
         return (len(passing), len(failing))

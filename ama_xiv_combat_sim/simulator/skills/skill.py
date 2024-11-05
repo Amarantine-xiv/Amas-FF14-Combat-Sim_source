@@ -2,6 +2,7 @@ import copy
 
 from dataclasses import dataclass
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
@@ -22,6 +23,7 @@ class Skill:
     timing_spec: Any = None
     buff_spec: Any = None
     debuff_spec: Any = None
+    channeling_spec: Any = None
     job_resource_spec: Any = tuple()
     combo_spec: Any = tuple()
     status_effect_denylist: tuple = ()
@@ -293,6 +295,14 @@ class Skill:
             self.damage_spec.keys(), skill_modifier.with_condition
         )
         return self.damage_spec[key_to_use]
+
+    def get_channeling_spec(self, skill_modifier):
+        if self.channeling_spec is None or isinstance(self.channeling_spec, ChannelingSpec):
+            return self.channeling_spec
+        key_to_use = Utils.get_best_key(
+            self.channeling_spec.keys(), skill_modifier.with_condition
+        )
+        return self.channeling_spec[key_to_use]
 
     def __hash__(self):
         return hash(self.name)

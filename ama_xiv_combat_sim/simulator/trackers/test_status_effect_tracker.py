@@ -15,6 +15,7 @@ from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import (
 
 class TestStatusEffectTracker(TestClass):
     def __init__(self):
+        super().__init__()
         self.__skill_library = create_test_skill_library()
 
     @TestClass.is_a_test

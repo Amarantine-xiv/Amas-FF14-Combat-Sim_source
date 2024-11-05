@@ -7,6 +7,7 @@ from ama_xiv_combat_sim.simulator.game_data.convenience_timings import (
 )
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
@@ -559,6 +560,16 @@ def add_ast_skills(skill_library):
     name = "Minor Arcana"
     skill_library.add_skill(
         Skill(name=name, is_GCD=False, timing_spec=instant_timing_spec)
+    )
+
+    name = "Collective Unconscious"
+    skill_library.add_skill(
+        Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=instant_timing_spec,
+            channeling_spec=ChannelingSpec(duration=18000),
+        )
     )
 
     return skill_library

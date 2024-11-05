@@ -6,6 +6,7 @@ from ama_xiv_combat_sim.simulator.game_data.convenience_timings import (
 )
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
+from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
@@ -337,7 +338,11 @@ def add_pld_skills(skill_library):
         imperator_damage_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=all_pld_skills.get_potency(name))},
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=all_pld_skills.get_potency(name)
+                    )
+                },
                 has_aoe=True,
                 aoe_dropoff=0.5,
             ),
@@ -351,7 +356,10 @@ def add_pld_skills(skill_library):
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=0
                 ),
-                follow_up_skills=(imperator_damage_follow_up, req_charges_follow_up,),
+                follow_up_skills=(
+                    imperator_damage_follow_up,
+                    req_charges_follow_up,
+                ),
             )
         )
 
@@ -584,6 +592,15 @@ def add_pld_skills(skill_library):
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
+    name = "Passage of Arms"
+    skill_library.add_skill(
+        Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=instant_timing_spec,
+            channeling_spec=ChannelingSpec(duration=18000),
+        )
+    )
     skill_library.add_skill(
         Skill(name="Rampart", is_GCD=False, timing_spec=instant_timing_spec)
     )

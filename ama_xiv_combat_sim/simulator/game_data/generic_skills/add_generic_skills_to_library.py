@@ -10,7 +10,7 @@ from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
-
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 
 def __get_clear_all_job_resources_follow_up(name):
     res = FollowUp(
@@ -117,7 +117,7 @@ def __get_brink():
 
 def __add_wait(skill_library):
     for i in range(0, 10000, 10):
-        skill_name = "Wait {:.2f}s".format(i / 1000)
+        skill_name = f"{SimConsts.WAIT_PREFIX} {i/1000:.2f}s"        
         skill_library.add_skill(
             Skill(
                 name=skill_name,
