@@ -189,7 +189,6 @@ class TestJobsUnified705(TestClass):
                 SkillModifier(with_condition="Divine Might, Requiescat"),
                 12752,
             ),
-            ("Requiescat", SkillModifier(), 8167),
             ("Holy Circle", SkillModifier(), 2548),
             ("Holy Circle", SkillModifier(with_condition="Divine Might"), 5100),
             ("Holy Circle", SkillModifier(with_condition="Requiescat"), 7651),
@@ -236,7 +235,7 @@ class TestJobsUnified705(TestClass):
         rb = RotationBuilder(
             stats, self.__skill_library, enable_autos=False, ignore_trailing_dots=True
         )
-        rb.add_next("Requiescat")
+        rb.add_next("Imperator")
         rb.add_next("Confiteor")
         rb.add_next("Confiteor")
         rb.add_next("Imperator")
@@ -249,9 +248,9 @@ class TestJobsUnified705(TestClass):
 
         confiteor_damage_big = 25528
         confiteor_damage_small = 12748
-        expected = (
-            ("Requiescat", 8157),
+        expected = (            
             ("Confiteor", confiteor_damage_big),
+            ("Imperator", 14794),
             ("Confiteor", confiteor_damage_big),
             ("Imperator", 14802),
             ("Confiteor", confiteor_damage_big),
@@ -595,12 +594,26 @@ class TestJobsUnified705(TestClass):
             skill_modifier=SkillModifier(with_condition="Remove Buff"),
         )
         rb.add_next("Cascade")
-
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Wait 9.00s")
+        rb.add_next("Finishing Move")
+        rb.add_next("Cascade")
+        
         expected = (
             ("Cascade", 10676),
             ("Double Standard Finish", 41262),
             ("Cascade", 11200),
             ("Cascade", 10677),
+            ("Finishing Move", 41249),
+            ("Cascade", 11205),
         )
         test_passed2, err_msg2 = self.__job_class_tester.test_rotation_damage(
             rb, expected

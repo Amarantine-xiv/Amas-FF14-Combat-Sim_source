@@ -20,7 +20,8 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.blm_data import 
 
 
 def add_blm_skills(skill_library):
-    all_blm_skills.set_version(skill_library.get_version())
+    version = skill_library.get_version()
+    all_blm_skills.set_version(version)
 
     level = skill_library.get_level()
     all_blm_skills.set_level(level)
@@ -459,9 +460,7 @@ def add_blm_skills(skill_library):
         fire_keys = tuple(fire_damage_spec.keys())
         for k in fire_keys:
             assembled_str = (
-                "Sharpcast"
-                if k == SimConsts.DEFAULT_CONDITION
-                else "{k}, Sharpcast"
+                "Sharpcast" if k == SimConsts.DEFAULT_CONDITION else "{k}, Sharpcast"
             )
             fire_damage_spec[assembled_str] = fire_damage_spec[k]
             fire_timing_spec[assembled_str] = fire_timing_spec[k]
@@ -533,9 +532,7 @@ def add_blm_skills(skill_library):
     fire_iii_keys = tuple(fire_iii_damage_spec.keys())
     for k in fire_iii_keys:
         assembled_str = (
-            "Firestarter"
-            if k == SimConsts.DEFAULT_CONDITION
-            else f"{k}, Firestarter"
+            "Firestarter" if k == SimConsts.DEFAULT_CONDITION else f"{k}, Firestarter"
         )
         fire_iii_damage_spec[assembled_str] = fire_iii_damage_spec[k]
         fire_iii_timing_spec[assembled_str] = TimingSpec(
@@ -681,12 +678,15 @@ def add_blm_skills(skill_library):
                 potency=int(potency_modifier * enhanced_flare_potency)
             )
     flare_timing_spec = get_enochian_timing_spec_cross(
-        base_cast_time=4000, is_fire_spell=True, application_delay=1160
+        base_cast_time=all_blm_skills.get_skill_data(name, "cast time"),
+        is_fire_spell=True,
+        application_delay=1160,
     )
     flare_timing_keys = tuple(flare_timing_spec.keys())
     for k in flare_timing_keys:
         assembled_str = f"{k}, Enhanced"
         flare_timing_spec[assembled_str] = flare_timing_spec[k]
+        
     skill_library.add_skill(
         Skill(
             name=name,
@@ -830,7 +830,10 @@ def add_blm_skills(skill_library):
                 base_potency=all_blm_skills.get_potency(name), is_fire_spell=True
             ),
             timing_spec=get_enochian_timing_spec_cross(
-                base_cast_time=3000, is_fire_spell=True, application_delay=490
+                base_cast_time=all_blm_skills.get_skill_data(name, "cast time"),
+                is_fire_spell=True,
+                application_delay=490,
+                # may need to change the animation lock for when it's instant cast?
             ),
             job_resource_spec=(
                 clear_umbral_ice,
@@ -1066,21 +1069,40 @@ def add_blm_skills(skill_library):
                 duration=10 * 1000,
                 num_uses=1,
                 skill_allowlist=(
-                    "Thunder III",
-                    "Thunder IV",
-                    "Blizzard",
-                    "High Blizzard II",
-                    "Blizzard III",
-                    "Blizzard IV",
-                    "Freeze",
-                    "Fire",
-                    "High Fire II",
-                    "Fire III",
-                    "Fire IV",
-                    "Despair",
-                    "Flare",
-                    "Paradox",
-                    "Flare Star",
+                    (
+                        "Thunder III",
+                        "Thunder IV",
+                        "Blizzard",
+                        "High Blizzard II",
+                        "Blizzard III",
+                        "Blizzard IV",
+                        "Freeze",
+                        "Fire",
+                        "High Fire II",
+                        "Fire III",
+                        "Fire IV",
+                        "Flare",
+                        "Paradox",
+                        "Flare Star",
+                    )
+                    if version in ["7.1"]
+                    else (
+                        "Thunder III",
+                        "Thunder IV",
+                        "Blizzard",
+                        "High Blizzard II",
+                        "Blizzard III",
+                        "Blizzard IV",
+                        "Freeze",
+                        "Fire",
+                        "High Fire II",
+                        "Fire III",
+                        "Fire IV",
+                        "Despair",
+                        "Flare",
+                        "Paradox",
+                        "Flare Star",
+                    )
                 ),
             ),
         )
@@ -1097,21 +1119,40 @@ def add_blm_skills(skill_library):
                 duration=10 * 1000,
                 num_uses=3,
                 skill_allowlist=(
-                    "Thunder III",
-                    "Thunder IV",
-                    "Blizzard",
-                    "High Blizzard II",
-                    "Blizzard III",
-                    "Blizzard IV",
-                    "Freeze",
-                    "Fire",
-                    "High Fire II",
-                    "Fire III",
-                    "Fire IV",
-                    "Despair",
-                    "Flare",
-                    "Paradox",
-                    "Flare Star",
+                    (
+                        "Thunder III",
+                        "Thunder IV",
+                        "Blizzard",
+                        "High Blizzard II",
+                        "Blizzard III",
+                        "Blizzard IV",
+                        "Freeze",
+                        "Fire",
+                        "High Fire II",
+                        "Fire III",
+                        "Fire IV",
+                        "Flare",
+                        "Paradox",
+                        "Flare Star",
+                    )
+                    if version in ["7.1"]
+                    else (
+                        "Thunder III",
+                        "Thunder IV",
+                        "Blizzard",
+                        "High Blizzard II",
+                        "Blizzard III",
+                        "Blizzard IV",
+                        "Freeze",
+                        "Fire",
+                        "High Fire II",
+                        "Fire III",
+                        "Fire IV",
+                        "Despair",
+                        "Flare",
+                        "Paradox",
+                        "Flare Star",
+                    )
                 ),
             ),
         )

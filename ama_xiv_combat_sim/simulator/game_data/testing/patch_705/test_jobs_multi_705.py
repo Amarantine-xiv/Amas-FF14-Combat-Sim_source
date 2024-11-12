@@ -379,7 +379,7 @@ class TestJobsMultiUnified705(TestClass):
         rb.add(3, "Total Eclipse", skill_modifier=SkillModifier(), targets="t1")
         rb.add(6, "Prominence", skill_modifier=SkillModifier(), targets="t1, t2")
 
-        rb.add(100, "Requiescat")
+        rb.add(100, "Imperator")
         rb.add(103, "Confiteor", targets="t1, t2")
         rb.add(106, "Confiteor", targets="t1, t2")
         rb.add(109, "Confiteor", targets="t1")
@@ -392,7 +392,7 @@ class TestJobsMultiUnified705(TestClass):
             ("Total Eclipse", 2546),
             ("Prominence", 4337),
             ("Prominence", 4337),
-            ("Requiescat", 8155),
+            ("Imperator", 14794),
             ("Confiteor", 25500),
             ("Confiteor", 12747),  # non-primary target
             ("Confiteor", 25500),

@@ -1,5 +1,4 @@
 import copy
-from dataclasses import dataclass
 
 
 class SkillLibrary:
@@ -23,8 +22,8 @@ class SkillLibrary:
         return self.__level
 
     def add_combo_breaker(self, combo_group, combo_breaker):
-      #combo_group is the group to be broken
-      #combo_breaker is what breaks that group
+        # combo_group is the group to be broken
+        # combo_breaker is what breaks that group
         assert isinstance(
             combo_breaker, tuple
         ), "combo_breaker group should be a tuple of ints"
@@ -54,7 +53,7 @@ class SkillLibrary:
         try:
             return self.__skills[job_class][skill_name]
         except:
-            raise KeyError("Not in skill library: {}/{}".format(job_class, skill_name))
+            raise KeyError(f"Not in skill library: {job_class}/{skill_name}")
 
     def set_current_job_class(self, job_name):
         if job_name not in self.__skills:
@@ -96,6 +95,22 @@ class SkillLibrary:
     def print_skills(self):
         for job_name in self.__skills:
             for skill_name in self.__skills[job_name]:
-                print("Job name: {}, Skill name: {}".format(job_name, skill_name))
-                
-    
+                print(f"Job name: {job_name}, Skill name: {skill_name}")
+
+    def add_all_skills_from(self, all_class_skills):
+        self.set_current_job_class(all_class_skills.get_job_class())
+
+        status_effect_priority = all_class_skills.get_status_effect_priority()
+        if status_effect_priority is not None:
+            self.set_status_effect_priority(status_effect_priority)
+
+        combo_breakers = all_class_skills.get_combo_breakers()
+        if combo_breakers is not None:
+            for combo_breaker in combo_breakers:
+                self.add_combo_breaker(combo_breaker[0], combo_breaker[1])
+
+        for sk in all_class_skills.get_skills():
+            self.add_skill(sk)
+
+        for resource in all_class_skills.get_resources():
+            self.add_resource(resource[0], resource[1])

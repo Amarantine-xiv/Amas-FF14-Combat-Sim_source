@@ -48,7 +48,7 @@ ALL_DATA = {
     },
     "Dream Within a Dream": {
         90: {"potency": {"6.55": 150}},
-        100: {"potency": {"7.0": 150}},
+        100: {"potency": {"7.0": 150, "7.1": 180}},
     },
     "Doton (dot)": {90: {"potency": {"6.55": 80}}, 100: {"potency": {"7.0": 80}}},
     "Doton hollow nozuchi (dot)": {
@@ -63,7 +63,7 @@ ALL_DATA = {
             "potency_no_combo": {"7.0": 220, "7.05": 240},
         },
     },
-    "Throwing Dagger": {90: {"potency": {"6.55": 120}}, 100: {"potency": {"7.0": 120}}},
+    "Throwing Dagger": {90: {"potency": {"6.55": 120}}, 100: {"potency": {"7.0": 120, "7.1": 200}}},
     "Mug": {90: {"potency": {"6.55": 150}, "duration": {"6.55": int(20.5 * 1000)}}},
     "Trick Attack": {
         90: {

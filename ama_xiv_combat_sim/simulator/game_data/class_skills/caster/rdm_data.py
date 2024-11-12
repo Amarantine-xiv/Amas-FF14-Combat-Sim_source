@@ -43,10 +43,19 @@ ALL_DATA = {
     "Jolt II": {90: {"potency": {"6.55": 320}}, 100: {"potency": {"7.0": 280}}},
     "Jolt III": {100: {"potency": {"7.0": 360}}},
     "Impact": {90: {"potency": {"6.55": 210}}, 100: {"potency": {"7.0": 210}}},
-    "Verflare": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 620}}},
-    "Verholy": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 620}}},
+    "Verflare": {
+        90: {"potency": {"6.55": 600}},
+        100: {"potency": {"7.0": 620, "7.1": 650}},
+    },
+    "Verholy": {
+        90: {"potency": {"6.55": 600}},
+        100: {"potency": {"7.0": 620, "7.1": 650}},
+    },
     "Reprise": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
-    "Scorch": {90: {"potency": {"6.55": 680}}, 100: {"potency": {"7.0": 700}}},
+    "Scorch": {
+        90: {"potency": {"6.55": 680}},
+        100: {"potency": {"7.0": 700, "7.1": 750}},
+    },
     "Verthunder III": {
         90: {"potency": {"6.55": 380}},
         100: {"potency": {"7.0": 420, "7.05": 440}},
@@ -55,7 +64,10 @@ ALL_DATA = {
         90: {"potency": {"6.55": 380}},
         100: {"potency": {"7.0": 420, "7.05": 440}},
     },
-    "Resolution": {90: {"potency": {"6.55": 750}}, 100: {"potency": {"7.0": 800}}},
+    "Resolution": {
+        90: {"potency": {"6.55": 750}},
+        100: {"potency": {"7.0": 800, "7.1": 850}},
+    },
     "Vice of Thorns": {100: {"potency": {"7.0": 700}}},
     "Grand Impact": {100: {"potency": {"7.0": 600}}},
     "Prefulgence": {100: {"potency": {"7.0": 900}}},
@@ -79,7 +91,7 @@ ALL_DATA = {
     "Enchanted Moulinet Trois": {100: {"potency": {"7.0": 150}}},
     "Enchanted Reprise": {
         90: {"potency": {"6.55": 340}},
-        100: {"potency": {"7.0": 380, "7.0": 420}},
+        100: {"potency": {"7.0": 380, "7.05": 420}},
     },
 }
 

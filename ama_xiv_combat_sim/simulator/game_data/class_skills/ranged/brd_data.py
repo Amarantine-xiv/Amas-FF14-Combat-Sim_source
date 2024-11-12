@@ -5,18 +5,22 @@ from ama_xiv_combat_sim.simulator.game_data.specific_skills import (
 all_brd_skills = SpecificSkills()
 
 ALL_DATA = {
-    "Stormbite (dot)": {90: {"potency": {"6.55": 25}},
-                        100: {"potency": {"7.0": 25}}},
-    "Caustic Bite (dot)": {90: {"potency": {"6.55": 20}},
-                           100: {"potency": {"7.0": 20}}},
-    "Bloodletter": {90: {"potency": {"6.55": 110}},
-                    100: {"potency": {"7.0": 130}}},
+    "Stormbite (dot)": {90: {"potency": {"6.55": 25}}, 100: {"potency": {"7.0": 25}}},
+    "Caustic Bite (dot)": {
+        90: {"potency": {"6.55": 20}},
+        100: {"potency": {"7.0": 20}},
+    },
+    "Bloodletter": {
+        90: {"potency": {"6.55": 110, "7.0": 130}},
+        100: {"potency": {"7.0": 130}},
+    },
     "Mage's Ballad": {90: {"potency": {"6.55": 100}}},
     "Army's Paeon": {90: {"potency": {"6.55": 100}}},
-    "Rain of Death": {90: {"potency": {"6.55": 100}},
-                      100: {"potency": {"7.0": 100}}},
-    "Battle Voice": {90: {"duration": {"6.55": 15 * 1000}},
-                     100: {"duration": {"7.0": 20 * 1000}}},
+    "Rain of Death": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
+    "Battle Voice": {
+        90: {"duration": {"6.55": 15 * 1000, "7.0": 20 * 1000}},
+        100: {"duration": {"7.0": 20 * 1000}},
+    },
     "The Wanderer's Minuet": {90: {"potency": {"6.55": 100}}},
     "Pitch Perfect": {
         90: {
@@ -28,26 +32,25 @@ ALL_DATA = {
             "1 Repertoire": {"7.0": 100},
             "2 Repertoire": {"7.0": 220},
             "3 Repertoire": {"7.0": 360},
-        }
+        },
     },
-    "Empyreal Arrow": {90: {"potency": {"6.55": 240}},
-                       100: {"potency": {"7.0": 260}}},    
-    "Iron Jaws": {90: {"potency": {"6.55": 100}},
-                  100: {"potency": {"7.0": 100}}},    
-    "Sidewinder": {90: {"potency": {"6.55": 320}},
-                   100: {"potency": {"7.0": 400}}},
-    
-    "Caustic Bite": {90: {"potency": {"6.55": 150}},
-                     100: {"potency": {"7.0": 150}}},
-    
-    "Stormbite": {90: {"potency": {"6.55": 100}},
-                  100: {"potency": {"7.0": 100}}},
-    "Refulgent Arrow": {90: {"potency": {"6.55": 280}},
-                        100: {"potency": {"7.0": 280}}},
-    "Shadowbite": {90: {"potency": {"6.55": 170}, "potency_barrage": {"6.55": 270}},
-                   100: {"potency": {"7.0": 170}, "potency_barrage": {"7.0": 270}}},
-    "Burst Shot": {90: {"potency": {"6.55": 220}},
-                   100: {"potency": {"7.0": 220}}},
+    "Empyreal Arrow": {90: {"potency": {"6.55": 240}}, 100: {"potency": {"7.0": 260}}},
+    "Iron Jaws": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
+    "Sidewinder": {90: {"potency": {"6.55": 320}}, 100: {"potency": {"7.0": 400}}},
+    "Caustic Bite": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
+    "Stormbite": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
+    "Refulgent Arrow": {
+        90: {"potency": {"6.55": 280, "7.0": 260}},
+        100: {"potency": {"7.0": 280}},
+    },
+    "Shadowbite": {
+        90: {"potency": {"6.55": 170}, "potency_barrage": {"6.55": 270}},
+        100: {"potency": {"7.0": 170}, "potency_barrage": {"7.0": 270}},
+    },
+    "Burst Shot": {
+        90: {"potency": {"6.55": 220, "7.0": 200}},
+        100: {"potency": {"7.0": 220}},
+    },
     "Apex Arrow": {
         90: {
             "20 Soul Voice": {"6.55": 100},
@@ -86,14 +89,14 @@ ALL_DATA = {
             "90 Soul Voice": {"7.0": 540},
             "95 Soul Voice": {"7.0": 570},
             "100 Soul Voice": {"7.0": 600},
-        }
+        },
     },
-    "Ladonsbite": {90: {"potency": {"6.55": 130}},
-                   100: {"potency": {"7.0": 130}}},
-    "Blast Arrow": {90: {"potency": {"6.55": 600}},
-                    100: {"potency": {"7.0": 600}}},
-    "Radiant Finale": {90: {"duration": {"6.55": int(15 * 1000)}},
-                       100: {"duration": {"7.0": int(20 * 1000)}}},
+    "Ladonsbite": {90: {"potency": {"6.55": 130}}, 100: {"potency": {"7.0": 130}}},
+    "Blast Arrow": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
+    "Radiant Finale": {
+        90: {"duration": {"6.55": 15 * 1000, "7.0": 20 * 1000}},
+        100: {"duration": {"7.0": 20 * 1000}},
+    },
     "Heartbreak Shot": {100: {"potency": {"7.0": 180}}},
     "Resonant Arrow": {100: {"potency": {"7.0": 600}}},
     "Radiant Encore": {

@@ -6,7 +6,7 @@ all_drk_skills = SpecificSkills()
 
 ALL_DATA = {
     "Hard Slash": {
-        90: {"potency": {"6.55": 170}},
+        90: {"potency": {"6.55": 170, "7.05": 180}},
         100: {"potency": {"7.0": 260, "7.05": 300}},
     },
     "Syphon Strike": {
@@ -19,7 +19,10 @@ ALL_DATA = {
     "Unleash": {90: {"potency": {"6.55": 120}}, 100: {"potency": {"7.0": 120}}},
     "Unmend": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
     "Souleater": {
-        90: {"potency": {"6.55": 340}, "potency_no_combo": {"6.55": 120}},
+        90: {
+            "potency": {"6.55": 340, "7.05": 360},
+            "potency_no_combo": {"6.55": 120, "7.05": 140},
+        },
         100: {
             "potency": {"7.0": 460, "7.05": 480},
             "potency_no_combo": {"7.0": 240, "7.05": 260},
@@ -45,20 +48,23 @@ ALL_DATA = {
         90: {"potency": {"6.55": 510}},
         100: {"potency": {"7.0": 510, "7.05": 540}},
     },
-    "Bloodspiller": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 580}}},
+    "Bloodspiller": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 580, "7.1": 600}}},
     "Quietus": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 240}}},
     "Shadowbringer": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
     "Living Shadow": {
-        90: {"potency_base": {"6.55": 350}, "potency_shadowbringer": {"6.55": 500}},
+        90: {
+            "potency_base": {"6.55": 350, "7.0": 420},
+            "potency_shadowbringer": {"6.55": 500, "7.0": 570},
+        },
         100: {
             "potency_base": {"7.0": 420},
             "potency_shadowbringer": {"7.0": 570},
             "potency_disesteem": {"7.0": 620},
         },
     },
-    "Scarlet Delirium": {100: {"potency": {"7.0": 600}}},
-    "Comeuppance": {100: {"potency": {"7.0": 700}}},
-    "Torcleaver": {100: {"potency": {"7.0": 800}}},
+    "Scarlet Delirium": {100: {"potency": {"7.0": 600, "7.1": 620}}},
+    "Comeuppance": {100: {"potency": {"7.0": 700, "7.1": 720}}},
+    "Torcleaver": {100: {"potency": {"7.0": 800, "7.1": 820}}},
     "Impalement": {100: {"potency": {"7.0": 320}}},
     "Disesteem": {100: {"potency": {"7.0": 800, "7.05": 1000}}},
 }

@@ -55,14 +55,17 @@ ALL_DATA = {
     "Mountain Buster": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 160}}},
     "Slipstream (dot)": {90: {"potency": {"6.55": 30}}, 100: {"potency": {"7.0": 30}}},
     "Slipstream": {90: {"potency": {"6.55": 430}}, 100: {"potency": {"7.0": 490}}},
-    "Inferno (pet)": {90: {"potency": {"6.55": 750}}, 100: {"potency": {"7.0": 750}}},
+    "Inferno (pet)": {
+        90: {"potency": {"6.55": 750}},
+        100: {"potency": {"7.0": 750, "7.1": 800}},
+    },
     "Earthen Fury (pet)": {
         90: {"potency": {"6.55": 750}},
-        100: {"potency": {"7.0": 750}},
+        100: {"potency": {"7.0": 750, "7.1": 800}},
     },
     "Aerial Blast (pet)": {
         90: {"potency": {"6.55": 750}},
-        100: {"potency": {"7.0": 750}},
+        100: {"potency": {"7.0": 750, "7.1": 800}},
     },
     "Scarlet Flame (pet)": {
         90: {"potency": {"6.55": 150}},
@@ -74,7 +77,7 @@ ALL_DATA = {
     "Luxwave": {100: {"potency": {"7.0": 160}}},
     "Umbral Impulse": {100: {"potency": {"7.0": 600, "7.05": 620}}},
     "Umbral Flare": {100: {"potency": {"7.0": 280}}},
-    "Sunflare": {100: {"potency": {"7.0": 600, "7.05": 700}}},
+    "Sunflare": {100: {"potency": {"7.0": 600, "7.05": 700, "7.1": 800}}},
     "Exodus (Pet)": {100: {"potency": {"7.0": 1600}}},
 }
 

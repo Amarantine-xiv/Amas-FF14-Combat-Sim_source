@@ -34,7 +34,10 @@ ALL_DATA = {
     "Eye Gouge": {90: {"potency": {"6.55": 280}}, 100: {"potency": {"7.0": 320}}},
     "Fated Circle": {90: {"potency": {"6.55": 300}}, 100: {"potency": {"7.0": 300}}},
     "Blasting Zone": {90: {"potency": {"6.55": 720}}, 100: {"potency": {"7.0": 800}}},
-    "Hypervelocity": {90: {"potency": {"6.55": 180}}, 100: {"potency": {"7.0": 220}}},
+    "Hypervelocity": {
+        90: {"potency": {"6.55": 180, "7.1": 160}},
+        100: {"potency": {"7.0": 220, "7.1": 200}},
+    },
     "Double Down": {90: {"potency": {"6.55": 1200}}, 100: {"potency": {"7.0": 1200}}},
     "Fated Brand": {100: {"potency": {"7.0": 120}}},
     "Reign of Beasts": {100: {"potency": {"7.0": 800}}},

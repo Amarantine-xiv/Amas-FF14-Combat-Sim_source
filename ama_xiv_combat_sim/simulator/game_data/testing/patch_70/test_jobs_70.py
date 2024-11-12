@@ -188,8 +188,7 @@ class TestJobsUnified70(TestClass):
                 "Holy Spirit",
                 SkillModifier(with_condition="Divine Might, Requiescat"),
                 11983,
-            ),
-            ("Requiescat", SkillModifier(), 8167),
+            ),            
             ("Holy Circle", SkillModifier(), 2548),
             ("Holy Circle", SkillModifier(with_condition="Divine Might"), 5100),
             ("Holy Circle", SkillModifier(with_condition="Requiescat"), 7651),
@@ -236,7 +235,7 @@ class TestJobsUnified70(TestClass):
         rb = RotationBuilder(
             stats, self.__skill_library, enable_autos=False, ignore_trailing_dots=True
         )
-        rb.add_next("Requiescat")
+        rb.add_next("Imperator")
         rb.add_next("Confiteor")
         rb.add_next("Confiteor")
         rb.add_next("Imperator")
@@ -247,9 +246,9 @@ class TestJobsUnified70(TestClass):
         # last one should be weaker, since we should only have 4 charges from early imperator
         rb.add_next("Confiteor")
 
-        expected = (
-            ("Requiescat", 8157),
+        expected = (            
             ("Confiteor", 23990),
+            ("Imperator", 14794),
             ("Confiteor", 23990),
             ("Imperator", 14802),
             ("Confiteor", 23990),

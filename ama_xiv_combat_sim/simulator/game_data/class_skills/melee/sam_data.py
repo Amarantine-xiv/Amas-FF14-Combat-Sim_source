@@ -6,7 +6,7 @@ all_sam_skills = SpecificSkills()
 
 ALL_DATA = {
     "Hakaze": {90: {"potency": {"6.55": 200}}},
-    "Gyofu": {100: {"potency": {"7.0": 240, "7.05": 230}}},
+    "Gyofu": {100: {"potency": {"7.0": 240, "7.05": 230, "7.1": 240}}},
     "Jinpu": {
         90: {
             "potency": {"6.55": 280},
@@ -122,7 +122,7 @@ ALL_DATA = {
         90: {"potency": {"6.55": 860}},
         100: {"potency": {"7.0": 900}},
     },
-    "Zanshin": {100: {"potency": {"7.0": 900, "7.05": 820}}},
+    "Zanshin": {100: {"potency": {"7.0": 900, "7.05": 820, "7.1": 900}}},
     "Tendo Goken": {100: {"potency": {"7.0": 420, "7.05": 410}}},
     "Tendo Setsugekka": {
         100: {

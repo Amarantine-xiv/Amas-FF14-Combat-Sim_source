@@ -48,7 +48,6 @@ ALL_DATA = {
         90: {"potency": {"6.55": 320}},
         100: {"potency": {"7.0": 320}},
     },
-    "Imperator": {100: {"potency": {"7.0": 580}}},
     "Holy Circle": {
         90: {
             "potency": {"6.55": 100},
@@ -69,9 +68,11 @@ ALL_DATA = {
         100: {"potency": {"7.0": 440, "7.05": 460}},
     },
     "Supplication": {
+        90: {"potency": {"7.0": 420, "7.05": 460}},
         100: {"potency": {"7.0": 460, "7.05": 500}},
     },
     "Sepulchre": {
+        90: {"potency": {"7.0": 380, "7.05": 440}},
         100: {"potency": {"7.0": 480, "7.05": 540}},
     },
     "Confiteor": {
@@ -123,6 +124,7 @@ ALL_DATA = {
             "potency": {"7.0": 1000},
         },
     },
+    "Imperator": {100: {"potency": {"7.0": 580}}},
 }
 
 for k, v in ALL_DATA.items():

@@ -23,15 +23,15 @@ ALL_DATA = {
     "Fell Cleave": {90: {"potency": {"6.55": 520}}, 100: {"potency": {"7.0": 580}}},
     "Primal Rend": {90: {"potency": {"6.55": 700}}, 100: {"potency": {"7.0": 700}}},
     "Inner Chaos": {90: {"potency": {"6.55": 660}}, 100: {"potency": {"6.55": 660}}},
-    "Chaotic Cyclone": {90: {"potency": {"6.55": 320}}, 100: {"potency": {"7.0": 300}}},
+    "Chaotic Cyclone": {90: {"potency": {"6.55": 320, "7.0": 300}}, 100: {"potency": {"7.0": 300}}},
     "Tomahawk": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
     "Overpower": {90: {"potency": {"6.55": 110}}, 100: {"potency": {"7.0": 110}}},
     "Mythril Tempest": {
-        90: {"potency": {"6.55": 150}, "potency_no_combo": {"6.55": 100}},
+        90: {"potency": {"6.55": 150, "7.0": 140}, "potency_no_combo": {"6.55": 100}},
         100: {"potency": {"7.0": 140}, "potency_no_combo": {"7.0": 100}},
     },
     "Orogeny": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
-    "Decimate": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 180}}},
+    "Decimate": {90: {"potency": {"6.55": 200, "7.0": 180}}, 100: {"potency": {"7.0": 180}}},
     "Vengeance": {90: {"potency": {"6.55": 55}}},
     "Primal Wrath": {
         100: {"potency": {"7.0": 700}},

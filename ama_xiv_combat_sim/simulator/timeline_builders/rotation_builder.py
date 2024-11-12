@@ -1008,4 +1008,4 @@ class RotationBuilder:
             return
         print("Time, skill_name, job_class, skill_conditional")
         for tmp in self.__q_button_press_timing:
-            print("{}, {}, {}, {}".format(tmp[0] / 1000, tmp[1], tmp[2], tmp[3]))
+            print(f"{tmp[0] / 1000}, {tmp[1]}, {tmp[2]}, {tmp[3]}")

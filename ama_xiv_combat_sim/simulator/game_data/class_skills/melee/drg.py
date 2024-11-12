@@ -18,7 +18,8 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.melee.drg_data import (
 
 
 def add_drg_skills(skill_library):
-    all_drg_skills.set_version(skill_library.get_version())
+    version = skill_library.get_version()
+    all_drg_skills.set_version(version)
 
     level = skill_library.get_level()
     all_drg_skills.set_level(level)
@@ -107,7 +108,18 @@ def add_drg_skills(skill_library):
         Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_drg_skills.get_potency(name)),
+            damage_spec=(
+                {
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=all_drg_skills.get_potency(name)
+                    ),
+                    "Enhanced Piercing Talon": DamageSpec(
+                        potency=all_drg_skills.get_skill_data(name, "enhanced potency")
+                    ),
+                }
+                if version in ["7.1"]
+                else DamageSpec(potency=all_drg_skills.get_potency(name))
+            ),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=850
             ),
@@ -648,7 +660,9 @@ def add_drg_skills(skill_library):
                     potency=all_drg_skills.get_potency_no_positional(name)
                 ),
                 "No Combo, No Positional": DamageSpec(
-                    potency=all_drg_skills.get_skill_data(name, "potency_no_pos_no_combo")
+                    potency=all_drg_skills.get_skill_data(
+                        name, "potency_no_pos_no_combo"
+                    )
                 ),
             },
             timing_spec=TimingSpec(
@@ -778,4 +792,28 @@ def add_drg_skills(skill_library):
     skill_library.add_skill(
         Skill(name="True North", is_GCD=False, timing_spec=instant_timing_spec)
     )
+
+    enhanced_piercing_talon_follow_up = FollowUp(
+        skill=Skill(
+            name="Enhanced Piercing Talon",
+            buff_spec=StatusEffectSpec(
+                duration=15 * 1000,
+                num_uses=1,
+                skill_allowlist=("Piercing Talon",),
+                add_to_skill_modifier_condition=True,
+            ),
+        ),
+        delay_after_parent_application=0,
+    )
+    skill_library.add_skill(
+        Skill(
+            name="Elusive Jump",
+            is_GCD=False,
+            timing_spec=TimingSpec(base_cast_time=0, animation_lock=800),
+            follow_up_skills=(
+                (enhanced_piercing_talon_follow_up,) if version in ["7.1"] else tuple()
+            ),
+        )
+    )
+
     return skill_library

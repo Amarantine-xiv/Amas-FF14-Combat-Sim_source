@@ -7,7 +7,7 @@ all_blm_skills = SpecificSkills()
 ALL_DATA = {
     "Enochian": {
         90: {"damage_mult": {"6.55": 1.23}},
-        100: {"damage_mult": {"7.0": 1.3, "7.05": 1.33}},
+        100: {"damage_mult": {"7.0": 1.3, "7.05": 1.33, "7.1": 1.32}},
     },
     "Thunder III (dot)": {
         90: {"potency": {"6.55": 35}, "duration": {"6.55": 30 * 1000}},
@@ -38,8 +38,13 @@ ALL_DATA = {
             "potency": {"6.55": 220},
             "potency_enhanced": {"6.55": 280},
             "aoe_dropoff": {"6.55": 0.4},
+            "cast time": {"6.55": 4000},
         },
-        100: {"potency": {"7.0": 240}, "aoe_dropoff": {"7.0": 0.4, "7.05": 0.3}},
+        100: {
+            "potency": {"7.0": 240},
+            "aoe_dropoff": {"7.0": 0.4, "7.05": 0.3},
+            "cast time": {"7.0": 4000, "7.1": 3000},
+        },
     },
     "Blizzard IV": {
         90: {"potency": {"6.55": 310}},
@@ -55,8 +60,11 @@ ALL_DATA = {
     },
     "Foul": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
     "Despair": {
-        90: {"potency": {"6.55": 340}},
-        100: {"potency": {"7.0": 340, "7.05": 350}},
+        90: {"potency": {"6.55": 340}, "cast time": {"6.55": 3000}},
+        100: {
+            "potency": {"7.0": 340, "7.05": 350},
+            "cast time": {"7.0": 3000, "7.1": 0},
+        },
     },
     "Xenoglossy": {90: {"potency": {"6.55": 880}}, 100: {"potency": {"7.0": 880}}},
     "High Fire II": {90: {"potency": {"6.55": 140}}, 100: {"potency": {"7.0": 100}}},

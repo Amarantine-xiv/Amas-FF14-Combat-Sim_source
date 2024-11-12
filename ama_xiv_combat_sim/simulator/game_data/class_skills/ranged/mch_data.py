@@ -24,18 +24,37 @@ ALL_DATA = {
     },
     "Heated Clean Shot": {
         90: {"potency": {"6.55": 380}, "potency_no_combo": {"6.55": 120}},
-        100: {"potency": {"7.0": 400}, "potency_no_combo": {"7.0": 140}},
+        100: {
+            "potency": {"7.0": 400, "7.1": 420},
+            "potency_no_combo": {"7.0": 140, "7.1": 160},
+        },
     },
     "Bioblaster (dot)": {90: {"potency": {"6.55": 50}}, 100: {"potency": {"7.0": 50}}},
     "Bioblaster": {90: {"potency": {"6.55": 50}}, 100: {"potency": {"7.0": 50}}},
     "Air Anchor": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
     "Scattergun": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 160}}},
     "Chain Saw": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
-    "Blazing Shot": {100: {"potency": {"7.0": 220}}},
-    "Checkmate": {100: {"potency": {"7.0": 160}}},
-    "Double Check": {100: {"potency": {"7.0": 160}}},
+    "Blazing Shot": {100: {"potency": {"7.0": 220, "7.1": 240}}},
+    "Checkmate": {100: {"potency": {"7.0": 160, "7.1": 170}}},
+    "Double Check": {100: {"potency": {"7.0": 160, "7.1": 170}}},
     "Excavator": {100: {"potency": {"7.0": 600}}},
     "Full Metal Field": {100: {"potency": {"7.0": 700, "7.05": 900}}},
+    "Arm Punch (pet)": {
+        90: {"min_potency": {"6.55": 120}, "max_potency": {"6.55": 240}},
+        100: {"min_potency": {"7.0": 120}, "max_potency": {"7.0": 240}},
+    },
+    "Roller Dash (pet)": {
+        90: {"min_potency": {"6.55": 240}, "max_potency": {"6.55": 480}},
+        100: {"min_potency": {"7.0": 240}, "max_potency": {"7.0": 480}},
+    },
+    "Pile Bunker (pet)": {
+        90: {"min_potency": {"6.55": 340}, "max_potency": {"6.55": 680}},
+        100: {"min_potency": {"7.0": 340}, "max_potency": {"7.0": 680}},
+    },
+    "Crowned Collider (pet)": {
+        90: {"min_potency": {"6.55": 390}, "max_potency": {"6.55": 780}},
+        100: {"min_potency": {"7.0": 390}, "max_potency": {"7.0": 780}},
+    },
 }
 
 for k, v in ALL_DATA.items():

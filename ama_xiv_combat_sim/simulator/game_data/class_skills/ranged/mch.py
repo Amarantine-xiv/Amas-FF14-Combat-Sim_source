@@ -2,10 +2,7 @@ import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from ama_xiv_combat_sim.simulator.game_data.convenience_timings import (
-    get_shot_timing,
-    get_instant_timing_spec,
-)
+from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -21,41 +18,45 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.ranged.mch_data import 
 )
 
 
-def add_mch_skills(skill_library):
-    all_mch_skills.set_version(skill_library.get_version())
-
-    level = skill_library.get_level()
-    all_mch_skills.set_level(level)
-
-    auto_timing = get_shot_timing()
-    instant_timing_spec = get_instant_timing_spec()
-
-    skill_library.set_current_job_class("MCH")
-    skill_library.add_resource(
-        name="Battery",
-        job_resource_settings=JobResourceSettings(
-            max_value=100, skill_allowlist=("Automaton Queen",)
-        ),
-    )
-    skill_library.add_resource(
-        name="GCD",
-        job_resource_settings=JobResourceSettings(
-            max_value=6, skill_allowlist=("Wildfire (dot)", "Detonator")
-        ),
-    )
-
-    job_resource_spec_gcd = JobResourceSpec(name="GCD", change=+1)
+class MchSkills(GenericJobClass):
     # TODO: implement queen overdrive, cutting off queen early
+    # TODO: fix flamethrower dot logs-processing (maybe not here, but SOMEWHERE)
 
-    def get_arm_punch_follow_ups():
-        min_potency = 120
-        max_potency = 240
+    OVERHEATED_BONUS_POTENCY = 20
+
+    def __init__(self, version, level):
+        super().__init__(version=version, level=level, skill_data=all_mch_skills)
+        self._job_class = "MCH"
+
+    @GenericJobClass.is_a_resource
+    def battery(self):
+        name = "Battery"
+        job_resource_settings = JobResourceSettings(
+            max_value=100, skill_allowlist=("Automaton Queen",)
+        )
+        return (name, job_resource_settings)
+
+    @GenericJobClass.is_a_resource
+    def gcd(self):
+        name = "GCD"
+        job_resource_settings = JobResourceSettings(
+            max_value=6, skill_allowlist=("Wildfire (dot)", "Detonator")
+        )
+        return (name, job_resource_settings)
+
+    def __get_gcd_job_resouce_increase(self):
+        return JobResourceSpec(name="GCD", change=+1)
+
+    def __get_arm_punch_follow_ups(self):
+        name = "Arm Punch (pet)"
+        min_potency = self._skill_data.get_skill_data(name, "min_potency")
+        max_potency = self._skill_data.get_skill_data(name, "max_potency")
         battery_range = 50
         slope = (max_potency - min_potency) / battery_range
         follow_ups = {}
         for battery in range(50, 110, 10):
             skill = Skill(
-                name="Arm Punch (pet)",
+                name=name,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec=DamageSpec(
                     potency=int((battery - 50) * slope + min_potency),
@@ -74,15 +75,16 @@ def add_mch_skills(skill_library):
                 )
         return follow_ups
 
-    def get_roller_dash_follow_up():
-        min_potency = 240
-        max_potency = 480
+    def __get_roller_dash_follow_up(self):
+        name = "Roller Dash (pet)"
+        min_potency = self._skill_data.get_skill_data(name, "min_potency")
+        max_potency = self._skill_data.get_skill_data(name, "max_potency")
         battery_range = 50
         slope = (max_potency - min_potency) / battery_range
         follow_up = {}
         for battery in range(50, 110, 10):
             skill = Skill(
-                name="Roller Dash (pet)",
+                name=name,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec=DamageSpec(
                     potency=int((battery - 50) * slope + min_potency),
@@ -98,15 +100,16 @@ def add_mch_skills(skill_library):
             )
         return follow_up
 
-    def get_pile_bunker_follow_up():
-        min_potency = 340
-        max_potency = 680
+    def __get_pile_bunker_follow_up(self):
+        name = "Pile Bunker (pet)"
+        min_potency = self._skill_data.get_skill_data(name, "min_potency")
+        max_potency = self._skill_data.get_skill_data(name, "max_potency")
         battery_range = 50
         slope = (max_potency - min_potency) / battery_range
         follow_up = {}
         for battery in range(50, 110, 10):
             skill = Skill(
-                name="Pile Bunker (pet)",
+                name=name,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec=DamageSpec(
                     potency=int((battery - 50) * slope + min_potency),
@@ -122,15 +125,16 @@ def add_mch_skills(skill_library):
             )
         return follow_up
 
-    def get_crowned_collider_follow_up():
+    def __get_crowned_collider_follow_up(self):
+        name = "Crowned Collider (pet)"
+        min_potency = self._skill_data.get_skill_data(name, "min_potency")
+        max_potency = self._skill_data.get_skill_data(name, "max_potency")
+        battery_range = 50
+        slope = (max_potency - min_potency) / battery_range
         follow_up = {}
         for battery in range(50, 110, 10):
-            min_potency = 390
-            max_potency = 780
-            battery_range = 50
-            slope = (max_potency - min_potency) / battery_range
             skill = Skill(
-                name="Crowned Collider (pet)",
+                name=name,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec=DamageSpec(
                     potency=int((battery - 50) * slope + min_potency),
@@ -146,12 +150,12 @@ def add_mch_skills(skill_library):
             )
         return follow_up
 
-    def get_flamethrower_follow_ups():
+    def __get_flamethrower_follow_ups(self):
         name = "Flamethrower (dot)"
         flamethrower_dot = Skill(
             name=name,
             damage_spec=DamageSpec(
-                potency=all_mch_skills.get_potency(name),
+                potency=self._skill_data.get_potency(name),
                 damage_class=DamageClass.PHYSICAL_DOT,
             ),
         )
@@ -167,57 +171,63 @@ def add_mch_skills(skill_library):
             )
         return follow_ups
 
-    arm_punch_follow_ups = get_arm_punch_follow_ups()
-    roller_dash_follow_up = get_roller_dash_follow_up()
-    pile_bunker_follow_up = get_pile_bunker_follow_up()
-    crowned_collider_follow_up = get_crowned_collider_follow_up()
-    flamethrower_follow_ups = get_flamethrower_follow_ups()
+    def __get_wildfire_damage_spec(self):
+        wildfire_damage_spec = {}
+        for i in range(0, 7):
+            wildfire_damage_spec[f"{i} GCD"] = DamageSpec(
+                potency=i * 240,
+                guaranteed_crit=ForcedCritOrDH.FORCE_NO,
+                guaranteed_dh=ForcedCritOrDH.FORCE_NO,
+            )
+        wildfire_damage_spec[SimConsts.DEFAULT_CONDITION] = DamageSpec(potency=0)
+        return wildfire_damage_spec
 
-    overheated_bonus_potency = 20
-
-    name = "Shot"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def auto(self):
+        name = "Shot"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=auto_timing,
+            timing_spec=self.shot_timing_spec,
             damage_spec=DamageSpec(
                 potency=80, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
             ),
         )
-    )
 
-    name = "Gauss Round"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def gauss_round(self):
+        name = "Gauss Round"
+        return Skill(
             name=name,
             is_GCD=False,
-            damage_spec=DamageSpec(potency=all_mch_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
         )
-    )
 
-    name = "Heat Blast"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def heat_blast(self):
+        name = "Heat Blast"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -225,37 +235,27 @@ def add_mch_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, gcd_base_recast_time=1500, application_delay=620
             ),
-            job_resource_spec=(job_resource_spec_gcd,),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
         )
-    )
 
-    wildfire_damage_spec = {}
-    for i in range(0, 7):
-        wildfire_damage_spec["{} GCD".format(i)] = DamageSpec(
-            potency=i * 240,
-            guaranteed_crit=ForcedCritOrDH.FORCE_NO,
-            guaranteed_dh=ForcedCritOrDH.FORCE_NO,
+    @GenericJobClass.is_a_skill
+    def wildfire(self):
+        name = "Wildfire (dot)"
+        wildfire_skill = Skill(
+            name=name,
+            is_GCD=False,
+            job_resources_snapshot=False,
+            damage_spec=self.__get_wildfire_damage_spec(),
+            job_resource_spec=(JobResourceSpec(name="GCD", change=-math.inf),),
         )
-    wildfire_damage_spec[SimConsts.DEFAULT_CONDITION] = DamageSpec(potency=0)
-
-    name = "Wildfire (dot)"
-    wildfire_skill = Skill(
-        name=name,
-        is_GCD=False,
-        job_resources_snapshot=False,
-        damage_spec=wildfire_damage_spec,
-        job_resource_spec=(JobResourceSpec(name="GCD", change=-math.inf),),
-    )
-    wildfire_follow_up = FollowUp(
-        skill=wildfire_skill,
-        snapshot_buffs_with_parent=True,
-        snapshot_debuffs_with_parent=True,
-        delay_after_parent_application=10 * 1000,
-    )
-
-    name = "Wildfire"
-    skill_library.add_skill(
-        Skill(
+        wildfire_follow_up = FollowUp(
+            skill=wildfire_skill,
+            snapshot_buffs_with_parent=True,
+            snapshot_debuffs_with_parent=True,
+            delay_after_parent_application=10 * 1000,
+        )
+        name = "Wildfire"
+        return Skill(
             name=name,
             is_GCD=False,
             timing_spec=TimingSpec(
@@ -267,29 +267,29 @@ def add_mch_skills(skill_library):
             },
             job_resource_spec=(JobResourceSpec(name="GCD", change=-math.inf),),
         )
-    )
 
-    name = "Detonator"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def detonator(self):
+        name = "Detonator"
+        return Skill(
             name=name,
             is_GCD=False,
-            damage_spec=wildfire_damage_spec,
+            damage_spec=self.__get_wildfire_damage_spec(),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
             job_resource_spec=(JobResourceSpec(name="GCD", change=-math.inf),),
         )
-    )
 
-    name = "Ricochet"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def ricochet(self):
+        name = "Ricochet"
+        return Skill(
             name=name,
             is_GCD=False,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 )
             },
             timing_spec=TimingSpec(
@@ -298,27 +298,29 @@ def add_mch_skills(skill_library):
             has_aoe=True,
             aoe_dropoff=0.5,
         )
-    )
 
-    name = "Auto Crossbow"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def auto_crossbow(self):
+        name = "Auto Crossbow"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -326,30 +328,32 @@ def add_mch_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, gcd_base_recast_time=1500, application_delay=890
             ),
-            job_resource_spec=(job_resource_spec_gcd,),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
             has_aoe=True,
         )
-    )
 
-    name = "Heated Split Shot"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def heated_split_shot(self):
+        name = "Heated Split Shot"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -358,29 +362,31 @@ def add_mch_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
             combo_spec=(ComboSpec(),),
-            job_resource_spec=(job_resource_spec_gcd,),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
         )
-    )
 
-    name = "Drill"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def drill(self):
+        name = "Drill"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -388,47 +394,49 @@ def add_mch_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1150
             ),
-            job_resource_spec=(job_resource_spec_gcd,),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
         )
-    )
 
-    name = "Heated Slug Shot"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def heated_slug_shot(self):
+        name = "Heated Slug Shot"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "No Combo": DamageSpec(
-                    potency=all_mch_skills.get_potency_no_combo(name)
+                    potency=self._skill_data.get_potency_no_combo(name)
                 ),
                 "No Combo, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency_no_combo(name),
+                    potency=self._skill_data.get_potency_no_combo(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "No Combo, Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency_no_combo(name)
-                    + overheated_bonus_potency
+                    potency=self._skill_data.get_potency_no_combo(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "No Combo, Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency_no_combo(name)
-                    + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency_no_combo(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -437,47 +445,49 @@ def add_mch_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
             combo_spec=(ComboSpec(combo_actions=("Heated Split Shot",)),),
-            job_resource_spec=(job_resource_spec_gcd,),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
         )
-    )
 
-    name = "Heated Clean Shot"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def heated_clean_shot(self):
+        name = "Heated Clean Shot"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "No Combo": DamageSpec(
-                    potency=all_mch_skills.get_potency_no_combo(name)
+                    potency=self._skill_data.get_potency_no_combo(name)
                 ),
                 "No Combo, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency_no_combo(name),
+                    potency=self._skill_data.get_potency_no_combo(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "No Combo, Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency_no_combo(name)
-                    + overheated_bonus_potency
+                    potency=self._skill_data.get_potency_no_combo(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "No Combo, Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency_no_combo(name)
-                    + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency_no_combo(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -488,80 +498,85 @@ def add_mch_skills(skill_library):
             combo_spec=(ComboSpec(combo_actions=("Heated Slug Shot",)),),
             job_resource_spec=(
                 JobResourceSpec(name="Battery", change=+10),
-                job_resource_spec_gcd,
+                self.__get_gcd_job_resouce_increase(),
             ),
         )
-    )
 
-    if level in [100]:
+    @GenericJobClass.is_a_skill
+    def blazing_shot(self):
+        if self._level not in [100]:
+            return None
         name = "Blazing Shot"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=all_mch_skills.get_potency(name)
-                    ),
-                    "Reassemble": DamageSpec(
-                        potency=all_mch_skills.get_potency(name),
-                        guaranteed_crit=ForcedCritOrDH.FORCE_YES,
-                        guaranteed_dh=ForcedCritOrDH.FORCE_YES,
-                    ),
-                    "Overheated": DamageSpec(
-                        potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
-                    ),
-                    "Overheated, Reassemble": DamageSpec(
-                        potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
-                        guaranteed_crit=ForcedCritOrDH.FORCE_YES,
-                        guaranteed_dh=ForcedCritOrDH.FORCE_YES,
-                    ),
-                },
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=850
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
                 ),
-                job_resource_spec=(job_resource_spec_gcd,),
-            )
+                "Reassemble": DamageSpec(
+                    potency=self._skill_data.get_potency(name),
+                    guaranteed_crit=ForcedCritOrDH.FORCE_YES,
+                    guaranteed_dh=ForcedCritOrDH.FORCE_YES,
+                ),
+                "Overheated": DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
+                ),
+                "Overheated, Reassemble": DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
+                    guaranteed_crit=ForcedCritOrDH.FORCE_YES,
+                    guaranteed_dh=ForcedCritOrDH.FORCE_YES,
+                ),
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=850
+            ),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
         )
 
-    name = "Bioblaster (dot)"
-    bioblaster_dot = Skill(
-        name=name,
-        is_GCD=False,
-        damage_spec=DamageSpec(
-            potency=all_mch_skills.get_potency(name),
-            damage_class=DamageClass.PHYSICAL_DOT,
-        ),
-    )
-    bioblaster_follow_up = FollowUp(
-        skill=bioblaster_dot,
-        delay_after_parent_application=0,
-        dot_duration=15 * 1000,
-        snapshot_buffs_with_parent=True,
-        snapshot_debuffs_with_parent=True,
-        primary_target_only=False,
-    )
+    @GenericJobClass.is_a_skill
+    def bioblaster(self):
+        name = "Bioblaster (dot)"
+        bioblaster_dot = Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec=DamageSpec(
+                potency=self._skill_data.get_potency(name),
+                damage_class=DamageClass.PHYSICAL_DOT,
+            ),
+        )
+        bioblaster_follow_up = FollowUp(
+            skill=bioblaster_dot,
+            delay_after_parent_application=0,
+            dot_duration=15 * 1000,
+            snapshot_buffs_with_parent=True,
+            snapshot_debuffs_with_parent=True,
+            primary_target_only=False,
+        )
 
-    name = "Bioblaster"
-    skill_library.add_skill(
-        Skill(
+        name = "Bioblaster"
+        return Skill(
             name=name,
             is_GCD=True,
             has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -570,48 +585,60 @@ def add_mch_skills(skill_library):
                 base_cast_time=0, animation_lock=650, application_delay=970
             ),
             follow_up_skills=(bioblaster_follow_up,),
-            job_resource_spec=(job_resource_spec_gcd,),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
         )
-    )
 
-    flamethrower_follow_up_dict = {}
-    flamethrower_timing_specs_dict = {}
-    for i in range(0, 11):
-        flamethrower_follow_up_dict["{}s".format(i)] = (flamethrower_follow_ups[i],)
-        flamethrower_timing_specs_dict["{}s".format(i)] = TimingSpec(
-            base_cast_time=i * 1000,
-            gcd_base_recast_time=i * 1000,
+    @GenericJobClass.is_a_skill
+    def flamethrower(self):
+        flamethrower_follow_ups = self.__get_flamethrower_follow_ups()
+
+        flamethrower_follow_up_dict = {}
+        flamethrower_timing_specs_dict = {}
+        for i in range(0, 11):
+            flamethrower_follow_up_dict[f"{i}s"] = (flamethrower_follow_ups[i],)
+            flamethrower_timing_specs_dict[f"{i}s"] = TimingSpec(
+                base_cast_time=i * 1000,
+                gcd_base_recast_time=i * 1000,
+                application_delay=890,
+            )
+        flamethrower_follow_up_dict[SimConsts.DEFAULT_CONDITION] = (
+            flamethrower_follow_ups[0],
+        )
+        flamethrower_timing_specs_dict[SimConsts.DEFAULT_CONDITION] = TimingSpec(
+            base_cast_time=0,
+            gcd_base_recast_time=0,
             application_delay=890,
         )
 
-    name = "Flamethrower"
-    skill_library.add_skill(
-        Skill(
+        name = "Flamethrower"
+        return Skill(
             name=name,
             timing_spec=flamethrower_timing_specs_dict,
             follow_up_skills=flamethrower_follow_up_dict,
         )
-    )
 
-    name = "Air Anchor"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def air_anchor(self):
+        name = "Air Anchor"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
                 "Overheated": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY
                 ),
                 "Overheated, Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name) + overheated_bonus_potency,
+                    potency=self._skill_data.get_potency(name)
+                    + self.OVERHEATED_BONUS_POTENCY,
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -621,79 +648,84 @@ def add_mch_skills(skill_library):
             ),
             job_resource_spec=(
                 JobResourceSpec(name="Battery", change=+20),
-                job_resource_spec_gcd,
+                self.__get_gcd_job_resouce_increase(),
             ),
         )
-    )
 
-    queen_follow_ups = {}
-    queen_follow_ups["Ranged"] = (
-        roller_dash_follow_up[100],
-        arm_punch_follow_ups[100][2],
-        arm_punch_follow_ups[100][3],
-        arm_punch_follow_ups[100][4],
-        pile_bunker_follow_up[100],
-        crowned_collider_follow_up[100],
-    )
-    queen_follow_ups["Melee"] = (
-        arm_punch_follow_ups[100][0],
-        arm_punch_follow_ups[100][1],
-        arm_punch_follow_ups[100][2],
-        arm_punch_follow_ups[100][3],
-        arm_punch_follow_ups[100][4],
-        pile_bunker_follow_up[100],
-        crowned_collider_follow_up[100],
-    )
-    for battery in range(50, 110, 10):
-        queen_follow_ups["{} Battery".format(battery)] = (
-            roller_dash_follow_up[battery],
-            arm_punch_follow_ups[battery][2],
-            arm_punch_follow_ups[battery][3],
-            arm_punch_follow_ups[battery][4],
-            pile_bunker_follow_up[battery],
-            crowned_collider_follow_up[battery],
-        )
-        queen_follow_ups["{} Battery, Ranged".format(battery)] = (
-            roller_dash_follow_up[battery],
-            arm_punch_follow_ups[battery][2],
-            arm_punch_follow_ups[battery][3],
-            arm_punch_follow_ups[battery][4],
-            pile_bunker_follow_up[battery],
-            crowned_collider_follow_up[battery],
-        )
-        queen_follow_ups["{} Battery, Melee".format(battery)] = (
-            arm_punch_follow_ups[battery][0],
-            arm_punch_follow_ups[battery][1],
-            arm_punch_follow_ups[battery][2],
-            arm_punch_follow_ups[battery][3],
-            arm_punch_follow_ups[battery][4],
-            pile_bunker_follow_up[battery],
-            crowned_collider_follow_up[battery],
-        )
+    @GenericJobClass.is_a_skill
+    def automaton_queen(self):
+        name = "Automaton Queen"
 
-    name = "Automaton Queen"
-    skill_library.add_skill(
-        Skill(
+        arm_punch_follow_ups = self.__get_arm_punch_follow_ups()
+        roller_dash_follow_up = self.__get_roller_dash_follow_up()
+        pile_bunker_follow_up = self.__get_pile_bunker_follow_up()
+        crowned_collider_follow_up = self.__get_crowned_collider_follow_up()
+
+        queen_follow_ups = {}
+        queen_follow_ups["Ranged"] = (
+            roller_dash_follow_up[100],
+            arm_punch_follow_ups[100][2],
+            arm_punch_follow_ups[100][3],
+            arm_punch_follow_ups[100][4],
+            pile_bunker_follow_up[100],
+            crowned_collider_follow_up[100],
+        )
+        queen_follow_ups["Melee"] = (
+            arm_punch_follow_ups[100][0],
+            arm_punch_follow_ups[100][1],
+            arm_punch_follow_ups[100][2],
+            arm_punch_follow_ups[100][3],
+            arm_punch_follow_ups[100][4],
+            pile_bunker_follow_up[100],
+            crowned_collider_follow_up[100],
+        )
+        for battery in range(50, 110, 10):
+            queen_follow_ups[f"{battery} Battery"] = (
+                roller_dash_follow_up[battery],
+                arm_punch_follow_ups[battery][2],
+                arm_punch_follow_ups[battery][3],
+                arm_punch_follow_ups[battery][4],
+                pile_bunker_follow_up[battery],
+                crowned_collider_follow_up[battery],
+            )
+            queen_follow_ups[f"{battery} Battery, Ranged"] = (
+                roller_dash_follow_up[battery],
+                arm_punch_follow_ups[battery][2],
+                arm_punch_follow_ups[battery][3],
+                arm_punch_follow_ups[battery][4],
+                pile_bunker_follow_up[battery],
+                crowned_collider_follow_up[battery],
+            )
+            queen_follow_ups[f"{battery} Battery, Melee"] = (
+                arm_punch_follow_ups[battery][0],
+                arm_punch_follow_ups[battery][1],
+                arm_punch_follow_ups[battery][2],
+                arm_punch_follow_ups[battery][3],
+                arm_punch_follow_ups[battery][4],
+                pile_bunker_follow_up[battery],
+                crowned_collider_follow_up[battery],
+            )
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.instant_timing_spec,
             follow_up_skills=queen_follow_ups,
             job_resource_spec=(JobResourceSpec(name="Battery", change=-math.inf),),
         )
-    )
 
-    name = "Scattergun"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def scattergun(self):
+        name = "Scattergun"
+        return Skill(
             name=name,
             is_GCD=True,
             has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -701,21 +733,21 @@ def add_mch_skills(skill_library):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1150
             ),
-            job_resource_spec=(job_resource_spec_gcd,),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
         )
-    )
 
-    name = "Chain Saw"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def chain_saw(self):
+        name = "Chain Saw"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_mch_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 ),
                 "Reassemble": DamageSpec(
-                    potency=all_mch_skills.get_potency(name),
+                    potency=self._skill_data.get_potency(name),
                     guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                     guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
@@ -725,19 +757,19 @@ def add_mch_skills(skill_library):
             ),
             job_resource_spec=(
                 JobResourceSpec(name="Battery", change=+20),
-                job_resource_spec_gcd,
+                self.__get_gcd_job_resouce_increase(),
             ),
             has_aoe=True,
             aoe_dropoff=0.65,
         )
-    )
 
-    name = "Reassemble"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def reassemble(self):
+        name = "Reassemble"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
@@ -758,142 +790,150 @@ def add_mch_skills(skill_library):
                 ),
             ),
         )
-    )
 
-    name = "Overheated"
-    overheated_buff = Skill(
-        name=name,
-        is_GCD=False,
-        buff_spec=StatusEffectSpec(
-            add_to_skill_modifier_condition=True,
-            num_uses=5,
-            duration=10 * 1000,
-            skill_allowlist=(
-                "Heat Blast",
-                "Auto Crossbow",
-                "Heated Split Shot",
-                "Drill",
-                "Heated Slug Shot",
-                "Heated Clean Shot",
-                "Bioblaster",
-                "Air Anchor",
-                "Blazing Shot",
-            ),
-        ),
-    )
-    overheated_follow_up = FollowUp(
-        skill=overheated_buff, delay_after_parent_application=0
-    )
-
-    name = "Hypercharge"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def hypercharge(self):
+        name = "Overheated"
+        overheated_buff = Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
-            follow_up_skills=(overheated_follow_up,),
+            buff_spec=StatusEffectSpec(
+                add_to_skill_modifier_condition=True,
+                num_uses=5,
+                duration=10 * 1000,
+                skill_allowlist=(
+                    "Heat Blast",
+                    "Auto Crossbow",
+                    "Heated Split Shot",
+                    "Drill",
+                    "Heated Slug Shot",
+                    "Heated Clean Shot",
+                    "Bioblaster",
+                    "Air Anchor",
+                    "Blazing Shot",
+                ),
+            ),
         )
-    )
-    
-    if level in [100]:
+
+        name = "Hypercharge"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=self.instant_timing_spec,
+            follow_up_skills=(
+                FollowUp(skill=overheated_buff, delay_after_parent_application=0),
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def checkmate(self):
+        if self._level not in [100]:
+            return None
         name = "Checkmate"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=all_mch_skills.get_potency(name)
-                    )
-                },
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=710
-                ),
-                has_aoe=True,
-                aoe_dropoff=0.5,
-            )
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                )
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=710
+            ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
 
-    if level in [100]:
+    @GenericJobClass.is_a_skill
+    def double_check(self):
+        if self._level not in [100]:
+            return None
         name = "Double Check"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=all_mch_skills.get_potency(name)
-                    )
-                },
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=710
-                ),
-                has_aoe=True,
-                aoe_dropoff=0.5,
-            )
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                )
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=710
+            ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
         )
 
-    if level in [100]:
+    @GenericJobClass.is_a_skill
+    def excavator(self):
+        if self._level not in [100]:
+            return None
         name = "Excavator"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=all_mch_skills.get_potency(name)
-                    ),
-                    "Reassemble": DamageSpec(
-                        potency=all_mch_skills.get_potency(name),
-                        guaranteed_crit=ForcedCritOrDH.FORCE_YES,
-                        guaranteed_dh=ForcedCritOrDH.FORCE_YES,
-                    ),
-                },
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1070
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
                 ),
-                job_resource_spec=(
-                    JobResourceSpec(name="Battery", change=+20),
-                    job_resource_spec_gcd,
+                "Reassemble": DamageSpec(
+                    potency=self._skill_data.get_potency(name),
+                    guaranteed_crit=ForcedCritOrDH.FORCE_YES,
+                    guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 ),
-                has_aoe=True,
-                aoe_dropoff=0.65,
-            )
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1070
+            ),
+            job_resource_spec=(
+                JobResourceSpec(name="Battery", change=+20),
+                self.__get_gcd_job_resouce_increase(),
+            ),
+            has_aoe=True,
+            aoe_dropoff=0.65,
         )
 
-    if level in [100]:
+    @GenericJobClass.is_a_skill
+    def full_metal_field(self):
+        if self._level not in [100]:
+            return None
         name = "Full Metal Field"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=all_mch_skills.get_potency(name),
-                        guaranteed_crit=ForcedCritOrDH.FORCE_YES,
-                        guaranteed_dh=ForcedCritOrDH.FORCE_YES,
-                    )
-                },
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1030
-                ),
-                job_resource_spec=(job_resource_spec_gcd,),
-                has_aoe=True,
-                aoe_dropoff=0.5,
-            )
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name),
+                    guaranteed_crit=ForcedCritOrDH.FORCE_YES,
+                    guaranteed_dh=ForcedCritOrDH.FORCE_YES,
+                )
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1030
+            ),
+            job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
+            has_aoe=True,
+            aoe_dropoff=0.5,
+        )
+    # These skills do not damage, but grants resources/affects future skills.
+    # Since we do not model resources YET, we just record their usage/timings but
+    # not their effect.
+
+    @GenericJobClass.is_a_skill
+    def tactician(self):
+        return Skill(
+            name="Tactician", is_GCD=False, timing_spec=self.instant_timing_spec
         )
 
-    # # These skills do not damage, but grants resources/affects future skills.
-    # # Since we do not model resources YET, we just record their usage/timings but
-    # # not their effect.
+    @GenericJobClass.is_a_skill
+    def dismantle(self):
+        return Skill(
+            name="Dismantle", is_GCD=False, timing_spec=self.instant_timing_spec
+        )
 
-    skill_library.add_skill(
-        Skill(name="Tactician", is_GCD=False, timing_spec=instant_timing_spec)
-    )
-    skill_library.add_skill(
-        Skill(name="Dismantle", is_GCD=False, timing_spec=instant_timing_spec)
-    )
-    skill_library.add_skill(
-        Skill(name="Barrel Stabilizer", is_GCD=False, timing_spec=instant_timing_spec)
-    )
-    return skill_library
+    @GenericJobClass.is_a_skill
+    def barrel_stabilizer(self):
+        return Skill(
+            name="Barrel Stabilizer", is_GCD=False, timing_spec=self.instant_timing_spec
+        )

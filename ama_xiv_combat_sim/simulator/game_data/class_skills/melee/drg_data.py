@@ -9,7 +9,10 @@ ALL_DATA = {
     "Vorpal Thrust": {
         90: {"potency": {"6.55": 280}, "potency_no_combo": {"6.55": 130}},
     },
-    "Piercing Talon": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
+    "Piercing Talon": {
+        90: {"potency": {"6.55": 150}},
+        100: {"potency": {"7.0": 150, "7.1": 200}, "enhanced potency": {"7.1": 350}},
+    },
     "Disembowel": {
         90: {"potency": {"6.55": 250}, "potency_no_combo": {"6.55": 140}},
     },
@@ -60,8 +63,14 @@ ALL_DATA = {
         90: {"potency": {"6.55": 120}, "potency_no_combo": {"6.55": 100}},
         100: {"potency": {"7.0": 120}, "potency_no_combo": {"7.0": 100}},
     },
-    "Mirage Dive": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 200}}},
-    "Nastrond": {90: {"potency": {"6.55": 360}}, 100: {"potency": {"7.0": 360}}},
+    "Mirage Dive": {
+        90: {"potency": {"6.55": 200}},
+        100: {"potency": {"7.0": 200, "7.1": 380}},
+    },
+    "Nastrond": {
+        90: {"potency": {"6.55": 360}},
+        100: {"potency": {"7.0": 360, "7.1": 720}},
+    },
     "Coerthan Torment": {
         90: {"potency": {"6.55": 150}, "potency_no_combo": {"6.55": 100}},
         100: {"potency": {"7.0": 150}, "potency_no_combo": {"7.0": 100}},
@@ -70,7 +79,7 @@ ALL_DATA = {
     "Raiden Thrust": {90: {"potency": {"6.55": 280}}, 100: {"potency": {"7.0": 320}}},
     "Stardiver": {
         90: {"potency": {"6.55": 620}},
-        100: {"potency": {"7.0": 620, "7.05": 720}},
+        100: {"potency": {"7.0": 620, "7.05": 720, "7.1": 820}},
     },
     "Draconian Fury": {90: {"potency": {"6.55": 130}}, 100: {"potency": {"7.0": 130}}},
     "Heavens' Thrust": {
@@ -119,7 +128,7 @@ ALL_DATA = {
             "potency_no_combo": {"7.0": 140},
         }
     },
-    "Starcross": {100: {"potency": {"7.0": 700, "7.05": 900}}},
+    "Starcross": {100: {"potency": {"7.0": 700, "7.05": 900, "7.1": 1000}}},
 }
 
 for k, v in ALL_DATA.items():

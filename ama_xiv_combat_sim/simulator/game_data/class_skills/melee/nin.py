@@ -20,7 +20,8 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.melee.nin_data import (
 
 
 def add_nin_skills(skill_library):
-    all_nin_skills.set_version(skill_library.get_version())
+    version = skill_library.get_version()
+    all_nin_skills.set_version(version)
 
     level = skill_library.get_level()
     all_nin_skills.set_level(level)
@@ -711,13 +712,21 @@ def add_nin_skills(skill_library):
                 ),
             ),
             delay_after_parent_application=0,
+            primary_target_only=False,
         )
         dokumori_damage_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=all_nin_skills.get_potency(name)
+                    )
+                },
+                has_aoe=True if version in ["7.1"] else False,
+                aoe_dropoff=0.25 if version in ["7.1"] else None,
             ),
             delay_after_parent_application=1070,
+            primary_target_only=False,
         )
         skill_library.add_skill(
             Skill(
@@ -733,7 +742,8 @@ def add_nin_skills(skill_library):
                     ),
                     "Debuff Only": (dokumori_debuff_follow_up,),
                 },
-                off_class_default_condition="Debuff Only"
+                off_class_default_condition="Debuff Only",
+                has_aoe= True if version in ["7.1"] else False,
             )
         )
 
