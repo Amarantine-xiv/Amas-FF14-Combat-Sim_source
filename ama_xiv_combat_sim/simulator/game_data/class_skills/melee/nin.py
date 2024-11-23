@@ -1,8 +1,5 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
-from ama_xiv_combat_sim.simulator.game_data.convenience_timings import (
-    get_auto_timing,
-    get_instant_timing_spec,
-)
+from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
@@ -19,75 +16,94 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.melee.nin_data import (
 )
 
 
-def add_nin_skills(skill_library):
-    version = skill_library.get_version()
-    all_nin_skills.set_version(version)
+class NinSkills(GenericJobClass):
 
-    level = skill_library.get_level()
-    all_nin_skills.set_level(level)
+    def __init__(self, version, level):
+        super().__init__(version=version, level=level, skill_data=all_nin_skills)
+        self._job_class = "NIN"
+        self.__all_bunshin_follow_ups = self.__get_all_bunshin_follow_ups()
+        self.__ninjutsus = (
+            "Fuma Shuriken",
+            "Katon",
+            "Raiton",
+            "Hyoton",
+            "Huton",
+            "Doton",
+            "Suiton",
+        )
+        self.__mudra_timing_spec = self.__get_mudra_timing_spec()
 
-    auto_timing = get_auto_timing()
-    instant_timing_spec = get_instant_timing_spec()
-    mudra_timing_spec = TimingSpec(
-        base_cast_time=0,
-        gcd_base_recast_time=500,
-        affected_by_speed_stat=False,
-        affected_by_haste_buffs=False,
-        animation_lock=0,
-    )
-
-    skill_library.set_current_job_class("NIN")
-
-    if level in [100]:
-        skill_library.add_resource(
-            name="Kazematoi",
-            job_resource_settings=JobResourceSettings(
-                max_value=5,
-                skill_allowlist=("Aeolian Edge", "Armor Crush"),
-                add_number_to_conditional=False,
-            ),
+    def __get_mudra_timing_spec(self):
+        return TimingSpec(
+            base_cast_time=0,
+            gcd_base_recast_time=500,
+            affected_by_speed_stat=False,
+            affected_by_haste_buffs=False,
+            animation_lock=0,
         )
 
-    # TODO: this is bugged. We are setting delay_after_parent_application=88 and
-    # not snapshotting with parent to mimic the 0.088s snapshot delay on anything
-    # bunshin. This in return ignores when the damage actually comes out.
-    BUNSHIN_MELEE_POTENCY = all_nin_skills.get_skill_data("Bunshin", "potency_melee")
-    BUNSHIN_RANGED_POTENCY = all_nin_skills.get_skill_data("Bunshin", "potency_ranged")
-    BUNSHIN_AREA_POTENCY = all_nin_skills.get_skill_data("Bunshin", "potency_area")
-    bunshin_follow_ups = [
-        ("Spinning Edge", BUNSHIN_MELEE_POTENCY, True),
-        ("Gust Slash", BUNSHIN_MELEE_POTENCY, True),
-        ("Aeolian Edge", BUNSHIN_MELEE_POTENCY, True),
-        ("Armor Crush", BUNSHIN_MELEE_POTENCY, True),
-        ("Forked Raiju", BUNSHIN_MELEE_POTENCY, True),
-        ("Fleeting Raiju", BUNSHIN_MELEE_POTENCY, True),
-        ("Huraijin", BUNSHIN_MELEE_POTENCY, True),
-        ("Throwing Dagger", BUNSHIN_RANGED_POTENCY, True),
-        ("Hakke Mujinsatsu", BUNSHIN_AREA_POTENCY, False),
-        ("Death Blossom", BUNSHIN_AREA_POTENCY, False),
-    ]
-    all_bunshin_follow_ups = {}
-    for sk, bunshin_potency, primary_target_only in bunshin_follow_ups:
-        all_bunshin_follow_ups[sk] = FollowUp(
-            skill=Skill(
-                name=f"{sk} (pet)",
-                is_GCD=False,
-                damage_spec=DamageSpec(
-                    potency=bunshin_potency,
-                    damage_class=DamageClass.PET,
-                    pet_job_mod_override=100,
+    def __get_all_bunshin_follow_ups(self):
+        # TODO: this is bugged. We are setting delay_after_parent_application=88 and
+        # not snapshotting with parent to mimic the 0.088s snapshot delay on anything
+        # bunshin. This in return ignores when the damage actually comes out.
+        BUNSHIN_MELEE_POTENCY = self._skill_data.get_skill_data(
+            "Bunshin", "potency_melee"
+        )
+        BUNSHIN_RANGED_POTENCY = self._skill_data.get_skill_data(
+            "Bunshin", "potency_ranged"
+        )
+        BUNSHIN_AREA_POTENCY = self._skill_data.get_skill_data(
+            "Bunshin", "potency_area"
+        )
+        bunshin_follow_ups = [
+            ("Spinning Edge", BUNSHIN_MELEE_POTENCY, True),
+            ("Gust Slash", BUNSHIN_MELEE_POTENCY, True),
+            ("Aeolian Edge", BUNSHIN_MELEE_POTENCY, True),
+            ("Armor Crush", BUNSHIN_MELEE_POTENCY, True),
+            ("Forked Raiju", BUNSHIN_MELEE_POTENCY, True),
+            ("Fleeting Raiju", BUNSHIN_MELEE_POTENCY, True),
+            ("Huraijin", BUNSHIN_MELEE_POTENCY, True),
+            ("Throwing Dagger", BUNSHIN_RANGED_POTENCY, True),
+            ("Hakke Mujinsatsu", BUNSHIN_AREA_POTENCY, False),
+            ("Death Blossom", BUNSHIN_AREA_POTENCY, False),
+        ]
+        all_bunshin_follow_ups = {}
+        for sk, bunshin_potency, primary_target_only in bunshin_follow_ups:
+            all_bunshin_follow_ups[sk] = FollowUp(
+                skill=Skill(
+                    name=f"{sk} (pet)",
+                    is_GCD=False,
+                    damage_spec=DamageSpec(
+                        potency=bunshin_potency,
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                    ),
+                    status_effect_denylist=("Dragon Sight",),
                 ),
-                status_effect_denylist=("Dragon Sight",),
-            ),
-            delay_after_parent_application=88,
-            snapshot_buffs_with_parent=False,
-            snapshot_debuffs_with_parent=False,
-            primary_target_only=primary_target_only,
-        )
+                delay_after_parent_application=88,
+                snapshot_buffs_with_parent=False,
+                snapshot_debuffs_with_parent=False,
+                primary_target_only=primary_target_only,
+            )
+        return all_bunshin_follow_ups
 
-    if level in [90]:
+    @GenericJobClass.is_a_resource
+    def kazematoi(self):
+        if self._version < "7.0":
+            return None
+        name = "Kazematoi"
+        job_resource_settings = JobResourceSettings(
+            max_value=5,
+            skill_allowlist=("Aeolian Edge", "Armor Crush"),
+            add_number_to_conditional=False,
+        )
+        return (name, job_resource_settings)
+
+    def __get_huton_follow_up_huton(self):
+        if self._version >= "7.0":
+            return None
         name = "Huton (Huton)"
-        _huton_follow_up_huton = FollowUp(
+        return FollowUp(
             skill=Skill(
                 name=name,
                 is_GCD=False,
@@ -101,8 +117,11 @@ def add_nin_skills(skill_library):
             delay_after_parent_application=0,
         )
 
+    def __get_huton_follow_up_hakke(self):
+        if self._version >= "7.0":
+            return None
         name = "Huton (Hakke)"
-        _huton_follow_up_hakke = FollowUp(
+        return FollowUp(
             skill=Skill(
                 name=name,
                 is_GCD=False,
@@ -116,8 +135,9 @@ def add_nin_skills(skill_library):
             delay_after_parent_application=0,
         )
 
+    def __get_huton_follow_up_armor_crush(self):
         name = "Huton (Armor Crush)"
-        _huton_follow_up_armor_crush = FollowUp(
+        return FollowUp(
             skill=Skill(
                 name=name,
                 is_GCD=False,
@@ -131,878 +151,78 @@ def add_nin_skills(skill_library):
             delay_after_parent_application=0,
         )
 
-    name = "Dream Within a Dream"
-    _dream_follow_ups = (
-        FollowUp(
-            skill=Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
+    @GenericJobClass.is_a_skill
+    def dream_within_a_dream(self):
+        name = "Dream Within a Dream"
+        _dream_follow_ups = (
+            FollowUp(
+                skill=Skill(
+                    name=name,
+                    is_GCD=False,
+                    damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                ),
+                snapshot_buffs_with_parent=True,
+                snapshot_debuffs_with_parent=False,
+                delay_after_parent_application=700,
             ),
-            snapshot_buffs_with_parent=True,
-            snapshot_debuffs_with_parent=False,
-            delay_after_parent_application=700,
-        ),
-        FollowUp(
-            skill=Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
+            FollowUp(
+                skill=Skill(
+                    name=name,
+                    is_GCD=False,
+                    damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                ),
+                snapshot_buffs_with_parent=True,
+                snapshot_debuffs_with_parent=False,
+                delay_after_parent_application=850,
             ),
-            snapshot_buffs_with_parent=True,
-            snapshot_debuffs_with_parent=False,
-            delay_after_parent_application=850,
-        ),
-        FollowUp(
-            skill=Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
+            FollowUp(
+                skill=Skill(
+                    name=name,
+                    is_GCD=False,
+                    damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                ),
+                snapshot_buffs_with_parent=True,
+                snapshot_debuffs_with_parent=False,
+                delay_after_parent_application=1000,
             ),
-            snapshot_buffs_with_parent=True,
-            snapshot_debuffs_with_parent=False,
-            delay_after_parent_application=1000,
-        ),
-    )
-
-    name = "Doton (dot)"
-    doton_dot = Skill(
-        name=name,
-        is_GCD=False,
-        damage_spec=DamageSpec(potency=80, damage_class=DamageClass.PHYSICAL_DOT),
-    )
-    doton_follow_up = FollowUp(
-        skill=doton_dot,
-        delay_after_parent_application=0,
-        dot_duration=18 * 1000,
-        snapshot_buffs_with_parent=True,
-        snapshot_debuffs_with_parent=False,
-    )
-    doton_dot_hollow_nozuchi = Skill(
-        name="Doton hollow nozuchi (dot)",
-        is_GCD=False,
-        damage_spec=DamageSpec(potency=50, damage_class=DamageClass.PHYSICAL_DOT),
-    )
-    doton_hollow_nozuchi_follow_up = FollowUp(
-        skill=doton_dot_hollow_nozuchi,
-        delay_after_parent_application=0,
-        dot_duration=18 * 1000,
-        snapshot_buffs_with_parent=True,
-        snapshot_debuffs_with_parent=False,
-    )
-
-    name = "Auto"
-    skill_library.add_skill(
-        Skill(
+        )
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=auto_timing,
+            timing_spec=self.instant_timing_spec,
+            follow_up_skills=_dream_follow_ups,
+        )
+
+    @GenericJobClass.is_a_skill
+    def auto(self):
+        name = "Auto"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
             ),
         )
-    )
 
-    name = "Spinning Edge"
-    spinning_edge_follow_up = FollowUp(
-        skill=Skill(
-            name=name, damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name))
-        ),
-        delay_after_parent_application=400,
-    )
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            combo_spec=(ComboSpec(),),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=0
-            ),
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (spinning_edge_follow_up,),
-                "Bunshin": (
-                    all_bunshin_follow_ups["Spinning Edge"],
-                    spinning_edge_follow_up,
-                ),
-            },
-        )
-    )
-
-    name = "Gust Slash"
-    gust_slash_damage_follow_up = FollowUp(
-        Skill(
-            name=name, damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name))
-        ),
-        delay_after_parent_application=400,
-    )
-    gust_slash_damage_no_combo_follow_up = FollowUp(
-        Skill(
-            name=name,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency_no_combo(name)),
-        ),
-        delay_after_parent_application=400,
-    )
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            combo_spec=(ComboSpec(combo_actions=("Spinning Edge",)),),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=0
-            ),
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (gust_slash_damage_follow_up,),
-                "No Combo": (gust_slash_damage_no_combo_follow_up,),
-                "Bunshin": (
-                    all_bunshin_follow_ups["Gust Slash"],
-                    gust_slash_damage_follow_up,
-                ),
-                "Bunshin, No Combo": (
-                    all_bunshin_follow_ups["Gust Slash"],
-                    gust_slash_damage_no_combo_follow_up,
-                ),
-            },
-        )
-    )
-
-    name = "Throwing Dagger"
-    throwing_dagger_follow_up = FollowUp(
-        skill=Skill(
-            name=name, damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name))
-        ),
-        delay_after_parent_application=620,
-    )
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=0
-            ),
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (throwing_dagger_follow_up,),
-                "Bunshin": (
-                    throwing_dagger_follow_up,
-                    all_bunshin_follow_ups["Throwing Dagger"],
-                ),
-            },
-        )
-    )
-
-    if level in [90]:
-        name = "Mug"
-        mug_damage_follow_up = FollowUp(
+    @GenericJobClass.is_a_skill
+    def doton(self):
+        name = "Doton (dot)"
+        doton_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            ),
-            delay_after_parent_application=620,
-        )
-        mug_debuff_follow_up = FollowUp(
-            skill=Skill(
-                name=name,
-                debuff_spec=StatusEffectSpec(
-                    damage_mult=1.05,
-                    duration=all_nin_skills.get_skill_data(name, "duration"),
-                    is_party_effect=True,
+                is_GCD=False,
+                damage_spec=DamageSpec(
+                    potency=80, damage_class=DamageClass.PHYSICAL_DOT
                 ),
             ),
             delay_after_parent_application=0,
+            dot_duration=18 * 1000,
+            snapshot_buffs_with_parent=True,
+            snapshot_debuffs_with_parent=False,
         )
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=instant_timing_spec,
-                follow_up_skills={
-                    SimConsts.DEFAULT_CONDITION: (
-                        mug_damage_follow_up,
-                        mug_debuff_follow_up,
-                    ),
-                    "Debuff Only": (mug_debuff_follow_up,),
-                },
-                off_class_default_condition="Debuff Only"
-            )
-        )
-
-    if level in [90]:
-        name = "Trick Attack"
-        trick_damage_follow_up = FollowUp(
-            skill=Skill(
-                name=name,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            ),
-            delay_after_parent_application=800,
-        )
-        trick_damage_no_pos_follow_up = FollowUp(
-            skill=Skill(
-                name=name,
-                damage_spec=DamageSpec(
-                    potency=all_nin_skills.get_potency_no_positional(name)
-                ),
-            ),
-            delay_after_parent_application=800,
-        )
-        trick_debuff_follow_up = FollowUp(
-            skill=Skill(
-                name=name,
-                debuff_spec=StatusEffectSpec(
-                    damage_mult=1.10, duration=int(15.77 * 1000)
-                ),
-            ),
-            delay_after_parent_application=0,
-        )
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                follow_up_skills={
-                    SimConsts.DEFAULT_CONDITION: (
-                        trick_damage_follow_up,
-                        trick_debuff_follow_up,
-                    ),
-                    "No Positional": (
-                        trick_damage_no_pos_follow_up,
-                        trick_debuff_follow_up,
-                    ),
-                },
-                timing_spec=instant_timing_spec,
-            )
-        )
-
-    name = "Aeolian Edge"
-    aeolian_edge_follow_up = FollowUp(
-        skill=Skill(
-            name=name, damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name))
-        ),
-        delay_after_parent_application=540,
-    )
-    aeolian_edge_no_combo_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency_no_combo(name)),
-        ),
-        delay_after_parent_application=540,
-    )
-    aeolian_edge_no_pos_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(
-                potency=all_nin_skills.get_potency_no_positional(name)
-            ),
-        ),
-        delay_after_parent_application=540,
-    )
-    aeolian_edge_no_pos_no_combo_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(
-                potency=all_nin_skills.get_skill_data(name, "potency_no_pos_no_combo")
-            ),
-        ),
-        delay_after_parent_application=540,
-    )
-    if level in [100]:
-        potency_increment_kaz = all_nin_skills.get_skill_data(
-            name, "potency_increment_kaz"
-        )
-        # kaz. this is ugly, we can do better.
-        aeolian_edge_follow_up_kaz = FollowUp(
-            skill=Skill(
-                name=name,
-                damage_spec=DamageSpec(
-                    all_nin_skills.get_potency(name) + potency_increment_kaz
-                ),
-            ),
-            delay_after_parent_application=540,
-        )
-        aeolian_edge_no_combo_follow_up_kaz = FollowUp(
-            skill=Skill(
-                name=name,
-                damage_spec=DamageSpec(
-                    all_nin_skills.get_potency_no_combo(name) + potency_increment_kaz
-                ),
-            ),
-            delay_after_parent_application=540,
-        )
-        aeolian_edge_no_pos_follow_up_kaz = FollowUp(
-            skill=Skill(
-                name=name,
-                damage_spec=DamageSpec(
-                    all_nin_skills.get_potency_no_positional(name)
-                    + potency_increment_kaz
-                ),
-            ),
-            delay_after_parent_application=540,
-        )
-        aeolian_edge_no_pos_no_combo_follow_up_kaz = FollowUp(
-            skill=Skill(
-                name=name,
-                damage_spec=DamageSpec(
-                    all_nin_skills.get_skill_data(name, "potency_no_pos_no_combo")
-                    + potency_increment_kaz
-                ),
-            ),
-            delay_after_parent_application=540,
-        )
-    aoelian_follow_ups = {
-        SimConsts.DEFAULT_CONDITION: (aeolian_edge_follow_up,),
-        "No Combo": (aeolian_edge_no_combo_follow_up,),
-        "No Positional": (aeolian_edge_no_pos_follow_up,),
-        "No Combo, No Positional": (aeolian_edge_no_pos_no_combo_follow_up,),
-        "Bunshin": (
-            aeolian_edge_follow_up,
-            all_bunshin_follow_ups["Aeolian Edge"],
-        ),
-        "Bunshin, No Combo": (
-            aeolian_edge_no_combo_follow_up,
-            all_bunshin_follow_ups["Aeolian Edge"],
-        ),
-        "Bunshin, No Positional": (
-            aeolian_edge_no_pos_follow_up,
-            all_bunshin_follow_ups["Aeolian Edge"],
-        ),
-        "Bunshin, No Combo, No Positional": (
-            aeolian_edge_no_pos_no_combo_follow_up,
-            all_bunshin_follow_ups["Aeolian Edge"],
-        ),
-    }
-    if level in [100]:
-        aoelian_follow_ups_100_only = {
-            "Kazematoi": (aeolian_edge_follow_up_kaz,),
-            "Kazematoi, No Combo": (aeolian_edge_no_combo_follow_up_kaz,),
-            "Kazematoi, No Positional": (aeolian_edge_no_pos_follow_up_kaz,),
-            "Kazematoi, No Combo, No Positional": (
-                aeolian_edge_no_pos_no_combo_follow_up_kaz,
-            ),
-            "Bunshin, Kazematoi": (
-                aeolian_edge_follow_up_kaz,
-                all_bunshin_follow_ups["Aeolian Edge"],
-            ),
-            "Bunshin, Kazematoi, No Combo": (
-                aeolian_edge_no_combo_follow_up_kaz,
-                all_bunshin_follow_ups["Aeolian Edge"],
-            ),
-            "Bunshin, Kazematoi, No Positional": (
-                aeolian_edge_no_pos_follow_up_kaz,
-                all_bunshin_follow_ups["Aeolian Edge"],
-            ),
-            "Bunshin, Kazematoi, No Combo, No Positional": (
-                aeolian_edge_no_pos_no_combo_follow_up_kaz,
-                all_bunshin_follow_ups["Aeolian Edge"],
-            ),
-        }
-        aoelian_follow_ups = aoelian_follow_ups | aoelian_follow_ups_100_only
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            combo_spec=(ComboSpec(combo_actions=("Gust Slash",)),),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=0
-            ),
-            job_resource_spec=(
-                tuple()
-                if level in [90]
-                else (JobResourceSpec(name="Kazematoi", change=-1),)
-            ),
-            follow_up_skills=aoelian_follow_ups,
-        )
-    )
-
-    name = "Death Blossom"
-    death_blossom_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            has_aoe=True,
-        ),
-        delay_after_parent_application=710,
-        primary_target_only=False,
-    )
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            combo_spec=(ComboSpec(),),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=0
-            ),
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (death_blossom_follow_up,),
-                "Bunshin": (
-                    death_blossom_follow_up,
-                    all_bunshin_follow_ups["Death Blossom"],
-                ),
-            },
-            has_aoe=True,
-        )
-    )
-
-    name = "Hakke Mujinsatsu"
-    hakke_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            has_aoe=True,
-        ),
-        delay_after_parent_application=620,
-        primary_target_only=False,
-    )
-    hakke_no_combo_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency_no_combo(name)),
-            has_aoe=True,
-        ),
-        delay_after_parent_application=620,
-        primary_target_only=False,
-    )
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            combo_spec=(ComboSpec(combo_actions=("Death Blossom",)),),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=0
-            ),
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (
-                    (_huton_follow_up_hakke, hakke_follow_up)
-                    if level in [90]
-                    else (hakke_follow_up,)
-                ),
-                "No Combo": (hakke_no_combo_follow_up,),
-                "Bunshin": (
-                    (
-                        _huton_follow_up_hakke,
-                        all_bunshin_follow_ups["Hakke Mujinsatsu"],
-                        hakke_follow_up,
-                    )
-                    if level in [90]
-                    else (
-                        all_bunshin_follow_ups["Hakke Mujinsatsu"],
-                        hakke_follow_up,
-                    )
-                ),
-                "Bunshin, No Combo": (
-                    all_bunshin_follow_ups["Hakke Mujinsatsu"],
-                    hakke_no_combo_follow_up,
-                ),
-            },
-            has_aoe=True,
-        )
-    )
-
-    name = "Armor Crush"
-    armor_crush_follow_up = FollowUp(
-        skill=Skill(
-            name=name, damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name))
-        ),
-        delay_after_parent_application=620,
-    )
-    armor_crush_no_combo_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency_no_combo(name)),
-        ),
-        delay_after_parent_application=620,
-    )
-    armor_crush_no_pos_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(
-                potency=all_nin_skills.get_potency_no_positional(name)
-            ),
-        ),
-        delay_after_parent_application=620,
-    )
-    armor_crush_no_pos_no_combo_follow_up = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec=DamageSpec(
-                potency=all_nin_skills.get_skill_data(name, "potency_no_pos_no_combo")
-            ),
-        ),
-        delay_after_parent_application=620,
-    )
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            combo_spec=(ComboSpec(combo_actions=("Gust Slash",)),),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=0
-            ),
-            job_resource_spec=all_nin_skills.get_skill_data(name, "job_resource"),
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (
-                    (
-                        armor_crush_follow_up,
-                        _huton_follow_up_armor_crush,
-                    )
-                    if level in [90]
-                    else (armor_crush_follow_up,)
-                ),
-                "No Combo": (armor_crush_no_combo_follow_up,),
-                "No Positional": (
-                    (
-                        armor_crush_no_pos_follow_up,
-                        _huton_follow_up_armor_crush,
-                    )
-                    if level in [90]
-                    else (armor_crush_no_pos_follow_up,)
-                ),
-                "No Combo, No Positional": (armor_crush_no_pos_no_combo_follow_up,),
-                "Bunshin": (
-                    (
-                        armor_crush_follow_up,
-                        _huton_follow_up_armor_crush,
-                        all_bunshin_follow_ups["Armor Crush"],
-                    )
-                    if level in [90]
-                    else (
-                        armor_crush_follow_up,
-                        all_bunshin_follow_ups["Armor Crush"],
-                    )
-                ),
-                "Bunshin, No Combo": (
-                    armor_crush_no_combo_follow_up,
-                    all_bunshin_follow_ups["Armor Crush"],
-                ),
-                "Bunshin, No Positional": (
-                    (
-                        armor_crush_no_pos_follow_up,
-                        _huton_follow_up_armor_crush,
-                        all_bunshin_follow_ups["Armor Crush"],
-                    )
-                    if level in [90]
-                    else (
-                        armor_crush_no_pos_follow_up,
-                        all_bunshin_follow_ups["Armor Crush"],
-                    )
-                ),
-                "Bunshin, No Combo, No Positional": (
-                    armor_crush_no_pos_no_combo_follow_up,
-                    all_bunshin_follow_ups["Armor Crush"],
-                ),
-            },
-        )
-    )
-
-    name = "Dream Within a Dream"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=False,
-            timing_spec=instant_timing_spec,
-            follow_up_skills=_dream_follow_ups,
-        )
-    )
-
-    if level in [100]:
-        name = "Dokumori"
-        dokumori_debuff_follow_up = FollowUp(
-            skill=Skill(
-                name=name,
-                debuff_spec=StatusEffectSpec(
-                    damage_mult=1.05,
-                    duration=all_nin_skills.get_skill_data(name, "duration"),
-                    is_party_effect=True,
-                ),
-            ),
-            delay_after_parent_application=0,
-            primary_target_only=False,
-        )
-        dokumori_damage_follow_up = FollowUp(
-            skill=Skill(
-                name=name,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=all_nin_skills.get_potency(name)
-                    )
-                },
-                has_aoe=True if version in ["7.1"] else False,
-                aoe_dropoff=0.25 if version in ["7.1"] else None,
-            ),
-            delay_after_parent_application=1070,
-            primary_target_only=False,
-        )
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=0
-                ),
-                follow_up_skills={
-                    SimConsts.DEFAULT_CONDITION: (
-                        dokumori_damage_follow_up,
-                        dokumori_debuff_follow_up,
-                    ),
-                    "Debuff Only": (dokumori_debuff_follow_up,),
-                },
-                off_class_default_condition="Debuff Only",
-                has_aoe= True if version in ["7.1"] else False,
-            )
-        )
-
-    if level in [90]:
-        name = "Huraijin"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=800
-                ),
-                follow_up_skills={
-                    SimConsts.DEFAULT_CONDITION: (_huton_follow_up_huton,),
-                    "Bunshin": (
-                        _huton_follow_up_huton,
-                        all_bunshin_follow_ups["Huraijin"],
-                    ),
-                },
-            )
-        )
-
-    name = "Hellfrog Medium"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=False,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=800
-            ),
-            has_aoe=True,
-        )
-    )
-
-    name = "Bhavacakra"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=False,
-            damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_nin_skills.get_potency(name)
-                ),
-                "Meisui": DamageSpec(
-                    potency=all_nin_skills.get_skill_data(name, "potency_mesui")
-                ),
-            },
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
-            ),
-        )
-    )
-
-    name = "Phantom Kamaitachi (pet)"
-    phantom_follow_up_damage = FollowUp(
-        skill=Skill(
-            name=name,
-            damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_nin_skills.get_potency(name),
-                    damage_class=DamageClass.PET,
-                    pet_job_mod_override=100,
-                )
-            },
-            has_aoe=True,
-            aoe_dropoff=0.5,
-        ),
-        delay_after_parent_application=1560,
-        snapshot_buffs_with_parent=True,
-        snapshot_debuffs_with_parent=True,
-        primary_target_only=False,
-    )
-    name = "Phantom Kamaitachi"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            timing_spec=TimingSpec(base_cast_time=0),
-            status_effect_denylist=("Dragon Sight",),
-            follow_up_skills=(phantom_follow_up_damage,),
-        )
-    )
-
-    # TODO: fix. gcds only will proc it, like bunshin. Ty An.
-    name = "Hollow Nozuchi"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=270
-            ),
-            follow_up_skills=(doton_hollow_nozuchi_follow_up,),
-        )
-    )
-
-    name = "Forked Raiju"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=620
-            ),
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: tuple(),
-                "Bunshin": (all_bunshin_follow_ups["Forked Raiju"],),
-            },
-        )
-    )
-
-    name = "Fleeting Raiju"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=760
-            ),
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: tuple(),
-                "Bunshin": (all_bunshin_follow_ups["Fleeting Raiju"],),
-            },
-        )
-    )
-
-    name = "Fuma Shuriken"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            timing_spec={
-                SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1500,
-                    application_delay=890,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-                "Ten Chi Jin": TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1000,
-                    application_delay=890,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-            },
-        )
-    )
-
-    name = "Katon"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            timing_spec={
-                SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1500,
-                    application_delay=940,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-                "Ten Chi Jin": TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1000,
-                    application_delay=940,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-            },
-        )
-    )
-
-    name = "Raiton"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            timing_spec={
-                SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1500,
-                    application_delay=710,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-                "Ten Chi Jin": TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1000,
-                    application_delay=710,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-            },
-        )
-    )
-
-    name = "Hyoton"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-            timing_spec={
-                SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1500,
-                    application_delay=1160,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-                "Ten Chi Jin": TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1000,
-                    application_delay=1160,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-            },
-        )
-    )
-
-    name = "Huton"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=True,
-            damage_spec=all_nin_skills.get_skill_data(name, "damage_spec"),
-            timing_spec={
-                SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1500,
-                    application_delay=0,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-                "Ten Chi Jin": TimingSpec(
-                    base_cast_time=0,
-                    gcd_base_recast_time=1000,
-                    application_delay=0,
-                    affected_by_speed_stat=False,
-                    affected_by_haste_buffs=False,
-                ),
-            },
-            follow_up_skills=(_huton_follow_up_huton,) if level in [90] else tuple(),
-        )
-    )
-
-    name = "Doton"
-    skill_library.add_skill(
-        Skill(
+        name = "Doton"
+        return Skill(
             name=name,
             is_GCD=True,
             timing_spec={
@@ -1023,14 +243,845 @@ def add_nin_skills(skill_library):
             },
             follow_up_skills=(doton_follow_up,),
         )
-    )
 
-    name = "Suiton"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def hollow_nozuchi(self):
+        doton_hollow_nozuchi_follow_up = FollowUp(
+            skill=Skill(
+                name="Doton hollow nozuchi (dot)",
+                is_GCD=False,
+                damage_spec=DamageSpec(
+                    potency=50, damage_class=DamageClass.PHYSICAL_DOT
+                ),
+            ),
+            delay_after_parent_application=0,
+            dot_duration=18 * 1000,
+            snapshot_buffs_with_parent=True,
+            snapshot_debuffs_with_parent=False,
+        )
+
+        # TODO: fix. gcds only will proc it, like bunshin. Ty An.
+        name = "Hollow Nozuchi"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=270
+            ),
+            follow_up_skills=(doton_hollow_nozuchi_follow_up,),
+        )
+
+    @GenericJobClass.is_a_skill
+    def spinning_edge(self):
+        name = "Spinning Edge"
+        spinning_edge_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=400,
+        )
+        return Skill(
+            name=name,
+            is_GCD=True,
+            combo_spec=(ComboSpec(),),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (spinning_edge_follow_up,),
+                "Bunshin": (
+                    self.__all_bunshin_follow_ups["Spinning Edge"],
+                    spinning_edge_follow_up,
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def gust_slash(self):
+        name = "Gust Slash"
+        gust_slash_damage_follow_up = FollowUp(
+            Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=400,
+        )
+        gust_slash_damage_no_combo_follow_up = FollowUp(
+            Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency_no_combo(name)
+                ),
+            ),
+            delay_after_parent_application=400,
+        )
+        return Skill(
+            name=name,
+            is_GCD=True,
+            combo_spec=(ComboSpec(combo_actions=("Spinning Edge",)),),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (gust_slash_damage_follow_up,),
+                "No Combo": (gust_slash_damage_no_combo_follow_up,),
+                "Bunshin": (
+                    self.__all_bunshin_follow_ups["Gust Slash"],
+                    gust_slash_damage_follow_up,
+                ),
+                "Bunshin, No Combo": (
+                    self.__all_bunshin_follow_ups["Gust Slash"],
+                    gust_slash_damage_no_combo_follow_up,
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def throwing_dagger(self):
+        name = "Throwing Dagger"
+        throwing_dagger_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=620,
+        )
+        return Skill(
+            name=name,
+            is_GCD=True,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (throwing_dagger_follow_up,),
+                "Bunshin": (
+                    throwing_dagger_follow_up,
+                    self.__all_bunshin_follow_ups["Throwing Dagger"],
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def mug(self):
+        if self._version >= "7.0":
+            return None
+        name = "Mug"
+        mug_damage_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=620,
+        )
+        mug_debuff_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                debuff_spec=StatusEffectSpec(
+                    damage_mult=1.05,
+                    duration=self._skill_data.get_skill_data(name, "duration"),
+                    is_party_effect=True,
+                ),
+            ),
+            delay_after_parent_application=0,
+        )
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=self.instant_timing_spec,
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    mug_damage_follow_up,
+                    mug_debuff_follow_up,
+                ),
+                "Debuff Only": (mug_debuff_follow_up,),
+            },
+            off_class_default_condition="Debuff Only",
+        )
+
+    @GenericJobClass.is_a_skill
+    def trick_attack(self):
+        if self._level >= 92:
+            return None
+        name = "Trick Attack"
+        trick_damage_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=800,
+        )
+        trick_damage_no_pos_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency_no_positional(name)
+                ),
+            ),
+            delay_after_parent_application=800,
+        )
+        trick_debuff_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                debuff_spec=StatusEffectSpec(
+                    damage_mult=1.10, duration=int(15.77 * 1000)
+                ),
+            ),
+            delay_after_parent_application=0,
+        )
+        return Skill(
+            name=name,
+            is_GCD=False,
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    trick_damage_follow_up,
+                    trick_debuff_follow_up,
+                ),
+                "No Positional": (
+                    trick_damage_no_pos_follow_up,
+                    trick_debuff_follow_up,
+                ),
+            },
+            timing_spec=self.instant_timing_spec,
+        )
+
+    @GenericJobClass.is_a_skill
+    def aeolian_edge(self):
+        name = "Aeolian Edge"
+        aeolian_edge_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=540,
+        )
+        aeolian_edge_no_combo_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency_no_combo(name)
+                ),
+            ),
+            delay_after_parent_application=540,
+        )
+        aeolian_edge_no_pos_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency_no_positional(name)
+                ),
+            ),
+            delay_after_parent_application=540,
+        )
+        aeolian_edge_no_pos_no_combo_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_skill_data(
+                        name, "potency_no_pos_no_combo"
+                    )
+                ),
+            ),
+            delay_after_parent_application=540,
+        )
+        if self._version >= "7.0":
+            potency_increment_kaz = self._skill_data.get_skill_data(
+                name, "potency_increment_kaz"
+            )
+            # kaz. this is ugly, we can do better.
+            aeolian_edge_follow_up_kaz = FollowUp(
+                skill=Skill(
+                    name=name,
+                    damage_spec=DamageSpec(
+                        self._skill_data.get_potency(name) + potency_increment_kaz
+                    ),
+                ),
+                delay_after_parent_application=540,
+            )
+            aeolian_edge_no_combo_follow_up_kaz = FollowUp(
+                skill=Skill(
+                    name=name,
+                    damage_spec=DamageSpec(
+                        self._skill_data.get_potency_no_combo(name)
+                        + potency_increment_kaz
+                    ),
+                ),
+                delay_after_parent_application=540,
+            )
+            aeolian_edge_no_pos_follow_up_kaz = FollowUp(
+                skill=Skill(
+                    name=name,
+                    damage_spec=DamageSpec(
+                        self._skill_data.get_potency_no_positional(name)
+                        + potency_increment_kaz
+                    ),
+                ),
+                delay_after_parent_application=540,
+            )
+            aeolian_edge_no_pos_no_combo_follow_up_kaz = FollowUp(
+                skill=Skill(
+                    name=name,
+                    damage_spec=DamageSpec(
+                        self._skill_data.get_skill_data(name, "potency_no_pos_no_combo")
+                        + potency_increment_kaz
+                    ),
+                ),
+                delay_after_parent_application=540,
+            )
+        aoelian_follow_ups = {
+            SimConsts.DEFAULT_CONDITION: (aeolian_edge_follow_up,),
+            "No Combo": (aeolian_edge_no_combo_follow_up,),
+            "No Positional": (aeolian_edge_no_pos_follow_up,),
+            "No Combo, No Positional": (aeolian_edge_no_pos_no_combo_follow_up,),
+            "Bunshin": (
+                aeolian_edge_follow_up,
+                self.__all_bunshin_follow_ups["Aeolian Edge"],
+            ),
+            "Bunshin, No Combo": (
+                aeolian_edge_no_combo_follow_up,
+                self.__all_bunshin_follow_ups["Aeolian Edge"],
+            ),
+            "Bunshin, No Positional": (
+                aeolian_edge_no_pos_follow_up,
+                self.__all_bunshin_follow_ups["Aeolian Edge"],
+            ),
+            "Bunshin, No Combo, No Positional": (
+                aeolian_edge_no_pos_no_combo_follow_up,
+                self.__all_bunshin_follow_ups["Aeolian Edge"],
+            ),
+        }
+        if self._version >= "7.0":
+            aoelian_follow_ups_100_only = {
+                "Kazematoi": (aeolian_edge_follow_up_kaz,),
+                "Kazematoi, No Combo": (aeolian_edge_no_combo_follow_up_kaz,),
+                "Kazematoi, No Positional": (aeolian_edge_no_pos_follow_up_kaz,),
+                "Kazematoi, No Combo, No Positional": (
+                    aeolian_edge_no_pos_no_combo_follow_up_kaz,
+                ),
+                "Bunshin, Kazematoi": (
+                    aeolian_edge_follow_up_kaz,
+                    self.__all_bunshin_follow_ups["Aeolian Edge"],
+                ),
+                "Bunshin, Kazematoi, No Combo": (
+                    aeolian_edge_no_combo_follow_up_kaz,
+                    self.__all_bunshin_follow_ups["Aeolian Edge"],
+                ),
+                "Bunshin, Kazematoi, No Positional": (
+                    aeolian_edge_no_pos_follow_up_kaz,
+                    self.__all_bunshin_follow_ups["Aeolian Edge"],
+                ),
+                "Bunshin, Kazematoi, No Combo, No Positional": (
+                    aeolian_edge_no_pos_no_combo_follow_up_kaz,
+                    self.__all_bunshin_follow_ups["Aeolian Edge"],
+                ),
+            }
+            aoelian_follow_ups = aoelian_follow_ups | aoelian_follow_ups_100_only
+        return Skill(
+            name=name,
+            is_GCD=True,
+            combo_spec=(ComboSpec(combo_actions=("Gust Slash",)),),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            job_resource_spec=(
+                (JobResourceSpec(name="Kazematoi", change=-1),)
+                if self._version >= "7.0"
+                else tuple()
+            ),
+            follow_up_skills=aoelian_follow_ups,
+        )
+
+    @GenericJobClass.is_a_skill
+    def death_blossom(self):
+        name = "Death Blossom"
+        death_blossom_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                has_aoe=True,
+            ),
+            delay_after_parent_application=710,
+            primary_target_only=False,
+        )
+        return Skill(
+            name=name,
+            is_GCD=True,
+            combo_spec=(ComboSpec(),),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (death_blossom_follow_up,),
+                "Bunshin": (
+                    death_blossom_follow_up,
+                    self.__all_bunshin_follow_ups["Death Blossom"],
+                ),
+            },
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def hakke_mujinsatsu(self):
+        name = "Hakke Mujinsatsu"
+        hakke_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                has_aoe=True,
+            ),
+            delay_after_parent_application=620,
+            primary_target_only=False,
+        )
+        hakke_no_combo_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency_no_combo(name)
+                ),
+                has_aoe=True,
+            ),
+            delay_after_parent_application=620,
+            primary_target_only=False,
+        )
+        huton_follow_up_hakke = self.__get_huton_follow_up_hakke()
+        return Skill(
+            name=name,
+            is_GCD=True,
+            combo_spec=(ComboSpec(combo_actions=("Death Blossom",)),),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    (hakke_follow_up,)
+                    if self._version >= "7.0"
+                    else (huton_follow_up_hakke, hakke_follow_up)
+                ),
+                "No Combo": (hakke_no_combo_follow_up,),
+                "Bunshin": (
+                    (
+                        self.__all_bunshin_follow_ups["Hakke Mujinsatsu"],
+                        hakke_follow_up,
+                    )
+                    if self._version >= "7.0"
+                    else (
+                        huton_follow_up_hakke,
+                        self.__all_bunshin_follow_ups["Hakke Mujinsatsu"],
+                        hakke_follow_up,
+                    )
+                ),
+                "Bunshin, No Combo": (
+                    self.__all_bunshin_follow_ups["Hakke Mujinsatsu"],
+                    hakke_no_combo_follow_up,
+                ),
+            },
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def armor_crush(self):
+        name = "Armor Crush"
+        armor_crush_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=620,
+        )
+        armor_crush_no_combo_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency_no_combo(name)
+                ),
+            ),
+            delay_after_parent_application=620,
+        )
+        armor_crush_no_pos_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency_no_positional(name)
+                ),
+            ),
+            delay_after_parent_application=620,
+        )
+        armor_crush_no_pos_no_combo_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_skill_data(
+                        name, "potency_no_pos_no_combo"
+                    )
+                ),
+            ),
+            delay_after_parent_application=620,
+        )
+        huton_follow_up_armor_crush = self.__get_huton_follow_up_armor_crush()
+        return Skill(
+            name=name,
+            is_GCD=True,
+            combo_spec=(ComboSpec(combo_actions=("Gust Slash",)),),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            job_resource_spec=self._skill_data.get_skill_data(name, "job_resource"),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    (armor_crush_follow_up,)
+                    if self._version >= "7.0"
+                    else (
+                        armor_crush_follow_up,
+                        huton_follow_up_armor_crush,
+                    )
+                ),
+                "No Combo": (armor_crush_no_combo_follow_up,),
+                "No Positional": (
+                    (armor_crush_no_pos_follow_up,)
+                    if self._version >= "7.0"
+                    else (
+                        armor_crush_no_pos_follow_up,
+                        huton_follow_up_armor_crush,
+                    )
+                ),
+                "No Combo, No Positional": (armor_crush_no_pos_no_combo_follow_up,),
+                "Bunshin": (
+                    (
+                        armor_crush_follow_up,
+                        self.__all_bunshin_follow_ups["Armor Crush"],
+                    )
+                    if self._version >= "7.0"
+                    else (
+                        armor_crush_follow_up,
+                        huton_follow_up_armor_crush,
+                        self.__all_bunshin_follow_ups["Armor Crush"],
+                    )
+                ),
+                "Bunshin, No Combo": (
+                    armor_crush_no_combo_follow_up,
+                    self.__all_bunshin_follow_ups["Armor Crush"],
+                ),
+                "Bunshin, No Positional": (
+                    (
+                        armor_crush_no_pos_follow_up,
+                        self.__all_bunshin_follow_ups["Armor Crush"],
+                    )
+                    if self._version >= "7.0"
+                    else (
+                        armor_crush_no_pos_follow_up,
+                        huton_follow_up_armor_crush,
+                        self.__all_bunshin_follow_ups["Armor Crush"],
+                    )
+                ),
+                "Bunshin, No Combo, No Positional": (
+                    armor_crush_no_pos_no_combo_follow_up,
+                    self.__all_bunshin_follow_ups["Armor Crush"],
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def dokumori(self):
+        if self._version <= "6.55":
+            return None
+
+        name = "Dokumori"
+        dokumori_debuff_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                debuff_spec=StatusEffectSpec(
+                    damage_mult=1.05,
+                    duration=self._skill_data.get_skill_data(name, "duration"),
+                    is_party_effect=True,
+                ),
+            ),
+            delay_after_parent_application=0,
+            primary_target_only=False,
+        )
+        dokumori_damage_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name)
+                    )
+                },
+                has_aoe=True if self._version >= "7.1" else False,
+                aoe_dropoff=0.25 if self._version >= "7.1" else None,
+            ),
+            delay_after_parent_application=1070,
+            primary_target_only=False,
+        )
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    dokumori_damage_follow_up,
+                    dokumori_debuff_follow_up,
+                ),
+                "Debuff Only": (dokumori_debuff_follow_up,),
+            },
+            off_class_default_condition="Debuff Only",
+            has_aoe=True if self._version >= "7.1" else False,
+        )
+
+    @GenericJobClass.is_a_skill
+    def huraijin(self):
+        if self._version > "6.55":
+            return None
+        huton_follow_up_huton = self.__get_huton_follow_up_huton()
+        name = "Huraijin"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=800
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (huton_follow_up_huton,),
+                "Bunshin": (
+                    huton_follow_up_huton,
+                    self.__all_bunshin_follow_ups["Huraijin"],
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def hellfrog_medium(self):
+        name = "Hellfrog Medium"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=800
+            ),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def bhavacakra(self):
+        name = "Bhavacakra"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                ),
+                "Meisui": DamageSpec(
+                    potency=self._skill_data.get_skill_data(name, "potency_mesui")
+                ),
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=620
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def phantom_kamaitachi(self):
+        name = "Phantom Kamaitachi (pet)"
+        phantom_follow_up_damage = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                    )
+                },
+                has_aoe=True,
+                aoe_dropoff=0.5,
+            ),
+            delay_after_parent_application=1560,
+            snapshot_buffs_with_parent=True,
+            snapshot_debuffs_with_parent=True,
+            primary_target_only=False,
+        )
+        name = "Phantom Kamaitachi"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            timing_spec=TimingSpec(base_cast_time=0),
+            status_effect_denylist=("Dragon Sight",),
+            follow_up_skills=(phantom_follow_up_damage,),
+        )
+
+    @GenericJobClass.is_a_skill
+    def forked_raiju(self):
+        name = "Forked Raiju"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=620
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: tuple(),
+                "Bunshin": (self.__all_bunshin_follow_ups["Forked Raiju"],),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def fleeting_raiju(self):
+        name = "Fleeting Raiju"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=760
+            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: tuple(),
+                "Bunshin": (self.__all_bunshin_follow_ups["Fleeting Raiju"],),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def fuma_shuriken(self):
+        name = "Fuma Shuriken"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1500,
+                    application_delay=890,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+                "Ten Chi Jin": TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1000,
+                    application_delay=890,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def katon(self):
+        name = "Katon"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1500,
+                    application_delay=940,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+                "Ten Chi Jin": TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1000,
+                    application_delay=940,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def raiton(self):
+        name = "Raiton"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1500,
+                    application_delay=710,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+                "Ten Chi Jin": TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1000,
+                    application_delay=710,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def hyoton(self):
+        name = "Hyoton"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1500,
+                    application_delay=1160,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+                "Ten Chi Jin": TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1000,
+                    application_delay=1160,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def huton(self):
+        name = "Huton"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=self._skill_data.get_skill_data(name, "damage_spec"),
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1500,
+                    application_delay=0,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+                "Ten Chi Jin": TimingSpec(
+                    base_cast_time=0,
+                    gcd_base_recast_time=1000,
+                    application_delay=0,
+                    affected_by_speed_stat=False,
+                    affected_by_haste_buffs=False,
+                ),
+            },
+            follow_up_skills=(
+                (self.__get_huton_follow_up_huton(),)
+                if self._version == "6.55"
+                else tuple()
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def suiton(self):
+        name = "Suiton"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,
@@ -1049,14 +1100,14 @@ def add_nin_skills(skill_library):
                 ),
             },
         )
-    )
 
-    name = "Goka Mekkyaku"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def goka_mekkyaku(self):
+        name = "Goka Mekkyaku"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
@@ -1065,14 +1116,14 @@ def add_nin_skills(skill_library):
                 affected_by_haste_buffs=False,
             ),
         )
-    )
 
-    name = "Hyosho Ranryu"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def hyosho_ranryu(self):
+        name = "Hyosho Ranryu"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
@@ -1081,71 +1132,64 @@ def add_nin_skills(skill_library):
                 affected_by_haste_buffs=False,
             ),
         )
-    )
 
-    name = "Bunshin"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def bunshin(self):
+        name = "Bunshin"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=5,
                 duration=int(30.7 * 1000),
-                skill_allowlist=all_nin_skills.get_skill_data(name, "allowlist"),
+                skill_allowlist=self._skill_data.get_skill_data(name, "allowlist"),
             ),
         )
-    )
 
-    ninjutsus = (
-        "Fuma Shuriken",
-        "Katon",
-        "Raiton",
-        "Hyoton",
-        "Huton",
-        "Doton",
-        "Suiton",
-    )
-    name = "Ten Chi Jin"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def ten_chi_jin(self):
+        name = "Ten Chi Jin"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=3,
                 duration=6000,
-                skill_allowlist=ninjutsus,
+                skill_allowlist=self.__ninjutsus,
             ),
             channeling_spec=ChannelingSpec(
-                duration=6000, skill_allowlist=ninjutsus, num_uses=3
+                duration=6000, skill_allowlist=self.__ninjutsus, num_uses=3
             ),
         )
-    )
 
-    name = "Meisui"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def meisui(self):
+        name = "Meisui"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=30 * 1000,
-                skill_allowlist=all_nin_skills.get_skill_data(name, "allowlist"),
+                skill_allowlist=self._skill_data.get_skill_data(name, "allowlist"),
             ),
         )
-    )
 
-    if level in [100]:
+    @GenericJobClass.is_a_skill
+    def kunais_bane(self):
+        if self._level < 92:
+            return None
         name = "Kunai's Bane"
         kunai_damage_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 has_aoe=True,
             ),
             delay_after_parent_application=1290,
@@ -1156,78 +1200,80 @@ def add_nin_skills(skill_library):
                 name=name,
                 debuff_spec=StatusEffectSpec(
                     damage_mult=1.10,
-                    duration=all_nin_skills.get_skill_data(name, "duration"),
+                    duration=self._skill_data.get_skill_data(name, "duration"),
                 ),
             ),
             delay_after_parent_application=0,
             primary_target_only=False,
         )
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=0
-                ),
-                follow_up_skills=(kunai_damage_follow_up, kunai_debuff_follow_up),
-                has_aoe=True,
-            )
-        )
-
-    if level in [100]:
-        name = "Deathfrog Medium"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=800
-                ),
-            )
-        )
-
-    if level in [100]:
-        name = "Zesho Meppo"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=all_nin_skills.get_potency(name)
-                    ),
-                    "Meisui": DamageSpec(
-                        potency=all_nin_skills.get_skill_data(name, "potency_mesui")
-                    ),
-                },
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1030
-                ),
-            )
-        )
-
-    if level in [100]:
-        name = "Tenri Jindo"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=all_nin_skills.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1690
-                ),
-                has_aoe=True,
-                aoe_dropoff=0.5,
-            )
-        )
-
-    name = "Kassatsu"
-    skill_library.add_skill(
-        Skill(
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=0
+            ),
+            follow_up_skills=(kunai_damage_follow_up, kunai_debuff_follow_up),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def deathfrog_medium(self):
+        if self._level < 96:
+            return None
+        name = "Deathfrog Medium"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=800
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def zesho_meppo(self):
+        if self._level < 96:
+            return None
+        name = "Zesho Meppo"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                ),
+                "Meisui": DamageSpec(
+                    potency=self._skill_data.get_skill_data(name, "potency_mesui")
+                ),
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1030
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def tenri_jindo(self):
+        if self._level < 100:
+            return None
+        name = "Tenri Jindo"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1690
+            ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
+        )
+
+    @GenericJobClass.is_a_skill
+    def kassatsu(self):
+        name = "Kassatsu"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
@@ -1244,25 +1290,32 @@ def add_nin_skills(skill_library):
                 ),
             ),
         )
-    )
 
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
-    skill_library.add_skill(
-        Skill(name="Ten", is_GCD=True, timing_spec=mudra_timing_spec)
-    )
-    skill_library.add_skill(
-        Skill(name="Chi", is_GCD=True, timing_spec=mudra_timing_spec)
-    )
-    skill_library.add_skill(
-        Skill(name="Jin", is_GCD=True, timing_spec=mudra_timing_spec)
-    )
 
-    skill_library.add_skill(
-        Skill(name="True North", is_GCD=False, timing_spec=instant_timing_spec)
-    )
-    skill_library.add_skill(
-        Skill(name="Hide", is_GCD=False, timing_spec=instant_timing_spec)
-    )
-    return skill_library
+    @GenericJobClass.is_a_skill
+    def ten(self):
+        name = "Ten"
+        return Skill(name=name, is_GCD=True, timing_spec=self.__mudra_timing_spec)
+
+    @GenericJobClass.is_a_skill
+    def chi(self):
+        name = "Chi"
+        return Skill(name=name, is_GCD=True, timing_spec=self.__mudra_timing_spec)
+
+    @GenericJobClass.is_a_skill
+    def jin(self):
+        name = "Jin"
+        return Skill(name=name, is_GCD=True, timing_spec=self.__mudra_timing_spec)
+
+    @GenericJobClass.is_a_skill
+    def true_north(self):
+        name = "True North"
+        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+
+    @GenericJobClass.is_a_skill
+    def hide(self):
+        name = "Hide"
+        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)

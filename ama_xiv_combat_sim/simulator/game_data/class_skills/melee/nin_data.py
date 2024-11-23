@@ -24,7 +24,18 @@ ALL_DATA = {
                     "Huraijin",
                     "Forked Raiju",
                     "Fleeting Raiju",
-                )
+                ),
+                "7.0": (
+                    "Spinning Edge",
+                    "Gust Slash",
+                    "Throwing Dagger",
+                    "Aeolian Edge",
+                    "Death Blossom",
+                    "Hakke Mujinsatsu",
+                    "Armor Crush",
+                    "Forked Raiju",
+                    "Fleeting Raiju",
+                ),
             },
         },
         100: {
@@ -47,7 +58,7 @@ ALL_DATA = {
         },
     },
     "Dream Within a Dream": {
-        90: {"potency": {"6.55": 150}},
+        90: {"potency": {"6.55": 150, "7.1": 180}},
         100: {"potency": {"7.0": 150, "7.1": 180}},
     },
     "Doton (dot)": {90: {"potency": {"6.55": 80}}, 100: {"potency": {"7.0": 80}}},
@@ -63,7 +74,10 @@ ALL_DATA = {
             "potency_no_combo": {"7.0": 220, "7.05": 240},
         },
     },
-    "Throwing Dagger": {90: {"potency": {"6.55": 120}}, 100: {"potency": {"7.0": 120, "7.1": 200}}},
+    "Throwing Dagger": {
+        90: {"potency": {"6.55": 120, "7.1": 200}},
+        100: {"potency": {"7.0": 120, "7.1": 200}},
+    },
     "Mug": {90: {"potency": {"6.55": 150}, "duration": {"6.55": int(20.5 * 1000)}}},
     "Trick Attack": {
         90: {
@@ -74,10 +88,11 @@ ALL_DATA = {
     },
     "Aeolian Edge": {
         90: {
-            "potency": {"6.55": 440},
+            "potency": {"6.55": 440, "7.0": 380},
             "potency_no_combo": {"6.55": 200},
-            "potency_no_pos": {"6.55": 380},
+            "potency_no_pos": {"6.55": 380, "7.0": 320},
             "potency_no_pos_no_combo": {"6.55": 140},
+            "potency_increment_kaz": {"7.0": 100},
         },
         100: {
             "potency": {"7.0": 440},
@@ -94,11 +109,14 @@ ALL_DATA = {
     },
     "Armor Crush": {
         90: {
-            "potency": {"6.55": 420},
+            "potency": {"6.55": 420, "7.05": 400},
             "potency_no_combo": {"6.55": 200},
-            "potency_no_pos": {"6.55": 360},
+            "potency_no_pos": {"6.55": 360, "7.0": 340},
             "potency_no_pos_no_combo": {"6.55": 140},
-            "job_resource": {"6.55": tuple()},
+            "job_resource": {
+                "6.55": tuple(),
+                "7.0": (JobResourceSpec(name="Kazematoi", change=2),),
+            },
         },
         100: {
             "potency": {"7.0": 480},
@@ -109,7 +127,8 @@ ALL_DATA = {
         },
     },
     "Dokumori": {
-        100: {"potency": {"7.0": 300}, "duration": {"7.0": int(21.02 * 1000)}}
+        90: {"potency": {"7.0": 300}, "duration": {"7.0": int(21.02 * 1000)}},
+        100: {"potency": {"7.0": 300}, "duration": {"7.0": int(21.02 * 1000)}},
     },
     "Huraijin": {90: {"potency": {"6.55": 200}}},
     "Hellfrog Medium": {90: {"potency": {"6.55": 160}}, 100: {"potency": {"7.0": 160}}},
@@ -134,7 +153,7 @@ ALL_DATA = {
     "Raiton": {90: {"potency": {"6.55": 650}}, 100: {"potency": {"7.0": 740}}},
     "Hyoton": {90: {"potency": {"6.55": 350}}, 100: {"potency": {"7.0": 350}}},
     "Huton": {
-        90: {"damage_spec": {"6.55": None}},
+        90: {"damage_spec": {"6.55": None, "7.0": DamageSpec(potency=240)}},
         100: {"damage_spec": {"7.0": DamageSpec(potency=240)}},
     },
     "Suiton": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 580}}},

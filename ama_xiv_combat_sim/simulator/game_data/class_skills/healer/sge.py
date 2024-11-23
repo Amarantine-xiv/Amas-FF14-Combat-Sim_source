@@ -158,7 +158,7 @@ class SgeSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def eukrasian_dyskrasia(self):
-        if self._level not in [100]:
+        if self._version < "7.0":
             return None
         name = "Eukrasian Dosis III (dot)"  # for now, put same name to overwrite, even though it's E. dysk....
         e_dysk = Skill(
@@ -193,7 +193,7 @@ class SgeSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def psyche(self):
-        if self._level not in [100]:
+        if self._version < "7.0" or self._level < 92:
             return None
         name = "Psyche"
         return Skill(

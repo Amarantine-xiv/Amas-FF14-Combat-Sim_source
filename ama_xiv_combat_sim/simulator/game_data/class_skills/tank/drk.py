@@ -246,15 +246,13 @@ class DrkSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def plunge(self):
+        if self._version >= "7.0":
+            return None
         name = "Plunge"
         return Skill(
             name=name,
             is_GCD=False,
-            damage_spec=(
-                DamageSpec(potency=self._skill_data.get_potency(name))
-                if self._level in [90]
-                else None
-            ),
+            damage_spec= DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=624
             ),
@@ -331,7 +329,44 @@ class DrkSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def living_shadow(self):
         name = "Living Shadow"
-        if self._level in [90]:
+        if self._version >= "7.0":        
+            ls_names_and_potency_and_delays = [
+                (
+                    "Abyssal Drain (pet)",
+                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                    6800,
+                    True,
+                ),
+                (
+                    "Shadowbringer (pet)",
+                    self._skill_data.get_skill_data(
+                        "Living Shadow", "potency_shadowbringer"
+                    ),
+                    6800 + 2 * 2200,
+                    False,
+                ),
+                (
+                    "Edge of Shadow (pet)",
+                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                    6800 + 3 * 2200,
+                    True,
+                ),
+                (
+                    "Bloodspiller (pet)",
+                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                    6800 + 4 * 2200,
+                    True,
+                ),
+                (
+                    "Disesteem (pet)",
+                    self._skill_data.get_skill_data(
+                        "Living Shadow", "potency_disesteem"
+                    ),
+                    6800 + 5 * 2200,
+                    False,
+                ),
+            ]
+        else:
             ls_names_and_potency_and_delays = [
                 (
                     "Abyssal Drain (pet)",
@@ -372,43 +407,6 @@ class DrkSkills(GenericJobClass):
                     True,
                 ),
             ]
-        else:
-            ls_names_and_potency_and_delays = [
-                (
-                    "Abyssal Drain (pet)",
-                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
-                    6800,
-                    True,
-                ),
-                (
-                    "Shadowbringer (pet)",
-                    self._skill_data.get_skill_data(
-                        "Living Shadow", "potency_shadowbringer"
-                    ),
-                    6800 + 2 * 2200,
-                    False,
-                ),
-                (
-                    "Edge of Shadow (pet)",
-                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
-                    6800 + 3 * 2200,
-                    True,
-                ),
-                (
-                    "Bloodspiller (pet)",
-                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
-                    6800 + 4 * 2200,
-                    True,
-                ),
-                (
-                    "Disesteem (pet)",
-                    self._skill_data.get_skill_data(
-                        "Living Shadow", "potency_disesteem"
-                    ),
-                    6800 + 5 * 2200,
-                    False,
-                ),
-            ]
 
         _living_shadow_follow_ups = []
         for (
@@ -446,7 +444,7 @@ class DrkSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def scarlet_delirium(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
 
         name = "Scarlet Delirium"
@@ -461,7 +459,7 @@ class DrkSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def comeuppance(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
 
         name = "Comeuppance"
@@ -476,7 +474,7 @@ class DrkSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def torcleaver(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
 
         name = "Torcleaver"
@@ -491,7 +489,7 @@ class DrkSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def impalement(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
 
         name = "Impalement"
@@ -507,7 +505,7 @@ class DrkSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def disesteem(self):
-        if self._level not in [100]:
+        if self._level < 100:
             return None
 
         name = "Disesteem"

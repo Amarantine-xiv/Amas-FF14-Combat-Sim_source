@@ -35,6 +35,7 @@ class TestJobsMultiUnified71(TestClass):
             speed_stat=400,
             job_class="NIN",
             version=self.__version,
+            level=self.__level
         )
         base_dokumori = 11899
         skills_and_expected_damages = (
@@ -61,6 +62,7 @@ class TestJobsMultiUnified71(TestClass):
             speed_stat=400,
             job_class="NIN",
             version=self.__version,
+            level=self.__level
         )
         
         rb = RotationBuilder(stats, self.__skill_library)

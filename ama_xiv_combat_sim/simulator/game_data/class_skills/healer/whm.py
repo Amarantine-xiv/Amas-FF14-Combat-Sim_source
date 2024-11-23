@@ -13,11 +13,12 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.healer.whm_data import 
     all_whm_skills,
 )
 
+
 class WhmSkills(GenericJobClass):
 
     def __init__(self, version, level):
         super().__init__(version=version, level=level, skill_data=all_whm_skills)
-        self._job_class='WHM'
+        self._job_class = "WHM"
 
     @GenericJobClass.is_a_skill
     def auto(self):
@@ -45,24 +46,24 @@ class WhmSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def glare_iv(self):
-        if self._level not in [100]:
+        if self._level < 92:
             return None
 
         name = "Glare IV"
         return Skill(
-                name=name,
-                is_GCD=True,
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=100, application_delay=850
-                ),
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=self._skill_data.get_potency(name)
-                    )
-                },
-                has_aoe=True,
-                aoe_dropoff=0.4,
-            )
+            name=name,
+            is_GCD=True,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=100, application_delay=850
+            ),
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                )
+            },
+            has_aoe=True,
+            aoe_dropoff=0.4,
+        )
 
     @GenericJobClass.is_a_skill
     def assize(self):
@@ -181,20 +182,20 @@ class WhmSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def medica_iii(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
         name = "Medica III"
         return Skill(
-                name=name,
-                is_GCD=True,
-                timing_spec=TimingSpec(
-                    base_cast_time=2000, animation_lock=100, application_delay=0
-                ),
-            )
+            name=name,
+            is_GCD=True,
+            timing_spec=TimingSpec(
+                base_cast_time=2000, animation_lock=100, application_delay=0
+            ),
+        )
 
     @GenericJobClass.is_a_skill
     def divine_caress(self):
-        if self._level not in [100]:
+        if self._level < 100:
             return None
         name = "Divine Caress"
         return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
@@ -212,4 +213,4 @@ class WhmSkills(GenericJobClass):
                 num_uses=1,
                 skill_allowlist=("Glare III", "Holy III"),
             ),
-        )        
+        )

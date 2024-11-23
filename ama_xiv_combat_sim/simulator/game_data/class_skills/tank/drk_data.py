@@ -55,6 +55,7 @@ ALL_DATA = {
         90: {
             "potency_base": {"6.55": 350, "7.0": 420},
             "potency_shadowbringer": {"6.55": 500, "7.0": 570},
+            "potency_disesteem": {"7.0": 620},
         },
         100: {
             "potency_base": {"7.0": 420},

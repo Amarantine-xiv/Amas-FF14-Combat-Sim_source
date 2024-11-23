@@ -384,7 +384,7 @@ class WarSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def vengance(self):
-        if self._level not in [70, 80, 90]:
+        if self._level >= 92:
             return None
 
         name = "Vengeance"
@@ -405,7 +405,7 @@ class WarSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def damnation(self):
-        if self._level not in [100]:
+        if self._level < 92:
             return None
 
         name = "Damnation"
@@ -426,7 +426,7 @@ class WarSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def primal_wrath(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
         name = "Primal Wrath"
         return Skill(
@@ -446,7 +446,7 @@ class WarSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def primal_ruination(self):
-        if self._level not in [100]:
+        if self._level < 100:
             return None
         name = "Primal Ruination"
         return Skill(

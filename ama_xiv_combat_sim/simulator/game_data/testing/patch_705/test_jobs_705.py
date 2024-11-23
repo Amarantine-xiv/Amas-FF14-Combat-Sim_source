@@ -1785,7 +1785,7 @@ class TestJobsUnified705(TestClass):
         rb.add_next("Umbral Flare")
         rb.add_next("Enkindle Solar Bahamut")
 
-        expected_damage = 703667
+        expected_damage = 694158
         expected_total_time = 47580
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time
@@ -2082,6 +2082,68 @@ class TestJobsUnified705(TestClass):
 
         expected_damage = 591148
         expected_total_time = 29380
+        return self.__job_class_tester.test_aggregate_rotation(
+            rb, expected_damage, expected_total_time
+        )
+
+    @TestClass.is_a_test
+    def test_vpr_aggregate_rotation_lvl90(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.64,
+            main_stat=3367,
+            det_stat=1736,
+            crit_stat=2587,
+            dh_stat=1494,
+            speed_stat=508,
+            job_class="VPR",
+            version=self.__version,
+            level=90,
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=True,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        skill_seq = (
+            "Vicewinder",
+            "Serpent's Ire",
+            "Grade 8 Tincture",
+            "Hunter's Coil",
+            "Twinfang Bite",
+            "Twinblood Bite",
+            "Swiftskin's Coil",
+            "Twinblood Bite",
+            "Twinfang Bite",
+            "Reawaken",
+            "First Generation",
+            # "First Legacy", lvl > 90 skill
+            "Second Generation",
+            # "Second Legacy",
+            "Third Generation",
+            # "Third Legacy", lvl > 90 skill
+            "Fourth Generation",
+            # "Fourth Legacy", lvl > 90 skill
+            # "Ouroboros", lvl > 90 skill
+            "Vicewinder",
+            "Swiftskin's Coil",
+            "Twinblood Bite",
+            "Twinfang Bite",
+            "Hunter's Coil",
+            "Twinfang Bite",
+            "Twinblood Bite",
+            "Uncoiled Fury",
+            # "Uncoiled Twinfang", lvl > 90 skill
+            # "Uncoiled Twinblood", lvl > 90 skill
+        )
+        for e in skill_seq:
+            rb.add_next(e)
+
+        expected_damage = 469496
+        expected_total_time = 25260
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time
         )

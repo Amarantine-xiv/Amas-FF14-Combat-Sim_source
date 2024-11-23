@@ -28,116 +28,95 @@ class GameConsts:
     __CRIT_CONST_TEST = (200, 50, 400)
     __DET_CONST_TEST = 140
 
-    __LEVEL_DIVS = {"6.55": 1900, "7.0": 2780}
-    __LEVEL_MAINS = {"6.55": 390, "7.0": 440}
-    __LEVEL_SUBS = {"6.55": 400, "7.0": 420}
+    __LEVEL_DIVS = {90: 1900, 100: 2780}
+    __LEVEL_MAINS = {90: 390, 100: 440}
+    __LEVEL_SUBS = {90: 400, 100: 420}
 
-    __FAP_CONSTS = {"6.55": 195, "7.0": 237}
-    __FAP_TANK_CONSTS = {"6.55": 156, "7.0": 190}
-    __TEN_CONSTS = {"6.55": 100, "7.0": 112}
-    # Explicitly set the 7.0 values even though they haven't,
-    # changed for readability.
-    __DH_CONSTS = {"6.55": 550, "7.0": 550}
-    __DET_CONSTS = {"6.55": 140, "7.0": 140}
-    __SPEED_CONSTS = {"6.55": 130, "7.0": 130}
+    __FAP_CONSTS = {90: 195, 100: 237}
+    __FAP_TANK_CONSTS = {90: 156, 100: 190}
+    __TEN_CONSTS = {90: 100, 100: 112}
+
+    __DH_CONSTS = {90: 550, 100: 550}
+    __DET_CONSTS = {90: 140, 100: 140}
+    __SPEED_CONSTS = {90: 130, 100: 130}
+
     __CRIT_CONSTS = {
-        "6.55": (200, 50, 400),
-        "7.0": (200, 50, 400),
-        "7.01": (200, 50, 400),
-        "7.05": (200, 50, 400),
+        90: (200, 50, 400),
+        100: (200, 50, 400),
     }
-    __BASE_SKILL_SPEED = 400
-    __BASE_SPELL_SPEED = 400
-    
+
+    __BASE_SKILL_SPEED = {90: 400, 100: 420}
+    __BASE_SPELL_SPEED = {90: 400, 100: 420}
+
     DAMAGE_VARIANCE = 0.05
 
     @staticmethod
     def get_speed_const(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__SPEED_CONST_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__SPEED_CONSTS, version
-        )
+        return GameConsts.__SPEED_CONSTS[level]
 
     @staticmethod
     def get_crit_consts(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__CRIT_CONST_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__CRIT_CONSTS, version
-        )
+        return GameConsts.__CRIT_CONSTS[level]
 
     @staticmethod
     def get_dh_const(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__DH_CONST_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__DH_CONSTS, version
-        )
+        return GameConsts.__DH_CONSTS[level]
 
     @staticmethod
     def get_det_const(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__DET_CONST_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__DET_CONSTS, version
-        )
+        return GameConsts.__DET_CONSTS[level]
 
     @staticmethod
     def get_ten_const(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__TEN_CONST_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__TEN_CONSTS, version
-        )
+        return GameConsts.__TEN_CONSTS[level]
 
     @staticmethod
     def get_level_div(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__LEVEL_DIV_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__LEVEL_DIVS, version
-        )
+        return GameConsts.__LEVEL_DIVS[level]
 
     @staticmethod
     def get_level_main(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__LEVEL_MAIN_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__LEVEL_MAINS, version
-        )
+        return GameConsts.__LEVEL_MAINS[level]
 
     @staticmethod
     def get_level_sub(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__LEVEL_SUB_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__LEVEL_SUBS, version
-        )
+        return GameConsts.__LEVEL_SUBS[level]
 
     @staticmethod
     def get_fAP(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__FAP_CONST_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__FAP_CONSTS, version
-        )
+        return GameConsts.__FAP_CONSTS[level]
 
     @staticmethod
     def get_fAP_tank(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__FAP_TANK_CONST_TEST
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            GameConsts.__FAP_TANK_CONSTS, version
-        )
+        return GameConsts.__FAP_TANK_CONSTS[level]
 
     @staticmethod
     def get_base_skill_speed(version, level):
-        return GameConsts.__BASE_SKILL_SPEED
+        return GameConsts.__BASE_SKILL_SPEED[level]
 
     @staticmethod
     def get_base_spell_speed(version, level):
-        return GameConsts.__BASE_SPELL_SPEED
+        return GameConsts.__BASE_SPELL_SPEED[level]
 
     WEAPON_DELAYS = {
         "PLD": 2.24,

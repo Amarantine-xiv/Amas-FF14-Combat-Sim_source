@@ -50,6 +50,7 @@ ALL_NIN_ROTATIONS = {
                 "Forked Raiju",
             ),
             "start_version": "6.55",
+            "end_version": "6.55",
         },
         100: {
             "stats": {

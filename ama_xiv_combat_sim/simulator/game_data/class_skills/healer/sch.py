@@ -127,7 +127,7 @@ class SchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def baneful_impaction(self):
-        if self._level not in [100]:
+        if self._level < 92:
             return None
 
         name = "Baneful Impaction (dot)"
@@ -192,7 +192,7 @@ class SchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def concitation(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
         name = "Concitation"
         return Skill(
@@ -205,7 +205,7 @@ class SchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def manifestation(self):
-        if self._level not in [100]:
+        if self._level < 100:
             return None
         name = "Manifestation"
         return Skill(
@@ -218,7 +218,7 @@ class SchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def accession(self):
-        if self._level not in [100]:
+        if self._level < 100:
             return None
         name = "Accession"
         return Skill(

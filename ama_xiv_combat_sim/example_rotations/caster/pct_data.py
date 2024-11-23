@@ -5,6 +5,37 @@ all_pct_rotations = SpecificRotations()
 
 ALL_PCT_ROTATIONS = {
     "PCT": {
+        90: {
+            "stats": {
+                "wd": 146,
+                "main_stat": 4883,
+                "det_stat": 2269,
+                "crit_stat": 3140,
+                "dh_stat": 1993,
+                "speed_stat": 420,
+                "job_class": "PCT",
+            },
+            "skills": (
+                "Striking Muse",
+                "Holy in White",                
+                "Grade 2 Gemdraught",                
+                "Pom Muse",
+                "Wing Motif",
+                "Starry Muse",
+                "Hammer Stamp",
+                "Subtractive Palette",
+                "Blizzard in Cyan",
+                "Stone in Yellow",
+                "Thunder in Magenta",
+                "Comet in Black",
+                "Winged Muse",
+                "Mog of the Ages",
+                "Hammer Brush",                
+                "Polishing Hammer",
+                "Holy in White",
+            ),
+            "start_version": "7.05",
+        },
         100: {
             "stats": {
                 "wd": 146,

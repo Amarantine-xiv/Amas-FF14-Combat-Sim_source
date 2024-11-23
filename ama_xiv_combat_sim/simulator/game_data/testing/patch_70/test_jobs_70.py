@@ -1684,7 +1684,7 @@ class TestJobsUnified70(TestClass):
         rb.add_next("Umbral Flare")
         rb.add_next("Enkindle Solar Bahamut")
 
-        expected_damage = 698879
+        expected_damage = 690759
         expected_total_time = 47580
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time

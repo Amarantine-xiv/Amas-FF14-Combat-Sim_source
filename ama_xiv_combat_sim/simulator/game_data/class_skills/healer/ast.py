@@ -94,7 +94,7 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def astrodyne(self):
-        if self._version not in ["6.55"]:
+        if self._version >= "7.0":
             return None
 
         name = "Astrodyne"
@@ -403,7 +403,7 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def oracle(self):
-        if self._level not in [100]:
+        if self._level < 92:
             return None
         name="Oracle"
         return Skill(
@@ -422,7 +422,7 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def helios_conjunction(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None        
         name="Helios Conjunction"
         return Skill(
@@ -434,19 +434,19 @@ class AstSkills(GenericJobClass):
             )
     @GenericJobClass.is_a_skill
     def draw(self):
-        if self._version not in ["6.55"]:
+        if self._version >= "7.0":
             return None
         return Skill(name="Draw", is_GCD=False, timing_spec=self.instant_timing_spec)
 
     @GenericJobClass.is_a_skill
     def redraw(self):
-        if self._version not in ["6.55"]:
+        if self._version >= "7.0":
             return None
         return Skill(name="Redraw", is_GCD=False, timing_spec=self.instant_timing_spec)
 
     @GenericJobClass.is_a_skill
     def play(self):
-        if self._version not in ["6.55"]:
+        if self._version >= "7.0":
             return None
         return Skill(name="Play", is_GCD=False, timing_spec=self.instant_timing_spec)
 
@@ -465,13 +465,13 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def astral_draw(self):
-        if self._version in ["6.55"]:
+        if self._version < "7.0":
             return None
         return Skill(name="Astral Draw", is_GCD=False, timing_spec=self.instant_timing_spec)
 
     @GenericJobClass.is_a_skill
     def umbral_draw(self):
-        if self._version in ["6.55"]:
+        if self._version < "7.0":
             return None
         return Skill(name="Umbral Draw", is_GCD=False, timing_spec=self.instant_timing_spec)
 
@@ -501,7 +501,7 @@ class AstSkills(GenericJobClass):
     
     @GenericJobClass.is_a_skill
     def get_card_skills_655(self):
-        if self._version not in ["6.55"]:
+        if self._version != "6.55":
             return None        
         res = []
         skill_and_resources = (
@@ -552,7 +552,7 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def cards(self):
-        if self._version in ["6.55"]:
+        if self._version < "7.0":
             return None
         res = []
         
@@ -581,7 +581,7 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_resource
     def asterisk(self):
-        if self._version not in ["6.55"]:
+        if self._version >= "7.0":
             return None
         name = "Asterisk"
         job_resource_settings = JobResourceSettings(
@@ -591,7 +591,7 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_resource
     def moon(self):
-        if self._version not in ["6.55"]:
+        if self._version >= "7.0":
             return None
         name = "Moon"
         job_resource_settings = JobResourceSettings(
@@ -601,7 +601,7 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_resource
     def circle(self):
-        if self._version not in ["6.55"]:
+        if self._version >= "7.0":
             return None
         name = "Circle"
         job_resource_settings = JobResourceSettings(

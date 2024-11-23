@@ -183,7 +183,9 @@ class BrdSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             damage_spec=(
-                {
+                None
+                if self._version >= "7.0"
+                else {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
                         potency=self._skill_data.get_potency(name),
                         trait_damage_mult_override=1.0,
@@ -194,8 +196,6 @@ class BrdSkills(GenericJobClass):
                     "3 Repertoire": None,
                     "4 Repertoire": None,
                 }
-                if self._level in [90]
-                else None
             ),
             buff_spec={
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
@@ -287,7 +287,9 @@ class BrdSkills(GenericJobClass):
                         is_GCD=False,
                         buff_spec=StatusEffectSpec(
                             haste_time_reduction=haste_and_auto_time_reductions[i],
-                            auto_attack_delay_reduction=haste_and_auto_time_reductions[i],
+                            auto_attack_delay_reduction=haste_and_auto_time_reductions[
+                                i
+                            ],
                             duration=10 * 1000,
                         ),
                     ),
@@ -325,11 +327,12 @@ class BrdSkills(GenericJobClass):
         name = "Mage's Ballad"
 
         mages_ballad_potency = (
-            DamageSpec(
-                potency=self._skill_data.get_potency(name), trait_damage_mult_override=1.0
+            None
+            if self._version >= "7.0"
+            else DamageSpec(
+                potency=self._skill_data.get_potency(name),
+                trait_damage_mult_override=1.0,
             )
-            if self._version in ["6.55"]
-            else None
         )
 
         armys_muse_follow_ups = self.__get_army_muse_follow_ups()
@@ -433,13 +436,14 @@ class BrdSkills(GenericJobClass):
     def the_wanderers_minuet(self):
         name = "The Wanderer's Minuet"
         wanderers_potency = (
-            DamageSpec(
-                potency=self._skill_data.get_potency(name), trait_damage_mult_override=1.0
+            None
+            if self._version >= "7.0"
+            else DamageSpec(
+                potency=self._skill_data.get_potency(name),
+                trait_damage_mult_override=1.0,
             )
-            if self._version in ["6.55"]
-            else None
         )
-        
+
         armys_muse_follow_ups = self.__get_army_muse_follow_ups()
         return Skill(
             name=name,
@@ -535,7 +539,7 @@ class BrdSkills(GenericJobClass):
             has_aoe=True,
             aoe_dropoff=0.5,
         )
-    
+
     @GenericJobClass.is_a_skill
     def empyreal_arrow(self):
         name = "Empyreal Arrow"
@@ -547,14 +551,32 @@ class BrdSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1030
             ),
         )
-        
+
     @GenericJobClass.is_a_skill
     def iron_jaws(self):
         name = "Iron Jaws"
         stormbite_follow_up = self.__get_stormbite_follow_up()
         caustic_bite_follow_up = self.__get_caustic_bite_follow_up()
-        
-        if self._version in [90]:
+
+        if self._version >= "7.0":
+            iron_jaws_skill = Skill(
+                name=name,
+                is_GCD=True,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                timing_spec=TimingSpec(
+                    base_cast_time=0, animation_lock=650, application_delay=670
+                ),
+                follow_up_skills={
+                    SimConsts.DEFAULT_CONDITION: (
+                        stormbite_follow_up,
+                        caustic_bite_follow_up,
+                    ),
+                    "Stormbite": (stormbite_follow_up,),
+                    "Caustic Bite": (caustic_bite_follow_up,),
+                    "No Dot": tuple(),
+                },
+            )
+        else:
             iron_jaw_barrage2 = FollowUp(
                 skill=Skill(
                     name=name,
@@ -603,26 +625,8 @@ class BrdSkills(GenericJobClass):
                     "Barrage, No Dot": (iron_jaw_barrage2, iron_jaw_barrage3),
                 },
             )
-        else:
-            iron_jaws_skill = Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=670
-                ),
-                follow_up_skills={
-                    SimConsts.DEFAULT_CONDITION: (
-                        stormbite_follow_up,
-                        caustic_bite_follow_up,
-                    ),
-                    "Stormbite": (stormbite_follow_up,),
-                    "Caustic Bite": (caustic_bite_follow_up,),
-                    "No Dot": tuple(),
-                },
-            )
         return iron_jaws_skill
-    
+
     @GenericJobClass.is_a_skill
     def sidewinder(self):
         name = "Sidewinder"
@@ -634,13 +638,23 @@ class BrdSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=530
             ),
         )
-        
+
     @GenericJobClass.is_a_skill
     def cautic_bite(self):
         name = "Caustic Bite"
         caustic_bite_follow_up = self.__get_caustic_bite_follow_up()
-        
-        if self._version in ["6.55"]:            
+
+        if self._version >= "7.0":
+            caustic_bite_skill = Skill(
+                name=name,
+                is_GCD=False,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                timing_spec=TimingSpec(
+                    base_cast_time=0, animation_lock=650, application_delay=1290
+                ),
+                follow_up_skills=(caustic_bite_follow_up,),
+            )
+        else:
             caustic_bite_barrage2 = FollowUp(
                 skill=Skill(
                     name=name,
@@ -655,7 +669,7 @@ class BrdSkills(GenericJobClass):
                 ),
                 delay_after_parent_application=240,
             )
-            
+
             caustic_bite_skill = Skill(
                 name=name,
                 is_GCD=False,
@@ -672,25 +686,24 @@ class BrdSkills(GenericJobClass):
                     ),
                 },
             )
-        else:
-            caustic_bite_skill = Skill(
+        return caustic_bite_skill
+
+    @GenericJobClass.is_a_skill
+    def stormbite(self):
+        name = "Stormbite"
+        stormbite_follow_up = self.__get_stormbite_follow_up()
+
+        if self._version >= "7.0":
+            stormbite_skill = Skill(
                 name=name,
                 is_GCD=False,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=1290
                 ),
-                follow_up_skills=(caustic_bite_follow_up,),
+                follow_up_skills=(stormbite_follow_up,),
             )
-            
-        return caustic_bite_skill
-    
-    @GenericJobClass.is_a_skill
-    def stormbite(self):
-        name = "Stormbite"
-        stormbite_follow_up = self.__get_stormbite_follow_up()
-        
-        if self._version in ["6.55"]:
+        else:
             stormbite_barrage2 = FollowUp(
                 skill=Skill(
                     name=name,
@@ -723,18 +736,8 @@ class BrdSkills(GenericJobClass):
                     ),
                 },
             )
-        else:
-            stormbite_skill = Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1290
-                ),
-                follow_up_skills=(stormbite_follow_up,),
-            )
         return stormbite_skill
-    
+
     @GenericJobClass.is_a_skill
     def refulgent_arrow(self):
         name = "Refulgent Arrow"
@@ -766,7 +769,7 @@ class BrdSkills(GenericJobClass):
                 "Barrage": (refulgent_arrow_barrage2, refulgent_arrow_barrage3),
             },
         )
-        
+
     @GenericJobClass.is_a_skill
     def shadowbite(self):
         name = "Shadowbite"
@@ -786,11 +789,20 @@ class BrdSkills(GenericJobClass):
             ),
             has_aoe=True,
         )
-        
+
     @GenericJobClass.is_a_skill
     def burst_shot(self):
         name = "Burst Shot"
-        if self._version in ["6.55"]:
+        if self._version >= "7.0":
+            burst_shot_skill = Skill(
+                name=name,
+                is_GCD=True,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                timing_spec=TimingSpec(
+                    base_cast_time=0, animation_lock=650, application_delay=1470
+                ),
+            )
+        else:
             burst_shot_barrage2 = FollowUp(
                 skill=Skill(
                     name=name,
@@ -819,18 +831,8 @@ class BrdSkills(GenericJobClass):
                     "Barrage": (burst_shot_barrage2, burst_shot_barrage3),
                 },
             )
-        else:
-            burst_shot_skill = Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1470
-                ),
-            )
-        
         return burst_shot_skill
-    
+
     @GenericJobClass.is_a_skill
     def apex_arrow(self):
         name = "Apex Arrow"
@@ -899,7 +901,7 @@ class BrdSkills(GenericJobClass):
             job_resource_spec=(JobResourceSpec(name="Soul Voice", change=-np.inf),),
             has_aoe=True,
         )
-    
+
     @GenericJobClass.is_a_skill
     def ladonsbite(self):
         name = "Ladonsbite"
@@ -932,7 +934,7 @@ class BrdSkills(GenericJobClass):
             },
             has_aoe=True,
         )
-        
+
     @GenericJobClass.is_a_skill
     def blast_arrow(self):
         name = "Blast Arrow"
@@ -950,11 +952,11 @@ class BrdSkills(GenericJobClass):
             has_aoe=True,
             aoe_dropoff=0.6,
         )
-        
+
     @GenericJobClass.is_a_skill
     def radiant_finale(self):
         name = "Radiant Finale"
-                
+
         encore1 = FollowUp(
             skill=Skill(
                 name="1 Encore",
@@ -1003,7 +1005,7 @@ class BrdSkills(GenericJobClass):
             ),
             delay_after_parent_application=0,
         )
-        
+
         return Skill(
             name=name,
             is_GCD=False,
@@ -1096,11 +1098,11 @@ class BrdSkills(GenericJobClass):
                     "2 Coda": tuple(),
                     "3 Coda": tuple(),
                 }
-                if self._level in [100]
+                if self._level >= 100
                 else tuple()
             ),
         )
-        
+
     @GenericJobClass.is_a_skill
     def barrage(self):
         name = "Barrage"
@@ -1114,6 +1116,11 @@ class BrdSkills(GenericJobClass):
                 duration=10 * 1000,
                 skill_allowlist=(
                     (
+                        "Refulgent Arrow",
+                        "Shadowbite",
+                    )
+                    if self._version >= "7.0"
+                    else (
                         "Iron Jaws",
                         "Caustic Bite",
                         "Stormbite",
@@ -1122,82 +1129,76 @@ class BrdSkills(GenericJobClass):
                         "Burst Shot",
                         "Ladonsbite",
                     )
-                    if self._version in ["6.55"]
-                    else (
-                        # for level 100
-                        "Refulgent Arrow",
-                        "Shadowbite",
-                    )
                 ),
             ),
         )
-        
+
     @GenericJobClass.is_a_skill
     def heartbreak_shot(self):
         name = "Heartbreak Shot"
-        if self._level not in [100]:
-            return None        
+        if self._level < 92:
+            return None
         return Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1650
-                ),
-            )
-    
+            name=name,
+            is_GCD=False,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1650
+            ),
+        )
+
     @GenericJobClass.is_a_skill
     def resonant_arrow(self):
         name = "Resonant Arrow"
-        if self._level not in [100]:
+        if self._level < 96:
             return None
         return Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=self._skill_data.get_potency(name)
-                    )
-                },
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1160
-                ),
-                has_aoe=True,
-                aoe_dropoff=0.5,
-            )
-        
+            name=name,
+            is_GCD=True,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                )
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1160
+            ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
+        )
+
     @GenericJobClass.is_a_skill
     def radiant_encore(self):
         name = "Radiant Encore"
-        if self._level not in [100]:
+        if self._level < 100:
             return None
         return Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec={
-                    SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=self._skill_data.get_skill_data(name, "3 Encore")
-                    ),
-                    "3 Encore": DamageSpec(
-                        potency=self._skill_data.get_skill_data(name, "3 Encore")
-                    ),
-                    "2 Encore": DamageSpec(
-                        potency=self._skill_data.get_skill_data(name, "2 Encore")
-                    ),
-                    "1 Encore": DamageSpec(
-                        potency=self._skill_data.get_skill_data(name, "1 Encore")
-                    ),
-                },
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1960
+            name=name,
+            is_GCD=True,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_skill_data(name, "3 Encore")
                 ),
-                has_aoe=True,
-                aoe_dropoff=0.5,
-            )
-        
+                "3 Encore": DamageSpec(
+                    potency=self._skill_data.get_skill_data(name, "3 Encore")
+                ),
+                "2 Encore": DamageSpec(
+                    potency=self._skill_data.get_skill_data(name, "2 Encore")
+                ),
+                "1 Encore": DamageSpec(
+                    potency=self._skill_data.get_skill_data(name, "1 Encore")
+                ),
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1960
+            ),
+            has_aoe=True,
+            aoe_dropoff=0.5,
+        )
+
     @GenericJobClass.is_a_skill
     def add_soul_voice(self):
-        name="Add Soul Voice"
+        name = "Add Soul Voice"
         return Skill(
             name=name,
             is_GCD=False,
@@ -1230,10 +1231,10 @@ class BrdSkills(GenericJobClass):
                 "100": (JobResourceSpec(name="Soul Voice", change=100),),
             },
         )
-    
+
     @GenericJobClass.is_a_skill
     def add_repertoire(self):
-        name="Add Repertoire"
+        name = "Add Repertoire"
         return Skill(
             name=name,
             is_GCD=False,

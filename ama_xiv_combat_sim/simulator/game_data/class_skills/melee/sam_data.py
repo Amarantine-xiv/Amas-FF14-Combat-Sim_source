@@ -37,10 +37,10 @@ ALL_DATA = {
     },
     "Gekko": {
         90: {
-            "potency": {"6.55": 380},
-            "potency_no_combo": {"6.55": 170},
-            "potency_no_pos": {"6.55": 330},
-            "potency_no_pos_no_combo": {"6.55": 120},
+            "potency": {"6.55": 380, "7.05": 370},
+            "potency_no_combo": {"6.55": 170, "7.05": 160},
+            "potency_no_pos": {"6.55": 330, "7.05": 320},
+            "potency_no_pos_no_combo": {"6.55": 120, "7.05": 110},
         },
         100: {
             "potency": {"7.0": 440, "7.05": 420},
@@ -53,13 +53,13 @@ ALL_DATA = {
     "Higanbana": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 200}}},
     "Tenka Goken": {90: {"potency": {"6.55": 300}}, 100: {"potency": {"7.0": 300}}},
     "Midare Setsugekka": {
-        90: {"potency": {"6.55": 640}},
+        90: {"potency": {"6.55": 640, "7.05": 620}},
         100: {"potency": {"7.0": 700, "7.05": 640}},
     },
     "Kaeshi: Higanbana": {90: {"potency": {"6.55": 200}}},
     "Kaeshi: Goken": {90: {"potency": {"6.55": 300}}, 100: {"potency": {"7.0": 300}}},
     "Kaeshi: Setsugekka": {
-        90: {"potency": {"6.55": 640}},
+        90: {"potency": {"6.55": 640, "7.05": 620}},
         100: {"potency": {"7.0": 700, "7.05": 640}},
     },
     "Mangetsu": {
@@ -68,10 +68,10 @@ ALL_DATA = {
     },
     "Kasha": {
         90: {
-            "potency": {"6.55": 380},
-            "potency_no_combo": {"6.55": 170},
-            "potency_no_pos": {"6.55": 330},
-            "potency_no_pos_no_combo": {"6.55": 120},
+            "potency": {"6.55": 380, "7.05": 370},
+            "potency_no_combo": {"6.55": 170, "7.05": 160},
+            "potency_no_pos": {"6.55": 330, "7.05": 320},
+            "potency_no_pos_no_combo": {"6.55": 120, "7.05": 110},
         },
         100: {
             "potency": {"7.0": 440, "7.05": 420},
@@ -86,8 +86,8 @@ ALL_DATA = {
     },
     "Yukikaze": {
         90: {
-            "potency": {"6.55": 300},
-            "potency_no_combo": {"6.55": 120},
+            "potency": {"6.55": 300, "7.05": 290},
+            "potency_no_combo": {"6.55": 120, "7.05": 110},
             "combo_actions": {"6.55": ("Hakaze",)},
         },
         100: {
@@ -111,7 +111,7 @@ ALL_DATA = {
     },
     "Hissatsu: Guren": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 500}}},
     "Hissatsu: Senei": {
-        90: {"potency": {"6.55": 860}},
+        90: {"potency": {"6.55": 860, "7.05": 800}},
         100: {"potency": {"7.0": 860, "7.05": 800}},
     },
     "Shoha": {90: {"potency": {"6.55": 560}}, 100: {"potency": {"7.0": 640}}},

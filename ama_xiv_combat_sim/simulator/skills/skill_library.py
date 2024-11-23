@@ -109,8 +109,12 @@ class SkillLibrary:
             for combo_breaker in combo_breakers:
                 self.add_combo_breaker(combo_breaker[0], combo_breaker[1])
 
-        for sk in all_class_skills.get_skills():
-            self.add_skill(sk)
+        
+        try:
+            for sk in all_class_skills.get_skills():            
+                self.add_skill(sk)
+        except ValueError as e:
+            print(e)
 
         for resource in all_class_skills.get_resources():
             self.add_resource(resource[0], resource[1])

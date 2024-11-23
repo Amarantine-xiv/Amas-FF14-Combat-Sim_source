@@ -33,9 +33,8 @@ class SpecificSkills:
     # convenience function
     def get_potency(self, skill_name):
         res = self.get_skill_data(skill_name, "potency")
-        assert (
-            res is not None
-        ), f"Could not find appropriate level/patch version for skill: {skill_name}. level/patch: {self.level}/{self.version}"
+        if res is None:
+            raise ValueError(f"Could not find appropriate level/patch version for skill: {skill_name}. level/patch: {self.level}/{self.version}")        
         return res
 
     # convenience functions

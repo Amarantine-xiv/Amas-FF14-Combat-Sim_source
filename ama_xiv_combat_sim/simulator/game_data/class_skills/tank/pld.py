@@ -19,7 +19,7 @@ class PldSkills(GenericJobClass):
     def __init__(self, version, level):
         super().__init__(version=version, level=level, skill_data=all_pld_skills)
         self._job_class = "PLD"
-    
+
     def get_status_effect_priority(self):
         return ("Divine Might", "Requiescat")
 
@@ -279,7 +279,9 @@ class PldSkills(GenericJobClass):
                     potency=self._skill_data.get_skill_data(name, "potency")
                 ),
                 "Divine Might": DamageSpec(
-                    potency=self._skill_data.get_skill_data(name, "potency_divine_might")
+                    potency=self._skill_data.get_skill_data(
+                        name, "potency_divine_might"
+                    )
                 ),
                 "Requiescat": DamageSpec(
                     potency=self._skill_data.get_skill_data(name, "potency_req")
@@ -320,9 +322,9 @@ class PldSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def requiescat(self):
-        if self._level in [100]:
+        if self._level >= 96:
             return None
-        
+
         name = "Requiescat"
         return Skill(
             name=name,
@@ -336,7 +338,7 @@ class PldSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def imperator(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
 
         name = "Imperator"
@@ -378,7 +380,9 @@ class PldSkills(GenericJobClass):
                     potency=self._skill_data.get_skill_data(name, "potency")
                 ),
                 "Divine Might": DamageSpec(
-                    potency=self._skill_data.get_skill_data(name, "potency_divine_might")
+                    potency=self._skill_data.get_skill_data(
+                        name, "potency_divine_might"
+                    )
                 ),
                 "Requiescat": DamageSpec(
                     potency=self._skill_data.get_skill_data(name, "potency_req")
@@ -443,9 +447,8 @@ class PldSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def supplication(self):
-        if self._version in ['6.55',]:
+        if self._version < "7.0":
             return None
-        
         name = "Supplication"
         return Skill(
             name=name,
@@ -458,9 +461,8 @@ class PldSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def sepulchre(self):
-        if self._version in ['6.55',]:
+        if self._version < "7.0":
             return None
-        
         name = "Sepulchre"
         return Skill(
             name=name,
@@ -579,9 +581,8 @@ class PldSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def blade_of_honor(self):
-        if self._level not in [100]:
+        if self._level < 100:
             return None
-
         name = "Blade of Honor"
         return Skill(
             name=name,
@@ -601,7 +602,7 @@ class PldSkills(GenericJobClass):
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
-    
+
     @GenericJobClass.is_a_skill
     def passage_of_arms(self):
         name = "Passage of Arms"

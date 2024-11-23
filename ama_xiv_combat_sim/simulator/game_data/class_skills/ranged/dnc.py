@@ -696,7 +696,7 @@ class DncSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def finishing_move(self):
-        if self._level not in [100]:
+        if self._level < 96:
             return None
 
         name = "Finishing Move"
@@ -763,7 +763,7 @@ class DncSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def last_dance(self):
-        if self._level not in [100]:
+        if self._level < 92:
             return None
         name = "Last Dance"
         return Skill(
@@ -783,7 +783,7 @@ class DncSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def dance_of_the_dawn(self):
-        if self._level not in [100]:
+        if self._level < 100:
             return None
         name = "Dance of the Dawn"
         return Skill(

@@ -504,7 +504,7 @@ class MchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def blazing_shot(self):
-        if self._level not in [100]:
+        if self._version < "7.0":
             return None
         name = "Blazing Shot"
         return Skill(
@@ -827,7 +827,7 @@ class MchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def checkmate(self):
-        if self._level not in [100]:
+        if self._version < "7.0" or self._level < 92:
             return None
         name = "Checkmate"
         return Skill(
@@ -847,7 +847,7 @@ class MchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def double_check(self):
-        if self._level not in [100]:
+        if self._version < "7.0" or self._level < 92:
             return None
         name = "Double Check"
         return Skill(
@@ -867,7 +867,7 @@ class MchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def excavator(self):
-        if self._level not in [100]:
+        if self._version < "7.0" or self._level < 96:
             return None
         name = "Excavator"
         return Skill(
@@ -896,7 +896,7 @@ class MchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def full_metal_field(self):
-        if self._level not in [100]:
+        if self._version < "7.0" or self._level < 100:
             return None
         name = "Full Metal Field"
         return Skill(
@@ -916,6 +916,7 @@ class MchSkills(GenericJobClass):
             has_aoe=True,
             aoe_dropoff=0.5,
         )
+
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.

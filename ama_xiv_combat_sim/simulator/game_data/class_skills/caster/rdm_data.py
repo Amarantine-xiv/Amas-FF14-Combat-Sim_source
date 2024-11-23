@@ -22,7 +22,7 @@ ALL_DATA = {
         90: {"potency": {"6.55": 230}, "potency_no_combo": {"6.55": 100}},
         100: {"potency": {"7.0": 230}, "potency_no_combo": {"7.0": 100}},
     },
-    "Moulinet": {90: {"potency": {"6.55": 130}}, 100: {"potency": {"7.0": 130}}},
+    "Moulinet": {90: {"potency": {"6.55": 60}}, 100: {"potency": {"7.0": 60}}},
     "Contre Sixte": {
         90: {"potency": {"6.55": 380}},
         100: {"potency": {"7.0": 400, "7.05": 420}},
@@ -41,8 +41,12 @@ ALL_DATA = {
         },
     },
     "Jolt II": {90: {"potency": {"6.55": 320}}, 100: {"potency": {"7.0": 280}}},
-    "Jolt III": {100: {"potency": {"7.0": 360}}},
-    "Impact": {90: {"potency": {"6.55": 210}}, 100: {"potency": {"7.0": 210}}},
+    "Jolt III": {90: {"potency": {"7.0": 360}},
+                 100: {"potency": {"7.0": 360}}},
+    "Impact": {
+        90: {"potency": {"6.55": 210}, "potency_acceleration": {"6.55": 260}},
+        100: {"potency": {"7.0": 210}, "potency_acceleration": {"7.0": 260}},
+    },
     "Verflare": {
         90: {"potency": {"6.55": 600}},
         100: {"potency": {"7.0": 620, "7.1": 650}},
@@ -87,8 +91,14 @@ ALL_DATA = {
         90: {"potency": {"6.55": 130}},
         100: {"potency": {"7.0": 130}},
     },
-    "Enchanted Moulinet Deux": {100: {"potency": {"7.0": 140}}},
-    "Enchanted Moulinet Trois": {100: {"potency": {"7.0": 150}}},
+    "Enchanted Moulinet Deux": {
+        90: {"potency": {"7.0": 140}},
+        100: {"potency": {"7.0": 140}},
+    },
+    "Enchanted Moulinet Trois": {
+        90: {"potency": {"7.0": 150}},
+        100: {"potency": {"7.0": 150}},
+    },
     "Enchanted Reprise": {
         90: {"potency": {"6.55": 340}},
         100: {"potency": {"7.0": 380, "7.05": 420}},

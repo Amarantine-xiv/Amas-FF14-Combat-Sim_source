@@ -36,6 +36,7 @@ class TestJobsMultiUnified701(TestClass):
             job_class="WHM",
             healer_or_caster_strength=214,
             version=self.__version,
+            level=self.__level
         )
         holy_iii_base = 7574
         afflatus_misery_base = 66702
@@ -77,6 +78,7 @@ class TestJobsMultiUnified701(TestClass):
             job_class="SCH",
             healer_or_caster_strength=351,
             version=self.__version,
+            level=self.__level
         )
         baneful_base = 7000
         skills_and_expected_damages = (
@@ -110,6 +112,7 @@ class TestJobsMultiUnified701(TestClass):
             job_class="SGE",
             healer_or_caster_strength=214,
             version=self.__version,
+            level=self.__level
         )
         base_phlegma = 30885
         base_toxikon_ii = 18551
@@ -165,6 +168,7 @@ class TestJobsMultiUnified701(TestClass):
             job_class="AST",
             healer_or_caster_strength=214,
             version=self.__version,
+            level=self.__level
         )
         base_marcocosmos = 13457
         base_lord_of_crowns = 19967.9
@@ -199,6 +203,7 @@ class TestJobsMultiUnified701(TestClass):
             tenacity=631,
             job_class="DRK",
             version=self.__version,
+            level=self.__level
         )
         base_quietus = 6163
         base_impalement = 8211
@@ -289,6 +294,7 @@ class TestJobsMultiUnified701(TestClass):
             tenacity=751,
             job_class="GNB",
             version=self.__version,
+            level=self.__level
         )
         base_double_down = 30611
         base_reign = 20406
@@ -354,6 +360,7 @@ class TestJobsMultiUnified701(TestClass):
             tenacity=631,
             job_class="WAR",
             version=self.__version,
+            level=self.__level
         )
         base_chaotic_cyclone = 13530
         base_orogeny = 3867.3
@@ -438,6 +445,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=436,
             job_class="DNC",
             version=self.__version,
+            level=self.__level
         )
         base_fan_dance_iv = 14570
 
@@ -525,6 +533,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=400,
             job_class="MCH",
             version=self.__version,
+            level=self.__level
         )
         base_bioblaster = 2428
         base_bioblaster_dot = 2421
@@ -610,6 +619,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=479,
             job_class="BRD",
             version=self.__version,
+            level=self.__level
         )
         pitch_perfect_base = 17407
         apex_arrow_base = 29003
@@ -675,6 +685,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=502,
             job_class="SMN",
             version=self.__version,
+            level=self.__level
         )
         base_summon_ifrit_ii = 30716
         base_ruin_iv = 25688
@@ -713,6 +724,7 @@ class TestJobsMultiUnified701(TestClass):
             job_class="RDM",
             healer_or_caster_strength=214,
             version=self.__version,
+            level=self.__level
         )
         base_grand_impact = 31439
         skills_and_expected_damages = (
@@ -739,6 +751,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=2469,
             job_class="BLM",
             version=self.__version,
+            level=self.__level
         )
         base_flare = 11556
         base_flare_star = 19299
@@ -787,6 +800,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=400,
             job_class="DRG",
             version=self.__version,
+            level=self.__level
         )
         base_geirskogul = 11503
         base_sonic_thrust = 4098
@@ -821,6 +835,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=400,
             job_class="NIN",
             version=self.__version,
+            level=self.__level
         )
         base_phantom = 21794
 
@@ -895,6 +910,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=508,
             job_class="SAM",
             version=self.__version,
+            level=self.__level
         )
         base_mangetsu = 3990
 
@@ -940,6 +956,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=436,
             job_class="RPR",
             version=self.__version,
+            level=self.__level
         )
         base_plentiful = 40401
 
@@ -990,6 +1007,7 @@ class TestJobsMultiUnified701(TestClass):
             speed_stat=508,
             job_class="VPR",
             version=self.__version,
+            level=self.__level
         )
 
         rb = RotationBuilder(stats, self.__skill_library)

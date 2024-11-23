@@ -1,9 +1,7 @@
 import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
-from ama_xiv_combat_sim.simulator.game_data.convenience_timings import (
-    get_auto_timing,
-)
+from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -16,694 +14,702 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.smn_data import 
 )
 
 
-def add_smn_skills(skill_library):
-    all_smn_skills.set_version(skill_library.get_version())
+class SmnSkills(GenericJobClass):
 
-    level = skill_library.get_level()
-    all_smn_skills.set_level(level)
+    def __init__(self, version, level):
+        super().__init__(version=version, level=level, skill_data=all_smn_skills)
+        self._job_class = "SMN"
+        self.__smn_caster_tax_ms = 100
+        self.__base_animation_lock = 600
+        self.__smn_instant_timing_spec = TimingSpec(
+            base_cast_time=0, animation_lock=self.__base_animation_lock
+        )
 
-    auto_timing = get_auto_timing()
-
-    smn_caster_tax_ms = 100
-    base_animation_lock = 600
-    instant_timing_spec = TimingSpec(
-        base_cast_time=0, animation_lock=base_animation_lock
-    )
-    skill_library.set_current_job_class("SMN")
-
-    name = "Auto"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def auto(self):
+        name = "Auto"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=auto_timing,
+            timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
             ),
         )
-    )
-    if level in [90]:
-        name = "Fester"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0,
-                    animation_lock=base_animation_lock,
-                    application_delay=930,
-                ),
-            )
-        )
 
-    name = "Energy Drain"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def fester(self):
+        if self._level >= 92:
+            return None
+        name = "Fester"
+        return Skill(
             name=name,
             is_GCD=False,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=self.__base_animation_lock,
+                application_delay=930,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def energy_drain(self):
+        name = "Energy Drain"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                animation_lock=self.__base_animation_lock + self.__smn_caster_tax_ms,
                 application_delay=1070,
             ),
         )
-    )
 
-    name = "Painflare"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def painflare(self):
+        name = "Painflare"
+        return Skill(
             name=name,
             is_GCD=False,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock + smn_caster_tax_ms,
+                animation_lock=self.__base_animation_lock + self.__smn_caster_tax_ms,
                 application_delay=440,
             ),
             has_aoe=True,
         )
-    )
 
-    name = "Energy Siphon"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def energy_siphon(self):
+        name = "Energy Siphon"
+        return Skill(
             name=name,
             is_GCD=False,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=1020,
             ),
             has_aoe=True,
         )
-    )
 
-    aethercharge_bonus = 50
-    name = "Ruin III"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def ruin_iii(self):
+        name = "Ruin III"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(potency=all_smn_skills.get_potency(name)),
-                "Aethercharge": DamageSpec(potency=all_smn_skills.get_potency(name)+aethercharge_bonus),
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                ),
+                "Aethercharge": DamageSpec(
+                    potency=self._skill_data.get_skill_data(
+                        name, "potency_aethercharge"
+                    )
+                ),
             },
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=smn_caster_tax_ms,
+                animation_lock=self.__smn_caster_tax_ms,
                 application_delay=800,
             ),
         )
-    )
 
-    name = "Astral Impulse"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def astral_impulse(self):
+        name = "Astral Impulse"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=670,
             ),
         )
-    )
 
-    name = "Astral Flare"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def astral_flare(self):
+        name = "Astral Flare"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=540,
             ),
             has_aoe=True,
         )
-    )
 
-    name = "Deathflare"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def deathflare(self):
+        name = "Deathflare"
+        return Skill(
             name=name,
             is_GCD=False,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_smn_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 )
             },
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=800,
             ),
             has_aoe=True,
             aoe_dropoff=0.6,
         )
-    )
 
-    name = "Ruin IV"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def ruin_iv(self):
+        name = "Ruin IV"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_smn_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 )
             },
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=800,
             ),
             has_aoe=True,
             aoe_dropoff=0.6,
         )
-    )
 
-    name = "Searing Light"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def searing_light(self):
+        name = "Searing Light"
+        return Skill(
             name=name,
             is_GCD=False,
             buff_spec=StatusEffectSpec(
-                damage_mult=all_smn_skills.get_skill_data(name, "damage_mult"),
-                duration=all_smn_skills.get_skill_data(name, "duration"),
+                damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
+                duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
             ),
-            timing_spec=instant_timing_spec,
+            timing_spec=self.__smn_instant_timing_spec,
         )
-    )
 
-    name = "Akh Morn (pet)"
-    akh_morn_for_follow_up = FollowUp(
-        skill=Skill(
+    def __get_akh_morn_for_follow_up(self):
+        name = "Akh Morn (pet)"
+        return FollowUp(
+            skill=Skill(
+                name=name,
+                is_GCD=False,
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                        pet_scalar=0.88,
+                    )
+                },
+                has_aoe=True,
+                aoe_dropoff=0.6,
+            ),
+            delay_after_parent_application=0,
+            snapshot_buffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,
+            primary_target_only=False,
+        )
+
+    @GenericJobClass.is_a_skill
+    def enkindle_bahamut(self):
+        name = "Enkindle Bahamut"
+        return Skill(
             name=name,
             is_GCD=False,
-            damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_smn_skills.get_potency(name),
-                    damage_class=DamageClass.PET,
-                    pet_job_mod_override=100,
-                    pet_scalar=0.88,
-                )
-            },
-            has_aoe=True,
-            aoe_dropoff=0.6,
-        ),
-        delay_after_parent_application=0,
-        snapshot_buffs_with_parent=False,
-        snapshot_debuffs_with_parent=False,
-        primary_target_only=False,
-    )
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(self.__get_akh_morn_for_follow_up(),),
+        )
 
-    name = "Enkindle Bahamut"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def akh_morn(self):
+        name = "Akh Morn"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
-            follow_up_skills=(akh_morn_for_follow_up,),
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(self.__get_akh_morn_for_follow_up(),),
         )
-    )
 
-    name = "Akh Morn"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=False,
-            timing_spec=instant_timing_spec,
-            follow_up_skills=(akh_morn_for_follow_up,),
-        )
-    )
-
-    name = "Ruby Rite"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def ruby_rite(self):
+        name = "Ruby Rite"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2800,
                 gcd_base_recast_time=3000,
-                animation_lock=smn_caster_tax_ms,
+                animation_lock=self.__smn_caster_tax_ms,
                 application_delay=620,
             ),
         )
-    )
 
-    name = "Topaz Rite"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def topaz_rite(self):
+        name = "Topaz Rite"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=620,
             ),
         )
-    )
 
-    # # Recast really isn't affected by sps for some reason. You can check this in-game.
-    name = "Emerald Rite"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def emerald_rite(self):
+        name = "Emerald Rite"
+        # Recast really isn't affected by sps for some reason. You can check this in-game.
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=620,
                 affected_by_speed_stat=False,
                 affected_by_haste_buffs=False,
             ),
         )
-    )
 
-    name = "Tri-disaster"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def tri_disaster(self):
+        name = "Tri-disaster"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
             ),
             has_aoe=True,
         )
-    )
 
-    name = "Fountain of Fire"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def fountain_of_fire(self):
+        name = "Fountain of Fire"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=1070,
             ),
         )
-    )
 
-    name = "Brand of Purgatory"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def brand_of_purgatory(self):
+        name = "Brand of Purgatory"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=800,
             ),
             has_aoe=True,
         )
-    )
 
-    name = "Revelation (pet)"
-    revelation_follow_up = FollowUp(
-        Skill(
-            name=name,
-            is_GCD=False,
-            status_effect_denylist=("Dragon Sight",),
-            damage_spec={
-                SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_smn_skills.get_potency(name),
-                    damage_class=DamageClass.PET,
-                    pet_job_mod_override=100,
-                    pet_scalar=0.88,
-                )
-            },
-            timing_spec=instant_timing_spec,
-            has_aoe=True,
-            aoe_dropoff=0.6,
-        ),
-        delay_after_parent_application=0,
-        snapshot_buffs_with_parent=0,
-        snapshot_debuffs_with_parent=0,
-        primary_target_only=False,
-    )
-
-    name = "Enkindle Phoenix"
-    skill_library.add_skill(
-        Skill(
-            name=name,
-            is_GCD=False,
-            timing_spec=instant_timing_spec,
-            follow_up_skills=(revelation_follow_up,),
+    def __get_revelation_follow_up(self):
+        name = "Revelation (pet)"
+        return FollowUp(
+            Skill(
+                name=name,
+                is_GCD=False,
+                status_effect_denylist=("Dragon Sight",),
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                        pet_scalar=0.88,
+                    )
+                },
+                timing_spec=self.__smn_instant_timing_spec,
+                has_aoe=True,
+                aoe_dropoff=0.6,
+            ),
+            delay_after_parent_application=0,
+            snapshot_buffs_with_parent=0,
+            snapshot_debuffs_with_parent=0,
+            primary_target_only=False,
         )
-    )
 
-    name = "Revelation"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def enkindle_phoenix(self):
+        name = "Enkindle Phoenix"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
-            follow_up_skills=(revelation_follow_up,),
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(self.__get_revelation_follow_up(),),
         )
-    )
 
-    name = "Ruby Catastrophe"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def revelation(self):
+        name = "Revelation"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(self.__get_revelation_follow_up(),),
+        )
+
+    @GenericJobClass.is_a_skill
+    def ruby_catastrophe(self):
+        name = "Ruby Catastrophe"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2800,
                 gcd_base_recast_time=3000,
-                animation_lock=smn_caster_tax_ms,
+                animation_lock=self.__smn_caster_tax_ms,
                 application_delay=535,
             ),
             has_aoe=True,
         )
-    )
 
-    name = "Topaz Catastrophe"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def topaz_catastrophe(self):
+        name = "Topaz Catastrophe"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=2500,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=535,
             ),
             has_aoe=True,
         )
-    )
 
-    # # Recast really isn't affected by sps for some reason. You can check this in-game.
-    name = "Emerald Catastrophe"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def emerald_catastrophe(self):
+        # Recast really isn't affected by sps for some reason. You can check this in-game.
+        name = "Emerald Catastrophe"
+        return Skill(
             name=name,
             is_GCD=True,
-            damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=535,
                 affected_by_speed_stat=False,
                 affected_by_haste_buffs=False,
             ),
             has_aoe=True,
         )
-    )
 
-    name = "Crimson Cyclone"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def crimson_cyclone(self):
+        name = "Crimson Cyclone"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_smn_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 )
             },
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=800,
             ),
             has_aoe=True,
             aoe_dropoff=0.65,
         )
-    )
 
-    name = "Crimson Strike"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def crimson_strike(self):
+        name = "Crimson Strike"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_smn_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 )
             },
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=760,
             ),
             has_aoe=True,
             aoe_dropoff=0.65,
         )
-    )
 
-    name = "Mountain Buster"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def mountain_buster(self):
+        name = "Mountain Buster"
+        return Skill(
             name=name,
             is_GCD=False,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_smn_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 )
             },
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                animation_lock=base_animation_lock,
+                animation_lock=self.__base_animation_lock,
                 application_delay=760,
             ),
             has_aoe=True,
             aoe_dropoff=0.7,
         )
-    )
 
-    name = "Slipstream (dot)"
-    slipstream_dot = Skill(
-        name=name,
-        is_GCD=False,
-        damage_spec=DamageSpec(
-            potency=all_smn_skills.get_potency(name),
-            damage_class=DamageClass.MAGICAL_DOT,
-        ),
-        has_aoe=True,
-    )
-    slipstream_follow_up = FollowUp(
-        skill=slipstream_dot,
-        delay_after_parent_application=0,
-        dot_duration=15 * 1000,
-        snapshot_buffs_with_parent=True,
-        snapshot_debuffs_with_parent=False,
-        primary_target_only=False,
-    )
+    @GenericJobClass.is_a_skill
+    def slipstream(self):
+        name = "Slipstream (dot)"
+        slipstream_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                is_GCD=False,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency(name),
+                    damage_class=DamageClass.MAGICAL_DOT,
+                ),
+                has_aoe=True,
+            ),
+            delay_after_parent_application=0,
+            dot_duration=15 * 1000,
+            snapshot_buffs_with_parent=True,
+            snapshot_debuffs_with_parent=False,
+            primary_target_only=False,
+        )
 
-    name = "Slipstream"
-    skill_library.add_skill(
-        Skill(
+        name = "Slipstream"
+        return Skill(
             name=name,
             is_GCD=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=all_smn_skills.get_potency(name)
+                    potency=self._skill_data.get_potency(name)
                 )
             },
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 gcd_base_recast_time=3500,
-                animation_lock=smn_caster_tax_ms,
+                animation_lock=self.__smn_caster_tax_ms,
                 application_delay=1020,
             ),
             follow_up_skills=(slipstream_follow_up,),
             has_aoe=True,
             aoe_dropoff=0.65,
         )
-    )
 
-    name = "Inferno (pet)"
-    inferno = Skill(
-        name=name,
-        is_GCD=True,
-        status_effect_denylist=("Dragon Sight",),
-        damage_spec={
-            SimConsts.DEFAULT_CONDITION: DamageSpec(
-                potency=all_smn_skills.get_potency(name),
-                damage_class=DamageClass.PET,
-                pet_job_mod_override=100,
-                pet_scalar=0.88,
-            )
-        },
-        has_aoe=True,
-        aoe_dropoff=0.6,
-    )
-    # Model the 2.1s snap with this hack. Damage will not come out correctly though.
-    inferno_follow_up = FollowUp(
-        skill=inferno,
-        snapshot_buffs_with_parent=False,
-        snapshot_debuffs_with_parent=False,
-        delay_after_parent_application=2100,
-        primary_target_only=False,
-    )
+    @GenericJobClass.is_a_skill
+    def summon_ifrit_ii(self):
+        name = "Inferno (pet)"
+        # Model the 2.1s snap with this hack. Damage will not come out correctly though.
+        inferno_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                is_GCD=True,
+                status_effect_denylist=("Dragon Sight",),
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                        pet_scalar=0.88,
+                    )
+                },
+                has_aoe=True,
+                aoe_dropoff=0.6,
+            ),
+            snapshot_buffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,
+            delay_after_parent_application=2100,
+            primary_target_only=False,
+        )
 
-    name = "Summon Ifrit II"
-    skill_library.add_skill(
-        Skill(
+        name = "Summon Ifrit II"
+        return Skill(
             name=name,
             is_GCD=True,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(inferno_follow_up,),
         )
-    )
 
-    name = "Earthen Fury (pet)"
-    earthen_fury_blast = Skill(
-        name=name,
-        is_GCD=True,
-        status_effect_denylist=("Dragon Sight",),
-        damage_spec={
-            SimConsts.DEFAULT_CONDITION: DamageSpec(
-                potency=all_smn_skills.get_potency(name),
-                damage_class=DamageClass.PET,
-                pet_job_mod_override=100,
-                pet_scalar=0.88,
-            )
-        },
-        has_aoe=True,
-        aoe_dropoff=0.6,
-    )
-    # Model the 2.1s snap with this hack. Damage will not come out correctly though.
-    earthen_fury_follow_up = FollowUp(
-        skill=earthen_fury_blast,
-        snapshot_buffs_with_parent=False,
-        snapshot_debuffs_with_parent=False,
-        delay_after_parent_application=2100,
-        primary_target_only=False,
-    )
+    @GenericJobClass.is_a_skill
+    def summon_titan_ii(self):
+        name = "Earthen Fury (pet)"
+        # Model the 2.1s snap with this hack. Damage will not come out correctly though.
+        earthen_fury_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                is_GCD=True,
+                status_effect_denylist=("Dragon Sight",),
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                        pet_scalar=0.88,
+                    )
+                },
+                has_aoe=True,
+                aoe_dropoff=0.6,
+            ),
+            snapshot_buffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,
+            delay_after_parent_application=2100,
+            primary_target_only=False,
+        )
 
-    name = "Summon Titan II"
-    skill_library.add_skill(
-        Skill(
+        name = "Summon Titan II"
+        return Skill(
             name=name,
             is_GCD=True,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(earthen_fury_follow_up,),
         )
-    )
 
-    name = "Aerial Blast (pet)"
-    aerial_blast = Skill(
-        name=name,
-        is_GCD=True,
-        status_effect_denylist=("Dragon Sight",),
-        damage_spec={
-            SimConsts.DEFAULT_CONDITION: DamageSpec(
-                potency=all_smn_skills.get_potency(name),
-                damage_class=DamageClass.PET,
-                pet_job_mod_override=100,
-                pet_scalar=0.88,
-            )
-        },
-        has_aoe=True,
-        aoe_dropoff=0.6,
-    )
-    # Model the 2.1s snap with this hack. Damage will not come out correctly though.
-    aerial_blast_follow_up = FollowUp(
-        skill=aerial_blast,
-        snapshot_buffs_with_parent=False,
-        snapshot_debuffs_with_parent=False,
-        delay_after_parent_application=2100,
-        primary_target_only=False,
-    )
-
-    if level in [100]:
-        name="Necrotize"
-        skill_library.add_skill(
-            Skill(
+    @GenericJobClass.is_a_skill
+    def summon_garuda_ii(self):
+        name = "Aerial Blast (pet)"
+        # Model the 2.1s snap with this hack. Damage will not come out correctly though.
+        aerial_blast_follow_up = FollowUp(
+            skill=Skill(
                 name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0,
-                    animation_lock=base_animation_lock,
-                    application_delay=710,
-                ),
-            )
-        )
-    
-    if level in [100]:
-        name="Searing Flash"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0,
-                    animation_lock=base_animation_lock,
-                    application_delay=800,
-                ),
+                is_GCD=True,
+                status_effect_denylist=("Dragon Sight",),
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                        pet_scalar=0.88,
+                    )
+                },
                 has_aoe=True,
-            )
+                aoe_dropoff=0.6,
+            ),
+            snapshot_buffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,
+            delay_after_parent_application=2100,
+            primary_target_only=False,
         )
 
-    name = "Summon Garuda II"
-    skill_library.add_skill(
-        Skill(
+        name = "Summon Garuda II"
+        return Skill(
             name=name,
             is_GCD=True,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(aerial_blast_follow_up,),
         )
-    )
 
-    name = "Scarlet Flame (pet)"
-    scarlet_flame_skill_for_follow_up = Skill(
-        name=name,
-        is_GCD=False,
-        status_effect_denylist=("Dragon Sight",),
-        damage_spec=DamageSpec(
-            potency=all_smn_skills.get_potency(name),
-            damage_class=DamageClass.PET,
-            pet_job_mod_override=100,
-            pet_scalar=0.88,
-        ),
-    )
+    @GenericJobClass.is_a_skill
+    def necrotize(self):
+        if self._level < 92:
+            return None
+        name = "Necrotize"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                animation_lock=self.__base_animation_lock,
+                application_delay=710,
+            ),
+        )
 
-    name = "Scarlet Flame"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def searing_flash(self):
+        if self._level < 96:
+            return None
+        name = "Searing Flash"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                animation_lock=self.__base_animation_lock,
+                application_delay=800,
+            ),
+            has_aoe=True,
+        )
+
+    def __get_scarlet_flame_skill_for_follow_up(self):
+        name = "Scarlet Flame (pet)"
+        return Skill(
             name=name,
             is_GCD=False,
             status_effect_denylist=("Dragon Sight",),
-            timing_spec=auto_timing,
+            damage_spec=DamageSpec(
+                potency=self._skill_data.get_potency(name),
+                damage_class=DamageClass.PET,
+                pet_job_mod_override=100,
+                pet_scalar=0.88,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def scarlet_flame(self):
+        name = "Scarlet Flame"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            status_effect_denylist=("Dragon Sight",),
+            timing_spec=self.auto_timing_spec,
             follow_up_skills=(
                 FollowUp(
-                    skill=scarlet_flame_skill_for_follow_up,
+                    skill=self.__get_scarlet_flame_skill_for_follow_up(),
                     delay_after_parent_application=0,
                     snapshot_buffs_with_parent=False,
                     snapshot_debuffs_with_parent=False,
                 ),
             ),
         )
-    )
 
-    name = "Summon Phoenix"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def summon_phoenix(self):
+        name = "Summon Phoenix"
+        scarlet_flame_skill_for_follow_up = (
+            self.__get_scarlet_flame_skill_for_follow_up()
+        )
+        return Skill(
             name=name,
             is_GCD=True,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (
                     FollowUp(
@@ -734,44 +740,48 @@ def add_smn_skills(skill_library):
                 "Manual": tuple(),
             },
         )
-    )
 
-    name = "Wyrmwave (pet)"
-    wyrmwave_skill_for_follow_up = Skill(
-        name=name,
-        is_GCD=False,
-        status_effect_denylist=("Dragon Sight",),
-        damage_spec=DamageSpec(
-            potency=all_smn_skills.get_potency(name),
-            damage_class=DamageClass.PET,
-            pet_job_mod_override=100,
-            pet_scalar=0.88,
-        ),
-    )
-
-    name = "Wyrmwave"
-    skill_library.add_skill(
-        Skill(
+    def __get_wyrmwave_skill_for_follow_up(self):
+        name = "Wyrmwave (pet)"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=auto_timing,
-            follow_up_skills=(
-                FollowUp(
-                    skill=wyrmwave_skill_for_follow_up,
-                    delay_after_parent_application=0,
-                    snapshot_buffs_with_parent=False,
-                    snapshot_debuffs_with_parent=False,
+            status_effect_denylist=("Dragon Sight",),
+            damage_spec=DamageSpec(
+                potency=self._skill_data.get_potency(name),
+                damage_class=DamageClass.PET,
+                pet_job_mod_override=100,
+                pet_scalar=0.88,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def wyrmwave(self):
+        name = "Wyrmwave"
+        return (
+            Skill(
+                name=name,
+                is_GCD=False,
+                timing_spec=self.auto_timing_spec,
+                follow_up_skills=(
+                    FollowUp(
+                        skill=self.__get_wyrmwave_skill_for_follow_up(),
+                        delay_after_parent_application=0,
+                        snapshot_buffs_with_parent=False,
+                        snapshot_debuffs_with_parent=False,
+                    ),
                 ),
             ),
-        ),
-    )
+        )
 
-    name = "Summon Bahamut"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def summon_bahamut(self):
+        name = "Summon Bahamut"
+        wyrmwave_skill_for_follow_up = self.__get_wyrmwave_skill_for_follow_up()
+        return Skill(
             name=name,
             is_GCD=True,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (
                     FollowUp(
@@ -802,136 +812,137 @@ def add_smn_skills(skill_library):
                 "Manual": tuple(),
             },
         )
-    )
 
-    if level in [100]:
-        name="Luxwave"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec=DamageSpec(
-                    potency=all_smn_skills.get_potency(name),
-                    damage_class=DamageClass.PET,
-                    pet_job_mod_override=100,
-                    pet_scalar=0.88,
-                ),
-                timing_spec=auto_timing,
-            )
-        )
-        
-        name="Luxwave"
-        luxwave_skill_for_follow_up = Skill(
-            name=name,
+    @GenericJobClass.is_a_skill
+    def luxwave(self, display_name="Luxwave"):
+        if self._level < 100:
+            return None
+        return Skill(
+            name=display_name,
             is_GCD=False,
             damage_spec=DamageSpec(
-                potency=all_smn_skills.get_potency(name),
+                potency=self._skill_data.get_potency("Luxwave"),
                 damage_class=DamageClass.PET,
                 pet_job_mod_override=100,
                 pet_scalar=0.88,
             ),
+            timing_spec=self.auto_timing_spec,
         )
-        name="Summon Solar Bahamut"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=True,
-                timing_spec=instant_timing_spec,
-                follow_up_skills={
-                    SimConsts.DEFAULT_CONDITION: (
-                        FollowUp(
-                            skill=luxwave_skill_for_follow_up,
-                            delay_after_parent_application=3200,
-                            snapshot_buffs_with_parent=False,
-                            snapshot_debuffs_with_parent=False,
-                        ),
-                        FollowUp(
-                            skill=luxwave_skill_for_follow_up,
-                            delay_after_parent_application=6350,
-                            snapshot_buffs_with_parent=False,
-                            snapshot_debuffs_with_parent=False,
-                        ),
-                        FollowUp(
-                            skill=luxwave_skill_for_follow_up,
-                            delay_after_parent_application=10950,
-                            snapshot_buffs_with_parent=False,
-                            snapshot_debuffs_with_parent=False,
-                        ),
-                        FollowUp(
-                            skill=luxwave_skill_for_follow_up,
-                            delay_after_parent_application=12500,
-                            snapshot_buffs_with_parent=False,
-                            snapshot_debuffs_with_parent=False,
-                        ),
+
+    @GenericJobClass.is_a_skill
+    def summon_solar_bahamut(self):
+        if self._level < 100:
+            return None
+        name = "Summon Solar Bahamut"
+        # hack for aligning
+        luxwave_skill_for_follow_up = self.luxwave(display_name="Luxwave (pet)")
+        return Skill(
+            name=name,
+            is_GCD=True,
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    FollowUp(
+                        skill=luxwave_skill_for_follow_up,
+                        delay_after_parent_application=3200,
+                        snapshot_buffs_with_parent=False,
+                        snapshot_debuffs_with_parent=False,
                     ),
-                    "Manual": tuple(),
-                },
-            )
+                    FollowUp(
+                        skill=luxwave_skill_for_follow_up,
+                        delay_after_parent_application=6350,
+                        snapshot_buffs_with_parent=False,
+                        snapshot_debuffs_with_parent=False,
+                    ),
+                    FollowUp(
+                        skill=luxwave_skill_for_follow_up,
+                        delay_after_parent_application=10950,
+                        snapshot_buffs_with_parent=False,
+                        snapshot_debuffs_with_parent=False,
+                    ),
+                    FollowUp(
+                        skill=luxwave_skill_for_follow_up,
+                        delay_after_parent_application=12500,
+                        snapshot_buffs_with_parent=False,
+                        snapshot_debuffs_with_parent=False,
+                    ),
+                ),
+                "Manual": tuple(),
+            },
         )
 
-    if level in [100]:
-        name="Umbral Impulse"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0,
-                    animation_lock=base_animation_lock,
-                    application_delay=800,
-                ),
-            )
-        )
-    
-    if level in [100]:
-        name="Umbral Flare"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=True,
-                damage_spec=DamageSpec(potency=all_smn_skills.get_potency(name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0,
-                    animation_lock=base_animation_lock,
-                    application_delay=530,
-                ),
-                has_aoe=True,
-            )
+    @GenericJobClass.is_a_skill
+    def umbral_impulse(self):
+        if self._level < 100:
+            return None
+        name = "Umbral Impulse"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                animation_lock=self.__base_animation_lock,
+                application_delay=800,
+            ),
         )
 
-    if level in [100]:
-        name="Sunflare"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=all_smn_skills.get_potency(name))},
-                timing_spec=TimingSpec(
-                    base_cast_time=0,
-                    animation_lock=base_animation_lock,
-                    application_delay=800,
-                ),
-                has_aoe=True,
-                aoe_dropoff=0.6,
-            )
+    @GenericJobClass.is_a_skill
+    def umbral_flare(self):
+        if self._level < 100:
+            return None
+        name = "Umbral Flare"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                animation_lock=self.__base_animation_lock,
+                application_delay=530,
+            ),
+            has_aoe=True,
         )
-        
-    if level in [100]:
-        name="Exodus (Pet)"
-        exodus_follow_up = FollowUp(
+
+    @GenericJobClass.is_a_skill
+    def sunflare(self):
+        if self._level < 100:
+            return None
+        name = "Sunflare"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            damage_spec={
+                SimConsts.DEFAULT_CONDITION: DamageSpec(
+                    potency=self._skill_data.get_potency(name)
+                )
+            },
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                animation_lock=self.__base_animation_lock,
+                application_delay=800,
+            ),
+            has_aoe=True,
+            aoe_dropoff=0.6,
+        )
+
+    def __get_exodus_follow_up(self):
+        if self._level < 100:
+            return None
+        name = "Exodus (pet)"
+        return FollowUp(
             skill=Skill(
                 name=name,
                 is_GCD=False,
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
-                        potency=all_smn_skills.get_potency(name),
+                        potency=self._skill_data.get_potency(name),
                         damage_class=DamageClass.PET,
                         pet_job_mod_override=100,
                         pet_scalar=0.88,
                     )
                 },
-                timing_spec=instant_timing_spec,
+                timing_spec=self.__smn_instant_timing_spec,
                 has_aoe=True,
                 aoe_dropoff=0.6,
             ),
@@ -941,34 +952,41 @@ def add_smn_skills(skill_library):
             primary_target_only=False,
         )
 
-        name="Exodus"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=instant_timing_spec,
-                follow_up_skills=(exodus_follow_up,),
-            )
+    @GenericJobClass.is_a_skill
+    def exodus(self):
+        if self._level < 100:
+            return None
+        display_name = "Exodus"
+        return Skill(
+            name=display_name,
+            is_GCD=False,
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(self.__get_exodus_follow_up(),),
         )
-        name="Enkindle Solar Bahamut"
-        skill_library.add_skill(
-            Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=instant_timing_spec,
-                follow_up_skills=(exodus_follow_up,),
-            )
+
+    @GenericJobClass.is_a_skill
+    def enkindle_solar_bahamut(self):
+        if self._level < 100:
+            return None
+        name = "Enkindle Solar Bahamut"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(self.__get_exodus_follow_up(),),
         )
-    
+
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
 
-    skill_library.add_skill(
-        Skill(
-            name="Aethercharge",
+    @GenericJobClass.is_a_skill
+    def aethercharge(self):
+        name = "Aethercharge"
+        return Skill(
+            name=name,
             is_GCD=True,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.__smn_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 duration=15 * 1000,
                 num_uses=1,
@@ -976,14 +994,14 @@ def add_smn_skills(skill_library):
                 skill_allowlist=("Ruin III",),
             ),
         )
-    )
 
-    name = "Swiftcast"
-    skill_library.add_skill(
-        Skill(
+    @GenericJobClass.is_a_skill
+    def swiftcast(self):
+        name = "Swiftcast"
+        return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=instant_timing_spec,
+            timing_spec=self.__smn_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
                 duration=10 * 1000,
@@ -997,30 +1015,35 @@ def add_smn_skills(skill_library):
                 ),
             ),
         )
-    )
 
-    skill_library.add_skill(
-        Skill(
-            name="Summon Carbuncle",
+    @GenericJobClass.is_a_skill
+    def summon_carbuncle(self):
+        name = "Summon Carbuncle"
+        return Skill(
+            name=name,
             is_GCD=True,
             timing_spec=TimingSpec(
                 base_cast_time=1500,
-                animation_lock=smn_caster_tax_ms,
+                animation_lock=self.__smn_caster_tax_ms,
             ),
         )
-    )
-    skill_library.add_skill(
-        Skill(name="Summon Ifrit", is_GCD=True, timing_spec=instant_timing_spec)
-    )
-    skill_library.add_skill(
-        Skill(name="Summon Titan", is_GCD=True, timing_spec=instant_timing_spec)
-    )
-    skill_library.add_skill(
-        Skill(name="Summon Garuda", is_GCD=True, timing_spec=instant_timing_spec)
-    )
 
-    skill_library.add_skill(
-        Skill(name="Astral Flow", is_GCD=True, timing_spec=instant_timing_spec)
-    )
+    @GenericJobClass.is_a_skill
+    def summon_ifrit(self):
+        name = "Summon Ifrit"
+        return Skill(name=name, is_GCD=True, timing_spec=self.__smn_instant_timing_spec)
 
-    return skill_library
+    @GenericJobClass.is_a_skill
+    def summon_titan(self):
+        name = "Summon Titan"
+        return Skill(name=name, is_GCD=True, timing_spec=self.__smn_instant_timing_spec)
+
+    @GenericJobClass.is_a_skill
+    def summon_garuda(self):
+        name = "Summon Garuda"
+        return Skill(name=name, is_GCD=True, timing_spec=self.__smn_instant_timing_spec)
+
+    @GenericJobClass.is_a_skill
+    def astral_flow(self):
+        name = "Astral Flow"
+        return Skill(name=name, is_GCD=True, timing_spec=self.__smn_instant_timing_spec)

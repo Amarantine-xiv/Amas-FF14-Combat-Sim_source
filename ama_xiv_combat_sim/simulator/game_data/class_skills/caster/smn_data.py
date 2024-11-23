@@ -9,13 +9,19 @@ ALL_DATA = {
     "Energy Drain": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 200}}},
     "Painflare": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
     "Energy Siphon": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
-    "Ruin III": {90: {"potency": {"6.55": 310}}, 100: {"potency": {"7.0": 360}}},
+    "Ruin III": {
+        90: {"potency": {"6.55": 310}, "potency_aethercharge": {"6.55": 360}},
+        100: {"potency": {"7.0": 360}, "potency_aethercharge": {"7.0": 410}},
+    },
     "Astral Impulse": {90: {"potency": {"6.55": 440}}, 100: {"potency": {"7.0": 500}}},
     "Astral Flare": {90: {"potency": {"6.55": 180}}, 100: {"potency": {"7.0": 180}}},
     "Deathflare": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 500}}},
     "Ruin IV": {90: {"potency": {"6.55": 430}}, 100: {"potency": {"7.0": 490}}},
     "Searing Light": {
-        90: {"damage_mult": {"6.55": 1.03}, "duration": {"6.55": 30 * 1000}},
+        90: {
+            "damage_mult": {"6.55": 1.03, "7.0": 1.05},
+            "duration": {"6.55": 30 * 1000, "7.0": 20 * 1000},
+        },
         100: {"damage_mult": {"6.55": 1.05}, "duration": {"6.55": 20 * 1000}},
     },
     "Akh Morn (pet)": {
@@ -78,7 +84,7 @@ ALL_DATA = {
     "Umbral Impulse": {100: {"potency": {"7.0": 600, "7.05": 620}}},
     "Umbral Flare": {100: {"potency": {"7.0": 280}}},
     "Sunflare": {100: {"potency": {"7.0": 600, "7.05": 700, "7.1": 800}}},
-    "Exodus (Pet)": {100: {"potency": {"7.0": 1600}}},
+    "Exodus (pet)": {100: {"potency": {"7.0": 1400}}},
 }
 
 for k, v in ALL_DATA.items():

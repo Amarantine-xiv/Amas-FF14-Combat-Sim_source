@@ -44,7 +44,7 @@ class StatusEffectSpec:
             object.__setattr__(self, "max_num_uses", self.num_uses)
         assert (
             isinstance(self.duration, int) or self.duration == math.inf
-        ), "duration should be an int in ms. Did you put it in seconds?"
+        ), f"duration should be an int in ms. Did you put it in seconds? Value: {self.duration}"
         assert (
             isinstance(self.max_duration, int) or self.max_duration == math.inf
         ), "max_duration should be an int in ms. Did you put it in seconds?"

@@ -58,16 +58,32 @@ ALL_DATA = {
                     "Leaping Opo",
                     # "Rising Raptor",
                     # "Pouncing Coeurl",
-                    
                 )
             },
         },
     },
-    "Bootshine": {90: {"potency": {"6.55": 210}, "potency_leaden_fist": {"6.55": 310}}},
-    "True Strike": {90: {"potency": {"6.55": 300}}},
-    "Snap Punch": {90: {"potency": {"6.55": 310}, "potency_no_pos": {"6.55": 250}}},
+    "Bootshine": {
+        90: {
+            "potency": {"6.55": 210, "7.0": 220},
+            "potency_fury": {"7.0": 420},
+            "potency_leaden_fist": {"6.55": 310},
+        }
+    },
+    "True Strike": {
+        90: {
+            "potency": {"6.55": 300, "7.0": 290, "7.01": 300},
+            "potency_fury": {"7.0": 440, "7.01": 500},
+        }
+    },
+    "Snap Punch": {
+        90: {
+            "potency": {"6.55": 310, "7.0": 360, "7.01": 330},
+            "potency_no_pos": {"6.55": 250, "7.0": 300, "7.01": 270},        
+            "potency_fury": {"7.0": 400, "7.01": 420},
+            "potency_fury_no_pos": {"7.0": 460, "7.01": 480}},
+    },
     "Twin Snakes": {
-        90: {"potency": {"6.55": 280}},
+        90: {"potency": {"6.55": 280, "7.0": 380, "7.01": 420}},
         100: {"potency": {"7.0": 380, "7.01": 420}},
     },
     "Demolish": {
@@ -76,11 +92,12 @@ ALL_DATA = {
                 "6.55": {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(potency=130),
                     "No Positional": DamageSpec(potency=70),
-                }
+                },
+                "7.0": None,
             },
             "primary_application_delay": {"6.55": 1600},
-            "potency": {"6.55": 130},
-            "potency_no_pos": {"6.55": 70},
+            "potency": {"6.55": 130, "7.0": 360, "7.01": 380},
+            "potency_no_pos": {"6.55": 70, "7.0": 300, "7.01": 320},
         },
         100: {
             "damage_spec": {
@@ -92,21 +109,27 @@ ALL_DATA = {
         },
     },
     "Rockbreaker": {
-        90: {"potency": {"6.55": 130}},
+        90: {"potency": {"6.55": 130, "7.01": 150}},
         100: {"potency": {"7.0": 130, "7.01": 150}},
     },
     "Four-point Fury": {
-        90: {"potency": {"6.55": 120}},
+        90: {"potency": {"6.55": 120, "7.01": 140}},
         100: {"potency": {"7.0": 120, "7.01": 140}},
     },
-    "Dragon Kick": {90: {"potency": {"6.55": 320}}, 100: {"potency": {"7.0": 320}}},
+    "Dragon Kick": {
+        90: {"potency": {"6.55": 320, "7.0": 280}},
+        100: {"potency": {"7.0": 320}},
+    },
     "The Forbidden Chakra": {
-        90: {"potency": {"6.55": 340}},
+        90: {"potency": {"6.55": 340, "7.0": 400}},
         100: {"potency": {"7.0": 400}},
     },
-    "Elixir Field": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 800}}},
+    "Elixir Field": {
+        90: {"potency": {"6.55": 600, "7.0": 800}},
+        100: {"potency": {"7.0": 800}},
+    },
     "Celestial Revolution": {
-        90: {"potency": {"6.55": 450}},
+        90: {"potency": {"6.55": 450, "7.01": 600}},
         100: {"potency": {"7.0": 450, "7.01": 600}},
     },
     "Riddle of Fire": {
@@ -122,11 +145,29 @@ ALL_DATA = {
         100: {"duration": {"7.0": int(15.78 * 1000)}},
     },
     "Enlightenment": {
-        90: {"potency": {"6.55": 170}},
+        90: {"potency": {"6.55": 170, "7.01": 200}},
         100: {"potency": {"7.0": 170, "7.01": 200}},
     },
     "Six-sided Star": {
-        90: {"damage_spec": {"6.55": DamageSpec(potency=130)}},
+        90: {
+            "damage_spec": {
+                "6.55": DamageSpec(potency=130),
+                "7.0": {
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(potency=710 + 5 * 80),
+                    "10 Chakra": DamageSpec(potency=710 + 10 * 80),
+                    "9 Chakra": DamageSpec(potency=710 + 9 * 80),
+                    "8 Chakra": DamageSpec(potency=710 + 8 * 80),
+                    "7 Chakra": DamageSpec(potency=710 + 7 * 80),
+                    "6 Chakra": DamageSpec(potency=710 + 6 * 80),
+                    "5 Chakra": DamageSpec(potency=710 + 5 * 80),
+                    "4 Chakra": DamageSpec(potency=710 + 4 * 80),
+                    "3 Chakra": DamageSpec(potency=710 + 3 * 80),
+                    "2 Chakra": DamageSpec(potency=710 + 2 * 80),
+                    "1 Chakra": DamageSpec(potency=710 + 1 * 80),
+                    "0 Chakra": DamageSpec(potency=710),
+                },
+            }
+        },
         100: {
             "damage_spec": {
                 "7.0": {
@@ -147,12 +188,15 @@ ALL_DATA = {
         },
     },
     "Shadow of the Destroyer": {
-        90: {"potency": {"6.55": 110}},
+        90: {"potency": {"6.55": 110, "7.01": 120}},
         100: {"potency": {"7.0": 110, "7.01": 120}},
     },
-    "Rising Phoenix": {90: {"potency": {"6.55": 700}}, 100: {"potency": {"7.0": 900}}},
+    "Rising Phoenix": {
+        90: {"potency": {"6.55": 700, "7.0": 900}},
+        100: {"potency": {"7.0": 900}},
+    },
     "Phantom Rush": {
-        90: {"potency": {"6.55": 1150}},
+        90: {"potency": {"6.55": 1150, "7.0": 1300, "7.05": 1400}},
         100: {"potency": {"7.0": 1400, "7.05": 1500}},
     },
     "Leaping Opo": {100: {"potency": {"7.0": 260}, "potency_fury": {"7.0": 460}}},
@@ -176,28 +220,46 @@ ALL_DATA = {
     "Wind's Reply": {100: {"potency": {"7.0": 800, "7.05": 900}}},
     "Fire's Reply": {100: {"potency": {"7.0": 1100, "7.05": 1200}}},
     "Raptor's Fury": {
+        90: {
+            "num_uses": {"7.0": 2, "7.01": 1},
+            "allowlist": {
+                "7.0": ("Rising Raptor", "True Strike"),
+            },
+        },
         100: {
             "num_uses": {"7.0": 2, "7.01": 1},
             "allowlist": {
-                "7.0": ("Rising Raptor",),
+                "7.0": ("Rising Raptor", "True Strike"),
             },
-        }
+        },
     },
     "Coeurl's Fury": {
+        90: {
+            "num_uses": {"7.0": 3, "7.01": 2},
+            "allowlist": {
+                "7.0": ("Pouncing Coeurl", "Snap Punch"),
+            },
+        },
         100: {
             "num_uses": {"7.0": 3, "7.01": 2},
             "allowlist": {
-                "7.0": ("Pouncing Coeurl",),
+                "7.0": ("Pouncing Coeurl", "Snap Punch"),
             },
-        }
+        },
     },
     "Opo-opo's Fury": {
+        90: {
+            "num_uses": {"7.0": 1},
+            "allowlist": {
+                "7.0": ("Leaping Opo", "Bootshine"),
+            },
+        },
         100: {
             "num_uses": {"7.0": 1},
             "allowlist": {
-                "7.0": ("Leaping Opo",),
+                "7.0": ("Leaping Opo", "Bootshine"),
             },
-        }
+        },
     },
 }
 

@@ -151,9 +151,9 @@ def add_generic_skills_to_library(skill_library):
     level = skill_library.get_level()
     for job_class in skill_library.get_jobs():
         skill_library.set_current_job_class(job_class)
-        if version not in ["6.55"]:
+        if version >= "7.0":
             skill_library.add_skill(__get_pot("Grade 1 Gemdraught", 351, version, level))
-        if version not in ["6.55", "7.0", "7.01"]:
+        if version >= "7.05":
             skill_library.add_skill(__get_pot("Grade 2 Gemdraught", 392, version, level))
             
         skill_library.add_skill(
