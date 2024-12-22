@@ -949,6 +949,9 @@ class RotationBuilder:
         application_time = snapshot_time + auto_skill.timing_spec.application_delay
 
         auto_target_ind = 0
+        
+        speed_status_effects_timeline = self.__assemble_speed_status_effects_timeline()
+        no_auto_periods = self.get_no_auto_periods()
         while application_time < last_event_time:
             while (
                 auto_target_ind < len(timestamps_and_main_target)
@@ -967,8 +970,7 @@ class RotationBuilder:
                 [True, True],
                 targets=(auto_target,),
             )
-            
-            speed_status_effects_timeline = self.__assemble_speed_status_effects_timeline()
+                        
             (
                 curr_buffs_and_skill_modifier,
                 curr_debuffs_and_skill_modifier,
@@ -990,8 +992,7 @@ class RotationBuilder:
                 * curr_buffs.auto_attack_delay_mult
                 * curr_debuffs.auto_attack_delay_mult,
                 2,
-            )
-            no_auto_periods = self.get_no_auto_periods()
+            )            
             snapshot_time = self.__get_next_auto_time(
                 snapshot_time, no_auto_periods, auto_target
             )
