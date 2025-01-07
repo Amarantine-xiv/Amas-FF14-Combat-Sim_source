@@ -168,14 +168,16 @@ class RotationBuilder:
         skill_modifier=None,
         job_class=None,
         targets=None,
+        time_is_in_ms=False
     ):
         targets = self.__process_and_check_targets(targets)
 
         job_class = self.__stats.job_class if job_class is None else job_class
         skill = self._skill_library.get_skill(skill_name, job_class)
         if skill_modifier is None:
-            skill_modifier = self.get_default_skill_modifier(skill, job_class)            
-        self._q_timed.append((int(1000 * t), skill, skill_modifier, job_class, targets))
+            skill_modifier = self.get_default_skill_modifier(skill, job_class)
+        t_use = t if time_is_in_ms else int(1000*t) #else time is assumed to be in s
+        self._q_timed.append((t_use, skill, skill_modifier, job_class, targets))
 
     @staticmethod
     def __follow_up_is_dot(follow_up_skill):
