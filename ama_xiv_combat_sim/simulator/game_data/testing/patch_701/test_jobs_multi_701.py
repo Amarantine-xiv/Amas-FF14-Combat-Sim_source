@@ -1018,7 +1018,7 @@ class TestJobsMultiUnified701(TestClass):
         expected = (
             ("Uncoiled Twinfang", 3970),
             ("Uncoiled Fury", 23825),
-            ("Uncoiled Fury", 23825),
+            ("Uncoiled Fury", 11916),
             ("Uncoiled Twinfang", 5958),
             ("Uncoiled Twinfang", 2979),
         )

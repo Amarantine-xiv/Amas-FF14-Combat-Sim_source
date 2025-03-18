@@ -22,7 +22,36 @@ class TestJobsMultiUnified71(TestClass):
             version=self.__version, level=self.__level
         )
         self.__job_class_tester = JobClassTesterUtil(self.__skill_library)
+    
+    @TestClass.is_a_test
+    def test_drg_nastrond(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.8,
+            main_stat=3379,
+            det_stat=1818,
+            crit_stat=2567,
+            dh_stat=1818,
+            speed_stat=400,
+            job_class="DRG",
+            version=self.__version,
+            level=self.__level
+        )
+        base_nastrond = 29546
+
+        skills_and_expected_damages = (
+            (
+                "Nastrond",
+                "t1, t2, t3",
+                SkillModifier(),
+                (base_nastrond, 0.5 * base_nastrond, 0.5 * base_nastrond),
+            ),
+        )
+        return self.__job_class_tester.test_multi_target_skills(
+            stats, skills_and_expected_damages
+        )
         
+    
     @TestClass.is_a_test
     def test_nin_dokumori_damage(self):
         stats = Stats(

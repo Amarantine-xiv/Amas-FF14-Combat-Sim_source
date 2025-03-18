@@ -29,8 +29,8 @@ ALL_DATA = {
     "Doom Spike": {90: {"potency": {"6.55": 110}}, 100: {"potency": {"7.0": 110}}},
     "Spineshatter Dive": {90: {"potency": {"6.55": 250}}},
     "Dragonfire Dive": {
-        90: {"potency": {"6.55": 300, "7.0": 500}},
-        100: {"potency": {"7.0": 500}},
+        90: {"potency": {"6.55": 300, "7.0": 500}, "aoe_dropoff": {"6.55": 0.0, "7.0": 0.5}},
+        100: {"potency": {"7.0": 500}, "aoe_dropoff": {"6.55": 0.0, "7.0": 0.5}},
     },
     "Battle Litany": {
         90: {"crit_rate_add": {"6.55": 0.10}, "duration": {"6.55": 15 * 1000}},
@@ -86,8 +86,8 @@ ALL_DATA = {
         100: {"potency": {"7.0": 200, "7.1": 380}},
     },
     "Nastrond": {
-        90: {"potency": {"6.55": 360, "7.1": 720}},
-        100: {"potency": {"7.0": 360, "7.1": 720}},
+        90: {"potency": {"6.55": 360, "7.1": 720}, "aoe_dropoff": {"6.55": 0.3, "7.0": 0.5}},
+        100: {"potency": {"7.0": 360, "7.1": 720}, "aoe_dropoff": {"7.0": 0.5}},
     },
     "Coerthan Torment": {
         90: {"potency": {"6.55": 150}, "potency_no_combo": {"6.55": 100}},

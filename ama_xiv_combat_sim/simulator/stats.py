@@ -18,7 +18,7 @@ class Stats:
     tenacity: float = None
     num_roles_in_party: float = 5
     healer_or_caster_strength: float = None    
-    level: int = 90
+    level: int = 100
     processed_stats = None
     job_class_fns = None
 

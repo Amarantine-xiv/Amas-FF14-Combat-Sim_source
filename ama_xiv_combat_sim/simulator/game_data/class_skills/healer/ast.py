@@ -234,6 +234,7 @@ class AstSkills(GenericJobClass):
                         skill_allowlist=("Stellar Explosion (pet)",),
                     ),
                 },
+                has_aoe=True
             ),
             delay_after_parent_application=10 * 1000,
             snapshot_buffs_with_parent=False,
@@ -260,6 +261,7 @@ class AstSkills(GenericJobClass):
                         pet_job_mod_override=118,
                     ),
                 },
+                has_aoe=True
             ),
             delay_after_parent_application=20 * 1000,
             snapshot_buffs_with_parent=False,
@@ -287,10 +289,11 @@ class AstSkills(GenericJobClass):
                         pet_job_mod_override=118,
                     ),
                 },
+                has_aoe=True
             ),
             delay_after_parent_application=10 * 1000,
             snapshot_buffs_with_parent=False,
-            snapshot_debuffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,            
         )                
 
         name = "Giant Dominance"
@@ -352,6 +355,7 @@ class AstSkills(GenericJobClass):
                         pet_job_mod_override=118,
                     ),
                 },
+                has_aoe=True
             ),
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=False,
@@ -381,7 +385,7 @@ class AstSkills(GenericJobClass):
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     skill_allowlist=("Stellar Explosion (pet)", "Giant Dominance"),
-                ),
+                ),                
             ),
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=False,

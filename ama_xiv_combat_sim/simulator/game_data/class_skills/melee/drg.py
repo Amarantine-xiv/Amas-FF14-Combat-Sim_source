@@ -212,7 +212,7 @@ class DrgSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=800, application_delay=800
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -519,11 +519,12 @@ class DrgSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            # damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=self._skill_data.get_potency(name))},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=760
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, 'aoe_dropoff')
         )
 
     @GenericJobClass.is_a_skill

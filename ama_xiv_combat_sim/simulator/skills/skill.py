@@ -51,11 +51,11 @@ class Skill:
             tmp[frozenset(Utils.canonicalize_condition(k))] = v
         return tmp
 
-    @staticmethod
     # will modify damage_spec in place
-    def __process_aoe_dropoff(damage_spec, damage_dropoff):
-        if not isinstance(damage_spec, dict):
+    def __process_aoe_dropoff(self, damage_spec, damage_dropoff):
+        if not isinstance(damage_spec, dict):            
             damage_spec = {SimConsts.DEFAULT_CONDITION: damage_spec}
+            
         keys = tuple(damage_spec.keys())
         for key in keys:
             for target_num in range(2, 10):  # max of 10 targets
@@ -190,7 +190,7 @@ class Skill:
         ), "status_effect_denylist must be encoded as a tuple for immutability. Did you encode it as a single string by accident, when it should be a tuple of length 1?"
 
         if self.aoe_dropoff is not None:
-            self.__process_aoe_dropoff(self.damage_spec, self.aoe_dropoff)
+            object.__setattr__(self, "damage_spec", self.__process_aoe_dropoff(self.damage_spec, self.aoe_dropoff))
         if isinstance(self.damage_spec, dict):
             object.__setattr__(
                 self, "damage_spec", self.__canonicalize_dict(self.damage_spec)

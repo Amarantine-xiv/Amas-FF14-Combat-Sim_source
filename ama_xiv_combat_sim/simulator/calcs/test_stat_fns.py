@@ -7,7 +7,8 @@ from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 # TODO: fdetdh test
 class TestStatFns(TestClass):
     VERSION = "6.55"
-  
+    LEVEL = 90
+
     @TestClass.is_a_test
     def get_time_using_speed_stat_test(self):
         test_passed = True
@@ -22,7 +23,9 @@ class TestStatFns(TestClass):
             speed_stat = inputs_and_outputs[0]
             expected = inputs_and_outputs[1]
             for i in range(0, len(speed_stat)):
-                gcd_actual = StatFns.get_time_using_speed_stat(gcd_time, speed_stat[i], version = self.VERSION)
+                gcd_actual = StatFns.get_time_using_speed_stat(
+                    gcd_time, speed_stat[i], version=self.VERSION, level=self.LEVEL
+                )
                 gcd_expected = expected[i]
                 if gcd_actual != gcd_expected:
                     err_msg += (
@@ -50,7 +53,9 @@ class TestStatFns(TestClass):
 
         for crit_stat, expected in crit_stat_inputs_and_expected.items():
             # TODO: consider using math.isclose isntead for float comparison fiddliness.
-            crit_rate_actual, crit_bonus_actual = StatFns.get_crit_stats(crit_stat, version = self.VERSION)
+            crit_rate_actual, crit_bonus_actual = StatFns.get_crit_stats(
+                crit_stat, version=self.VERSION, level=self.LEVEL
+            )
             if (crit_rate_actual, crit_bonus_actual) != expected:
                 err_msg += "crit stat: {}. crit rate/bonus expected: {}/{}. Actual: {}/{}.\n".format(
                     crit_stat,
@@ -76,7 +81,9 @@ class TestStatFns(TestClass):
         )
 
         for det_stat, dh_stat, expected in stat_inputs_and_expected:
-            fDetDH_actual = StatFns.fDetDH(det_stat, dh_stat, version = self.VERSION)
+            fDetDH_actual = StatFns.fDetDH(
+                det_stat, dh_stat, version=self.VERSION, level=self.LEVEL
+            )
             if fDetDH_actual != expected:
                 err_msg += "fDetDh expected: {}. Actual: {}.\n".format(
                     expected, fDetDH_actual
@@ -100,7 +107,7 @@ class TestStatFns(TestClass):
         }
 
         for det_stat, expected in det_stat_inputs_and_expected.items():
-            fDet_actual = StatFns.fDet(det_stat, version = self.VERSION)
+            fDet_actual = StatFns.fDet(det_stat, version=self.VERSION, level=self.LEVEL)
             if fDet_actual != expected:
                 err_msg += "fDet expected: {}. Actual: {}.\n".format(
                     expected, fDet_actual
@@ -124,7 +131,9 @@ class TestStatFns(TestClass):
         }
 
         for dh_stat, expected in dh_stat_inputs_and_expected.items():
-            dh_rate_actual = StatFns.get_dh_rate(dh_stat, version = self.VERSION)
+            dh_rate_actual = StatFns.get_dh_rate(
+                dh_stat, version=self.VERSION, level=self.LEVEL
+            )
             if not math.isclose(dh_rate_actual, expected, abs_tol=1e-4):
                 err_msg += "dh_rate expected: {}. Actual: {}.\n".format(
                     expected, dh_rate_actual
@@ -142,7 +151,9 @@ class TestStatFns(TestClass):
         wd_stat_inputs_and_expected = ((120, 100, 159), (126, 115, 170))
 
         for wd, job_mod, expected in wd_stat_inputs_and_expected:
-            fWD_actual = StatFns.fWD(wd, job_mod, version = self.VERSION)
+            fWD_actual = StatFns.fWD(
+                wd, job_mod, version=self.VERSION, level=self.LEVEL
+            )
             if fWD_actual != expected:
                 err_msg += "fWd expected: {}. Actual: {}.\n".format(
                     expected, fWD_actual
@@ -159,7 +170,9 @@ class TestStatFns(TestClass):
         stat_inputs_and_expected = ((120, 3.44, 105, 183), (126, 2.6, 115, 147))
 
         for wd, weapon_delay, job_mod, expected in stat_inputs_and_expected:
-            fAuto_actual = StatFns.fAuto(wd, weapon_delay, job_mod, version = self.VERSION)
+            fAuto_actual = StatFns.fAuto(
+                wd, weapon_delay, job_mod, version=self.VERSION, level=self.LEVEL
+            )
             if fAuto_actual != expected:
                 err_msg += "fAuto expected: {}. Actual: {}.\n".format(
                     expected, fAuto_actual
@@ -177,7 +190,9 @@ class TestStatFns(TestClass):
         spd_stat_inputs_and_expected = ((859, 1031), (1700, 1088))
 
         for spd, expected in spd_stat_inputs_and_expected:
-            fSpd_actual_actual = StatFns.fSpd(spd, version = self.VERSION)
+            fSpd_actual_actual = StatFns.fSpd(
+                spd, version=self.VERSION, level=self.LEVEL
+            )
             if fSpd_actual_actual != expected:
                 err_msg += "fSpd expected: {}. Actual: {}.\n".format(
                     expected, fSpd_actual_actual
@@ -194,7 +209,7 @@ class TestStatFns(TestClass):
         tnc_inputs_and_expected = {751: 1018, 1100: 1036, 500: 1005}
 
         for tnc, expected in tnc_inputs_and_expected.items():
-            fTnc_actual = StatFns.fTnc(tnc, version = self.VERSION)
+            fTnc_actual = StatFns.fTnc(tnc, version=self.VERSION, level=self.LEVEL)
             if fTnc_actual != expected:
                 err_msg += "fTnc expected: {}. Actual: {}.\n".format(
                     expected, fTnc_actual
@@ -211,7 +226,9 @@ class TestStatFns(TestClass):
         ap_inputs_and_expected = {390: 100, 699: 223, 1219: 431}
 
         for ap, expected in ap_inputs_and_expected.items():
-            fAP_actual = StatFns.fAP(ap, is_tank=True, version = self.VERSION)
+            fAP_actual = StatFns.fAP(
+                ap, is_tank=True, version=self.VERSION, level=self.LEVEL
+            )
             if fAP_actual != expected:
                 err_msg += "fAP expected: {}. Actual: {}.\n".format(
                     expected, fAP_actual
@@ -228,7 +245,9 @@ class TestStatFns(TestClass):
         ap_inputs_and_expected = {390: 100, 699: 254, 1219: 514}
 
         for ap, expected in ap_inputs_and_expected.items():
-            fAP_actual = StatFns.fAP(ap, is_tank=False, version = self.VERSION)
+            fAP_actual = StatFns.fAP(
+                ap, is_tank=False, version=self.VERSION, level=self.LEVEL
+            )
             if fAP_actual != expected:
                 err_msg += "fAP expected: {}. Actual: {}.\n".format(
                     expected, fAP_actual

@@ -168,7 +168,7 @@ class RotationBuilder:
         skill_modifier=None,
         job_class=None,
         targets=None,
-        time_is_in_ms=False
+        time_is_in_ms=False,
     ):
         targets = self.__process_and_check_targets(targets)
 
@@ -176,8 +176,15 @@ class RotationBuilder:
         skill = self._skill_library.get_skill(skill_name, job_class)
         if skill_modifier is None:
             skill_modifier = self.get_default_skill_modifier(skill, job_class)
-        t_use = t if time_is_in_ms else int(1000*t) #else time is assumed to be in s
+        t_use = t if time_is_in_ms else int(1000 * t)  # else time is assumed to be in s
         self._q_timed.append((t_use, skill, skill_modifier, job_class, targets))
+
+    def add_external(self, t, skill, skill_modifier=None, targets=None):
+        targets = self.__process_and_check_targets(targets)
+        job_class = ""
+        if skill_modifier is None:
+            skill_modifier = self.get_default_skill_modifier(skill, job_class)
+        self._q_timed.append((t, skill, skill_modifier, job_class, targets))
 
     @staticmethod
     def __follow_up_is_dot(follow_up_skill):
@@ -905,7 +912,7 @@ class RotationBuilder:
                 return r[1]
         return snapshot_time
 
-    def __get_next_auto_time(self, t, no_auto_periods, auto_target):        
+    def __get_next_auto_time(self, t, no_auto_periods, auto_target):
         t = self.forward_to_next_non_downtime_time(t, auto_target)
         intersecting_no_auto_periods = list(
             filter(lambda x: (x[0] <= t) and (x[1] >= t), no_auto_periods)
@@ -913,7 +920,7 @@ class RotationBuilder:
         return (
             t
             if len(intersecting_no_auto_periods) == 0
-            else max(x[1] for x in intersecting_no_auto_periods)            
+            else max(x[1] for x in intersecting_no_auto_periods)
         )
 
     # Autos, if enabled, always start at first event application time.
@@ -931,7 +938,7 @@ class RotationBuilder:
         timestamps_and_main_target = copy.deepcopy(self.__timestamps_and_main_target)
         timestamps_and_main_target.sort(key=lambda x: x[0])
         timestamps_and_main_target = shorten_sequence(timestamps_and_main_target)
-                
+
         weapon_delay = int(1000 * self.__stats.weapon_delay)  # convert to ms
 
         if self._skill_library.has_skill("Shot", self.__stats.job_class):
@@ -951,7 +958,7 @@ class RotationBuilder:
         application_time = snapshot_time + auto_skill.timing_spec.application_delay
 
         auto_target_ind = 0
-        
+
         speed_status_effects_timeline = self.__assemble_speed_status_effects_timeline()
         no_auto_periods = self.get_no_auto_periods()
         while application_time < last_event_time:
@@ -972,7 +979,7 @@ class RotationBuilder:
                 [True, True],
                 targets=(auto_target,),
             )
-                        
+
             (
                 curr_buffs_and_skill_modifier,
                 curr_debuffs_and_skill_modifier,
@@ -994,7 +1001,7 @@ class RotationBuilder:
                 * curr_buffs.auto_attack_delay_mult
                 * curr_debuffs.auto_attack_delay_mult,
                 2,
-            )            
+            )
             snapshot_time = self.__get_next_auto_time(
                 snapshot_time, no_auto_periods, auto_target
             )

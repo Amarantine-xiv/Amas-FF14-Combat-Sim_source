@@ -151,7 +151,7 @@ ALL_DATA = {
     "Six-sided Star": {
         90: {
             "damage_spec": {
-                "6.55": DamageSpec(potency=130),
+                "6.55": DamageSpec(potency=550),
                 "7.0": {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(potency=710 + 5 * 80),
                     "10 Chakra": DamageSpec(potency=710 + 10 * 80),

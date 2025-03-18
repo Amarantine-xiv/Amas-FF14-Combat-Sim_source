@@ -636,7 +636,9 @@ class MnkSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def six_sided_star(self):
         name = "Six-sided Star"
-        return Skill(
+                
+        res = []
+        sss1 = Skill(
             name=name,
             is_GCD=True,
             damage_spec=self._skill_data.get_skill_data(name, "damage_spec"),
@@ -647,6 +649,22 @@ class MnkSkills(GenericJobClass):
                 gcd_base_recast_time=4000,
             ),
         )
+        res.append(sss1)
+        
+        #hack for fflogs naming for now.        
+        sss2 = Skill(
+            name="Six-Sided Star", #note capitalization
+            is_GCD=True,
+            damage_spec=self._skill_data.get_skill_data(name, "damage_spec"),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=620,
+                gcd_base_recast_time=4000,
+            ),
+        )
+        res.append(sss2)
+        return res
 
     @GenericJobClass.is_a_skill
     def shadow_of_the_destroyer(self):

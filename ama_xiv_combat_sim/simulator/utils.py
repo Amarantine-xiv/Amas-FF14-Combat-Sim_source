@@ -98,7 +98,7 @@ class Utils:
             not missed_positional_damage_spec
             or init_skill_modifier.bonus_percent is None
         ):
-            return ", ".join(init_skill_modifier.with_condition)
+            return ",".join(init_skill_modifier.with_condition)
 
         skill_modifier = copy.deepcopy(init_skill_modifier)
         for condition_to_ignore in skill.ignored_conditions_for_bonus_potency:
@@ -109,7 +109,7 @@ class Utils:
         if skill_modifier.bonus_percent == 0.0:
             new_condition = {*init_skill_modifier.with_condition, "No Positional"}
             # Return confirmed condition mixed in with the original, adding back ignored ones.
-            return ", ".join(new_condition)
+            return ",".join(new_condition)
 
         # assumes lowest potency is No Combo, No Positional. But we can search over the min key instead if this is untrue.
         skill_modifier_no_combo_no_pos = copy.deepcopy(skill_modifier).add_to_condition(
