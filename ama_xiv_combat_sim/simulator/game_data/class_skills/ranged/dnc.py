@@ -126,6 +126,8 @@ class DncSkills(GenericJobClass):
         name = "Double Standard Finish"
         standard_finish_follow_up_damage_2 = FollowUp(
             skill=Skill(
+                has_aoe=True,
+                aoe_dropoff=0.75,
                 name=name,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_skill_data("Standard Finish", "Double")
@@ -137,6 +139,8 @@ class DncSkills(GenericJobClass):
         name = "Single Standard Finish"
         standard_finish_follow_up_damage_1 = FollowUp(
             skill=Skill(
+                has_aoe=True,
+                aoe_dropoff=0.75,
                 name=name,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_skill_data("Standard Finish", "Single")
@@ -148,6 +152,8 @@ class DncSkills(GenericJobClass):
         name = "Standard Finish"
         standard_finish_follow_up_damage_0 = FollowUp(
             skill=Skill(
+                has_aoe=True,
+                aoe_dropoff=0.75,
                 name=name,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_skill_data("Standard Finish", "Zero")
@@ -163,6 +169,7 @@ class DncSkills(GenericJobClass):
                 name=name,
                 is_GCD=True,
                 has_aoe=True,
+                aoe_dropoff=0.75,
                 timing_spec={
                     SimConsts.DEFAULT_CONDITION: TimingSpec(
                         base_cast_time=0,
@@ -190,6 +197,7 @@ class DncSkills(GenericJobClass):
                 name=name,
                 is_GCD=True,
                 has_aoe=True,
+                aoe_dropoff=0.75,
                 timing_spec={
                     SimConsts.DEFAULT_CONDITION: TimingSpec(
                         base_cast_time=0,
@@ -217,6 +225,7 @@ class DncSkills(GenericJobClass):
                 name=name,
                 is_GCD=True,
                 has_aoe=True,
+                aoe_dropoff=0.75,
                 timing_spec={
                     SimConsts.DEFAULT_CONDITION: TimingSpec(
                         base_cast_time=0,
@@ -505,6 +514,7 @@ class DncSkills(GenericJobClass):
                 name=name,
                 is_GCD=True,
                 has_aoe=True,
+                aoe_dropoff=0.75,
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
                         potency=self._skill_data.get_skill_data(
@@ -534,6 +544,7 @@ class DncSkills(GenericJobClass):
                 name=name,
                 is_GCD=True,
                 has_aoe=True,
+                aoe_dropoff=0.75,
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
                         potency=self._skill_data.get_skill_data(
@@ -563,6 +574,7 @@ class DncSkills(GenericJobClass):
                 name=name,
                 is_GCD=True,
                 has_aoe=True,
+                aoe_dropoff=0.75,
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
                         potency=self._skill_data.get_skill_data(
@@ -592,6 +604,7 @@ class DncSkills(GenericJobClass):
                 name=name,
                 is_GCD=True,
                 has_aoe=True,
+                aoe_dropoff=0.75,
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
                         potency=self._skill_data.get_skill_data(
@@ -621,6 +634,7 @@ class DncSkills(GenericJobClass):
                 name=name,
                 is_GCD=True,
                 has_aoe=True,
+                aoe_dropoff=0.75,
                 damage_spec={
                     # Default to QUADRUPLE technical finish, unless the user specifies otherwise
                     # by passing in "Log" as the skill conditional.
@@ -678,6 +692,8 @@ class DncSkills(GenericJobClass):
             skill=Skill(
                 name=name,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                has_aoe=True,
+                aoe_dropoff=0.5
             ),
             delay_after_parent_application=840,
             primary_target_only=False,
@@ -685,7 +701,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
-            has_aoe=True,
+            has_aoe=True,            
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
@@ -704,6 +720,8 @@ class DncSkills(GenericJobClass):
             skill=Skill(
                 name=name,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+                has_aoe=True,
+                aoe_dropoff=0.75
             ),
             delay_after_parent_application=2050,
             primary_target_only=False,

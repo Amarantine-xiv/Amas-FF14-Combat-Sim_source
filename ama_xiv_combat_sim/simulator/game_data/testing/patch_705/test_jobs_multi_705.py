@@ -565,22 +565,22 @@ class TestJobsMultiUnified705(TestClass):
         expected = (
             ("Cascade", 10671),
             ("Double Standard Finish", 41240),
-            ("Double Standard Finish", 41240),
+            ("Double Standard Finish", 10309),
             ("Cascade", 11195),
             #
             ("Cascade", 10671),
             ("Double Standard Finish", 41240),
-            ("Double Standard Finish", 41240),
+            ("Double Standard Finish", 10309),
             ("Cascade", 11195),
             #
             ("Cascade", 10678),
             ("Quadruple Technical Finish", 63075),
-            ("Quadruple Technical Finish", 63075),
+            ("Quadruple Technical Finish", 15768),
             ("Cascade", 11220),
             #
             ("Cascade", 10670),
             ("Quadruple Technical Finish", 63118),
-            ("Quadruple Technical Finish", 63118),
+            ("Quadruple Technical Finish", 15768),
             ("Cascade", 11200),
         )
 

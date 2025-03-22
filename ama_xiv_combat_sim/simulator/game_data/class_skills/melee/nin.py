@@ -261,6 +261,7 @@ class NinSkills(GenericJobClass):
         )
 
         # TODO: fix. gcds only will proc it, like bunshin. Ty An.
+        # hollow nozuchi procs every time an aoe gcd is used while doton is down
         name = "Hollow Nozuchi"
         return Skill(
             name=name,

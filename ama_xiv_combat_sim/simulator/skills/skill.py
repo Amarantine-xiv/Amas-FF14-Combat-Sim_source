@@ -58,17 +58,19 @@ class Skill:
             
         keys = tuple(damage_spec.keys())
         for key in keys:
-            for target_num in range(2, 10):  # max of 10 targets
-                if len(key) > 0:
-                    new_key = f"{key}, Target {target_num}"
-                else:
-                    new_key = f"Target {target_num}"
-                new_damage_spec = copy.deepcopy(damage_spec[key])
-                primary_potency = new_damage_spec.potency
-                object.__setattr__(
-                    new_damage_spec, "potency", (1 - damage_dropoff) * primary_potency
-                )
-                damage_spec[new_key] = new_damage_spec
+            if damage_spec[key] is not None:
+                for target_num in range(2, 10):  # max of 10 targets
+                    if len(key) > 0:
+                        new_key = f"{key}, Target {target_num}"
+                    else:
+                        new_key = f"Target {target_num}"
+                
+                    new_damage_spec = copy.deepcopy(damage_spec[key])
+                    primary_potency = new_damage_spec.potency
+                    object.__setattr__(
+                        new_damage_spec, "potency", (1 - damage_dropoff) * primary_potency
+                    )
+                    damage_spec[new_key] = new_damage_spec
         return damage_spec
 
     @staticmethod

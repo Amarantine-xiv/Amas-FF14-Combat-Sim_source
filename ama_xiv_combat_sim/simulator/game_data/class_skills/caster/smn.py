@@ -13,7 +13,6 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.smn_data import 
     all_smn_skills,
 )
 
-
 class SmnSkills(GenericJobClass):
 
     def __init__(self, version, level):
@@ -234,6 +233,7 @@ class SmnSkills(GenericJobClass):
             is_GCD=False,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(self.__get_akh_morn_for_follow_up(),),
+            has_aoe=True
         )
 
     @GenericJobClass.is_a_skill
@@ -599,6 +599,7 @@ class SmnSkills(GenericJobClass):
             is_GCD=True,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(earthen_fury_follow_up,),
+            has_aoe=True
         )
 
     @GenericJobClass.is_a_skill
