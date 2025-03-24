@@ -99,7 +99,7 @@ class BlmSkills(GenericJobClass):
                 is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
-                    duration=15 * 1000,
+                    duration=self._skill_data.get_skill_data(name, "duration"),
                 ),
             ),
             delay_after_parent_application=0,
@@ -111,7 +111,7 @@ class BlmSkills(GenericJobClass):
         name = "Astral Fire"
         job_resource_settings = JobResourceSettings(
             max_value=3,
-            expiry_from_last_gain=15 * 1000,
+            expiry_from_last_gain=self._skill_data.get_skill_data(name, "duration"),
             skill_allowlist=self.__af_skill_allowlist,
         )
         return (name, job_resource_settings)
@@ -292,7 +292,9 @@ class BlmSkills(GenericJobClass):
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
             timing_spec=self.__get_enochian_timing_spec_cross(
-                base_cast_time=2500, is_fire_spell=False, application_delay=840
+                base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
+                is_fire_spell=False,
+                application_delay=840,
             ),
             job_resource_spec={
                 SimConsts.DEFAULT_CONDITION: (
@@ -352,7 +354,7 @@ class BlmSkills(GenericJobClass):
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
-                duration=30 * 1000,
+                duration=self._skill_data.get_skill_data(name, "duration"),
                 skill_allowlist=self._skill_data.get_skill_data(name, "allowlist"),
             ),
         )
@@ -467,7 +469,9 @@ class BlmSkills(GenericJobClass):
             base_potency=self._skill_data.get_potency(name), is_fire_spell=True
         )
         fire_timing_spec = self.__get_enochian_timing_spec_cross(
-            base_cast_time=2500, is_fire_spell=True, application_delay=1030
+            base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
+            is_fire_spell=True,
+            application_delay=1030,
         )
         if self._version < "7.0":
             fire_keys = tuple(fire_damage_spec.keys())
@@ -558,6 +562,7 @@ class BlmSkills(GenericJobClass):
                 animation_lock=self.__base_animation_lock,
                 application_delay=1290,
             )
+
         return Skill(
             name=name,
             is_GCD=True,
@@ -606,7 +611,9 @@ class BlmSkills(GenericJobClass):
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
             timing_spec=self.__get_enochian_timing_spec_cross(
-                base_cast_time=2800, is_fire_spell=False, application_delay=620
+                base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
+                is_fire_spell=False,
+                application_delay=620,
             ),
             has_aoe=True,
         )
@@ -707,7 +714,7 @@ class BlmSkills(GenericJobClass):
                 )
 
         flare_timing_spec = self.__get_enochian_timing_spec_cross(
-            base_cast_time=self._skill_data.get_skill_data(name, "cast time"),
+            base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
             is_fire_spell=True,
             application_delay=1160,
         )
@@ -744,7 +751,7 @@ class BlmSkills(GenericJobClass):
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.15,
                 auto_attack_delay_reduction=0.15,
-                duration=30 * 1000,
+                duration=self._skill_data.get_skill_data(name, "duration"),
             ),
         )
 
@@ -758,7 +765,9 @@ class BlmSkills(GenericJobClass):
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
             timing_spec=self.__get_enochian_timing_spec_cross(
-                base_cast_time=2500, is_fire_spell=False, application_delay=1160
+                base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
+                is_fire_spell=False,
+                application_delay=1160,
             ),
         )
 
@@ -772,7 +781,9 @@ class BlmSkills(GenericJobClass):
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=True
             ),
             timing_spec=self.__get_enochian_timing_spec_cross(
-                base_cast_time=2800, is_fire_spell=True, application_delay=1160
+                base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
+                is_fire_spell=True,
+                application_delay=1160,
             ),
         )
 
@@ -849,7 +860,7 @@ class BlmSkills(GenericJobClass):
                 application_delay=1160,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -862,7 +873,7 @@ class BlmSkills(GenericJobClass):
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=True
             ),
             timing_spec=self.__get_enochian_timing_spec_cross(
-                base_cast_time=self._skill_data.get_skill_data(name, "cast time"),
+                base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
                 is_fire_spell=True,
                 application_delay=490,
                 # may need to change the animation lock for when it's instant cast?
@@ -939,6 +950,39 @@ class BlmSkills(GenericJobClass):
         )
 
         firestarter_follow_up = self.__get_firestart_follow_up()
+
+        paradox_follow_up_skills = None
+        if self._version >= "7.2":
+            paradox_follow_up_skills = {
+                SimConsts.DEFAULT_CONDITION: tuple(),
+                "1 Astral Fire": (firestarter_follow_up,),
+                "2 Astral Fire": (firestarter_follow_up,),
+                "3 Astral Fire": (firestarter_follow_up,),
+            }
+        elif self._version >= "7.0":
+            paradox_follow_up_skills = {
+                SimConsts.DEFAULT_CONDITION: (self.__enochian_buff_follow_up,),
+                "1 Astral Fire": (
+                    self.__enochian_buff_follow_up,
+                    firestarter_follow_up,
+                ),
+                "2 Astral Fire": (
+                    self.__enochian_buff_follow_up,
+                    firestarter_follow_up,
+                ),
+                "3 Astral Fire": (
+                    self.__enochian_buff_follow_up,
+                    firestarter_follow_up,
+                ),
+            }
+        else:
+            paradox_follow_up_skills = {
+                SimConsts.DEFAULT_CONDITION: (self.__enochian_buff_follow_up,),
+                "Sharpcast": (
+                    firestarter_follow_up,
+                    self.__enochian_buff_follow_up,
+                ),
+            }
         return Skill(
             name=name,
             is_GCD=True,
@@ -960,76 +1004,56 @@ class BlmSkills(GenericJobClass):
                     application_delay=670,
                 )
             ),
-            job_resource_spec={
-                SimConsts.DEFAULT_CONDITION: tuple(),
-                "1 Astral Fire": (
-                    JobResourceSpec(
-                        name="Astral Fire",
-                        change=+1,
-                        refreshes_duration_of_last_gained=True,
-                    ),
-                ),
-                "2 Astral Fire": (
-                    JobResourceSpec(
-                        name="Astral Fire",
-                        change=+1,
-                        refreshes_duration_of_last_gained=True,
-                    ),
-                ),
-                "3 Astral Fire": (
-                    JobResourceSpec(
-                        name="Astral Fire",
-                        change=+1,
-                        refreshes_duration_of_last_gained=True,
-                    ),
-                ),
-                "1 Umbral Ice": (
-                    JobResourceSpec(
-                        name="Umbral Ice",
-                        change=+1,
-                        refreshes_duration_of_last_gained=True,
-                    ),
-                ),
-                "2 Umbral Ice": (
-                    JobResourceSpec(
-                        name="Umbral Ice",
-                        change=+1,
-                        refreshes_duration_of_last_gained=True,
-                    ),
-                ),
-                "3 Umbral Ice": (
-                    JobResourceSpec(
-                        name="Umbral Ice",
-                        change=+1,
-                        refreshes_duration_of_last_gained=True,
-                    ),
-                ),
-            },
-            follow_up_skills=(
-                {
-                    SimConsts.DEFAULT_CONDITION: (self.__enochian_buff_follow_up,),
+            job_resource_spec=(
+                tuple()
+                if self._version >= "7.2"
+                else {
+                    SimConsts.DEFAULT_CONDITION: tuple(),
                     "1 Astral Fire": (
-                        self.__enochian_buff_follow_up,
-                        firestarter_follow_up,
+                        JobResourceSpec(
+                            name="Astral Fire",
+                            change=+1,
+                            refreshes_duration_of_last_gained=True,
+                        ),
                     ),
                     "2 Astral Fire": (
-                        self.__enochian_buff_follow_up,
-                        firestarter_follow_up,
+                        JobResourceSpec(
+                            name="Astral Fire",
+                            change=+1,
+                            refreshes_duration_of_last_gained=True,
+                        ),
                     ),
                     "3 Astral Fire": (
-                        self.__enochian_buff_follow_up,
-                        firestarter_follow_up,
+                        JobResourceSpec(
+                            name="Astral Fire",
+                            change=+1,
+                            refreshes_duration_of_last_gained=True,
+                        ),
                     ),
-                }
-                if self._version >= "7.0"
-                else {
-                    SimConsts.DEFAULT_CONDITION: (self.__enochian_buff_follow_up,),
-                    "Sharpcast": (
-                        firestarter_follow_up,
-                        self.__enochian_buff_follow_up,
+                    "1 Umbral Ice": (
+                        JobResourceSpec(
+                            name="Umbral Ice",
+                            change=+1,
+                            refreshes_duration_of_last_gained=True,
+                        ),
+                    ),
+                    "2 Umbral Ice": (
+                        JobResourceSpec(
+                            name="Umbral Ice",
+                            change=+1,
+                            refreshes_duration_of_last_gained=True,
+                        ),
+                    ),
+                    "3 Umbral Ice": (
+                        JobResourceSpec(
+                            name="Umbral Ice",
+                            change=+1,
+                            refreshes_duration_of_last_gained=True,
+                        ),
                     ),
                 }
             ),
+            follow_up_skills=paradox_follow_up_skills,
         )
 
     @GenericJobClass.is_a_skill
@@ -1110,7 +1134,9 @@ class BlmSkills(GenericJobClass):
             base_potency=self._skill_data.get_potency(name), is_fire_spell=True
         )
         flare_star_timing_spec = self.__get_enochian_timing_spec_cross(
-            base_cast_time=3000, is_fire_spell=True, application_delay=620
+            base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
+            is_fire_spell=True,
+            application_delay=620,
         )
         return Skill(
             name=name,

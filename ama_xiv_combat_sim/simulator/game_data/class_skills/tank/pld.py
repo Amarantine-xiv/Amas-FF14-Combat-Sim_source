@@ -351,7 +351,7 @@ class PldSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True,
-                aoe_dropoff=0.5,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
             ),
             delay_after_parent_application=1290,
             primary_target_only=False,
@@ -492,7 +492,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=623
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -532,7 +532,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=666
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
         )
 
     @GenericJobClass.is_a_skill
@@ -554,7 +554,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
         )
 
     @GenericJobClass.is_a_skill
@@ -576,7 +576,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
         )
 
     @GenericJobClass.is_a_skill
@@ -596,7 +596,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
         )
 
     # These skills do not damage, but grants resources/affects future skills.

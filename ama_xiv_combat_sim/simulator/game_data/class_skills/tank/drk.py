@@ -241,7 +241,7 @@ class DrkSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=757
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -252,7 +252,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
-            damage_spec= DamageSpec(potency=self._skill_data.get_potency(name)),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=624
             ),
@@ -323,19 +323,20 @@ class DrkSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=666
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
     def living_shadow(self):
         name = "Living Shadow"
-        if self._version >= "7.0":        
+        if self._version >= "7.0":
             ls_names_and_potency_and_delays = [
                 (
                     "Abyssal Drain (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800,
-                    True,
+                    False,
+                    None
                 ),
                 (
                     "Shadowbringer (pet)",
@@ -343,19 +344,22 @@ class DrkSkills(GenericJobClass):
                         "Living Shadow", "potency_shadowbringer"
                     ),
                     6800 + 2 * 2200,
-                    False,
+                    True,
+                    self._skill_data.get_skill_data("Shadowbringer", "aoe_dropoff")
                 ),
                 (
                     "Edge of Shadow (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800 + 3 * 2200,
-                    True,
+                    False,
+                    None
                 ),
                 (
                     "Bloodspiller (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800 + 4 * 2200,
-                    True,
+                    False,
+                    None
                 ),
                 (
                     "Disesteem (pet)",
@@ -363,7 +367,8 @@ class DrkSkills(GenericJobClass):
                         "Living Shadow", "potency_disesteem"
                     ),
                     6800 + 5 * 2200,
-                    False,
+                    True,
+                    self._skill_data.get_skill_data("Disesteem", "aoe_dropoff")
                 ),
             ]
         else:
@@ -372,13 +377,15 @@ class DrkSkills(GenericJobClass):
                     "Abyssal Drain (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800,
-                    True,
+                    False,
+                    None
                 ),
                 (
                     "Plunge (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800 + 2200,
-                    True,
+                    False,
+                    None
                 ),
                 (
                     "Shadowbringer (pet)",
@@ -386,25 +393,29 @@ class DrkSkills(GenericJobClass):
                         "Living Shadow", "potency_shadowbringer"
                     ),
                     6800 + 2 * 2200,
-                    False,
+                    True,
+                    self._skill_data.get_skill_data("Shadowbringer", "aoe_dropoff")
                 ),
                 (
                     "Edge of Shadow (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800 + 3 * 2200,
-                    True,
+                    False,
+                    None
                 ),
                 (
                     "Bloodspiller (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800 + 4 * 2200,
-                    True,
+                    False,
+                    None
                 ),
                 (
                     "Carve and Spit (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800 + 5 * 2200,
-                    True,
+                    False,
+                    None
                 ),
             ]
 
@@ -413,7 +424,8 @@ class DrkSkills(GenericJobClass):
             skill_name,
             potency,
             delay,
-            primary_target_only,
+            has_aoe,
+            aoe_dropoff
         ) in ls_names_and_potency_and_delays:
             fu = FollowUp(
                 skill=Skill(
@@ -425,11 +437,13 @@ class DrkSkills(GenericJobClass):
                         pet_job_mod_override=100,
                     ),
                     status_effect_denylist=("Darkside", "Dragon Sight"),
+                    has_aoe=has_aoe,
+                    aoe_dropoff=aoe_dropoff
                 ),
                 delay_after_parent_application=delay,
                 snapshot_buffs_with_parent=False,
                 snapshot_debuffs_with_parent=False,
-                primary_target_only=primary_target_only,
+                primary_target_only=not has_aoe
             )
             _living_shadow_follow_ups.append(fu)
         _living_shadow_follow_ups = tuple(_living_shadow_follow_ups)
@@ -521,7 +535,7 @@ class DrkSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1650
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     # These skills do not damage, but grants resources/affects future skills.
@@ -563,19 +577,21 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name="Blood Weapon", is_GCD=False, timing_spec=self.instant_timing_spec
         )
-        
+
     @GenericJobClass.is_a_skill
     def shadowstride(self):
         return Skill(
             name="Shadowstride", is_GCD=False, timing_spec=self.instant_timing_spec
         )
-        
+
     @GenericJobClass.is_a_skill
     def the_blackest_night(self):
         return Skill(
-            name="The Blackest Night", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="The Blackest Night",
+            is_GCD=False,
+            timing_spec=self.instant_timing_spec,
         )
-        
+
     @GenericJobClass.is_a_skill
     def oblation(self):
         return Skill(

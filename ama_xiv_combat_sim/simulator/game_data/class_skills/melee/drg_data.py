@@ -29,7 +29,10 @@ ALL_DATA = {
     "Doom Spike": {90: {"potency": {"6.55": 110}}, 100: {"potency": {"7.0": 110}}},
     "Spineshatter Dive": {90: {"potency": {"6.55": 250}}},
     "Dragonfire Dive": {
-        90: {"potency": {"6.55": 300, "7.0": 500}, "aoe_dropoff": {"6.55": 0.0, "7.0": 0.5}},
+        90: {
+            "potency": {"6.55": 300, "7.0": 500},
+            "aoe_dropoff": {"6.55": 0.0, "7.0": 0.5},
+        },
         100: {"potency": {"7.0": 500}, "aoe_dropoff": {"6.55": 0.0, "7.0": 0.5}},
     },
     "Battle Litany": {
@@ -86,7 +89,10 @@ ALL_DATA = {
         100: {"potency": {"7.0": 200, "7.1": 380}},
     },
     "Nastrond": {
-        90: {"potency": {"6.55": 360, "7.1": 720}, "aoe_dropoff": {"6.55": 0.3, "7.0": 0.5}},
+        90: {
+            "potency": {"6.55": 360, "7.1": 720},
+            "aoe_dropoff": {"6.55": 0.3, "7.0": 0.5},
+        },
         100: {"potency": {"7.0": 360, "7.1": 720}, "aoe_dropoff": {"7.0": 0.5}},
     },
     "Coerthan Torment": {
@@ -97,7 +103,7 @@ ALL_DATA = {
     "Raiden Thrust": {90: {"potency": {"6.55": 280}}, 100: {"potency": {"7.0": 320}}},
     "Stardiver": {
         90: {"potency": {"6.55": 620, "7.05": 620, "7.1": 720}},
-        100: {"potency": {"7.0": 620, "7.05": 720, "7.1": 820}},
+        100: {"potency": {"7.0": 620, "7.05": 720, "7.1": 820, "7.2": 840}},
     },
     "Draconian Fury": {90: {"potency": {"6.55": 130}}, 100: {"potency": {"7.0": 130}}},
     "Heavens' Thrust": {
@@ -107,8 +113,8 @@ ALL_DATA = {
             "combo_action": {"6.55": ("Vorpal Thrust",)},
         },
         100: {
-            "potency": {"7.0": 440},
-            "potency_no_combo": {"7.0": 140},
+            "potency": {"7.0": 440, "7.2": 460},
+            "potency_no_combo": {"7.0": 140, "7.2": 160},
             "combo_action": {"7.0": ("Lance Barrage",)},
         },
     },
@@ -147,7 +153,10 @@ ALL_DATA = {
         }
     },
     "Starcross": {100: {"potency": {"7.0": 700, "7.05": 900, "7.1": 1000}}},
-    "Drakesbane": {90: {"potency": {"7.0": 400}}, 100: {"potency": {"7.0": 440}}},
+    "Drakesbane": {
+        90: {"potency": {"7.0": 400}},
+        100: {"potency": {"7.0": 440, "7.2": 460}},
+    },
 }
 
 for k, v in ALL_DATA.items():

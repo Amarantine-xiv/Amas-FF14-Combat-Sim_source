@@ -95,17 +95,17 @@ ALL_DATA = {
             "potency_increment_kaz": {"7.0": 100},
         },
         100: {
-            "potency": {"7.0": 440},
-            "potency_no_combo": {"7.0": 260},
-            "potency_no_pos": {"7.0": 380},
-            "potency_no_pos_no_combo": {"7.0": 200},
+            "potency": {"7.0": 440, "7.2": 460},
+            "potency_no_combo": {"7.0": 260, "7.2": 280},
+            "potency_no_pos": {"7.0": 380, "7.2": 400},
+            "potency_no_pos_no_combo": {"7.0": 200, "7.2": 220},
             "potency_increment_kaz": {"7.0": 100},
         },
     },
     "Death Blossom": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Hakke Mujinsatsu": {
         90: {"potency": {"6.55": 130}, "potency_no_combo": {"6.55": 100}},
-        100: {"potency": {"7.0": 130}, "potency_no_combo": {"7.0": 100}},
+        100: {"potency": {"7.0": 130, "7.2": 120}, "potency_no_combo": {"7.0": 100}},
     },
     "Armor Crush": {
         90: {
@@ -119,26 +119,33 @@ ALL_DATA = {
             },
         },
         100: {
-            "potency": {"7.0": 480},
-            "potency_no_combo": {"7.0": 280},
-            "potency_no_pos": {"7.0": 420},
-            "potency_no_pos_no_combo": {"7.0": 220},
+            "potency": {"7.0": 480, "7.2": 500},
+            "potency_no_combo": {"7.0": 280, "7.2": 300},
+            "potency_no_pos": {"7.0": 420, "7.2": 440},
+            "potency_no_pos_no_combo": {"7.0": 220, "7.2": 240},
             "job_resource": {"7.0": (JobResourceSpec(name="Kazematoi", change=2),)},
         },
     },
     "Dokumori": {
         90: {"potency": {"7.0": 300}, "duration": {"7.0": int(21.02 * 1000)}},
-        100: {"potency": {"7.0": 300}, "duration": {"7.0": int(21.02 * 1000)}},
+        100: {
+            "potency": {"7.0": 300},
+            "duration": {"7.0": int(21.02 * 1000)},
+            "aoe_dropoff": {"7.0": 0, "7.1": 0.25, "7.2": 0},
+        },
     },
     "Huraijin": {90: {"potency": {"6.55": 200}}},
     "Hellfrog Medium": {90: {"potency": {"6.55": 160}}, 100: {"potency": {"7.0": 160}}},
     "Bhavacakra": {
         90: {"potency": {"6.55": 350}, "potency_mesui": {"6.55": 500}},
-        100: {"potency": {"7.0": 380}, "potency_mesui": {"7.0": 530}},
+        100: {
+            "potency": {"7.0": 380, "7.2": 400},
+            "potency_mesui": {"7.0": 530, "7.2": 550},
+        },
     },
     "Phantom Kamaitachi (pet)": {
-        90: {"potency": {"6.55": 600}},
-        100: {"potency": {"7.0": 600}},
+        90: {"potency": {"6.55": 600}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.25}},
+        100: {"potency": {"7.0": 600}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.25}},
     },
     "Forked Raiju": {
         90: {"potency": {"6.55": 560}},
@@ -164,16 +171,25 @@ ALL_DATA = {
         100: {"allowlist": {"7.0": ("Bhavacakra", "Zesho Meppo")}},
     },
     "Kunai's Bane": {
-        100: {"potency": {"7.0": 600}, "duration": {"7.0": int(16.26 * 1000)}}
+        100: {
+            "potency": {"7.0": 600},
+            "duration": {"7.0": int(16.26 * 1000)},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.25},
+        }
     },
-    "Deathfrog Medium": {100: {"potency": {"7.0": 300}}},
+    "Deathfrog Medium": {100: {"potency": {"7.0": 300, "7.2": 260}}},
     "Zesho Meppo": {
         100: {
             "potency": {"7.0": 550, "7.05": 700},
             "potency_mesui": {"7.0": 700, "7.05": 850},
         }
     },
-    "Tenri Jindo": {100: {"potency": {"7.0": 1000, "7.05": 1100}}},
+    "Tenri Jindo": {
+        100: {
+            "potency": {"7.0": 1000, "7.05": 1100},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.25},
+        }
+    },
 }
 
 for k, v in ALL_DATA.items():

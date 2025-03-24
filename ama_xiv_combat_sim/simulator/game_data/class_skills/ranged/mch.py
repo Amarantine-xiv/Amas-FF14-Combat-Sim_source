@@ -296,7 +296,7 @@ class MchSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -760,7 +760,7 @@ class MchSkills(GenericJobClass):
                 self.__get_gcd_job_resouce_increase(),
             ),
             has_aoe=True,
-            aoe_dropoff=0.65,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -842,7 +842,7 @@ class MchSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=710
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -862,7 +862,7 @@ class MchSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=710
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -891,7 +891,7 @@ class MchSkills(GenericJobClass):
                 self.__get_gcd_job_resouce_increase(),
             ),
             has_aoe=True,
-            aoe_dropoff=0.65,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -914,7 +914,7 @@ class MchSkills(GenericJobClass):
             ),
             job_resource_spec=(self.__get_gcd_job_resouce_increase(),),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     # These skills do not damage, but grants resources/affects future skills.

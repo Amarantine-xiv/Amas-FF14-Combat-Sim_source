@@ -107,33 +107,53 @@ ALL_DATA = {
     "Hissatsu: Yaten": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Hissatsu: Kyuten": {
         90: {"potency": {"6.55": 120}},
-        100: {"potency": {"7.0": 120}},
+        100: {"potency": {"7.0": 120, "7.2": 100}},
     },
-    "Hissatsu: Guren": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 500}}},
+    "Hissatsu: Guren": {
+        90: {"potency": {"6.55": 500}},
+        100: {"potency": {"7.0": 500, "7.2": 400}},
+    },
     "Hissatsu: Senei": {
         90: {"potency": {"6.55": 860, "7.05": 800}},
         100: {"potency": {"7.0": 860, "7.05": 800}},
     },
-    "Shoha": {90: {"potency": {"6.55": 560}}, 100: {"potency": {"7.0": 640}}},
+    "Shoha": {
+        90: {"potency": {"6.55": 560}, "aoe_dropoff": {"6.55": 0.65, "7.2": 0.5}},
+        100: {"potency": {"7.0": 640}, "aoe_dropoff": {"7.0": 0.65, "7.2": 0.5}},
+    },
     "Shoha II": {90: {"potency": {"6.55": 200}}},
     "Fuko": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
-    "Ogi Namikiri": {90: {"potency": {"6.55": 860}}, 100: {"potency": {"7.0": 900}}},
-    "Kaeshi: Namikiri": {
-        90: {"potency": {"6.55": 860}},
-        100: {"potency": {"7.0": 900}},
+    "Ogi Namikiri": {
+        90: {"potency": {"6.55": 860}, "aoe_dropoff": {"6.55": 0.75, "7.2": 0.5}},
+        100: {
+            "potency": {"7.0": 900, "7.2": 1000},
+            "aoe_dropoff": {"7.0": 0.75, "7.2": 0.5},
+        },
     },
-    "Zanshin": {100: {"potency": {"7.0": 900, "7.05": 820, "7.1": 900}}},
+    "Kaeshi: Namikiri": {
+        90: {"potency": {"6.55": 860}, "aoe_dropoff": {"6.55": 0.75, "7.2": 0.5}},
+        100: {
+            "potency": {"7.0": 900, "7.2": 1000},
+            "aoe_dropoff": {"7.0": 0.75, "7.2": 0.5},
+        },
+    },
+    "Zanshin": {
+        100: {
+            "potency": {"7.0": 900, "7.05": 820, "7.1": 900, "7.2": 940},
+            "aoe_dropoff": {"7.0": 0.6, "7.2": 0.5},
+        }
+    },
     "Tendo Goken": {100: {"potency": {"7.0": 420, "7.05": 410}}},
     "Tendo Setsugekka": {
         100: {
-            "potency": {"7.0": 1020},
+            "potency": {"7.0": 1020, "7.2": 1100},
             "gcd_base_recast_time": {"7.0": 3200, "7.01": 2500},
         }
     },
     "Tendo Kaeshi Goken": {100: {"potency": {"7.0": 420, "7.05": 410}}},
     "Tendo Kaeshi Setsugekka": {
         100: {
-            "potency": {"7.0": 1020},
+            "potency": {"7.0": 1020, "7.2": 1100},
             "gcd_base_recast_time": {"7.0": 3200, "7.01": 2500},
         }
     },

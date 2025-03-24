@@ -11,7 +11,10 @@ ALL_DATA = {
     },
     "Gauss Round": {90: {"potency": {"6.55": 130}}, 100: {"potency": {"7.0": 130}}},
     "Heat Blast": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 200}}},
-    "Ricochet": {90: {"potency": {"6.55": 130}}, 100: {"potency": {"7.0": 130}}},
+    "Ricochet": {
+        90: {"potency": {"6.55": 130}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.4}},
+        100: {"potency": {"7.0": 130}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.4}},
+    },
     "Auto Crossbow": {90: {"potency": {"6.55": 140}}, 100: {"potency": {"7.0": 160}}},
     "Heated Split Shot": {
         90: {"potency": {"6.55": 200}},
@@ -32,14 +35,39 @@ ALL_DATA = {
     "Bioblaster (dot)": {90: {"potency": {"6.55": 50}}, 100: {"potency": {"7.0": 50}}},
     "Bioblaster": {90: {"potency": {"6.55": 50}}, 100: {"potency": {"7.0": 50}}},
     "Air Anchor": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
-    "Scattergun": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 160}}},
-    "Chain Saw": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
-    "Blazing Shot": {90: {"potency": {"7.0": 220}},
-                     100: {"potency": {"7.0": 220, "7.1": 240}}},
-    "Checkmate": {100: {"potency": {"7.0": 160, "7.1": 170}}},
-    "Double Check": {100: {"potency": {"7.0": 160, "7.1": 170}}},
-    "Excavator": {100: {"potency": {"7.0": 600}}},
-    "Full Metal Field": {100: {"potency": {"7.0": 700, "7.05": 900}}},
+    "Scattergun": {
+        90: {"potency": {"6.55": 150}},
+        100: {"potency": {"7.0": 160, "7.2": 130}},
+    },
+    "Chain Saw": {
+        90: {"potency": {"6.55": 600}, "aoe_dropoff": {"6.55": 0.65, "7.2": 0.5}},
+        100: {"potency": {"7.0": 600}, "aoe_dropoff": {"7.0": 0.65, "7.2": 0.5}},
+    },
+    "Blazing Shot": {
+        90: {"potency": {"7.0": 220}},
+        100: {"potency": {"7.0": 220, "7.1": 240}},
+    },
+    "Checkmate": {
+        100: {
+            "potency": {"7.0": 160, "7.1": 170},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.4},
+        }
+    },
+    "Double Check": {
+        100: {
+            "potency": {"7.0": 160, "7.1": 170},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.4},
+        }
+    },
+    "Excavator": {
+        100: {"potency": {"7.0": 600}, "aoe_dropoff": {"7.0": 0.65, "7.2": 0.5}}
+    },
+    "Full Metal Field": {
+        100: {
+            "potency": {"7.0": 700, "7.05": 900},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.4},
+        }
+    },
     "Arm Punch (pet)": {
         90: {"min_potency": {"6.55": 120}, "max_potency": {"6.55": 240}},
         100: {"min_potency": {"7.0": 120}, "max_potency": {"7.0": 240}},

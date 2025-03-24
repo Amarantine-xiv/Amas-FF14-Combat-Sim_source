@@ -173,7 +173,7 @@ class PctSkills(GenericJobClass):
                 application_delay=1150,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -189,7 +189,7 @@ class PctSkills(GenericJobClass):
                 application_delay=620,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -205,7 +205,7 @@ class PctSkills(GenericJobClass):
                 application_delay=980,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -265,7 +265,7 @@ class PctSkills(GenericJobClass):
                 application_delay=1380,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -454,7 +454,7 @@ class PctSkills(GenericJobClass):
                 "1 Hyperphantasia": (self.__get_rainbow_bright_follow_up(),),
             },
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -474,7 +474,7 @@ class PctSkills(GenericJobClass):
                 application_delay=1250,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -494,7 +494,7 @@ class PctSkills(GenericJobClass):
                 application_delay=2100,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -516,7 +516,7 @@ class PctSkills(GenericJobClass):
                 "1 Hyperphantasia": (self.__get_rainbow_bright_follow_up(),),
             },
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -561,7 +561,7 @@ class PctSkills(GenericJobClass):
                 application_delay=980,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -579,7 +579,7 @@ class PctSkills(GenericJobClass):
                 application_delay=1160,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -597,7 +597,7 @@ class PctSkills(GenericJobClass):
                 application_delay=1300,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -620,7 +620,7 @@ class PctSkills(GenericJobClass):
                 "1 Hyperphantasia": (self.__get_rainbow_bright_follow_up(),),
             },
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     # These skills do not damage, but grants resources/affects future skills.

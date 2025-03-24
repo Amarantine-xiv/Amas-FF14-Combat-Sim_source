@@ -556,7 +556,7 @@ class MnkSkills(GenericJobClass):
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
-            aoe_dropoff=0.7,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -636,7 +636,7 @@ class MnkSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def six_sided_star(self):
         name = "Six-sided Star"
-                
+
         res = []
         sss1 = Skill(
             name=name,
@@ -650,10 +650,10 @@ class MnkSkills(GenericJobClass):
             ),
         )
         res.append(sss1)
-        
-        #hack for fflogs naming for now.        
+
+        # hack for fflogs naming for now.
         sss2 = Skill(
-            name="Six-Sided Star", #note capitalization
+            name="Six-Sided Star",  # note capitalization
             is_GCD=True,
             damage_spec=self._skill_data.get_skill_data(name, "damage_spec"),
             timing_spec=TimingSpec(
@@ -713,7 +713,7 @@ class MnkSkills(GenericJobClass):
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
-            aoe_dropoff=0.7,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -731,7 +731,7 @@ class MnkSkills(GenericJobClass):
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -869,7 +869,7 @@ class MnkSkills(GenericJobClass):
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
-            aoe_dropoff=0.7,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -888,7 +888,7 @@ class MnkSkills(GenericJobClass):
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -908,7 +908,7 @@ class MnkSkills(GenericJobClass):
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill

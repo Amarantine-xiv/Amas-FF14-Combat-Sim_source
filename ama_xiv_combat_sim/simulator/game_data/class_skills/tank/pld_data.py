@@ -10,12 +10,15 @@ ALL_DATA = {
         90: {"potency": {"6.55": 300}, "potency_no_combo": {"6.55": 140}},
         100: {"potency": {"7.0": 330}, "potency_no_combo": {"7.0": 170}},
     },
-    "Total Eclipse": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
+    "Total Eclipse": {
+        90: {"potency": {"6.55": 100}},
+        100: {"potency": {"7.0": 100, "7.2": 120}},
+    },
     "Shield Bash": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Shield Lob": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Prominence": {
         90: {"potency": {"6.55": 170}, "potency_no_combo": {"6.55": 100}},
-        100: {"potency": {"7.0": 170}, "potency_no_combo": {"7.0": 100}},
+        100: {"potency": {"7.0": 170, "7.2": 220}, "potency_no_combo": {"7.0": 100}},
     },
     "Circle of Scorn (dot)": {
         90: {"potency": {"6.55": 30}},
@@ -57,9 +60,9 @@ ALL_DATA = {
         },
         100: {
             "potency": {"7.0": 100},
-            "potency_divine_might": {"7.0": 200},
-            "potency_req": {"7.0": 300},
-            "potency_divine_might_req": {"7.0": 200},
+            "potency_divine_might": {"7.0": 200, "7.2": 250},
+            "potency_req": {"7.0": 300, "7.2": 350},
+            "potency_divine_might_req": {"7.0": 200, "7.2": 250},
         },
     },
     "Intervene": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
@@ -79,10 +82,15 @@ ALL_DATA = {
         90: {
             "potency": {"6.55": 420},
             "potency_req": {"6.55": 920},
+            "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},
         },
         100: {
             "potency": {"7.0": 440, "7.05": 500},
-            "potency_req": {"7.0": 940, "7.05": 1000},
+            "potency_req": {
+                "7.0": 940,
+                "7.05": 1000,
+            },
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},
         },
     },
     "Expiacion": {
@@ -93,38 +101,44 @@ ALL_DATA = {
         90: {
             "potency": {"6.55": 220},
             "potency_req": {"6.55": 720},
+            "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},
         },
         100: {
             "potency": {"7.0": 240, "7.05": 260},
             "potency_req": {"7.0": 740, "7.05": 760},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},
         },
     },
     "Blade of Truth": {
         90: {
             "potency": {"6.55": 320},
             "potency_req": {"6.55": 820},
+            "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},
         },
         100: {
             "potency": {"7.0": 340, "7.05": 380},
             "potency_req": {"7.0": 840, "7.05": 880},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},
         },
     },
     "Blade of Valor": {
         90: {
             "potency": {"6.55": 420},
             "potency_req": {"6.55": 920},
+            "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},
         },
         100: {
             "potency": {"7.0": 440, "7.05": 500},
             "potency_req": {"7.0": 940, "7.05": 1000},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},
         },
     },
     "Blade of Honor": {
-        100: {
-            "potency": {"7.0": 1000},
-        },
+        100: {"potency": {"7.0": 1000}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}},
     },
-    "Imperator": {100: {"potency": {"7.0": 580}}},
+    "Imperator": {
+        100: {"potency": {"7.0": 580}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}}
+    },
 }
 
 for k, v in ALL_DATA.items():

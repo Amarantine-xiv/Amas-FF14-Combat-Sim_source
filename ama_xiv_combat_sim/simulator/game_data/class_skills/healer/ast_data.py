@@ -14,7 +14,10 @@ ALL_DATA = {
         90: {"potency": {"6.55": 55, "7.0": 65}},
         100: {"potency": {"7.0": 70}},
     },
-    "Gravity II": {90: {"potency": {"6.55": 130}}, 100: {"potency": {"7.0": 130}}},
+    "Gravity II": {
+        90: {"potency": {"6.55": 130, "7.2": 140}},
+        100: {"potency": {"7.0": 130, "7.2": 140}},
+    },
     "Macrocosmos": {
         90: {"potency": {"6.55": 250}},
         100: {"potency": {"7.0": 250, "7.01": 270}},
@@ -27,7 +30,12 @@ ALL_DATA = {
         90: {"Earthly Dominance": {"6.55": 205}, "Giant Dominance": {"6.55": 310}},
         100: {"Earthly Dominance": {"7.0": 205}, "Giant Dominance": {"7.0": 310}},
     },
-    "Oracle": {100: {"potency": {"7.0": 860}}},
+    "Oracle": {
+        100: {
+            "potency": {"7.0": 860},
+            "aoe_dropoff": {"7.0": 0, "7.2": 0.5},
+        }
+    },
 }
 
 for k, v in ALL_DATA.items():

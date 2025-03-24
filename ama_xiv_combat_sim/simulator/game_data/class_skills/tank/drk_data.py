@@ -39,8 +39,8 @@ ALL_DATA = {
         100: {"potency": {"7.0": 50}},
     },
     "Salt and Darkness": {
-        90: {"potency": {"6.55": 500}},
-        100: {"potency": {"7.0": 500}},
+        90: {"potency": {"6.55": 500}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.25}},
+        100: {"potency": {"7.0": 500}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.25}},
     },
     "Plunge": {90: {"potency": {"6.55": 150}}},
     "Abyssal Drain": {90: {"potency": {"6.55": 240}}, 100: {"potency": {"7.0": 240}}},
@@ -48,9 +48,15 @@ ALL_DATA = {
         90: {"potency": {"6.55": 510}},
         100: {"potency": {"7.0": 510, "7.05": 540}},
     },
-    "Bloodspiller": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 580, "7.1": 600}}},
+    "Bloodspiller": {
+        90: {"potency": {"6.55": 500}},
+        100: {"potency": {"7.0": 580, "7.1": 600}},
+    },
     "Quietus": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 240}}},
-    "Shadowbringer": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
+    "Shadowbringer": {
+        90: {"potency": {"6.55": 600}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.25}},
+        100: {"potency": {"7.0": 600}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.25}},
+    },
     "Living Shadow": {
         90: {
             "potency_base": {"6.55": 350, "7.0": 420},
@@ -66,8 +72,13 @@ ALL_DATA = {
     "Scarlet Delirium": {100: {"potency": {"7.0": 600, "7.1": 620}}},
     "Comeuppance": {100: {"potency": {"7.0": 700, "7.1": 720}}},
     "Torcleaver": {100: {"potency": {"7.0": 800, "7.1": 820}}},
-    "Impalement": {100: {"potency": {"7.0": 320}}},
-    "Disesteem": {100: {"potency": {"7.0": 800, "7.05": 1000}}},
+    "Impalement": {100: {"potency": {"7.0": 320, "7.2": 300}}},
+    "Disesteem": {
+        100: {
+            "potency": {"7.0": 800, "7.05": 1000},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.25},
+        }
+    },
 }
 
 for k, v in ALL_DATA.items():

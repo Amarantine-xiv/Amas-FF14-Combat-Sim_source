@@ -172,7 +172,14 @@ class TestJobsMultiUnified70(TestClass):
         )
         base_marcocosmos = 12448.1
         base_lord_of_crowns = 19967.9
+        base_oracle = 42847
         skills_and_expected_damages = (
+            (
+                "Oracle",
+                "t1, t2, t3",
+                SkillModifier(),
+                (base_oracle, base_oracle, base_oracle),
+            ),
             (
                 "Macrocosmos",
                 "t1, t2, t3",
@@ -269,11 +276,11 @@ class TestJobsMultiUnified70(TestClass):
             # living shadow. only 2 of these cleave. all-or-nothing cleave on the cleaving skills.
             ("Abyssal Drain (pet)", 12298),
             ("Shadowbringer (pet)", 16690),
-            ("Shadowbringer (pet)", 16690),
+            ("Shadowbringer (pet)", 8338),
             ("Edge of Shadow (pet)", 12297),
             ("Bloodspiller (pet)", 12302),
             ("Disesteem (pet)", 18151),
-            ("Disesteem (pet)", 18151),
+            ("Disesteem (pet)", 9071),
         )
 
         test_passed2, err_msg2 = self.__job_class_tester.test_rotation_damage(
@@ -955,7 +962,7 @@ class TestJobsMultiUnified70(TestClass):
             ("Death Blossom", 3967),
             #
             ("Kunai's Bane", 23820),
-            ("Kunai's Bane", 23820),
+            ("Kunai's Bane", 0.5*23820),
             ("Spinning Edge", 13076),
             ("Spinning Edge", 13076),
             ("Spinning Edge", 11906),

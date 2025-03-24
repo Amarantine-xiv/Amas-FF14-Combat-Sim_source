@@ -537,7 +537,7 @@ class BrdSkills(GenericJobClass):
             ),
             job_resource_spec=(JobResourceSpec(name="Repertoire", change=-np.inf),),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1164,7 +1164,7 @@ class BrdSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1193,7 +1193,7 @@ class BrdSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1960
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill

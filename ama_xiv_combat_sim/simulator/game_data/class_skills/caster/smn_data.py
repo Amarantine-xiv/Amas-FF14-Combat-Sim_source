@@ -77,14 +77,14 @@ ALL_DATA = {
         90: {"potency": {"6.55": 150}},
         100: {"potency": {"7.0": 150}},
     },
-    "Necrotize": {100: {"potency": {"7.0": 420, "7.05": 440}}},
+    "Necrotize": {100: {"potency": {"7.0": 420, "7.05": 440, "7.2": 460}}},
     "Searing Flash": {100: {"potency": {"7.0": 600}}},
     "Wyrmwave (pet)": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
     "Luxwave": {100: {"potency": {"7.0": 160}}},
     "Umbral Impulse": {100: {"potency": {"7.0": 600, "7.05": 620}}},
     "Umbral Flare": {100: {"potency": {"7.0": 280}}},
     "Sunflare": {100: {"potency": {"7.0": 600, "7.05": 700, "7.1": 800}}},
-    "Exodus (pet)": {100: {"potency": {"7.0": 1400}}},
+    "Exodus (pet)": {100: {"potency": {"7.0": 1400, "7.2": 1500}}},
 }
 
 for k, v in ALL_DATA.items():

@@ -13,14 +13,23 @@ ALL_DATA = {
         90: {"potency": {"6.55": 280, "7.0": 260}, "potency_no_combo": {"6.55": 100}},
         100: {"potency": {"7.0": 280}, "potency_no_combo": {"7.0": 120}},
     },
-    "Windmill": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
+    "Windmill": {
+        90: {"potency": {"6.55": 100}},
+        100: {"potency": {"7.0": 100, "7.2": 120}},
+    },
     "Standard Finish": {
         90: {
             "Double": {"6.55": 720, "7.0": 800},
             "Single": {"6.55": 540},
             "Zero": {"6.55": 360},
+            "aoe_dropoff": {"6.55": 0.75, "7.2": 0.6},
         },
-        100: {"Double": {"7.0": 850}, "Single": {"7.0": 540}, "Zero": {"7.0": 360}},
+        100: {
+            "Double": {"7.0": 850},
+            "Single": {"7.0": 540},
+            "Zero": {"7.0": 360},
+            "aoe_dropoff": {"7.0": 0.75, "7.2": 0.6},
+        },
     },
     "Reverse Cascade": {
         90: {"potency": {"6.55": 280, "7.0": 260}},
@@ -28,7 +37,7 @@ ALL_DATA = {
     },
     "Bladeshower": {
         90: {"potency": {"6.55": 140}, "potency_no_combo": {"6.55": 100}},
-        100: {"potency": {"7.0": 140}, "potency_no_combo": {"7.0": 100}},
+        100: {"potency": {"7.0": 140, "7.2": 160}, "potency_no_combo": {"7.0": 100}},
     },
     "Devilment": {
         90: {"duration": {"6.55": 20 * 1000}},
@@ -38,16 +47,22 @@ ALL_DATA = {
         90: {"potency": {"6.55": 150}},
         100: {"potency": {"7.0": 150, "7.1": 180}},
     },
-    "Rising Windmill": {90: {"potency": {"6.55": 140}}, 100: {"potency": {"7.0": 140}}},
+    "Rising Windmill": {
+        90: {"potency": {"6.55": 140}},
+        100: {"potency": {"7.0": 140, "7.2": 160}},
+    },
     "Fountainfall": {
         90: {"potency": {"6.55": 340, "7.0": 320}},
         100: {"potency": {"7.0": 340}},
     },
-    "Bloodshower": {90: {"potency": {"6.55": 180}}, 100: {"potency": {"7.0": 180}}},
+    "Bloodshower": {
+        90: {"potency": {"6.55": 180}},
+        100: {"potency": {"7.0": 180, "7.2": 200}},
+    },
     "Fan Dance II": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Fan Dance III": {
-        90: {"potency": {"6.55": 200}},
-        100: {"potency": {"7.0": 200, "7.1": 220}},
+        90: {"potency": {"6.55": 200}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},},
+        100: {"potency": {"7.0": 200, "7.1": 220}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},},
     },
     "Technical Finish": {
         90: {
@@ -56,6 +71,7 @@ ALL_DATA = {
             "Double": {"6.55": 720},
             "Single": {"6.55": 540},
             "Zero": {"6.55": 350},
+            "aoe_dropoff": {"6.55": 0.75, "7.2": 0.6},
         },
         100: {
             "Quadruple": {"7.0": 1300},
@@ -63,6 +79,7 @@ ALL_DATA = {
             "Double": {"7.0": 720},
             "Single": {"7.0": 540},
             "Zero": {"6.55": 350},
+            "aoe_dropoff": {"7.0": 0.75, "7.2": 0.6},
         },
     },
     "Saber Dance": {

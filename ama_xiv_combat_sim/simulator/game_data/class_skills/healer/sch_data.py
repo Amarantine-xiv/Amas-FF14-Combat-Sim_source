@@ -13,7 +13,7 @@ ALL_DATA = {
         90: {"duration": {"6.55": 15 * 1000, "7.0": 20 * 1000}},
         100: {"duration": {"7.0": 20 * 1000}},
     },
-    "Biolysis (dot)": {90: {"potency": {"6.55": 70}}, 100: {"potency": {"7.0": 75}}},
+    "Biolysis (dot)": {90: {"potency": {"6.55": 70}}, 100: {"potency": {"7.0": 75, "7.2": 80}}},
     "Baneful Impaction (dot)": {100: {"potency": {"7.0": 140}}},
 }
 

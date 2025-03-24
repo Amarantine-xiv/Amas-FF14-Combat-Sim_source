@@ -40,8 +40,8 @@ ALL_DATA = {
     },
     "Double Down": {90: {"potency": {"6.55": 1200}}, 100: {"potency": {"7.0": 1200}}},
     "Fated Brand": {100: {"potency": {"7.0": 120}}},
-    "Reign of Beasts": {100: {"potency": {"7.0": 800}}},
-    "Noble Blood": {100: {"potency": {"7.0": 1000}}},
+    "Reign of Beasts": {100: {"potency": {"7.0": 800, "7.2": 1000}}},
+    "Noble Blood": {100: {"potency": {"7.0": 1000, "7.2": 1000}}},
     "Lion Heart": {100: {"potency": {"7.0": 1200}}},
 }
 

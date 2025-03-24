@@ -417,7 +417,8 @@ class AstSkills(GenericJobClass):
                     base_cast_time=0, animation_lock=650, application_delay=1740
                 ),
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-                has_aoe=True,
+                has_aoe=True,                
+                aoe_dropoff = self._skill_data.get_skill_data(name, "aoe_dropoff"),
             )
 
     # These skills do not damage, but grants resources/affects future skills.

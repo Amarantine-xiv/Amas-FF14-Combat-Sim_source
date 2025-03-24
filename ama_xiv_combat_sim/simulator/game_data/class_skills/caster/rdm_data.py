@@ -72,9 +72,9 @@ ALL_DATA = {
         90: {"potency": {"6.55": 750}},
         100: {"potency": {"7.0": 800, "7.1": 850}},
     },
-    "Vice of Thorns": {100: {"potency": {"7.0": 700}}},
+    "Vice of Thorns": {100: {"potency": {"7.0": 700, "7.2": 800}}},
     "Grand Impact": {100: {"potency": {"7.0": 600}}},
-    "Prefulgence": {100: {"potency": {"7.0": 900}}},
+    "Prefulgence": {100: {"potency": {"7.0": 900, "7.2": 1000}}},
     "Enchanted Riposte": {
         90: {"potency": {"6.55": 280}},
         100: {"potency": {"7.0": 300}},

@@ -19,7 +19,7 @@ class WarSkills(GenericJobClass):
 
     def __init__(self, version, level):
         super().__init__(version=version, level=level, skill_data=all_war_skills)
-        self._job_class='WAR'
+        self._job_class = "WAR"
 
     def __surging_tempest_followup(self):
         return FollowUp(
@@ -62,7 +62,7 @@ class WarSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
-    def maim(self):        
+    def maim(self):
         name = "Maim"
         return Skill(
             name=name,
@@ -239,7 +239,7 @@ class WarSkills(GenericJobClass):
                 )
             },
             has_aoe=True,
-            aoe_dropoff=0.7,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -441,7 +441,7 @@ class WarSkills(GenericJobClass):
                 )
             },
             has_aoe=True,
-            aoe_dropoff=0.7,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -463,7 +463,7 @@ class WarSkills(GenericJobClass):
                 )
             },
             has_aoe=True,
-            aoe_dropoff=0.7,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     # These skills do not damage, but grants resources/affects future skills.

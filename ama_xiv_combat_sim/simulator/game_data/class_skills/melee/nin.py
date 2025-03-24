@@ -808,7 +808,7 @@ class NinSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True if self._version >= "7.1" else False,
-                aoe_dropoff=0.25 if self._version >= "7.1" else None,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             delay_after_parent_application=1070,
             primary_target_only=False,
@@ -898,7 +898,7 @@ class NinSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True,
-                aoe_dropoff=0.5,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
             ),
             delay_after_parent_application=1560,
             snapshot_buffs_with_parent=True,
@@ -1192,6 +1192,7 @@ class NinSkills(GenericJobClass):
                 name=name,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 has_aoe=True,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             delay_after_parent_application=1290,
             primary_target_only=False,
@@ -1215,6 +1216,7 @@ class NinSkills(GenericJobClass):
             ),
             follow_up_skills=(kunai_damage_follow_up, kunai_debuff_follow_up),
             has_aoe=True,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1265,7 +1267,7 @@ class NinSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1690
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill

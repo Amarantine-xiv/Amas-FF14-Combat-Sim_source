@@ -714,7 +714,7 @@ class SamSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=580
             ),
             has_aoe=True,
-            aoe_dropoff=0.65,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -762,7 +762,7 @@ class SamSkills(GenericJobClass):
                 application_delay=490,
             ),
             has_aoe=True,
-            aoe_dropoff=0.75,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -779,7 +779,7 @@ class SamSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=490
             ),
             has_aoe=True,
-            aoe_dropoff=0.75,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -795,7 +795,7 @@ class SamSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1030
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill

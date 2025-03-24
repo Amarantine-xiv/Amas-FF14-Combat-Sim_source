@@ -27,11 +27,13 @@ ALL_DATA = {
             "1 Repertoire": {"6.55": 100},
             "2 Repertoire": {"6.55": 220},
             "3 Repertoire": {"6.55": 360},
+            "aoe_dropoff": {"6.55": 0.5, "7.2": 0.55},
         },
         100: {
             "1 Repertoire": {"7.0": 100},
             "2 Repertoire": {"7.0": 220},
             "3 Repertoire": {"7.0": 360},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.55},
         },
     },
     "Empyreal Arrow": {90: {"potency": {"6.55": 240}}, 100: {"potency": {"7.0": 260}}},
@@ -44,8 +46,14 @@ ALL_DATA = {
         100: {"potency": {"7.0": 280}},
     },
     "Shadowbite": {
-        90: {"potency": {"6.55": 170}, "potency_barrage": {"6.55": 270}},
-        100: {"potency": {"7.0": 170}, "potency_barrage": {"7.0": 270}},
+        90: {
+            "potency": {"6.55": 170, "7.2": 180},
+            "potency_barrage": {"6.55": 270, "7.2": 280},
+        },
+        100: {
+            "potency": {"7.0": 170, "7.2": 180},
+            "potency_barrage": {"7.0": 270, "7.2": 280},
+        },
     },
     "Burst Shot": {
         90: {"potency": {"6.55": 220, "7.0": 200}},
@@ -91,19 +99,25 @@ ALL_DATA = {
             "100 Soul Voice": {"7.0": 600},
         },
     },
-    "Ladonsbite": {90: {"potency": {"6.55": 130}}, 100: {"potency": {"7.0": 130}}},
+    "Ladonsbite": {
+        90: {"potency": {"6.55": 130, "7.2": 140}},
+        100: {"potency": {"7.0": 130, "7.2": 140}},
+    },
     "Blast Arrow": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
     "Radiant Finale": {
         90: {"duration": {"6.55": 15 * 1000, "7.0": 20 * 1000}},
         100: {"duration": {"7.0": 20 * 1000}},
     },
     "Heartbreak Shot": {100: {"potency": {"7.0": 180}}},
-    "Resonant Arrow": {100: {"potency": {"7.0": 600}}},
+    "Resonant Arrow": {
+        100: {"potency": {"7.0": 600}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.55}}
+    },
     "Radiant Encore": {
         100: {
             "3 Encore": {"7.0": 900},
             "2 Encore": {"7.0": 600},
             "1 Encore": {"7.0": 500},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.55},
         }
     },
 }
