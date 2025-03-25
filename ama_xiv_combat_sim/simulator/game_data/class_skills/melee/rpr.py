@@ -533,7 +533,7 @@ class RprSkills(GenericJobClass):
                 affected_by_speed_stat=False,
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -586,7 +586,7 @@ class RprSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -600,7 +600,7 @@ class RprSkills(GenericJobClass):
                 base_cast_time=1300, application_delay=620, affected_by_speed_stat=False
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -616,7 +616,7 @@ class RprSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=760
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -709,7 +709,7 @@ class RprSkills(GenericJobClass):
                 affected_by_speed_stat=False,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill

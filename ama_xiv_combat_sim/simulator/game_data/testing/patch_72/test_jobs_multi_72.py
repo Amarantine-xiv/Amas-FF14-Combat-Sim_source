@@ -22,7 +22,7 @@ class TestJobsMultiUnified72(TestClass):
             version=self.__version, level=self.__level
         )
         self.__job_class_tester = JobClassTesterUtil(self.__skill_library)
-    
+
     @TestClass.is_a_test
     def test_ast_aoe(self):
         stats = Stats(
@@ -36,7 +36,7 @@ class TestJobsMultiUnified72(TestClass):
             job_class="AST",
             healer_or_caster_strength=214,
             version=self.__version,
-            level=self.__level
+            level=self.__level,
         )
         base_oracle = 42847
         skills_and_expected_damages = (
@@ -50,7 +50,7 @@ class TestJobsMultiUnified72(TestClass):
         return self.__job_class_tester.test_multi_target_skills(
             stats, skills_and_expected_damages
         )
-        
+
     @TestClass.is_a_test
     def test_pld_aoe(self):
         stats = Stats(
@@ -64,7 +64,7 @@ class TestJobsMultiUnified72(TestClass):
             tenacity=751,
             job_class="PLD",
             version=self.__version,
-            level=self.__level
+            level=self.__level,
         )
         base_confiteor = 12753
         base_blade_of_faith = 6631
@@ -83,40 +83,54 @@ class TestJobsMultiUnified72(TestClass):
                 "Blade of Faith",
                 "t1, t2, t3",
                 SkillModifier(),
-                (base_blade_of_faith, 0.4 * base_blade_of_faith, 0.4 * base_blade_of_faith),
+                (
+                    base_blade_of_faith,
+                    0.4 * base_blade_of_faith,
+                    0.4 * base_blade_of_faith,
+                ),
             ),
             (
                 "Blade of Truth",
                 "t1, t2, t3",
                 SkillModifier(),
-                (base_blade_of_truth, 0.4 * base_blade_of_truth, 0.4 * base_blade_of_truth),
-            ),            
+                (
+                    base_blade_of_truth,
+                    0.4 * base_blade_of_truth,
+                    0.4 * base_blade_of_truth,
+                ),
+            ),
             (
                 "Blade of Valor",
                 "t1, t2, t3",
                 SkillModifier(),
-                (base_blade_of_valor, 0.4 * base_blade_of_valor, 0.4 * base_blade_of_valor),
+                (
+                    base_blade_of_valor,
+                    0.4 * base_blade_of_valor,
+                    0.4 * base_blade_of_valor,
+                ),
             ),
             (
                 "Blade of Honor",
                 "t1, t2, t3",
                 SkillModifier(),
-                (base_blade_of_honor, 0.4 * base_blade_of_honor, 0.4 * base_blade_of_honor),
+                (
+                    base_blade_of_honor,
+                    0.4 * base_blade_of_honor,
+                    0.4 * base_blade_of_honor,
+                ),
             ),
-(
+            (
                 "Imperator",
                 "t1, t2, t3",
                 SkillModifier(),
                 (base_imperator, 0.4 * base_imperator, 0.4 * base_imperator),
             ),
         )
-        
+
         return self.__job_class_tester.test_multi_target_skills(
             stats, skills_and_expected_damages
         )
-        
-        
-        
+
     @TestClass.is_a_test
     def test_drk_aoe(self):
         stats = Stats(
@@ -130,7 +144,7 @@ class TestJobsMultiUnified72(TestClass):
             tenacity=631,
             job_class="DRK",
             version=self.__version,
-            level=self.__level
+            level=self.__level,
         )
 
         base_disesteem = 25636
@@ -175,7 +189,7 @@ class TestJobsMultiUnified72(TestClass):
             rb, expected
         )
         return test_passed1 and test_passed2, err_msg1 + "\n" + err_msg2
-    
+
     @TestClass.is_a_test
     def test_war_aoe(self):
         stats = Stats(
@@ -189,7 +203,7 @@ class TestJobsMultiUnified72(TestClass):
             tenacity=631,
             job_class="WAR",
             version=self.__version,
-            level=self.__level
+            level=self.__level,
         )
         base_primal_rend = 31575
         base_primal_wrath = 18032
@@ -247,7 +261,7 @@ class TestJobsMultiUnified72(TestClass):
             rb, expected
         )
         return test_passed1 and test_passed2, err_msg1 + "\n" + err_msg2
-    
+
     @TestClass.is_a_test
     def test_brd_aoe(self):
         stats = Stats(
@@ -260,7 +274,7 @@ class TestJobsMultiUnified72(TestClass):
             speed_stat=479,
             job_class="BRD",
             version=self.__version,
-            level=self.__level
+            level=self.__level,
         )
         pitch_perfect_base = 17408
         resonant_arrow_base = 29018
@@ -280,7 +294,11 @@ class TestJobsMultiUnified72(TestClass):
                 "Resonant Arrow",
                 "t1, t2, t3",
                 SkillModifier(),
-                (resonant_arrow_base, 0.45*resonant_arrow_base, 0.45*resonant_arrow_base),
+                (
+                    resonant_arrow_base,
+                    0.45 * resonant_arrow_base,
+                    0.45 * resonant_arrow_base,
+                ),
             ),
         )
         return self.__job_class_tester.test_multi_target_skills(
@@ -299,7 +317,7 @@ class TestJobsMultiUnified72(TestClass):
             speed_stat=436,
             job_class="DNC",
             version=self.__version,
-            level=self.__level
+            level=self.__level,
         )
 
         rb = RotationBuilder(stats, self.__skill_library)
@@ -357,10 +375,8 @@ class TestJobsMultiUnified72(TestClass):
             ("Cascade", 11200),
         )
 
-        return self.__job_class_tester.test_rotation_damage(
-            rb, expected
-        )
-        
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+
     @TestClass.is_a_test
     def test_nin_aoe(self):
         stats = Stats(
@@ -373,7 +389,7 @@ class TestJobsMultiUnified72(TestClass):
             speed_stat=400,
             job_class="NIN",
             version=self.__version,
-            level=self.__level
+            level=self.__level,
         )
         base_phantom = 21794
 
@@ -425,7 +441,7 @@ class TestJobsMultiUnified72(TestClass):
             ("Death Blossom", 3967),
             #
             ("Kunai's Bane", 23820),
-            ("Kunai's Bane", 0.75*23820),
+            ("Kunai's Bane", 0.75 * 23820),
             ("Spinning Edge", 13076),
             ("Spinning Edge", 13076),
             ("Spinning Edge", 11906),
@@ -435,7 +451,7 @@ class TestJobsMultiUnified72(TestClass):
             rb, expected
         )
         return test_passed1 and test_passed2, err_msg1 + "\n" + err_msg2
-    
+
     @TestClass.is_a_test
     def test_pct_aoe(self):
         stats = Stats(
@@ -449,7 +465,7 @@ class TestJobsMultiUnified72(TestClass):
             job_class="PCT",
             healer_or_caster_strength=214,
             version=self.__version,
-            level=self.__level
+            level=self.__level,
         )
         mog_of_the_ages_base = 52368
         pom_muse_base = 41895
@@ -462,13 +478,17 @@ class TestJobsMultiUnified72(TestClass):
         fanged_muse_base = 41895
         madeen_base = 57604
         star_prism_base = 57604
-                
+
         skills_and_expected_damages = (
             (
                 "Mog of the Ages",
                 "t1, t2, t3",
                 SkillModifier(),
-                (mog_of_the_ages_base, 0.3 * mog_of_the_ages_base, 0.3 * mog_of_the_ages_base),
+                (
+                    mog_of_the_ages_base,
+                    0.3 * mog_of_the_ages_base,
+                    0.3 * mog_of_the_ages_base,
+                ),
             ),
             (
                 "Pom Muse",
@@ -482,29 +502,41 @@ class TestJobsMultiUnified72(TestClass):
                 SkillModifier(),
                 (winged_muse_base, 0.3 * winged_muse_base, 0.3 * winged_muse_base),
             ),
-           (
+            (
                 "Holy in White",
                 "t1, t2, t3",
                 SkillModifier(),
-                (holy_in_white_base, 0.35 * holy_in_white_base, 0.35 * holy_in_white_base),
+                (
+                    holy_in_white_base,
+                    0.35 * holy_in_white_base,
+                    0.35 * holy_in_white_base,
+                ),
             ),
-           (
+            (
                 "Hammer Brush",
                 "t1, t2, t3",
                 SkillModifier(),
                 (hammer_brush_base, 0.3 * hammer_brush_base, 0.3 * hammer_brush_base),
             ),
-           (
+            (
                 "Polishing Hammer",
                 "t1, t2, t3",
                 SkillModifier(),
-                (polishing_hammer_base, 0.3 * polishing_hammer_base, 0.3 * polishing_hammer_base),
+                (
+                    polishing_hammer_base,
+                    0.3 * polishing_hammer_base,
+                    0.3 * polishing_hammer_base,
+                ),
             ),
             (
                 "Comet in Black",
                 "t1, t2, t3",
                 SkillModifier(),
-                (comet_in_black_base, 0.35 * comet_in_black_base, 0.35 * comet_in_black_base),
+                (
+                    comet_in_black_base,
+                    0.35 * comet_in_black_base,
+                    0.35 * comet_in_black_base,
+                ),
             ),
             (
                 "Clawed Muse",
@@ -529,6 +561,62 @@ class TestJobsMultiUnified72(TestClass):
                 "t1, t2, t3",
                 SkillModifier(),
                 (star_prism_base, 0.3 * star_prism_base, 0.3 * star_prism_base),
+            ),
+        )
+        return self.__job_class_tester.test_multi_target_skills(
+            stats, skills_and_expected_damages
+        )
+
+    @TestClass.is_a_test
+    def test_rpr_aoe(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=3.2,
+            main_stat=3379,
+            det_stat=1764,
+            crit_stat=2567,
+            dh_stat=1558,
+            speed_stat=436,
+            job_class="RPR",
+            version=self.__version,
+            level=self.__level,
+        )
+        base_harvest_moon = 32350
+        base_plentiful = 40401
+        base_communio = 44481
+        base_sacrificum = 24262
+        base_perfectio = 52570
+
+        skills_and_expected_damages = (
+            (
+                "Harvest Moon",
+                "t1, t2",
+                SkillModifier(),
+                (base_harvest_moon, 0.6 * base_harvest_moon),
+            ),
+            (
+                "Plentiful Harvest",
+                "t1, t2",
+                SkillModifier(),
+                (base_plentiful, 0.6 * base_plentiful),
+            ),
+            (
+                "Communio",
+                "t1, t2",
+                SkillModifier(),
+                (base_communio, 0.6 * base_communio),
+            ),
+            (
+                "Sacrificium",
+                "t1, t2",
+                SkillModifier(),
+                (base_sacrificum, 0.6 * base_sacrificum),
+            ),
+            (
+                "Perfectio",
+                "t1, t2",
+                SkillModifier(),
+                (base_perfectio, 0.6 * base_perfectio),
             ),
         )
         return self.__job_class_tester.test_multi_target_skills(

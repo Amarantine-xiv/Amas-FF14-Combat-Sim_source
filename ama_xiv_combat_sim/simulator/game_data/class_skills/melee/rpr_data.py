@@ -16,7 +16,10 @@ ALL_DATA = {
     },
     "Shadow of Death": {90: {"potency": {"6.55": 300}}, 100: {"potency": {"7.0": 300}}},
     "Harpe": {90: {"potency": {"6.55": 300}}, 100: {"potency": {"7.0": 300}}},
-    "Spinning Scythe": {90: {"potency": {"6.55": 140}}, 100: {"potency": {"7.0": 160}}},
+    "Spinning Scythe": {
+        90: {"potency": {"6.55": 140}},
+        100: {"potency": {"7.0": 160, "7.2": 140}},
+    },
     "Infernal Slice": {
         90: {"potency": {"6.55": 500}, "potency_no_combo": {"6.55": 180}},
         100: {"potency": {"7.0": 600}, "potency_no_combo": {"7.0": 280}},
@@ -24,7 +27,10 @@ ALL_DATA = {
     "Whorl of Death": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Nightmare Scythe": {
         90: {"potency": {"6.55": 180}, "potency_no_combo": {"6.55": 120}},
-        100: {"potency": {"7.0": 200}, "potency_no_combo": {"7.0": 140}},
+        100: {
+            "potency": {"7.0": 200, "7.2": 180},
+            "potency_no_combo": {"7.0": 140, "7.2": 120},
+        },
     },
     "Blood Stalk": {90: {"potency": {"6.55": 340}}, 100: {"potency": {"7.0": 340}}},
     "Grim Swathe": {90: {"potency": {"6.55": 140}}, 100: {"potency": {"7.0": 140}}},
@@ -82,22 +88,41 @@ ALL_DATA = {
     "Gluttony": {90: {"potency": {"6.55": 520}}, 100: {"potency": {"7.0": 520}}},
     "Void Reaping": {
         90: {"potency": {"6.55": 460}, "potency_enhanced": {"6.55": 520}},
-        100: {"potency": {"7.0": 500}, "potency_enhanced": {"7.0": 560}},
+        100: {"potency": {"7.0": 500, "7.2": 540}, "potency_enhanced": {"7.0": 560}},
     },
     "Cross Reaping": {
         90: {"potency": {"6.55": 460}, "potency_enhanced": {"6.55": 520}},
-        100: {"potency": {"7.0": 500}, "potency_enhanced": {"7.0": 560}},
+        100: {"potency": {"7.0": 500, "7.2": 540}, "potency_enhanced": {"7.0": 560}},
     },
     "Grim Reaping": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 200}}},
-    "Harvest Moon": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 800}}},
+    "Harvest Moon": {
+        90: {"potency": {"6.55": 600}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.4}},
+        100: {"potency": {"7.0": 800}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.4}},
+    },
     "Lemure's Slice": {90: {"potency": {"6.55": 240}}, 100: {"potency": {"7.0": 280}}},
     "Lemure's Scythe": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Plentiful Harvest": {
-        90: {"base_potency": {"6.55": 720}, "potency_increment": {"6.55": 40}},
-        100: {"base_potency": {"7.0": 720}, "potency_increment": {"7.0": 40}},
+        90: {
+            "base_potency": {"6.55": 720},
+            "potency_increment": {"6.55": 40},
+            "aoe_dropoff": {"6.55": 0.6, "7.2": 0.4},
+        },
+        100: {
+            "base_potency": {"7.0": 720},
+            "potency_increment": {"7.0": 40},
+            "aoe_dropoff": {"7.0": 0.6, "7.2": 0.4},
+        },
     },
-    "Communio": {90: {"potency": {"6.55": 1100}}, 100: {"potency": {"7.0": 1100}}},
-    "Sacrificium": {100: {"potency": {"7.0": 530}}},
+    "Communio": {
+        90: {"potency": {"6.55": 1100}, "aoe_dropoff": {"6.55": 0.6, "7.2": 0.4}},
+        100: {"potency": {"7.0": 1100}, "aoe_dropoff": {"7.0": 0.6, "7.2": 0.4}},
+    },
+    "Sacrificium": {
+        100: {
+            "potency": {"7.0": 530, "7.2": 600},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.4},
+        }
+    },
     "Executioner's Gibbet": {
         100: {
             "potency": {"7.0": 760},
@@ -114,8 +139,13 @@ ALL_DATA = {
             "potency_no_pos_enhanced": {"7.0": 760},
         },
     },
-    "Executioner's Guillotine": {100: {"potency": {"7.0": 300}}},
-    "Perfectio": {100: {"potency": {"7.0": 1200, "7.05": 1300}}},
+    "Executioner's Guillotine": {100: {"potency": {"7.0": 300, "7.2": 260}}},
+    "Perfectio": {
+        100: {
+            "potency": {"7.0": 1200, "7.05": 1300},
+            "aoe_dropoff": {"7.0": 0.6, "7.2": 0.4},
+        }
+    },
 }
 
 for k, v in ALL_DATA.items():
