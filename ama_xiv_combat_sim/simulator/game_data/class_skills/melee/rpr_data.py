@@ -88,11 +88,17 @@ ALL_DATA = {
     "Gluttony": {90: {"potency": {"6.55": 520}}, 100: {"potency": {"7.0": 520}}},
     "Void Reaping": {
         90: {"potency": {"6.55": 460}, "potency_enhanced": {"6.55": 520}},
-        100: {"potency": {"7.0": 500, "7.2": 540}, "potency_enhanced": {"7.0": 560}},
+        100: {
+            "potency": {"7.0": 500, "7.2": 540},
+            "potency_enhanced": {"7.0": 560, "7.2": 600},
+        },
     },
     "Cross Reaping": {
         90: {"potency": {"6.55": 460}, "potency_enhanced": {"6.55": 520}},
-        100: {"potency": {"7.0": 500, "7.2": 540}, "potency_enhanced": {"7.0": 560}},
+        100: {
+            "potency": {"7.0": 500, "7.2": 540},
+            "potency_enhanced": {"7.0": 560, "7.2": 600},
+        },
     },
     "Grim Reaping": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 200}}},
     "Harvest Moon": {
