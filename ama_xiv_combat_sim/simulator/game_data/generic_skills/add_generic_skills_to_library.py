@@ -155,6 +155,8 @@ def add_generic_skills_to_library(skill_library):
             skill_library.add_skill(__get_pot("Grade 1 Gemdraught", 351, version, level))
         if version >= "7.05":
             skill_library.add_skill(__get_pot("Grade 2 Gemdraught", 392, version, level))
+        if version >= "7.2":
+            skill_library.add_skill(__get_pot("Grade 3 Gemdraught", 461, version, level))
             
         skill_library.add_skill(
             __get_pot(

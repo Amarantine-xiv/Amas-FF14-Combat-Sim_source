@@ -30,6 +30,10 @@ ALL_GENERIC_DATA = {
         90: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
         100: {"animation_lock": {"7.05": 650}, "application_delay": {"7.0": 625}}
     },
+    "Grade 3 Gemdraught": {
+        90: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
+        100: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}}
+    },
 }
 
 for k, v in ALL_GENERIC_DATA.items():
