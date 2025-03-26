@@ -143,7 +143,7 @@ class SchSkills(GenericJobClass):
         name = "Baneful Impaction"
         return Skill(
             name=name,
-            is_GCD=True,
+            is_GCD=False,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1290
             ),
