@@ -84,8 +84,41 @@ def create_valigarmanda_map():
     )
     return populate_abilities(abilities)
 
+def create_car_map():
+    abilities = (
+        (
+            "Cloud of Darkness",
+            "Arcane Design",
+            Skill(
+                name="Arcane Design",
+                debuff_spec=StatusEffectSpec(
+                    duration=145 * 1000, damage_mult=1.2, is_party_effect=False
+                ),
+                timing_spec=base_timing_spec,
+                is_GCD=False,
+            ),
+        ),
+    )
+    return populate_abilities(abilities)
 
-def create_m1s_map():
+def get_dd_ability(duration, dd_value):
+    abilities = (
+        (
+            kPlayer,
+            "Damage Down",
+            Skill(
+                name="Damage Down",
+                buff_spec=StatusEffectSpec(
+                    duration=duration, damage_mult=1-dd_value, is_party_effect=False
+                ),
+                timing_spec=base_timing_spec,
+                is_GCD=False,
+            ),
+        ),
+    )
+    return populate_abilities(abilities)
+
+def create_m5s_map():
     abilities = (
         (
             kPlayer,
@@ -99,19 +132,13 @@ def create_m1s_map():
                 is_GCD=False,
             ),
         ),
-    )
-    return populate_abilities(abilities)
-
-
-def create_m2s_map():
-    abilities = (
         (
             kPlayer,
-            "Damage Down",
+            "Perfect Groove",
             Skill(
-                name="Damage Down",
+                name="Perfect Groove",
                 buff_spec=StatusEffectSpec(
-                    duration=30 * 1000, damage_mult=0.74, is_party_effect=False
+                    duration=20 * 1000, damage_mult=1.05, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,
                 is_GCD=False,
@@ -119,55 +146,23 @@ def create_m2s_map():
         ),
     )
     return populate_abilities(abilities)
-
-
-def create_m3s_map():
-    abilities = (
-        (
-            kPlayer,
-            "Damage Down",
-            Skill(
-                name="Damage Down",
-                buff_spec=StatusEffectSpec(
-                    duration=30 * 1000, damage_mult=0.62, is_party_effect=False
-                ),
-                timing_spec=base_timing_spec,
-                is_GCD=False,
-            ),
-        ),
-    )
-    return populate_abilities(abilities)
-
-
-def create_m4s_map():
-    abilities = (
-        (
-            kPlayer,
-            "Damage Down",
-            Skill(
-                name="Damage Down",
-                buff_spec=StatusEffectSpec(
-                    duration=30 * 1000, damage_mult=0.75, is_party_effect=False
-                ),
-                timing_spec=base_timing_spec,
-                is_GCD=False,
-            ),
-        ),
-    )
-    return populate_abilities(abilities)
-
 
 def create_external_skill_library(encounter_id):
     encounterid_to_external = {
-        1079: create_fru_map,
-        1071: create_valigarmanda_map,
-        93: create_m1s_map,
-        94: create_m2s_map,
-        95: create_m3s_map,
-        96: create_m4s_map,
+        2061: create_car_map(),
+        1079: create_fru_map(),
+        1071: create_valigarmanda_map(),
+        93: get_dd_ability(30*1000, 0.25), #m1s
+        94: get_dd_ability(30*1000, 0.26), #m2s
+        95: get_dd_ability(30*1000, 0.38), #m3s
+        96: get_dd_ability(30*1000, 0.25), #m4s
+        97: create_m5s_map(),
+        98: get_dd_ability(30*1000, 0.30), # m6s
+        99: get_dd_ability(30*1000, 0.35), # m7s
+        100: get_dd_ability(30*1000, 0.50), # m8s
     }
     map_creator = encounterid_to_external.get(encounter_id, None)
 
     if map_creator is not None:
-        return map_creator()
+        return map_creator
     return None
