@@ -1101,6 +1101,7 @@ class BrdSkills(GenericJobClass):
                 if self._level >= 100
                 else tuple()
             ),
+            off_class_default_condition="Buff Only"
         )
 
     @GenericJobClass.is_a_skill
