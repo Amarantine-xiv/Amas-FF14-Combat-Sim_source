@@ -2985,3 +2985,168 @@ class TestRotationBuilder(TestClass):
         result = rb.get_skill_timing().get_q()
         result = [result[i][1:5] for i in range(0, len(result))]        
         return self._compare_sequential(result, expected)
+    
+    @TestClass.is_a_test
+    def skill_timing_test_with_add_and_add_next(self):
+        # For a 2500 ms gcd, this spell speed should result in a 2440 sm (2.44s) GCD.
+        rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
+        rb.add_next("test_gcd")
+        rb.add_next("test_gcd")
+        rb.add_next("test_ogcd")
+        rb.add(10.0, "test_gcd")
+        rb.add_next("test_gcd")
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(1940, 2440),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(4385, 4885),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(4890, None),
+                self.__skill_library.get_skill("test_ogcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(10000+1940, 10000+2440),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(10000+4385, 10000+4885),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [result[i][1:5] for i in range(0, len(result))]
+        return self._compare_sequential(result, expected)
+    
+    
+    @TestClass.is_a_test
+    def skill_timing_test_with_add_and_add_next_and_other(self):
+        # For a 2500 ms gcd, this spell speed should result in a 2440 sm (2.44s) GCD.
+        rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
+        rb.add(5.0, "test_party_buff", job_class="test_job2")
+        rb.add_next("test_gcd")
+        rb.add_next("test_gcd")
+        rb.add_next("test_ogcd")
+        rb.add(10.0, "test_gcd")
+        rb.add_next("test_gcd")
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(1940, 2440),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(4385, 4885),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(4890, None),
+                self.__skill_library.get_skill("test_ogcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(5000, None),
+                self.__skill_library.get_skill("test_party_buff", "test_job2"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(10000+1940, 10000+2440),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(10000+4385, 10000+4885),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [result[i][1:5] for i in range(0, len(result))]
+        return self._compare_sequential(result, expected)
+    
+    @TestClass.is_a_test
+    def test_chunk_moves(self):
+        # For a 2500 ms gcd, this spell speed should result in a 2440 sm (2.44s) GCD.
+        rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
+        rb.add_next("test_gcd")
+        rb.add_next("test_gcd")
+        #       
+        rb.add(100.0, "test_gcd")
+        rb.add_next("test_gcd")
+        #
+        rb.add(20.0, "test_gcd")
+        rb.add_next("test_gcd")
+        rb.add_next("test_ogcd")
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(1940, 2440),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(4385, 4885),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(20000+1940, 20000+2440),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(20000+4385, 20000+4885),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(20000+4890, None),
+                self.__skill_library.get_skill("test_ogcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(100000+1940, 100000+2440),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(100000+4385, 100000+4885),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [result[i][1:5] for i in range(0, len(result))]
+        return self._compare_sequential(result, expected)

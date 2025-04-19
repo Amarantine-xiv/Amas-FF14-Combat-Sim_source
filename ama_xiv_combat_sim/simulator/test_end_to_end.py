@@ -193,7 +193,7 @@ class TestEndToEnd(TestClass):
         rb.add_next("test_simple_debuff_gcd")
         rb.add_next("test_gcd")
 
-        expected_damage = 83727
+        expected_damage = 78607
         expected_total_time = 16885
 
         return self.__job_class_tester.test_aggregate_rotation(

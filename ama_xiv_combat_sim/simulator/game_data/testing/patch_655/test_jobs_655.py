@@ -792,7 +792,7 @@ class TestJobsUnified655(TestClass):
         rb.add_next("Chi")
         rb.add_next("Raiton")
         rb.add_next("Forked Raiju")
-        expected_damage = 566924.6
+        expected_damage = 561938.6
         expected_total_time = 24748.0
 
         return self.__job_class_tester.test_aggregate_rotation(

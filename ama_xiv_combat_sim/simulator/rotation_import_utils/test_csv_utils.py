@@ -35,7 +35,7 @@ class TestCSVUtils(TestClass):
         )
 
     @TestClass.is_a_test
-    def test_csv_read(self):
+    def test_csv_read1(self):
         rb = RotationBuilder(
             self.__stats,
             self.__skill_library,
@@ -77,7 +77,91 @@ class TestCSVUtils(TestClass):
                 SnapshotAndApplicationEvents.EventTimes(3300, None),
                 self.__skill_library.get_skill(
                     "test_off_class_conditional",
-                    "test_job2",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(3500, None),
+                self.__skill_library.get_skill(
+                    "test_ogcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        
+        for tmp, tmp2 in zip(result, expected):
+            if tmp != tmp2:
+                print('---')
+                for i in range(0, len(tmp)):
+                    if tmp[i] != tmp2[i]:
+                        print(f'{tmp[i]} vs {tmp2[i]}')
+            
+        
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_csv_read(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job2",
+            version="test",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            enable_autos=False,
+            fight_start_time=0,
+        )
+        rb, _ = CSVUtils.populate_rotation_from_csv(rb, self.__test_csv_filename1)
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(1650, None),
+                self.__skill_library.get_skill(
+                    "test_ogcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(2500, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(3300, None),
+                self.__skill_library.get_skill(
+                    "test_off_class_conditional",
+                    "test_job",
                 ),
                 SkillModifier(with_condition="other"),
                 [True, True],
@@ -95,79 +179,5 @@ class TestCSVUtils(TestClass):
 
         result = rb.get_skill_timing().get_q()
         result = [x[1:5] for x in rb.get_skill_timing().get_q()]
-        return self._compare_sequential(result, expected)
-
-    @TestClass.is_a_test
-    def test_csv_read_off_class_conditional_on_job(self):
-        self.__stats = Stats(
-            wd=126,
-            weapon_delay=4.5,
-            main_stat=2945,
-            det_stat=1620,
-            crit_stat=2377,
-            dh_stat=1048,
-            speed_stat=400,
-            job_class="test_job2",
-            version="test",
-        )
-
-        rb = RotationBuilder(
-            self.__stats,
-            self.__skill_library,
-            ignore_trailing_dots=True,
-            enable_autos=False,
-            fight_start_time=0,
-        )
-        rb, _ = CSVUtils.populate_rotation_from_csv(rb, self.__test_csv_filename1)
-
-        expected = (
-            (
-                SnapshotAndApplicationEvents.EventTimes(0, None),
-                self.__skill_library.get_skill(
-                    "test_instant_gcd",
-                    self.__stats.job_class,
-                ),
-                SkillModifier(),
-                [True, True],
-            ),
-            (
-                SnapshotAndApplicationEvents.EventTimes(1650, None),
-                self.__skill_library.get_skill(
-                    "test_ogcd",
-                    self.__stats.job_class,
-                ),
-                SkillModifier(),
-                [True, True],
-            ),
-            (
-                SnapshotAndApplicationEvents.EventTimes(2500, None),
-                self.__skill_library.get_skill(
-                    "test_instant_gcd",
-                    self.__stats.job_class,
-                ),
-                SkillModifier(),
-                [True, True],
-            ),
-            (
-                SnapshotAndApplicationEvents.EventTimes(3300, None),
-                self.__skill_library.get_skill(
-                    "test_off_class_conditional",
-                    "test_job2",
-                ),
-                SkillModifier(),
-                [True, True],
-            ),
-            (
-                SnapshotAndApplicationEvents.EventTimes(3500, None),
-                self.__skill_library.get_skill(
-                    "test_ogcd",
-                    self.__stats.job_class,
-                ),
-                SkillModifier(),
-                [True, True],
-            ),
-        )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        
         return self._compare_sequential(result, expected)

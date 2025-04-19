@@ -50,6 +50,7 @@ class CSVUtils:
                 skill_modifier = None
             else:
                 skill_modifier = SkillModifier(with_condition=sk.skill_conditional)
+            
             rb.add(
                 sk.t,
                 sk.skill_name,

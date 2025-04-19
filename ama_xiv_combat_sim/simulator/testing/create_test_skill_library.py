@@ -944,6 +944,7 @@ def create_test_skill_library():
     skill_library.set_status_effect_priority(
         ("test_num_uses_buff_with_priority1", "test_num_uses_buff_with_priority2")
     )
+    skill_library.add_skill(test_off_class_conditional)
 
     skill_library.set_current_job_class("test_job2")
     skill_library.add_skill(test_auto)

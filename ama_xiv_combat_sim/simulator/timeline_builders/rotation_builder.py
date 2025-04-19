@@ -1,6 +1,6 @@
 import copy
-import heapq
 import math
+import numpy as np
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.stat_fns import StatFns
@@ -53,8 +53,10 @@ class RotationBuilder:
             snap_dots_to_server_tick_starting_at
         )
         self._skill_library = skill_library
-        self._q_timed = []  # (time, skill, skill_modifier, job_class)
-        self._q_sequence = []  # (skill, skill_modifier, job_class)
+
+        self._q_others = []  # (time, skill, skill_modifier, job_class)
+        self._q_self = []  # (time, skill, skill_modifier, job_class)
+
         self._q_dot_skills = {}  # this is a map
         self.__q_button_press_timing = []
         self._q_snapshot_and_applications = SnapshotAndApplicationEvents()
@@ -74,6 +76,7 @@ class RotationBuilder:
         )
         self.__default_target = default_target
         self.__all_targets = set()
+        self.__non_auto_periods = []
 
     @staticmethod
     def __do_init_downtime_windows(downtime_windows):
@@ -158,8 +161,13 @@ class RotationBuilder:
         skill = self._skill_library.get_skill(skill_name, job_class)
         if skill_modifier is None:
             skill_modifier = self.get_default_skill_modifier(skill, job_class)
-        for _ in range(num_times):
-            self._q_sequence.append((skill, skill_modifier, job_class, targets))
+
+        if job_class != self.__stats.job_class:
+            for _ in range(num_times):
+                self._q_others.append((None, skill, skill_modifier, job_class, targets))
+        else:
+            for _ in range(num_times):
+                self._q_self.append((None, skill, skill_modifier, job_class, targets))
 
     def add(
         self,
@@ -177,14 +185,18 @@ class RotationBuilder:
         if skill_modifier is None:
             skill_modifier = self.get_default_skill_modifier(skill, job_class)
         t_use = t if time_is_in_ms else int(1000 * t)  # else time is assumed to be in s
-        self._q_timed.append((t_use, skill, skill_modifier, job_class, targets))
+
+        if job_class != self.__stats.job_class:
+            self._q_others.append((t_use, skill, skill_modifier, job_class, targets))
+        else:
+            self._q_self.append((t_use, skill, skill_modifier, job_class, targets))
 
     def add_external(self, t, skill, skill_modifier=None, targets=None):
         targets = self.__process_and_check_targets(targets)
         job_class = ""
         if skill_modifier is None:
             skill_modifier = self.get_default_skill_modifier(skill, job_class)
-        self._q_timed.append((t, skill, skill_modifier, job_class, targets))
+        self._q_others.append((t, skill, skill_modifier, job_class, targets))
 
     @staticmethod
     def __follow_up_is_dot(follow_up_skill):
@@ -342,9 +354,9 @@ class RotationBuilder:
 
     def __get_consolidated_dot_timing(self, base_dot_times):
         consolidated_dots = []
-        for i in range(0, len(base_dot_times)):
+        for i, base_dot_time in enumerate(base_dot_times):
             curr_start_time, curr_end_time, parent_snapshot_time, priority_modifier = (
-                base_dot_times[i]
+                base_dot_time
             )
             if i == len(base_dot_times) - 1:
                 possible_end_time = math.inf
@@ -478,8 +490,15 @@ class RotationBuilder:
                 targets,
             )
 
-    def __process_q_timed(self):
+    def __process_q_others(self):
+        # assume to be all timed
+        q_others = copy.deepcopy(self._q_others)
+        q_others.sort(key=lambda x: x[0])
+        self.__process_q(q_others)
+
+    def __process_q(self, q):
         se_tracker = StatusEffectTracker(self.__status_effect_priority)
+        c_tracker = ChannelingTracker()
         job_resource_tracker = JobResourceTracker(
             self._skill_library.get_all_resource_settings(self.__stats.job_class)
         )
@@ -487,80 +506,19 @@ class RotationBuilder:
             self._skill_library.get_all_combo_breakers(self.__stats.job_class)
         )
 
-        q = copy.deepcopy(self._q_timed)
-        q.sort(key=lambda x: x[0])
-        while len(q) > 0:
-            (curr_t, skill, skill_modifier, job_class, targets) = heapq.heappop(q)
-            self.__q_button_press_timing.append(
-                [
-                    curr_t,
-                    skill.name,
-                    job_class if job_class != self.__stats.job_class else "",
-                    ",".join(skill_modifier.with_condition),
-                ]
-            )
-
-            se_tracker.expire_status_effects(curr_t)
-            curr_buffs_and_skill_modifier = se_tracker.compile_buffs(curr_t, skill)
-            curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(curr_t, skill)
-
-            curr_buffs, skill_modifier_from_buffs = (
-                curr_buffs_and_skill_modifier[0],
-                curr_buffs_and_skill_modifier[1],
-            )
-            _, skill_modifier_from_debuffs = (
-                curr_debuffs_and_skill_modifier[0],
-                curr_debuffs_and_skill_modifier[1],
-            )
-            job_resource_conditional = job_resource_tracker.compile_job_resources(
-                curr_t, skill
-            )
-
-            skill_modifier = copy.deepcopy(skill_modifier)
-            skill_modifier.add_to_condition(skill_modifier_from_buffs)
-            skill_modifier.add_to_condition(skill_modifier_from_debuffs)
-            skill_modifier.add_to_condition(job_resource_conditional)
-
-            combo_conditional = combo_tracker.compile_and_update_combo(
-                curr_t, skill, skill_modifier
-            )
-            skill_modifier.add_to_condition(combo_conditional)
-            try:
-                skill_modifier.add_to_condition(
-                    Utils.get_positional_condition(skill, skill_modifier)
-                )
-            except ValueError as v:
-                print(str(v))
-
-            self.__timestamps_and_main_target.append((curr_t, targets[0]))
-            self.__process_skill(
-                curr_t,
-                skill,
-                skill_modifier,
-                se_tracker,
-                job_resource_tracker,
-                curr_buffs,
-                targets,
-            )
-
-    def __process_q_sequence(self):
-        se_tracker = StatusEffectTracker(self.__status_effect_priority)
-        job_resource_tracker = JobResourceTracker(
-            self._skill_library.get_all_resource_settings(self.__stats.job_class)
-        )
-        combo_tracker = ComboTracker(
-            self._skill_library.get_all_combo_breakers(self.__stats.job_class)
-        )
-
+        cast_periods = []
         next_gcd_time = -math.inf
         curr_t = (
             0 if self.__fight_start_time is None else self.__fight_start_time
         )  # this represents the next time we could possibly use any skill button
-        q = copy.deepcopy(self._q_sequence)
 
-        for skill, skill_modifier, job_class, targets in q:
-            if skill.is_GCD:
-                curr_t = max(curr_t, next_gcd_time)
+        for maybe_curr_t, skill, skill_modifier, job_class, targets in q:
+            if maybe_curr_t:
+                curr_t = maybe_curr_t
+            else:
+                if skill.is_GCD:
+                    curr_t = max(curr_t, next_gcd_time)
+
             self.__q_button_press_timing.append(
                 [
                     curr_t,
@@ -571,6 +529,7 @@ class RotationBuilder:
             )
 
             se_tracker.expire_status_effects(curr_t)
+            c_tracker.process_channeling(curr_t, skill, skill_modifier)
             curr_buffs_and_skill_modifier = se_tracker.compile_buffs(curr_t, skill)
             curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(curr_t, skill)
 
@@ -595,6 +554,13 @@ class RotationBuilder:
                 curr_t, skill, skill_modifier
             )
             skill_modifier.add_to_condition(combo_conditional)
+
+            cast_time = self.__get_cast_time(
+                skill.get_timing_spec(skill_modifier), skill_modifier, curr_buffs
+            )
+            if cast_time > 0:
+                cast_periods.append((curr_t, curr_t + cast_time))
+
             try:
                 skill_modifier.add_to_condition(
                     Utils.get_positional_condition(skill, skill_modifier)
@@ -602,66 +568,126 @@ class RotationBuilder:
             except ValueError as v:
                 print(str(v))
 
-            timing_spec = skill.get_timing_spec(skill_modifier)
-
             self.__timestamps_and_main_target.append((curr_t, targets[0]))
-            if skill.is_GCD:
-                self.__process_skill(
-                    curr_t,
-                    skill,
-                    skill_modifier,
-                    se_tracker,
-                    job_resource_tracker,
-                    curr_buffs,
-                    targets,
-                )
+            self.__process_skill(
+                curr_t,
+                skill,
+                skill_modifier,
+                se_tracker,
+                job_resource_tracker,
+                curr_buffs,
+                targets,
+            )
 
-                trait_haste_time_mult = (
-                    1 - self.__stats.processed_stats.trait_haste_time_reduction
-                )
-                recast_time = (
-                    StatFns.get_time_using_speed_stat(
-                        timing_spec.gcd_base_recast_time,
-                        self.__stats.speed_stat,
-                        self.__stats.version,
-                        self.__stats.level,
-                    )
-                    if timing_spec.affected_by_speed_stat
-                    else timing_spec.gcd_base_recast_time
-                )
-                recast_time = (
-                    Utils.truncate_to_digit(
-                        recast_time
-                        * curr_buffs.haste_time_mult
-                        * curr_debuffs.haste_time_mult
-                        * trait_haste_time_mult,
-                        2,
-                    )
-                    if timing_spec.affected_by_haste_buffs
-                    else recast_time
-                )
-                recast_time -= curr_buffs.flat_gcd_recast_time_reduction
-                # default (2500 ms, at the time of writing) gcd recasts are hard
-                # stopped by a particular recast time.
-                if timing_spec.gcd_base_recast_time == GameConsts.GCD_RECAST_TIME:
-                    recast_time = max(recast_time, GameConsts.MIN_GCD_RECAST_TIME)
+            # compute next timing spec
+            next_gcd_time_delta, curr_t_delta = self.__compute_next_skill_time_deltas(
+                skill, skill_modifier, curr_buffs, curr_debuffs
+            )
+            next_gcd_time = (
+                curr_t + next_gcd_time_delta if skill.is_GCD else next_gcd_time
+            )
+            curr_t += curr_t_delta
 
-                next_gcd_time = curr_t + recast_time
-                cast_time = self.__get_cast_time(
-                    timing_spec, skill_modifier, curr_buffs
+        c_tracker.finalize()
+        self.__non_auto_periods = list(c_tracker.get_channeling_windows())
+        self.__non_auto_periods.extend(cast_periods)
+        self.__non_auto_periods.sort()
+
+    def __compute_next_skill_time_deltas(
+        self, skill, skill_modifier, curr_buffs, curr_debuffs
+    ):
+        timing_spec = skill.get_timing_spec(skill_modifier)
+        if skill.is_GCD:
+            trait_haste_time_mult = (
+                1 - self.__stats.processed_stats.trait_haste_time_reduction
+            )
+            recast_time = (
+                StatFns.get_time_using_speed_stat(
+                    timing_spec.gcd_base_recast_time,
+                    self.__stats.speed_stat,
+                    self.__stats.version,
+                    self.__stats.level,
                 )
-                curr_t += cast_time + timing_spec.animation_lock
+                if timing_spec.affected_by_speed_stat
+                else timing_spec.gcd_base_recast_time
+            )
+            recast_time = (
+                Utils.truncate_to_digit(
+                    recast_time
+                    * curr_buffs.haste_time_mult
+                    * curr_debuffs.haste_time_mult
+                    * trait_haste_time_mult,
+                    2,
+                )
+                if timing_spec.affected_by_haste_buffs
+                else recast_time
+            )
+            recast_time -= curr_buffs.flat_gcd_recast_time_reduction
+            # default (2500 ms, at the time of writing) gcd recasts are hard
+            # stopped by a particular recast time.
+            if timing_spec.gcd_base_recast_time == GameConsts.GCD_RECAST_TIME:
+                recast_time = max(recast_time, GameConsts.MIN_GCD_RECAST_TIME)
+
+            next_gcd_time_delta = recast_time
+            cast_time = self.__get_cast_time(timing_spec, skill_modifier, curr_buffs)
+            curr_t_delta = cast_time + timing_spec.animation_lock
+        else:
+            next_gcd_time_delta = 0
+            curr_t_delta = timing_spec.animation_lock
+
+        return next_gcd_time_delta, curr_t_delta
+
+    @staticmethod
+    def __divide_into_chunks(q):
+        curr = []
+        idx = 0
+
+        all_chunks = {}
+        for i, val in enumerate(q):
+            if val[0] is None:
+                curr.append(val)
             else:
-                self.__process_skill(
-                    curr_t,
-                    skill,
-                    skill_modifier,
-                    se_tracker,
-                    job_resource_tracker,
-                    curr_buffs,
-                    targets,
-                )
-                curr_t += timing_spec.animation_lock
+                if len(curr) > 0:
+                    all_chunks[idx] = curr
+                idx = i
+                curr = [val]
+        if len(curr) > 0:
+            all_chunks[idx] = curr
+        return all_chunks
+
+    def __process_q_self(self):
+        has_timestamps = False
+        has_nexts = False
+
+        for _, val in enumerate(self._q_self):
+            if val[0] is None:
+                has_nexts = True
+            else:
+                has_timestamps = True
+
+        if has_timestamps and not has_nexts:
+            q_self = copy.deepcopy(self._q_self)
+            q_self.sort(key=lambda x: x[0])
+            self.__process_q(q_self)
+        elif not has_timestamps and has_nexts:
+            q_self = copy.deepcopy(self._q_self)
+            self.__process_q(q_self)
+        else:  # a mix
+            chunks = self.__divide_into_chunks(self._q_self)
+
+            times = []
+            for i, tmp in enumerate(self._q_self):
+                if tmp[0] is not None:
+                    times.append((tmp[0], i))
+            perm_inds = list(np.argsort([tmp[0] for tmp in times]))
+
+            res = []
+            if 0 not in [x[1] for x in times]:
+                res.extend(chunks[0])
+
+            for _, val in enumerate(perm_inds):
+                res.extend(chunks[times[val][1]])
+            self.__process_q(res)
 
     def shift_timelines_for_first_damage_instance(self):
         res = SnapshotAndApplicationEvents()
@@ -669,8 +695,8 @@ class RotationBuilder:
         if first_damage_time is None:
             return self._q_snapshot_and_applications
 
-        for i in range(0, len(self.__q_button_press_timing)):
-            self.__q_button_press_timing[i][0] -= first_damage_time
+        for _, val in enumerate(self.__q_button_press_timing):
+            val[0] -= first_damage_time
 
         while not self._q_snapshot_and_applications.is_empty():
             [
@@ -771,8 +797,8 @@ class RotationBuilder:
 
         self._q_snapshot_and_applications = SnapshotAndApplicationEvents()
         self.__q_button_press_timing.clear()
-        self.__process_q_sequence()
-        self.__process_q_timed()
+        self.__process_q_others()
+        self.__process_q_self()
 
         last_event_time = (
             self._q_snapshot_and_applications.get_last_event_time()
@@ -846,63 +872,6 @@ class RotationBuilder:
             curr_debuffs_and_skill_modifier,
         ), job_resource_tracker.compile_job_resources(curr_t, skill)
 
-    def get_no_auto_periods(self):
-        q = copy.deepcopy(self._q_timed)
-        cast_periods = []
-        se_tracker = StatusEffectTracker(self.__status_effect_priority)
-        c_tracker = ChannelingTracker()
-        job_resource_tracker = JobResourceTracker(
-            self._skill_library.get_all_resource_settings(self.__stats.job_class)
-        )
-        combo_tracker = ComboTracker(
-            self._skill_library.get_all_combo_breakers(self.__stats.job_class)
-        )
-
-        while len(q) > 0:
-            (t, skill, skill_modifier, _, _) = heapq.heappop(q)
-            se_tracker.expire_status_effects(t)
-            c_tracker.process_channeling(t, skill, skill_modifier)
-            curr_buffs_and_skill_modifier = se_tracker.compile_buffs(t, skill)
-            curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(t, skill)
-
-            curr_buffs, skill_modifier_from_buffs = (
-                curr_buffs_and_skill_modifier[0],
-                curr_buffs_and_skill_modifier[1],
-            )
-            _, skill_modifier_from_debuffs = (
-                curr_debuffs_and_skill_modifier[0],
-                curr_debuffs_and_skill_modifier[1],
-            )
-            job_resource_conditional = job_resource_tracker.compile_job_resources(
-                t, skill
-            )
-
-            skill_modifier = copy.deepcopy(skill_modifier)
-            skill_modifier.add_to_condition(skill_modifier_from_buffs)
-            skill_modifier.add_to_condition(skill_modifier_from_debuffs)
-            skill_modifier.add_to_condition(job_resource_conditional)
-
-            combo_conditional = combo_tracker.compile_and_update_combo(
-                t, skill, skill_modifier
-            )
-            skill_modifier.add_to_condition(combo_conditional)
-
-            cast_time = self.__get_cast_time(
-                skill.get_timing_spec(skill_modifier), skill_modifier, curr_buffs
-            )
-            if cast_time > 0:
-                cast_periods.append((t, t + cast_time))
-            # assume target does not affect speed....dangerous....
-            se_tracker.add_to_status_effects(
-                t, skill, skill_modifier, targets=(self.__default_target,)
-            )
-            job_resource_tracker.add_resource(t, skill, skill_modifier)
-        c_tracker.finalize()
-        non_auto_periods = list(c_tracker.get_channeling_windows())
-        non_auto_periods.extend(cast_periods)
-        non_auto_periods.sort()
-        return non_auto_periods
-
     # This is only called during a downtime window.
     def forward_to_next_non_downtime_time(self, snapshot_time, auto_target):
         for r in self.__downtime_windows.get(auto_target, tuple()):
@@ -960,7 +929,8 @@ class RotationBuilder:
         auto_target_ind = 0
 
         speed_status_effects_timeline = self.__assemble_speed_status_effects_timeline()
-        no_auto_periods = self.get_no_auto_periods()
+        no_auto_periods = self.__non_auto_periods
+
         while application_time < last_event_time:
             while (
                 auto_target_ind < len(timestamps_and_main_target)
