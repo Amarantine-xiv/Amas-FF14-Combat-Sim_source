@@ -23,21 +23,25 @@ class CSVUtils:
         res = {}
         skiprows = 0
         with open(f, "r") as file:
-            for line in file:
-                line = line.lower()
+            for original_line in file:
+                line = original_line.lower()
                 # Check if these are our rotation columns
                 if "time" in line and "skill_name" in line:
                     break
                 skiprows += 1
-                line = line.replace(' ', '')
+                line = line.replace(" ", "")
+                found_metadata_processor = False
                 for field in meta_fields:
-                    val = re.search(rf"^#{field}=(.*?),*$", line)                    
-
+                    val = re.search(rf"^#{field}=(.*?),*$", line)
                     if val is None:
                         continue
                     if field in res:
                         raise RuntimeError(f"Field defined multiple times: {field}")
                     res[field] = val.groups()[0]
+                    found_metadata_processor = True
+                if not found_metadata_processor:
+                    print(f"Warning: Metadata line cannot be processed (option not recognized): {original_line}")
+
         return res, skiprows
 
     @staticmethod
@@ -88,7 +92,7 @@ class CSVUtils:
             else:
                 raise RuntimeError(
                     f"Bad value for use_strict_skill_naming: {meta_fields['use_strict_skill_naming']}"
-                )            
+                )
             rb.set_use_strict_skill_naming(use_strict_skill_naming)
         if "downtime_windows" in meta_fields:
             downtime_windows = meta_fields["downtime_windows"].replace("\\", "")
