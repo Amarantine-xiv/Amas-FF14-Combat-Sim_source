@@ -184,6 +184,15 @@ def create_test_skill_library():
         timing_spec=gcd_instant,
         damage_spec=simple_damage,
     )
+    
+    test_instant_aoe_gcd = Skill(
+        name="test_instant_aoe_gcd",
+        is_GCD=True,
+        timing_spec=gcd_instant,
+        damage_spec=simple_damage,
+        has_aoe=True
+    )
+    
     test_instant_gcd_no_lock = Skill(
         name="test_instant_gcd_no_lock",
         is_GCD=True,
@@ -892,6 +901,7 @@ def create_test_skill_library():
     skill_library.add_skill(test_auto_attack_buff2)
     skill_library.add_skill(test_auto)
     skill_library.add_skill(test_instant_gcd)
+    skill_library.add_skill(test_instant_aoe_gcd)    
     skill_library.add_skill(test_instant_gcd_no_lock)
     skill_library.add_skill(test_auto_attack_buff_instant)
     skill_library.add_skill(test_auto_attack_buff_on_follow_up)

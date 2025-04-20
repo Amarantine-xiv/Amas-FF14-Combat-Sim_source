@@ -46,6 +46,7 @@ class RotationBuilder:
         # but the boss was still targetable and still generally takes damage.
         downtime_windows=(),
         default_target=SimConsts.DEFAULT_TARGET,
+        use_strict_skill_naming=True,
     ):
         self.__stats = stats
         # snap_dots_to_server_tick_starting_at is in SECONDS
@@ -70,11 +71,13 @@ class RotationBuilder:
         assert isinstance(
             default_target, str
         ), "Default target should be a string- did you accidentally make it a tuple?"
-
-        self.__downtime_windows = RotationBuilder.__init_downtime_windows(
+        # save original for idempotency
+        self.__original_downtime_windows = RotationBuilder.__init_downtime_windows(
             downtime_windows
         )
+        self.__downtime_windows = None
         self.__default_target = default_target
+        self.__use_strict_skill_naming = use_strict_skill_naming
         self.__all_targets = set()
         self.__non_auto_periods = []
 
@@ -107,16 +110,27 @@ class RotationBuilder:
         return downtime_windows
 
     def __process_downtime_windows(self):
-        if isinstance(self.__downtime_windows, tuple):
+        # save original for idempotency
+        if isinstance(self.__original_downtime_windows, tuple):
             res = {}
             for k in self.__all_targets:
-                res[k] = self.__downtime_windows
+                res[k] = copy.deepcopy(self.__original_downtime_windows)
             self.__downtime_windows = res
+        else:
+            self.__downtime_windows = self.__original_downtime_windows.copy()
 
     def get_button_press_timing(self):
         res = copy.deepcopy(self.__q_button_press_timing)
         res.sort(key=lambda x: x[0])
         return res
+
+    def set_downtime_windows(self, downtime_windows):
+        self.__original_downtime_windows = RotationBuilder.__init_downtime_windows(
+            downtime_windows
+        )
+
+    def set_use_strict_skill_naming(self, use_strict_skill_naming):
+        self.__use_strict_skill_naming = use_strict_skill_naming
 
     def set_ignore_trailing_dots(self, ignore_trailing_dots):
         self.__ignore_trailing_dots = ignore_trailing_dots
@@ -158,7 +172,17 @@ class RotationBuilder:
         targets = self.__process_and_check_targets(targets)
 
         job_class = self.__stats.job_class if job_class is None else job_class
-        skill = self._skill_library.get_skill(skill_name, job_class)
+        try:
+            skill = self._skill_library.get_skill(skill_name, job_class)
+        except KeyError as e:
+            if self.__use_strict_skill_naming:
+                raise (e)
+            else:
+                print(
+                    f"Skill naming warning: {e}. Skill cannot be added. Typo in skill name?"
+                )
+                return
+
         if skill_modifier is None:
             skill_modifier = self.get_default_skill_modifier(skill, job_class)
 
@@ -181,7 +205,17 @@ class RotationBuilder:
         targets = self.__process_and_check_targets(targets)
 
         job_class = self.__stats.job_class if job_class is None else job_class
-        skill = self._skill_library.get_skill(skill_name, job_class)
+        try:
+            skill = self._skill_library.get_skill(skill_name, job_class)
+        except KeyError as e:
+            if self.__use_strict_skill_naming:
+                raise (e)
+            else:
+                print(
+                    f"Skill naming warning: {e}. Skill cannot be added. Typo in skill name?"
+                )
+                return
+
         if skill_modifier is None:
             skill_modifier = self.get_default_skill_modifier(skill, job_class)
         t_use = t if time_is_in_ms else int(1000 * t)  # else time is assumed to be in s
@@ -529,7 +563,10 @@ class RotationBuilder:
             )
 
             se_tracker.expire_status_effects(curr_t)
-            c_tracker.process_channeling(curr_t, skill, skill_modifier)
+            if (
+                job_class == self.__stats.job_class
+            ):  # assume it is this player if job class matches
+                c_tracker.process_channeling(curr_t, skill, skill_modifier)
             curr_buffs_and_skill_modifier = se_tracker.compile_buffs(curr_t, skill)
             curr_debuffs_and_skill_modifier = se_tracker.compile_debuffs(curr_t, skill)
 
@@ -689,11 +726,21 @@ class RotationBuilder:
                 res.extend(chunks[times[val][1]])
             self.__process_q(res)
 
+    def __shift_downtime_windows(self, first_damage_time):
+        for k, v in self.__downtime_windows.items():
+            res = []
+            for window in v:
+                tmp = (window[0] - first_damage_time, window[1] - first_damage_time, window[2])
+                res.append(tmp)
+            self.__downtime_windows[k] = tuple(res)
+
     def shift_timelines_for_first_damage_instance(self):
         res = SnapshotAndApplicationEvents()
         first_damage_time = self._q_snapshot_and_applications.get_first_damage_time()
+        
         if first_damage_time is None:
             return self._q_snapshot_and_applications
+        self.__shift_downtime_windows(first_damage_time)
 
         for _, val in enumerate(self.__q_button_press_timing):
             val[0] -= first_damage_time
@@ -792,7 +839,8 @@ class RotationBuilder:
 
         # Each downtime range is the semi-open interval [start_time, end_time). In other
         # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
-        # Windows are assumed to be non-overlapping.
+        # Windows are assumed to be non-overlapping. This must be called before doing
+        # anything at all with downtime windows.
         self.__process_downtime_windows()
 
         self._q_snapshot_and_applications = SnapshotAndApplicationEvents()

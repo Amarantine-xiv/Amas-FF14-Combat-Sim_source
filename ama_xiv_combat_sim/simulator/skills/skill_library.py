@@ -52,8 +52,8 @@ class SkillLibrary:
     def get_skill(self, skill_name, job_class):
         try:
             return self.__skills[job_class][skill_name]
-        except:
-            raise KeyError(f"Not in skill library: {job_class}/{skill_name}")
+        except KeyError as e:
+            raise KeyError(f"Not in skill library: {job_class}/{skill_name}") from e
 
     def set_current_job_class(self, job_name):
         if job_name not in self.__skills:

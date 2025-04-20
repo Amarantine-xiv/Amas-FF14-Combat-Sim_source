@@ -19,7 +19,15 @@ class TestCSVUtils(TestClass):
         self.__test_csv_filename1 = (
             "../ama_xiv_combat_sim/simulator/rotation_import_utils/test_rotation1.csv"
         )
-
+        self.__test_csv_filename_nonexistent_skill = (
+            "../ama_xiv_combat_sim/simulator/rotation_import_utils/test_rotation_nonexistent_skill.csv"
+        )
+        self.__test_csv_filename_downtime_windows = (
+            "../ama_xiv_combat_sim/simulator/rotation_import_utils/test_rotation_downtime_windows.csv"
+        )
+        self.__test_csv_filename_multitarget = (
+            "../ama_xiv_combat_sim/simulator/rotation_import_utils/test_rotation_multitarget.csv"
+        )
         self.__skill_library = create_test_skill_library()
 
         self.__stats = Stats(
@@ -99,7 +107,7 @@ class TestCSVUtils(TestClass):
         for tmp, tmp2 in zip(result, expected):
             if tmp != tmp2:
                 print('---')
-                for i in range(0, len(tmp)):
+                for i, _ in enumerate(tmp):
                     if tmp[i] != tmp2[i]:
                         print(f'{tmp[i]} vs {tmp2[i]}')
             
@@ -179,5 +187,228 @@ class TestCSVUtils(TestClass):
 
         result = rb.get_skill_timing().get_q()
         result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_csv_read_headers_nonexistentskill(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job2",
+            version="test",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            enable_autos=False,
+            fight_start_time=0,
+        )
+        rb, _ = CSVUtils.populate_rotation_from_csv(rb, self.__test_csv_filename_nonexistent_skill)
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(1650, None),
+                self.__skill_library.get_skill(
+                    "test_ogcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(3300, None),
+                self.__skill_library.get_skill(
+                    "test_off_class_conditional",
+                    "test_job",
+                ),
+                SkillModifier(with_condition="other"),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        
+        return self._compare_sequential(result, expected)
+
+
+    @TestClass.is_a_test
+    def test_csv_read_headers_downtime_windows(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job2",
+            version="test",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            enable_autos=True, #enable autos and check them
+            fight_start_time=0,
+        )
+        rb, _ = CSVUtils.populate_rotation_from_csv(rb, self.__test_csv_filename_downtime_windows)
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, 500),
+                self.__skill_library.get_skill(
+                    "Auto",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(1650, None),
+                self.__skill_library.get_skill(
+                    "test_ogcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(3300, None),
+                self.__skill_library.get_skill(
+                    "test_off_class_conditional",
+                    "test_job",
+                ),
+                SkillModifier(with_condition="other"),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(10000, 10500),
+                self.__skill_library.get_skill(
+                    "Auto",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(14500, 15000),
+                self.__skill_library.get_skill(
+                    "Auto",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(19000, 19500),
+                self.__skill_library.get_skill(
+                    "Auto",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(100100, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        
+        return self._compare_sequential(result, expected)
+    
+    @TestClass.is_a_test
+    def test_csv_reader_multitarget(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job",
+            version="test",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            enable_autos=False,
+            fight_start_time=0,
+        )
+        rb, _ = CSVUtils.populate_rotation_from_csv(rb, self.__test_csv_filename_multitarget)
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill(
+                    "test_instant_aoe_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(3000, None),
+                self.__skill_library.get_skill(
+                    "test_instant_aoe_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+                ("Boss1","Boss2","Boss3"),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(6000, None),
+                self.__skill_library.get_skill(
+                    "test_instant_aoe_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+                ("Boss1","Boss2"),
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
         
         return self._compare_sequential(result, expected)

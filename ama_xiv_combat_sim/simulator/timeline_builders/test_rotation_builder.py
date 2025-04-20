@@ -15,6 +15,7 @@ from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
     RotationBuilder,
 )
 
+
 class TestRotationBuilder(TestClass):
     def __init__(self):
         super().__init__()
@@ -578,6 +579,141 @@ class TestRotationBuilder(TestClass):
             ),
             (
                 SnapshotAndApplicationEvents.EventTimes(21000, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [result[i][1:6] for i in range(0, len(result))]
+
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_multi_target_downtime_windows_with_shift(self):
+        # intentionally have really long delay
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job",
+            version="test",
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=True,
+            downtime_windows=({"Boss1": ((8, 14.7),), "Boss2": ((18.1, 100),)}),
+            ignore_trailing_dots=True,
+        )
+        rb.add(0, "test_gcd", targets="Boss1")
+        rb.add(3, "test_magical_dot_gcd", targets="Boss1")
+        rb.add(9, "test_instant_gcd", targets="Boss2")
+        rb.add(12, "test_magical_dot_gcd", targets="Boss2")
+        rb.add(15, "test_instant_gcd", targets="Boss1")
+        rb.add(18, "test_instant_gcd", targets="Boss1")
+        rb.add(21, "test_instant_gcd", targets="Boss1")
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(-500, 0),
+                self.__skill_library.get_skill("test_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, 500),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(2500, 3000),
+                self.__skill_library.get_skill("test_magical_dot_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(2500, 3000),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(2500, 15000),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(4500, 5000),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(6500, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss2",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(11500, 12000),
+                self.__skill_library.get_skill("test_magical_dot_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss2",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(11500, 12000),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss2",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(11500, 15000),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss2",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(12200, 12700),
+                self.__skill_library.get_skill("Auto", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss2",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(12500, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(15500, None),
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(18500, None),
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
@@ -2801,7 +2937,7 @@ class TestRotationBuilder(TestClass):
             skill_modifier=SkillModifier(with_condition="mega"),
         )
         rb.add(20, "test_instant_gcd")
-        
+
         expected = (
             (
                 SnapshotAndApplicationEvents.EventTimes(0, None),
@@ -2926,7 +3062,7 @@ class TestRotationBuilder(TestClass):
         rb.add(2, "test_channeling")
         rb.add(8, "test_instant_gcd")
         rb.add(12, "test_channeling")
-        rb.add(25, "test_instant_gcd")        
+        rb.add(25, "test_instant_gcd")
         expected = (
             (
                 SnapshotAndApplicationEvents.EventTimes(0, 500),
@@ -2981,11 +3117,12 @@ class TestRotationBuilder(TestClass):
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
-            ),)
+            ),
+        )
         result = rb.get_skill_timing().get_q()
-        result = [result[i][1:5] for i in range(0, len(result))]        
+        result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
-    
+
     @TestClass.is_a_test
     def skill_timing_test_with_add_and_add_next(self):
         # For a 2500 ms gcd, this spell speed should result in a 2440 sm (2.44s) GCD.
@@ -3016,13 +3153,13 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(10000+1940, 10000+2440),
+                SnapshotAndApplicationEvents.EventTimes(10000 + 1940, 10000 + 2440),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(10000+4385, 10000+4885),
+                SnapshotAndApplicationEvents.EventTimes(10000 + 4385, 10000 + 4885),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
@@ -3032,8 +3169,7 @@ class TestRotationBuilder(TestClass):
         result = rb.get_skill_timing().get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
-    
-    
+
     @TestClass.is_a_test
     def skill_timing_test_with_add_and_add_next_and_other(self):
         # For a 2500 ms gcd, this spell speed should result in a 2440 sm (2.44s) GCD.
@@ -3071,13 +3207,13 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(10000+1940, 10000+2440),
+                SnapshotAndApplicationEvents.EventTimes(10000 + 1940, 10000 + 2440),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(10000+4385, 10000+4885),
+                SnapshotAndApplicationEvents.EventTimes(10000 + 4385, 10000 + 4885),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
@@ -3087,14 +3223,14 @@ class TestRotationBuilder(TestClass):
         result = rb.get_skill_timing().get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
-    
+
     @TestClass.is_a_test
     def test_chunk_moves(self):
         # For a 2500 ms gcd, this spell speed should result in a 2440 sm (2.44s) GCD.
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
         rb.add_next("test_gcd")
         rb.add_next("test_gcd")
-        #       
+        #
         rb.add(100.0, "test_gcd")
         rb.add_next("test_gcd")
         #
@@ -3116,31 +3252,31 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(20000+1940, 20000+2440),
+                SnapshotAndApplicationEvents.EventTimes(20000 + 1940, 20000 + 2440),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(20000+4385, 20000+4885),
+                SnapshotAndApplicationEvents.EventTimes(20000 + 4385, 20000 + 4885),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(20000+4890, None),
+                SnapshotAndApplicationEvents.EventTimes(20000 + 4890, None),
                 self.__skill_library.get_skill("test_ogcd", "test_job"),
                 SkillModifier(),
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(100000+1940, 100000+2440),
+                SnapshotAndApplicationEvents.EventTimes(100000 + 1940, 100000 + 2440),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
             ),
             (
-                SnapshotAndApplicationEvents.EventTimes(100000+4385, 100000+4885),
+                SnapshotAndApplicationEvents.EventTimes(100000 + 4385, 100000 + 4885),
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
                 [True, True],
@@ -3150,3 +3286,13 @@ class TestRotationBuilder(TestClass):
         result = rb.get_skill_timing().get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def test_non_strict_skill_naming(self):
+        rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
+        rb.set_use_strict_skill_naming(False)
+
+        rb.add_next("nonexistent skill")
+        rb.add(10, "nonexistent skill")
+
+        return True, ""
