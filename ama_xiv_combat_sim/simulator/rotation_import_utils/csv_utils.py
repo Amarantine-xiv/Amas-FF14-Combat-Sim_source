@@ -8,6 +8,7 @@ from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.stats import Stats
 
+
 class RotationCSV(
     namedtuple(
         "RotationCSV", ["t", "skill_name", "job_class", "skill_conditional", "targets"]
@@ -42,7 +43,9 @@ class CSVUtils:
                     res[field] = val.groups()[0]
                     found_metadata_processor = True
                 if not found_metadata_processor:
-                    print(f"Warning: Metadata line cannot be processed (option not recognized): {original_line}")
+                    print(
+                        f"Warning: Metadata line cannot be processed (option not recognized): {original_line}"
+                    )
 
         return res, skiprows
 
@@ -101,24 +104,26 @@ class CSVUtils:
             downtime_windows = tuple(ast.literal_eval(downtime_windows))
             rb.set_downtime_windows(downtime_windows)
         if "stats" in meta_fields:
-            stats_to_use= ast.literal_eval(meta_fields['stats'])
+            stats_to_use = ast.literal_eval(meta_fields["stats"])
             stats = Stats(
-                wd=stats_to_use.get('wd', None),
-                weapon_delay=stats_to_use.get('weapon_delay',None),
-                main_stat=stats_to_use.get('main_stat', None),
-                det_stat=stats_to_use.get('det_stat', None),
-                dh_stat=stats_to_use.get('dh_stat', None),
-                crit_stat=stats_to_use.get('crit_stat', None),                
-                speed_stat=stats_to_use.get('speed_stat', None),
-                job_class=stats_to_use.get('job_class', ""),
-                version=stats_to_use.get('version', ""),
-                tenacity=stats_to_use.get('tenacity', None),                
-                num_roles_in_party=stats_to_use.get('num_roles_in_party', 5),
-                healer_or_caster_strength=stats_to_use.get('healer_or_caster_strength', None),
-                level=stats_to_use.get('level', GameConsts.MAX_LEVEL),
+                wd=stats_to_use.get("wd", None),
+                weapon_delay=stats_to_use.get("weapon_delay", None),
+                main_stat=stats_to_use.get("main_stat", None),
+                det_stat=stats_to_use.get("det_stat", None),
+                dh_stat=stats_to_use.get("dh_stat", None),
+                crit_stat=stats_to_use.get("crit_stat", None),
+                speed_stat=stats_to_use.get("speed_stat", None),
+                job_class=stats_to_use.get("job_class", ""),
+                version=stats_to_use.get("version", ""),
+                tenacity=stats_to_use.get("tenacity", None),
+                num_roles_in_party=stats_to_use.get("num_roles_in_party", 5),
+                healer_or_caster_strength=stats_to_use.get(
+                    "healer_or_caster_strength", None
+                ),
+                level=stats_to_use.get("level", GameConsts.MAX_LEVEL),
             )
             rb.set_stats(stats)
-            
+
         return rb
 
     @staticmethod
