@@ -3,8 +3,10 @@ import pandas as pd  # i need to get rid of this...
 import re
 
 from collections import namedtuple
-from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 
+from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.stats import Stats
 
 class RotationCSV(
     namedtuple(
@@ -18,15 +20,15 @@ class CSVUtils:
 
     @staticmethod
     def read_meta_fields(f):
-        meta_fields = ["use_strict_skill_naming", "downtime_windows"]
+        meta_fields = ["use_strict_skill_naming", "downtime_windows", "stats"]
 
         res = {}
         skiprows = 0
         with open(f, "r") as file:
             for original_line in file:
-                line = original_line.lower()
+                line = original_line
                 # Check if these are our rotation columns
-                if "time" in line and "skill_name" in line:
+                if "time" in line.lower() and "skill_name" in line.lower():
                     break
                 skiprows += 1
                 line = line.replace(" ", "")
@@ -98,6 +100,25 @@ class CSVUtils:
             downtime_windows = meta_fields["downtime_windows"].replace("\\", "")
             downtime_windows = tuple(ast.literal_eval(downtime_windows))
             rb.set_downtime_windows(downtime_windows)
+        if "stats" in meta_fields:
+            stats_to_use= ast.literal_eval(meta_fields['stats'])
+            stats = Stats(
+                wd=stats_to_use.get('wd', None),
+                weapon_delay=stats_to_use.get('weapon_delay',None),
+                main_stat=stats_to_use.get('main_stat', None),
+                det_stat=stats_to_use.get('det_stat', None),
+                dh_stat=stats_to_use.get('dh_stat', None),
+                crit_stat=stats_to_use.get('crit_stat', None),                
+                speed_stat=stats_to_use.get('speed_stat', None),
+                job_class=stats_to_use.get('job_class', ""),
+                version=stats_to_use.get('version', ""),
+                tenacity=stats_to_use.get('tenacity', None),                
+                num_roles_in_party=stats_to_use.get('num_roles_in_party', 5),
+                healer_or_caster_strength=stats_to_use.get('healer_or_caster_strength', None),
+                level=stats_to_use.get('level', GameConsts.MAX_LEVEL),
+            )
+            rb.set_stats(stats)
+            
         return rb
 
     @staticmethod

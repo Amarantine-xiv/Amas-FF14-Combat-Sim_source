@@ -49,6 +49,7 @@ class GameConsts:
     __BASE_SPELL_SPEED = {90: 400, 100: 420}
 
     DAMAGE_VARIANCE = 0.05
+    MAX_LEVEL = 100
 
     @staticmethod
     def get_speed_const(version, level):

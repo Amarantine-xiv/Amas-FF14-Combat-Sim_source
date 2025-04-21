@@ -64,9 +64,7 @@ class RotationBuilder:
         self.__enable_autos = enable_autos
         self.__ignore_trailing_dots = ignore_trailing_dots
         self.__fight_start_time = fight_start_time
-        self.__status_effect_priority = skill_library.get_status_effect_priority(
-            stats.job_class
-        )
+        self.__status_effect_priority = None
         self.__timestamps_and_main_target = []
         assert isinstance(
             default_target, str
@@ -123,6 +121,11 @@ class RotationBuilder:
         res = copy.deepcopy(self.__q_button_press_timing)
         res.sort(key=lambda x: x[0])
         return res
+
+    def set_stats(self, stats):
+        if self.__stats is not None:
+            print(f'Overwriting stats in RotationBuilder object with: {stats}')
+        self.__stats = stats
 
     def set_downtime_windows(self, downtime_windows):
         self.__original_downtime_windows = RotationBuilder.__init_downtime_windows(
@@ -836,6 +839,9 @@ class RotationBuilder:
     # SnapshotAndApplicationEvents's documentation for what the data format is.
     # This function takes up a lot of time for some reason.
     def get_skill_timing(self):
+        self.__status_effect_priority = self._skill_library.get_status_effect_priority(
+            self.__stats.job_class
+        )
 
         # Each downtime range is the semi-open interval [start_time, end_time). In other
         # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
