@@ -7,7 +7,7 @@ class SimConsts:
     COMBO_SUCCESS = ""
     COMBO_FAIL = "No Combo"
     DEFAULT_TARGET = "Default Target"
-    LB_MEAN_DAMAGE = "Mean Damage:"
-    LB_EXACT_DAMAGE = "Exact Damage:"
+    LB_MEAN_DAMAGE = "Mean Damage"
+    LB_EXACT_DAMAGE = "Exact Damage"
     WAIT_PREFIX= "Wait"
   

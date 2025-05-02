@@ -14,15 +14,16 @@ class KillTimeEstimator():
 
   @staticmethod
   def get_lb_damage(condition, num_samples):
-    res_mean = re.search(r"^{} (\d+)".format(SimConsts.LB_MEAN_DAMAGE), condition)
-    res_exact = re.search(r"^{} (\d+)".format(SimConsts.LB_EXACT_DAMAGE), condition)
+    condition = condition.replace(": ", ":")
+    res_mean = re.search(r"^{}:(\d+)".format(SimConsts.LB_MEAN_DAMAGE), condition)
+    res_exact = re.search(r"^{}:(\d+)".format(SimConsts.LB_EXACT_DAMAGE), condition)
 
     if res_mean is None and res_exact is None:
-      raise RuntimeError('LB conditional must be "Mean Damage: number", or "Exact Damage: number". Instead, got: {}'.format(condition))
+      raise RuntimeError(f'LB conditional must be "Mean Damage: number", or "Exact Damage: number". Instead, got: {condition}')
 
     if res_mean is not None:
       damage = float(res_mean.groups()[0])
-      return np.asarray(np.floor(damage*(0.95+0.1*np.random.rand(1,num_samples))))
+      return np.asarray(np.floor(damage*(0.995+0.1*np.random.rand(1,num_samples))))
 
     if res_exact is not None:
       damage = float(res_exact.groups()[0])

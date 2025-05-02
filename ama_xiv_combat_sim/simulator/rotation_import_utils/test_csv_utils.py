@@ -34,7 +34,9 @@ class TestCSVUtils(TestClass):
         self.__test_csv_filename_enable_autos = (
             "../ama_xiv_combat_sim/simulator/rotation_import_utils/test_rotation_enable_autos.csv"
         )
-        
+        self.__test_csv_filename_lb = (
+            "../ama_xiv_combat_sim/simulator/rotation_import_utils/test_rotation_lb.csv"
+        )
         self.__skill_library = create_test_skill_library()
 
         self.__stats = Stats(
@@ -561,6 +563,55 @@ class TestCSVUtils(TestClass):
                     self.__stats.job_class,
                 ),
                 SkillModifier(),
+                [True, True],
+            ),
+        )
+
+        result = rb.get_skill_timing().get_q()
+        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        
+        return self._compare_sequential(result, expected)
+    
+    @TestClass.is_a_test
+    def test_csv_lb(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=4.5,
+            main_stat=2945,
+            det_stat=1620,
+            crit_stat=2377,
+            dh_stat=1048,
+            speed_stat=400,
+            job_class="test_job2",
+            version="test",
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            enable_autos=False,
+            fight_start_time=0,
+        )
+        rb, _ = CSVUtils.populate_rotation_from_csv(rb, self.__test_csv_filename_lb)
+
+        expected = (
+            (
+                SnapshotAndApplicationEvents.EventTimes(0, None),
+                self.__skill_library.get_skill(
+                    "test_instant_gcd",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
+                [True, True],
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(5650, 7850),
+                self.__skill_library.get_skill(
+                    "LB 3",
+                    self.__stats.job_class,
+                ),
+                SkillModifier("Mean Damage: 10000"),
                 [True, True],
             ),
         )
