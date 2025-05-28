@@ -13,6 +13,7 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.smn_data import 
     all_smn_skills,
 )
 
+
 class SmnSkills(GenericJobClass):
 
     def __init__(self, version, level):
@@ -165,7 +166,7 @@ class SmnSkills(GenericJobClass):
                 application_delay=800,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -217,7 +218,7 @@ class SmnSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True,
-                aoe_dropoff=0.6,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=False,
@@ -233,7 +234,7 @@ class SmnSkills(GenericJobClass):
             is_GCD=False,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(self.__get_akh_morn_for_follow_up(),),
-            has_aoe=True
+            has_aoe=True,
         )
 
     @GenericJobClass.is_a_skill
@@ -354,7 +355,7 @@ class SmnSkills(GenericJobClass):
                 },
                 timing_spec=self.__smn_instant_timing_spec,
                 has_aoe=True,
-                aoe_dropoff=0.6,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=0,
@@ -599,7 +600,7 @@ class SmnSkills(GenericJobClass):
             is_GCD=True,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(earthen_fury_follow_up,),
-            has_aoe=True
+            has_aoe=True,
         )
 
     @GenericJobClass.is_a_skill
@@ -924,7 +925,7 @@ class SmnSkills(GenericJobClass):
                 application_delay=800,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     def __get_exodus_follow_up(self):
@@ -945,7 +946,7 @@ class SmnSkills(GenericJobClass):
                 },
                 timing_spec=self.__smn_instant_timing_spec,
                 has_aoe=True,
-                aoe_dropoff=0.6,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=False,

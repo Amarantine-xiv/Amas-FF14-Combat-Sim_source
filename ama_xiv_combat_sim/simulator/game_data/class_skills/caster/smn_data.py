@@ -15,7 +15,16 @@ ALL_DATA = {
     },
     "Astral Impulse": {90: {"potency": {"6.55": 440}}, 100: {"potency": {"7.0": 500}}},
     "Astral Flare": {90: {"potency": {"6.55": 180}}, 100: {"potency": {"7.0": 180}}},
-    "Deathflare": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 500}}},
+    "Deathflare": {
+        90: {
+            "potency": {"6.55": 500},
+            "aoe_dropoff": {"6.55": 0.6, "7.25": 0.5},
+        },
+        100: {
+            "potency": {"7.0": 500},
+            "aoe_dropoff": {"7.0": 0.6, "7.25": 0.5},
+        },
+    },
     "Ruin IV": {90: {"potency": {"6.55": 430}}, 100: {"potency": {"7.0": 490}}},
     "Searing Light": {
         90: {
@@ -25,8 +34,14 @@ ALL_DATA = {
         100: {"damage_mult": {"6.55": 1.05}, "duration": {"6.55": 20 * 1000}},
     },
     "Akh Morn (pet)": {
-        90: {"potency": {"6.55": 1300}},
-        100: {"potency": {"7.0": 1300}},
+        90: {
+            "potency": {"6.55": 1300},
+            "aoe_dropoff": {"6.55": 0.6, "7.25": 0.5},
+        },
+        100: {
+            "potency": {"7.0": 1300},
+            "aoe_dropoff": {"7.0": 0.6, "7.25": 0.5},
+        },
     },
     "Ruby Rite": {90: {"potency": {"6.55": 510}}, 100: {"potency": {"7.0": 540}}},
     "Topaz Rite": {90: {"potency": {"6.55": 330}}, 100: {"potency": {"7.0": 340}}},
@@ -41,8 +56,8 @@ ALL_DATA = {
         100: {"potency": {"7.0": 240}},
     },
     "Revelation (pet)": {
-        90: {"potency": {"6.55": 1300}},
-        100: {"potency": {"7.0": 1300}},
+        90: {"potency": {"6.55": 1300}, "aoe_dropoff": {"6.55": 0.6, "7.25": 0.5}},
+        100: {"potency": {"7.0": 1300}, "aoe_dropoff": {"7.0": 0.6, "7.25": 0.5}},
     },
     "Ruby Catastrophe": {
         90: {"potency": {"6.55": 210}},
@@ -83,8 +98,18 @@ ALL_DATA = {
     "Luxwave": {100: {"potency": {"7.0": 160}}},
     "Umbral Impulse": {100: {"potency": {"7.0": 600, "7.05": 620}}},
     "Umbral Flare": {100: {"potency": {"7.0": 280}}},
-    "Sunflare": {100: {"potency": {"7.0": 600, "7.05": 700, "7.1": 800}}},
-    "Exodus (pet)": {100: {"potency": {"7.0": 1400, "7.2": 1500}}},
+    "Sunflare": {
+        100: {
+            "potency": {"7.0": 600, "7.05": 700, "7.1": 800},
+            "aoe_dropoff": {"7.0": 0.6, "7.25": 0.5},
+        }
+    },
+    "Exodus (pet)": {
+        100: {
+            "potency": {"7.0": 1400, "7.2": 1500},
+            "aoe_dropoff": {"7.0": 0.6, "7.25": 0.5},
+        }
+    },
 }
 
 for k, v in ALL_DATA.items():
