@@ -550,12 +550,11 @@ class RotationBuilder:
         )  # this represents the next time we could possibly use any skill button
 
         for maybe_curr_t, skill, skill_modifier, job_class, targets in q:
-            if maybe_curr_t:
+            if maybe_curr_t is not None:
                 curr_t = maybe_curr_t
             else:
                 if skill.is_GCD:
                     curr_t = max(curr_t, next_gcd_time)
-
             self.__q_button_press_timing.append(
                 [
                     curr_t,
