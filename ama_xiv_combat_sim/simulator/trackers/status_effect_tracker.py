@@ -20,12 +20,12 @@ class StatusEffectTracker:
         se_skill_names = list(status_effects.keys())
         for se_skill_name in se_skill_names:
             (_, end_time, num_uses, _) = status_effects[se_skill_name]
-            if t > end_time or num_uses == 0:
+            if (t >= end_time) or num_uses == 0:
                 del status_effects[se_skill_name]
 
     def expire_status_effects(self, t):
         self.__expire_status_effects(t, self.buffs)
-        for target in self.debuffs:            
+        for target in self.debuffs:
             self.__expire_status_effects(t, self.__get_debuffs(target))
 
     @staticmethod
@@ -135,6 +135,9 @@ class StatusEffectTracker:
             (start_time, end_time, num_uses, spec) = status_effects[
                 status_effect_skill_name
             ]
+            # this is needed because some times the start time of a buff is recorded,
+            # but we have not reached its start time yet when processing
+            # the timeline.
             if curr_t < start_time:
                 continue
             if status_effect_skill_name in status_effect_denylist:
@@ -150,7 +153,7 @@ class StatusEffectTracker:
     def __delete_lower_priority_status_effects(self, valid_status_effects):
         valid_status_effects = list(valid_status_effects)
 
-        for i in range(0, len(self.__status_effects_priority)):
+        for i, _ in enumerate(range(len(self.__status_effects_priority))):
             status_effect = self.__status_effects_priority[i]
             if status_effect in valid_status_effects:
                 for j in range(i + 1, len(self.__status_effects_priority)):
@@ -175,6 +178,10 @@ class StatusEffectTracker:
         haste_time_mult = 1.0
         flat_cast_time_reduction = 0
         flat_gcd_recast_time_reduction = 0
+        damage_reduction_generic = 0
+        damage_reduction_phys = 0
+        damage_reduction_magic = 0
+
         guaranteed_crit = ForcedCritOrDH.DEFAULT
         guaranteed_dh = ForcedCritOrDH.DEFAULT
         skill_modifier_conditions = []
@@ -205,6 +212,16 @@ class StatusEffectTracker:
             haste_time_mult *= 1 - spec.haste_time_reduction
             flat_cast_time_reduction += spec.flat_cast_time_reduction
             flat_gcd_recast_time_reduction += spec.flat_gcd_recast_time_reduction
+            damage_reduction_generic = 1 - (1 - damage_reduction_generic) * (
+                1 - spec.damage_reduction
+            )
+            damage_reduction_phys = 1 - (1 - damage_reduction_phys) * (
+                1 - spec.damage_reduction_phys
+            )
+            damage_reduction_magic = 1 - (1 - damage_reduction_magic) * (
+                1 - spec.damage_reduction_magic
+            )
+
             if spec.guaranteed_crit is not ForcedCritOrDH.DEFAULT:
                 assert (
                     guaranteed_crit is ForcedCritOrDH.DEFAULT
@@ -223,13 +240,16 @@ class StatusEffectTracker:
         status_effects = StatusEffects(
             crit_rate_add=crit_rate_add,
             dh_rate_add=dh_rate_add,
-            damage_mult=damage_mult,            
+            damage_mult=damage_mult,
             main_stat_add=main_stat_add,
             main_stat_mult=main_stat_mult,
             auto_attack_delay_mult=auto_attack_delay_mult,
             haste_time_mult=haste_time_mult,
             flat_cast_time_reduction=flat_cast_time_reduction,
             flat_gcd_recast_time_reduction=flat_gcd_recast_time_reduction,
+            damage_reduction_generic=damage_reduction_generic,
+            damage_reduction_phys=damage_reduction_phys,
+            damage_reduction_magic=damage_reduction_magic,
             guaranteed_crit=guaranteed_crit,
             guaranteed_dh=guaranteed_dh,
             status_effects=tuple(valid_and_prioritized_status_effects),

@@ -555,6 +555,7 @@ class RotationBuilder:
             else:
                 if skill.is_GCD:
                     curr_t = max(curr_t, next_gcd_time)
+
             self.__q_button_press_timing.append(
                 [
                     curr_t,

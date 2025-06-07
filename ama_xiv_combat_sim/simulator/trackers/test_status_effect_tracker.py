@@ -35,7 +35,7 @@ class TestStatusEffectTracker(TestClass):
         test1 = Skill(name="test1")
         test2 = Skill(name="test2")
 
-        se.add_to_status_effects(0, buff1, SkillModifier())
+        se.add_to_status_effects(1000, buff1, SkillModifier())
 
         skills_to_use = [test1, test2, test1, test1]
         expected = (
@@ -48,8 +48,8 @@ class TestStatusEffectTracker(TestClass):
         for i in range(0, len(skills_to_use)):
             se.expire_status_effects(t=0)
             result = (
-                se.compile_buffs(t=0, skill=skills_to_use[i]),
-                se.compile_debuffs(t=0, skill=skills_to_use[i]),
+                se.compile_buffs(t=1000, skill=skills_to_use[i]),
+                se.compile_debuffs(t=1000, skill=skills_to_use[i]),
             )
             if result != expected[i]:
                 test_passed = False
@@ -560,16 +560,124 @@ class TestStatusEffectTracker(TestClass):
             0,
             self.__skill_library.get_skill("test_simple_debuff_gcd", "test_job"),
             SkillModifier(),
-            ("t1",)
+            ("t1",),
         )
         se.add_to_status_effects(
             1,
             self.__skill_library.get_skill("test_simple_debuff_gcd_2", "test_job"),
             SkillModifier(),
-            ("t2",)
+            ("t2",),
         )
         result = (se.compile_buffs(101), se.compile_debuffs(101, target="t1"))
         expected = ((StatusEffects(), ""), (StatusEffects(damage_mult=1.2), ""))
+
+        if result != expected:
+            test_passed = False
+            err_msg = "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
+                expected, result
+            )
+        return test_passed, err_msg
+
+    @TestClass.is_a_test
+    def test_damage_reduction_generic(self):
+        test_passed = True
+        err_msg = ""
+        se = StatusEffectTracker()
+        se.add_to_status_effects(
+            0,
+            self.__skill_library.get_skill("test_damage_mit_generic_buff", "test_job"),
+            SkillModifier(),
+        )
+        result = (se.compile_buffs(30), se.compile_debuffs(30))
+        expected = (
+            (StatusEffects(damage_reduction_generic=0.1), ""),
+            (StatusEffects(), ""),
+        )
+
+        if result != expected:
+            test_passed = False
+            err_msg = f"Expected and actual status effects do not match.\nExpected{expected}.\nActual:{result}"
+        return test_passed, err_msg
+
+    @TestClass.is_a_test
+    def test_damage_reduction_split(self):
+        test_passed = True
+        err_msg = ""
+        se = StatusEffectTracker()
+        se.add_to_status_effects(
+            0,
+            self.__skill_library.get_skill("test_damage_mit_split_buff", "test_job"),
+            SkillModifier(),
+        )
+        result = (se.compile_buffs(30), se.compile_debuffs(30))
+        expected = (
+            (StatusEffects(damage_reduction_phys=0.1, damage_reduction_magic=0.05), ""),
+            (StatusEffects(), ""),
+        )
+
+        if result != expected:
+            test_passed = False
+            err_msg = f"Expected and actual status effects do not match.\nExpected{expected}.\nActual:{result}"
+        return test_passed, err_msg
+
+    @TestClass.is_a_test
+    def test_damage_reduction_joint(self):
+        test_passed = True
+        err_msg = ""
+        se = StatusEffectTracker()
+        se.add_to_status_effects(
+            0,
+            self.__skill_library.get_skill("test_damage_mit_generic_buff", "test_job"),
+            SkillModifier(),
+        )
+        se.add_to_status_effects(
+            10,
+            self.__skill_library.get_skill("test_damage_mit_split_buff", "test_job"),
+            SkillModifier(),
+        )
+        result = (se.compile_buffs(30), se.compile_debuffs(30))
+        expected = (
+            (
+                StatusEffects(
+                    damage_reduction_generic=0.1,
+                    damage_reduction_phys=0.1,
+                    damage_reduction_magic=0.05,
+                ),
+                "",
+            ),
+            (StatusEffects(), ""),
+        )
+
+        if result != expected:
+            test_passed = False
+            err_msg = f"Expected and actual status effects do not match.\nExpected{expected}.\nActual:{result}"
+        return test_passed, err_msg
+
+
+    @TestClass.is_a_test
+    def buff_falloff(self):
+        test_passed = True
+        err_msg = ""
+        se = StatusEffectTracker()
+        se.add_to_status_effects(
+            100,
+            self.__skill_library.get_skill("test_simple_buff_gcd", "test_job"),
+            SkillModifier(),
+        )
+        se.add_to_status_effects(
+            25000,
+            self.__skill_library.get_skill("test_simple_buff_gcd_2", "test_job"),
+            SkillModifier(),
+        )
+
+        t= 30100 #test_simple_buff_gcd should've just expired
+        se.expire_status_effects(t)
+        
+        result = (se.compile_buffs(t), se.compile_debuffs(t))
+        expected = (
+            (StatusEffects(crit_rate_add=0.06, dh_rate_add=0.2), ""),
+            (StatusEffects(), ""),
+        )
 
         if result != expected:
             test_passed = False

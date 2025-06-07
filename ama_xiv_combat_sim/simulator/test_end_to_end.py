@@ -199,3 +199,22 @@ class TestEndToEnd(TestClass):
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time, use_samples=True
         )
+
+
+    @TestClass.is_a_test
+    def test_buff_on_apply_snapshot(self):
+        rb = RotationBuilder(self.__stats, self.__skill_library, enable_autos=False)
+        rb.add(0, "test_instant_gcd_no_lock")
+        rb.add(10, "test_ogcd_megabuff_app_delay")
+        rb.add(10.61, "test_instant_gcd_no_lock")
+        rb.add(10.62, "test_instant_gcd_no_lock")
+        rb.add(10.63, "test_instant_gcd_no_lock")
+        
+        expected = (
+            ("test_instant_gcd_no_lock", 21484),
+            ("test_instant_gcd_no_lock", 21484),
+            ("test_instant_gcd_no_lock", 225581),
+            ("test_instant_gcd_no_lock", 225582),
+        )
+
+        return self.__job_class_tester.test_rotation_damage(rb, expected)

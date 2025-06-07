@@ -36,6 +36,11 @@ class StatusEffectSpec:
     )
     is_party_effect: bool = False
     clear_all_status_effects: bool = False
+    damage_reduction: float = None
+    # assume only 2 types.
+    damage_reduction_phys: float = None
+    damage_reduction_magic: float = None
+    has_damage_reduction: bool = False
 
     def __post_init__(self):
         if self.max_duration is None:
@@ -57,20 +62,54 @@ class StatusEffectSpec:
         ), "expires_status_effects should be a tuple. Did you accidentally make it a string?"
         assert (
             isinstance(self.skill_allowlist, tuple) or self.skill_allowlist == None
-        ), "skill_allowlist should be a tuple. Did you accidentally make it a string? {}".format(
-            self.skill_allowlist
-        )
+        ), f"skill_allowlist should be a tuple. Did you accidentally make it a string? {self.skill_allowlist}"
+
+        if self.damage_reduction is not None and (
+            self.damage_reduction_phys is not None
+            or self.damage_reduction_magic is not None
+        ):
+            raise AssertionError(
+                "Cannot specify both 'damage_reduction' and 'damage_reduction_phys' and/or 'damage_reduction_magic. Either specify damage_reduction to apply to both types, or each of _phys and _magic variants."
+            )
+
+        if (
+            self.damage_reduction_phys is not None
+            and self.damage_reduction_magic is None
+        ) or (
+            self.damage_reduction_phys is None
+            and self.damage_reduction_magic is not None
+        ):
+            raise AssertionError(
+                "Need to specify both damage_reduction_phys and damage_reduction_magic if one of them is specified."
+            )
+
+        if (
+            self.damage_reduction is not None
+            or self.damage_reduction_phys is not None
+            or self.damage_reduction_magic is not None
+        ):
+            object.__setattr__(self, "has_damage_reduction", True)
+
+        if self.damage_reduction is None:
+            object.__setattr__(self, "damage_reduction", 0.0)
+
+        if self.damage_reduction_phys is None:
+            object.__setattr__(self, "damage_reduction_phys", 0.0)
+
+        if self.damage_reduction_magic is None:
+            object.__setattr__(self, "damage_reduction_magic", 0.0)
 
     def __str__(self):
-        res = "   duration:{}\n".format(self.duration)
-        res += "   max_duration: {}\n".format(self.max_duration)
-        res += "   crit_rate_add: {}\n".format(self.crit_rate_add)
-        res += "   dh_rate_add: {}\n".format(self.dh_rate_add)
-        res += "   damage_mult: {}\n".format(self.damage_mult)
-        res += "   main_stat_add: {}".format(self.main_stat_add)
-        res += "   auto_attack_delay_reduction: {}".format(
-            self.auto_attack_delay_reduction
-        )
-        res += "   haste_time_reduction: {}".format(self.haste_time_reduction)
-        res += "   flat_cast_time_reduction: {}".format(self.flat_cast_time_reduction)
+        res = f"   duration:{self.duration}\n"
+        res += f"   max_duration: {self.max_duration}\n"
+        res += f"   crit_rate_add: {self.crit_rate_add}\n"
+        res += f"   dh_rate_add: {self.dh_rate_add}\n"
+        res += f"   damage_mult: {self.damage_mult}\n"
+        res += f"   main_stat_add: {self.main_stat_add}\n"
+        res += f"   auto_attack_delay_reduction: {self.auto_attack_delay_reduction}\n"
+        res += f"   haste_time_reduction: {self.haste_time_reduction}\n"
+        res += f"   flat_cast_time_reduction: {self.flat_cast_time_reduction}\n"
+        res += f"   damage_reduction: {self.damage_reduction}\n"
+        res += f"   damage_reduction_phys: {self.damage_reduction_phys}\n"
+        res += f"   damage_reduction_magic: {self.damage_reduction_magic}"
         return res

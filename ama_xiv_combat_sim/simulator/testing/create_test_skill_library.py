@@ -27,6 +27,7 @@ def create_test_skill_library():
     gcd_2500_app_delay = TimingSpec(base_cast_time=2500, application_delay=600)
     ogcd_instant = TimingSpec(base_cast_time=0, animation_lock=0)
     ogcd_instant_animation_lock = TimingSpec(base_cast_time=0, animation_lock=35)
+    ogcd_instant_app_delay_long = TimingSpec(base_cast_time=0, application_delay=620)
     gcd_1500_const_cast = TimingSpec(
         base_cast_time=1500,
         animation_lock=5,
@@ -167,6 +168,14 @@ def create_test_skill_library():
     num_uses_channeling_spec = ChannelingSpec(duration=10000,
                                               num_uses=3,
                                               skill_allowlist=(("test_gcd"),))
+
+    # Mit-related StatusEffectSpecs
+    damage_mit_generic = StatusEffectSpec(duration=30000,
+                                          damage_reduction=0.1)
+    damage_mit_split = StatusEffectSpec(duration=30000,
+                                        damage_reduction_phys=0.1,
+                                        damage_reduction_magic=0.05)
+    
 
     # Skill creation
     test_gcd = Skill(
@@ -849,6 +858,12 @@ def create_test_skill_library():
         },
         off_class_default_condition="other",
     )
+    test_ogcd_megabuff_app_delay = Skill(name="test_ogcd_megabuff_app_delay",
+                                    is_GCD=False,
+                                    timing_spec=ogcd_instant_app_delay_long,
+                                    buff_spec=mega_buff)
+    
+    
 
     skill_library.set_current_job_class("test_job")
     skill_library.add_resource(
@@ -870,6 +885,14 @@ def create_test_skill_library():
         timing_spec=ogcd_instant,
         channeling_spec=num_uses_channeling_spec,
     )
+    test_damage_mit_generic_buff = Skill(name = "test_damage_mit_generic_buff",
+                                         is_GCD=False,
+                                         timing_spec=ogcd_instant,
+                                         buff_spec=damage_mit_generic)
+    test_damage_mit_split_buff = Skill(name = "test_damage_mit_split_buff",
+                                          is_GCD=False,
+                                          timing_spec=ogcd_instant,
+                                          buff_spec=damage_mit_split)
 
     skill_library.add_skill(test_gcd)
     skill_library.add_skill(test_ogcd)
@@ -951,6 +974,10 @@ def create_test_skill_library():
     skill_library.add_skill(test_follow_up_for_multi_target_main_primary_only)
     skill_library.add_skill(test_channeling)
     skill_library.add_skill(test_channeling_num_uses)
+    skill_library.add_skill(test_damage_mit_generic_buff)
+    skill_library.add_skill(test_damage_mit_split_buff)
+    skill_library.add_skill(test_ogcd_megabuff_app_delay) 
+    
     skill_library.set_status_effect_priority(
         ("test_num_uses_buff_with_priority1", "test_num_uses_buff_with_priority2")
     )

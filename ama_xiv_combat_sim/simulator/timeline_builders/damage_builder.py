@@ -142,6 +142,12 @@ class DamageBuilder:
                     Utils.transform_time_to_prio(event_times.secondary)
                     + priority_modifier
                 )
+                
+                # make sure we process new applications before other events applied on same timestamp.
+                # -10 is a hack to deal with followup skills to make sure this applies before
+                # instant-skill follow ups. Superhack. Can probably get rid of with
+                # bisect_right on a sorted list (which the original q is, basically)
+                new_priority -= 10
 
                 job_conditional_was_processed = False
                 if not job_conditional_processed and skill.job_resources_snapshot:

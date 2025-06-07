@@ -132,3 +132,38 @@ class TestJobsUnified72(TestClass):
 
         return self.__job_class_tester.test_rotation_damage(rb, expected)
     
+    @TestClass.is_a_test
+    def test_gnb_fight_or_flight_app_same_timestamp(self):
+        stats = Stats(
+            wd=126,
+            weapon_delay=2.80,
+            main_stat=2891,
+            det_stat=1844,
+            crit_stat=2377,
+            dh_stat=1012,
+            speed_stat=400,
+            tenacity=751,
+            job_class="GNB",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        
+        rb.add(0, "Hypervelocity")
+        rb.add(123.87, "No Mercy")
+        rb.add(124.49, "Hypervelocity")
+        
+        expected = (
+            ("Hypervelocity", 5098),
+            ("Hypervelocity", 6117),
+        )
+
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+    
+    
