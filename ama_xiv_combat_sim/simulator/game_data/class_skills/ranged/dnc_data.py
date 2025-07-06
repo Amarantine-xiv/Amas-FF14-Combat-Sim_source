@@ -61,8 +61,14 @@ ALL_DATA = {
     },
     "Fan Dance II": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Fan Dance III": {
-        90: {"potency": {"6.55": 200}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},},
-        100: {"potency": {"7.0": 200, "7.1": 220}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},},
+        90: {
+            "potency": {"6.55": 200},
+            "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},
+        },
+        100: {
+            "potency": {"7.0": 200, "7.1": 220},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},
+        },
     },
     "Technical Finish": {
         90: {
@@ -83,21 +89,42 @@ ALL_DATA = {
         },
     },
     "Saber Dance": {
-        90: {"potency": {"6.55": 480, "7.0": 500}},
-        100: {"potency": {"7.0": 520}},
+        90: {
+            "potency": {"6.55": 480, "7.0": 500},
+            "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},
+        },
+        100: {"potency": {"7.0": 520}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}},
     },
     "Tillana": {
-        90: {"potency": {"6.55": 360, "7.0": 600}},
-        100: {"potency": {"7.0": 600}},
+        90: {
+            "potency": {"6.55": 360, "7.0": 600},
+            "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},
+        },
+        100: {"potency": {"7.0": 600}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}},
     },
-    "Finishing Move": {100: {"potency": {"7.0": 850}}},
+    "Finishing Move": {
+        100: {"potency": {"7.0": 850}, "aoe_dropoff": {"7.0": 0.75, "7.2": 0.6}}
+    },
     "Fan Dance IV": {
-        90: {"potency": {"6.55": 300}},
-        100: {"potency": {"7.0": 300, "7.05": 420}},
+        90: {"potency": {"6.55": 300}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6}},
+        100: {
+            "potency": {"7.0": 300, "7.05": 420},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},
+        },
     },
-    "Starfall Dance": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
-    "Last Dance": {100: {"potency": {"7.0": 520}}},
-    "Dance of the Dawn": {100: {"potency": {"7.0": 1000}}},
+    "Starfall Dance": {
+        90: {
+            "potency": {"6.55": 600},
+            "aoe_dropoff": {"6.55": 0.75},
+        },
+        100: {"potency": {"7.0": 600}, "aoe_dropoff": {"7.0": 0.75}},
+    },
+    "Last Dance": {
+        100: {"potency": {"7.0": 520}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}}
+    },
+    "Dance of the Dawn": {
+        100: {"potency": {"7.0": 1000}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}}
+    },
 }
 
 for k, v in ALL_DATA.items():
