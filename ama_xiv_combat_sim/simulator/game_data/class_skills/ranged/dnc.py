@@ -688,26 +688,18 @@ class DncSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def tillana(self):
         name = "Tillana"
-        tillana_damage_follow_up = FollowUp(
-            skill=Skill(
-                name=name,
-                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-                has_aoe=True,
-                aoe_dropoff=0.5
-            ),
-            delay_after_parent_application=840,
-            primary_target_only=False,
-        )
         return Skill(
             name=name,
             is_GCD=True,
-            has_aoe=True,            
+            has_aoe=True,
+            aoe_dropoff=0.5,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
                 affected_by_speed_stat=False,
+                application_delay=840
             ),
-            follow_up_skills=(tillana_damage_follow_up,),
         )
 
     @GenericJobClass.is_a_skill
