@@ -880,7 +880,7 @@ class SamSkills(GenericJobClass):
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=3,
-                duration=int(15.1 * 1000),
+                duration=int(self._skill_data.get_skill_data(name, "duration")),
                 skill_allowlist=(
                     "Hakaze",
                     "Jinpu",

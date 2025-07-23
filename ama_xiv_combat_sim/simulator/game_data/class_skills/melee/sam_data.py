@@ -157,6 +157,14 @@ ALL_DATA = {
             "gcd_base_recast_time": {"7.0": 3200, "7.01": 2500},
         }
     },
+    "Meikyo Shisui": {
+        90: {
+            "duration": {"6.55": 15.1*1000, "7.0": 20.1*1000}
+        },
+        100: {
+            "duration": {"7.0": 20.1*1000}
+        }
+    }
 }
 
 for k, v in ALL_DATA.items():
