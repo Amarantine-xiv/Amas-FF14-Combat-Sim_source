@@ -718,7 +718,9 @@ class DncSkills(GenericJobClass):
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
-                gcd_base_recast_time=1500,
+                gcd_base_recast_time=self._skill_data.get_skill_data(
+                    name, "gcd_base_recast_time"
+                ),
                 affected_by_speed_stat=False,
                 application_delay=840,
             ),

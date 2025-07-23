@@ -545,8 +545,8 @@ class TestJobsUnified701(TestClass):
         rb.add_next("Saber Dance")
         rb.add_next("Reverse Cascade")
         rb.add_next("Saber Dance")
-        expected_damage = 530208
-        expected_total_time = 27410
+        expected_damage = 524166
+        expected_total_time = 28410
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time
         )
