@@ -54,7 +54,7 @@ class RotationBuilder:
             snap_dots_to_server_tick_starting_at
         )
         self._skill_library = skill_library
-
+        self.set_fight_start_time(fight_start_time)
         self._q_others = []  # (time, skill, skill_modifier, job_class)
         self._q_self = []  # (time, skill, skill_modifier, job_class)
 
@@ -63,7 +63,7 @@ class RotationBuilder:
         self._q_snapshot_and_applications = SnapshotAndApplicationEvents()
         self.__enable_autos = enable_autos
         self.__ignore_trailing_dots = ignore_trailing_dots
-        self.__fight_start_time = fight_start_time
+        
         self.__status_effect_priority = None
         self.__timestamps_and_main_target = []
         assert isinstance(
@@ -121,6 +121,13 @@ class RotationBuilder:
         res = copy.deepcopy(self.__q_button_press_timing)
         res.sort(key=lambda x: x[0])
         return res
+
+    def set_fight_start_time(self, fight_start_time):
+        if fight_start_time is None:
+            self.__fight_start_time = None
+        else:
+            # convert to ms        
+            self.__fight_start_time = 1000*fight_start_time
 
     def set_stats(self, stats):
         if self.__stats is not None:
@@ -739,14 +746,20 @@ class RotationBuilder:
 
     def shift_timelines_for_first_damage_instance(self):
         res = SnapshotAndApplicationEvents()
-        first_damage_time = self._q_snapshot_and_applications.get_first_damage_time()
         
-        if first_damage_time is None:
+        if self.__fight_start_time is None:
+            shift_time = self._q_snapshot_and_applications.get_first_damage_time()
+            if shift_time is None:
+                return self._q_snapshot_and_applications
+        else:
+            shift_time = self.__fight_start_time
+        
+        if shift_time is None:
             return self._q_snapshot_and_applications
-        self.__shift_downtime_windows(first_damage_time)
+        self.__shift_downtime_windows(shift_time)
 
         for _, val in enumerate(self.__q_button_press_timing):
-            val[0] -= first_damage_time
+            val[0] -= shift_time
 
         while not self._q_snapshot_and_applications.is_empty():
             [
@@ -764,10 +777,10 @@ class RotationBuilder:
             primary_time = event_times.primary
             secondary_time = event_times.secondary
             if primary_time is not None:
-                primary_time -= first_damage_time
-                priority -= Utils.transform_time_to_prio(first_damage_time)
+                primary_time -= shift_time
+                priority -= Utils.transform_time_to_prio(shift_time)
             if secondary_time is not None:
-                secondary_time -= first_damage_time
+                secondary_time -= shift_time
             res.add(
                 priority,
                 primary_time,
@@ -841,8 +854,7 @@ class RotationBuilder:
     def get_skill_timing(self):
         self.__status_effect_priority = self._skill_library.get_status_effect_priority(
             self.__stats.job_class
-        )
-
+        )        
         # Each downtime range is the semi-open interval [start_time, end_time). In other
         # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
         # Windows are assumed to be non-overlapping. This must be called before doing
@@ -862,10 +874,9 @@ class RotationBuilder:
         self.__process_all_dots(last_event_time)
         if self.__enable_autos:
             self.__add_autos(last_event_time)
-        if self.__fight_start_time is None:
-            self._q_snapshot_and_applications = (
+        self._q_snapshot_and_applications = (
                 self.shift_timelines_for_first_damage_instance()
-            )
+        )
         self._q_snapshot_and_applications = self.remove_damage_during_downtime()
 
         self.__q_button_press_timing.sort(key=lambda x: x[0])

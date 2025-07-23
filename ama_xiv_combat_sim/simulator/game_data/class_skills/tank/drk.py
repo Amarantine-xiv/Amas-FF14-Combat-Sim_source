@@ -329,14 +329,14 @@ class DrkSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def living_shadow(self):
         name = "Living Shadow"
-        if self._version >= "7.0":
+        if self._level >= 100:
             ls_names_and_potency_and_delays = [
                 (
                     "Abyssal Drain (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800,
                     False,
-                    None
+                    None,
                 ),
                 (
                     "Shadowbringer (pet)",
@@ -345,21 +345,21 @@ class DrkSkills(GenericJobClass):
                     ),
                     6800 + 2 * 2200,
                     True,
-                    self._skill_data.get_skill_data("Shadowbringer", "aoe_dropoff")
+                    self._skill_data.get_skill_data("Shadowbringer", "aoe_dropoff"),
                 ),
                 (
                     "Edge of Shadow (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800 + 3 * 2200,
                     False,
-                    None
+                    None,
                 ),
                 (
                     "Bloodspiller (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800 + 4 * 2200,
                     False,
-                    None
+                    None,
                 ),
                 (
                     "Disesteem (pet)",
@@ -368,56 +368,97 @@ class DrkSkills(GenericJobClass):
                     ),
                     6800 + 5 * 2200,
                     True,
-                    self._skill_data.get_skill_data("Disesteem", "aoe_dropoff")
+                    self._skill_data.get_skill_data("Disesteem", "aoe_dropoff"),
                 ),
             ]
         else:
-            ls_names_and_potency_and_delays = [
-                (
-                    "Abyssal Drain (pet)",
-                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
-                    6800,
-                    False,
-                    None
-                ),
-                (
-                    "Plunge (pet)",
-                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
-                    6800 + 2200,
-                    False,
-                    None
-                ),
-                (
-                    "Shadowbringer (pet)",
-                    self._skill_data.get_skill_data(
-                        "Living Shadow", "potency_shadowbringer"
+            if self._version >= "7.0":
+                ls_names_and_potency_and_delays = [
+                    (
+                        "Abyssal Drain (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800,
+                        False,
+                        None,
                     ),
-                    6800 + 2 * 2200,
-                    True,
-                    self._skill_data.get_skill_data("Shadowbringer", "aoe_dropoff")
-                ),
-                (
-                    "Edge of Shadow (pet)",
-                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
-                    6800 + 3 * 2200,
-                    False,
-                    None
-                ),
-                (
-                    "Bloodspiller (pet)",
-                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
-                    6800 + 4 * 2200,
-                    False,
-                    None
-                ),
-                (
-                    "Carve and Spit (pet)",
-                    self._skill_data.get_skill_data("Living Shadow", "potency_base"),
-                    6800 + 5 * 2200,
-                    False,
-                    None
-                ),
-            ]
+                    (
+                        "Shadowbringer (pet)",
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_shadowbringer"
+                        ),
+                        6800 + 2 * 2200,
+                        True,
+                        self._skill_data.get_skill_data("Shadowbringer", "aoe_dropoff"),
+                    ),
+                    (
+                        "Edge of Shadow (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800 + 3 * 2200,
+                        False,
+                        None,
+                    ),
+                    (
+                        "Bloodspiller (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800 + 4 * 2200,
+                        False,
+                        None,
+                    ),
+                    (
+                        "Carve and Spit (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800 + 5 * 2200,
+                        False,
+                        None,
+                    ),
+                ]
+            else:
+                ls_names_and_potency_and_delays = [
+                    (
+                        "Abyssal Drain (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800,
+                        False,
+                        None,
+                    ),
+                    (
+                        "Plunge (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800 + 2200,
+                        False,
+                        None,
+                    ),
+                    (
+                        "Shadowbringer (pet)",
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_shadowbringer"
+                        ),
+                        6800 + 2 * 2200,
+                        True,
+                        self._skill_data.get_skill_data("Shadowbringer", "aoe_dropoff"),
+                    ),
+                    (
+                        "Edge of Shadow (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800 + 3 * 2200,
+                        False,
+                        None,
+                    ),
+                    (
+                        "Bloodspiller (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800 + 4 * 2200,
+                        False,
+                        None,
+                    ),
+                    (
+                        "Carve and Spit (pet)",
+                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        6800 + 5 * 2200,
+                        False,
+                        None,
+                    ),
+                ]
 
         _living_shadow_follow_ups = []
         for (
@@ -425,7 +466,7 @@ class DrkSkills(GenericJobClass):
             potency,
             delay,
             has_aoe,
-            aoe_dropoff
+            aoe_dropoff,
         ) in ls_names_and_potency_and_delays:
             fu = FollowUp(
                 skill=Skill(
@@ -438,12 +479,12 @@ class DrkSkills(GenericJobClass):
                     ),
                     status_effect_denylist=("Darkside", "Dragon Sight"),
                     has_aoe=has_aoe,
-                    aoe_dropoff=aoe_dropoff
+                    aoe_dropoff=aoe_dropoff,
                 ),
                 delay_after_parent_application=delay,
                 snapshot_buffs_with_parent=False,
                 snapshot_debuffs_with_parent=False,
-                primary_target_only=not has_aoe
+                primary_target_only=not has_aoe,
             )
             _living_shadow_follow_ups.append(fu)
         _living_shadow_follow_ups = tuple(_living_shadow_follow_ups)

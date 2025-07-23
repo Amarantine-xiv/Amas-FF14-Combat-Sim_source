@@ -21,7 +21,7 @@ class CSVUtils:
 
     @staticmethod
     def read_meta_fields(f):
-        meta_fields = ["use_strict_skill_naming", "downtime_windows", "stats", "enable_autos"]
+        meta_fields = ["use_strict_skill_naming", "downtime_windows", "stats", "enable_autos", "fight_start_time"]
 
         res = {}
         skiprows = 0
@@ -89,6 +89,8 @@ class CSVUtils:
     @staticmethod
     def __def_process_metafields(rb, meta_fields):
         # process metafields
+        if "fight_start_time" in meta_fields:            
+            rb.set_fight_start_time(float(meta_fields["fight_start_time"]))
         if "enable_autos" in meta_fields:
             if meta_fields["enable_autos"] in ["True", "true"]:
                 enable_autos = True
