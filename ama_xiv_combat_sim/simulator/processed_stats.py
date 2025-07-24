@@ -48,5 +48,5 @@ class ProcessedStats:
         res += f"Job mod: {self.job_mod}\n"
         res += f"Trait damage mult: {self.trait_damage_mult}\n"
         res += f"Trait haste time reduction: {self.trait_haste_time_reduction}\n"
-        res += "Trait auto attack delay reduction: {self.trait_auto_attack_delay_reduction}\n"
+        res += f"Trait auto attack delay reduction: {self.trait_auto_attack_delay_reduction}\n"
         return res

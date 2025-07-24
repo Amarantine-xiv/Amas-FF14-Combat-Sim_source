@@ -102,7 +102,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=840,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(
                 (raptor_fury_follow_up,)
@@ -203,7 +202,6 @@ class MnkSkills(GenericJobClass):
                 application_delay=self._skill_data.get_skill_data(
                     name, "primary_application_delay"
                 ),
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(
                 (
@@ -267,7 +265,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=1290,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=dragon_follow_up,
         )
@@ -394,7 +391,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=1110,
-                gcd_base_recast_time=2000,
             ),
         )
 
@@ -422,7 +418,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=800,
-                gcd_base_recast_time=2000,
             ),
         )
 
@@ -486,7 +481,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=760,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_opo_opo_form_follow_up(),),
         )
@@ -502,7 +496,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=940,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_opo_opo_form_follow_up(),),
             has_aoe=True,
@@ -519,7 +512,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=970,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(
                 tuple()
@@ -552,7 +544,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=1070,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
@@ -570,7 +561,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=890,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
         )
@@ -693,7 +683,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=400,
-                gcd_base_recast_time=2000,
             ),
             has_aoe=True,
         )
@@ -709,7 +698,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=760,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
@@ -727,7 +715,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=400,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
@@ -779,7 +766,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=620,
-                gcd_base_recast_time=2000,
             ),
         )
 
@@ -803,7 +789,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=890,
-                gcd_base_recast_time=2000,
             ),
         )
 
@@ -847,7 +832,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=1020,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_opo_opo_form_follow_up(),),
         )
@@ -865,7 +849,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=1420,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
@@ -885,7 +868,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=1200,
-                gcd_base_recast_time=2000,
             ),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
@@ -904,7 +886,6 @@ class MnkSkills(GenericJobClass):
                 base_cast_time=0,
                 animation_lock=650,
                 application_delay=1420,
-                gcd_base_recast_time=2000,
             ),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
             has_aoe=True,
@@ -932,7 +913,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
-            timing_spec=TimingSpec(base_cast_time=0, gcd_base_recast_time=2000),
+            timing_spec=TimingSpec(base_cast_time=0),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
         )
 

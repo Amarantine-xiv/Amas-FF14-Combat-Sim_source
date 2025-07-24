@@ -1166,8 +1166,8 @@ class TestJobsUnified655(TestClass):
         rb.add_next("Demolish")
         rb.add_next("Rising Phoenix")
 
-        expected_damage = 368724
-        expected_total_time = 18970
+        expected_damage = 391443
+        expected_total_time = 22770
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time
         )
