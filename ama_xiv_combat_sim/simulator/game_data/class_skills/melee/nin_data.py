@@ -104,7 +104,7 @@ ALL_DATA = {
     },
     "Death Blossom": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Hakke Mujinsatsu": {
-        90: {"potency": {"6.55": 130}, "potency_no_combo": {"6.55": 100}},
+        90: {"potency": {"6.55": 130, "7.2": 120}, "potency_no_combo": {"6.55": 100}},
         100: {"potency": {"7.0": 130, "7.2": 120}, "potency_no_combo": {"7.0": 100}},
     },
     "Armor Crush": {

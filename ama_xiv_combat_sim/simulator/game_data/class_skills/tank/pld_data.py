@@ -11,13 +11,13 @@ ALL_DATA = {
         100: {"potency": {"7.0": 330}, "potency_no_combo": {"7.0": 170}},
     },
     "Total Eclipse": {
-        90: {"potency": {"6.55": 100}},
+        90: {"potency": {"6.55": 100, "7.2": 120}},
         100: {"potency": {"7.0": 100, "7.2": 120}},
     },
     "Shield Bash": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Shield Lob": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Prominence": {
-        90: {"potency": {"6.55": 170}, "potency_no_combo": {"6.55": 100}},
+        90: {"potency": {"6.55": 170, "7.2": 220}, "potency_no_combo": {"6.55": 100}},
         100: {"potency": {"7.0": 170, "7.2": 220}, "potency_no_combo": {"7.0": 100}},
     },
     "Circle of Scorn (dot)": {
@@ -54,9 +54,9 @@ ALL_DATA = {
     "Holy Circle": {
         90: {
             "potency": {"6.55": 100},
-            "potency_divine_might": {"6.55": 200},
-            "potency_req": {"6.55": 300},
-            "potency_divine_might_req": {"6.55": 200},
+            "potency_divine_might": {"6.55": 200, "7.2": 250},
+            "potency_req": {"6.55": 300, "7.2": 350},
+            "potency_divine_might_req": {"6.55": 200, "7.2": 250},
         },
         100: {
             "potency": {"7.0": 100},

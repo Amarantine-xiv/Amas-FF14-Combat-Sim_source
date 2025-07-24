@@ -106,11 +106,11 @@ ALL_DATA = {
     },
     "Hissatsu: Yaten": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Hissatsu: Kyuten": {
-        90: {"potency": {"6.55": 120}},
+        90: {"potency": {"6.55": 120, "7.2": 100}},
         100: {"potency": {"7.0": 120, "7.2": 100}},
     },
     "Hissatsu: Guren": {
-        90: {"potency": {"6.55": 500}},
+        90: {"potency": {"6.55": 500, "7.2": 400}},
         100: {"potency": {"7.0": 500, "7.2": 400}},
     },
     "Hissatsu: Senei": {

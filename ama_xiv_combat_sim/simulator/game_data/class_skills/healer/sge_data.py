@@ -20,7 +20,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 360, "7.1": 370}},
     },
     "Eukrasian Dosis III (dot)": {
-        90: {"potency": {"6.55": 75}, "potency_dysk": {"7.0": 40}},
+        90: {"potency": {"6.55": 75, "7.2": 80}, "potency_dysk": {"7.0": 40}},
         100: {"potency": {"7.0": 75, "7.2": 80}, "potency_dysk": {"7.0": 40}},
     },
     "Psyche": {100: {"potency": {"7.0": 600}}},

@@ -14,7 +14,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 280}, "potency_no_combo": {"7.0": 120}},
     },
     "Windmill": {
-        90: {"potency": {"6.55": 100}},
+        90: {"potency": {"6.55": 100, "7.2": 120}},
         100: {"potency": {"7.0": 100, "7.2": 120}},
     },
     "Standard Finish": {
@@ -36,7 +36,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 280}},
     },
     "Bladeshower": {
-        90: {"potency": {"6.55": 140}, "potency_no_combo": {"6.55": 100}},
+        90: {"potency": {"6.55": 140, "7.2": 160}, "potency_no_combo": {"6.55": 100}},
         100: {"potency": {"7.0": 140, "7.2": 160}, "potency_no_combo": {"7.0": 100}},
     },
     "Devilment": {
@@ -48,7 +48,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 150, "7.1": 180}},
     },
     "Rising Windmill": {
-        90: {"potency": {"6.55": 140}},
+        90: {"potency": {"6.55": 140, "7.2": 160}},
         100: {"potency": {"7.0": 140, "7.2": 160}},
     },
     "Fountainfall": {
@@ -56,7 +56,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 340}},
     },
     "Bloodshower": {
-        90: {"potency": {"6.55": 180}},
+        90: {"potency": {"6.55": 180, "7.2": 200}},
         100: {"potency": {"7.0": 180, "7.2": 200}},
     },
     "Fan Dance II": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},

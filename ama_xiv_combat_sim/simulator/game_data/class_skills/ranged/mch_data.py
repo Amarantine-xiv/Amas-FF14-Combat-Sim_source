@@ -42,7 +42,7 @@ ALL_DATA = {
     "Bioblaster": {90: {"potency": {"6.55": 50}}, 100: {"potency": {"7.0": 50}}},
     "Air Anchor": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
     "Scattergun": {
-        90: {"potency": {"6.55": 150}},
+        90: {"potency": {"6.55": 150, "7.2": 130}},
         100: {"potency": {"7.0": 160, "7.2": 130}},
     },
     "Chain Saw": {

@@ -2,10 +2,6 @@ import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-from ama_xiv_combat_sim.simulator.game_data.convenience_timings import (
-    get_auto_timing,
-    get_instant_timing_spec,
-)
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill

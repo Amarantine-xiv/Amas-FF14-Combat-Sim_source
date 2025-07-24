@@ -547,7 +547,9 @@ class BlmSkills(GenericJobClass):
             base_potency=self._skill_data.get_potency(name), is_fire_spell=True
         )
         fire_iii_timing_spec = self.__get_enochian_timing_spec_cross(
-            base_cast_time=3500, is_fire_spell=True, application_delay=1290
+            base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
+            is_fire_spell=True,
+            application_delay=1290,
         )
         fire_iii_keys = tuple(fire_iii_damage_spec.keys())
         for k in fire_iii_keys:
@@ -589,7 +591,9 @@ class BlmSkills(GenericJobClass):
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
             timing_spec=self.__get_enochian_timing_spec_cross(
-                base_cast_time=3500, is_fire_spell=False, application_delay=840
+                base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
+                is_fire_spell=False,
+                application_delay=840,
             ),
             buff_spec=StatusEffectSpec(expires_status_effects=("Enhanced",)),
             job_resource_spec=(
