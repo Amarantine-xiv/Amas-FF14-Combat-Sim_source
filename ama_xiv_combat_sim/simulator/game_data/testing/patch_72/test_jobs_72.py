@@ -166,4 +166,69 @@ class TestJobsUnified72(TestClass):
 
         return self.__job_class_tester.test_rotation_damage(rb, expected)
     
-    
+    @TestClass.is_a_test
+    def test_nin_hollow_nozuchi(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.56,
+            main_stat=3360,
+            det_stat=1697,
+            crit_stat=2554,
+            dh_stat=1582,
+            speed_stat=400,
+            job_class="NIN",
+            version=self.__version,
+            level=self.__level,
+        )
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+        
+        #rapid fire because i dont want to minimize dealing with doton dots
+        rb.add(0, "Doton")
+        rb.add(1, "Katon")
+        rb.add(2, "Goka Mekkyaku")
+        rb.add(3, "Phantom Kamaitachi")
+        rb.add(5, "Death Blossom")
+        rb.add(6, "Hakke Mujinsatsu")
+        rb.add(7, "Hakke Mujinsatsu")
+        
+        #after doton
+        rb.add(101, "Katon")
+        rb.add(102, "Goka Mekkyaku")
+        rb.add(103, "Phantom Kamaitachi")
+        rb.add(105, "Death Blossom")
+        rb.add(106, "Hakke Mujinsatsu")
+        rb.add(107, "Hakke Mujinsatsu")
+        
+        expected = (            
+            ("Katon", 13880),
+            ("Hollow Nozuchi", 1979),
+            ("Goka Mekkyaku", 23799),
+            ("Doton (dot)", 3167),
+            ("Hollow Nozuchi", 1979),
+            ("Phantom Kamaitachi (pet)", 21765),            
+            ("Death Blossom", 3966),            
+            ("Doton (dot)", 3167),
+            ("Hollow Nozuchi", 1979),
+            ("Hakke Mujinsatsu", 4757),
+            ("Hollow Nozuchi", 1979),
+            ("Hakke Mujinsatsu", 3966),
+            ("Doton (dot)", 3167),
+            ("Doton (dot)", 3167),
+            ("Doton (dot)", 3167),
+            ("Doton (dot)", 3167),
+            # after doton, so no dotons or hollow nozuchis
+            ("Katon", 13880),
+            ("Goka Mekkyaku", 23799),
+            ("Phantom Kamaitachi (pet)", 21765),            
+            ("Death Blossom", 3966),      
+            ("Hakke Mujinsatsu", 4757),
+            ("Hakke Mujinsatsu", 3966)
+            
+        )
+        
+        return self.__job_class_tester.test_rotation_damage(rb, expected)

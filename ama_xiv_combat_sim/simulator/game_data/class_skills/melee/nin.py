@@ -99,6 +99,18 @@ class NinSkills(GenericJobClass):
         )
         return (name, job_resource_settings)
 
+    def __get_hollow_nozuchi_follow_up(self):
+        name = "Hollow Nozuchi"
+        res = FollowUp(
+            skill=Skill(
+                name=name,
+                is_GCD=False,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=0,
+        )
+        return res
+
     def __get_huton_follow_up_huton(self):
         if self._version >= "7.0":
             return None
@@ -208,16 +220,18 @@ class NinSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def doton(self):
         name = "Doton (dot)"
+        # make follow-up so we can control snapshotting of debuffs as a ground dot
         doton_follow_up = FollowUp(
             skill=Skill(
                 name=name,
                 is_GCD=False,
                 damage_spec=DamageSpec(
-                    potency=80, damage_class=DamageClass.PHYSICAL_DOT
+                    potency=self._skill_data.get_potency(name),
+                    damage_class=DamageClass.PHYSICAL_DOT,
                 ),
             ),
             delay_after_parent_application=0,
-            dot_duration=18 * 1000,
+            dot_duration=self._skill_data.get_skill_data(name, "duration"),
             snapshot_buffs_with_parent=True,
             snapshot_debuffs_with_parent=False,
         )
@@ -225,6 +239,10 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            buff_spec=StatusEffectSpec(
+                add_to_skill_modifier_condition=True,
+                duration=self._skill_data.get_skill_data("Doton (dot)", "duration"),
+            ),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,
@@ -246,30 +264,16 @@ class NinSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def hollow_nozuchi(self):
-        doton_hollow_nozuchi_follow_up = FollowUp(
-            skill=Skill(
-                name="Doton hollow nozuchi (dot)",
-                is_GCD=False,
-                damage_spec=DamageSpec(
-                    potency=50, damage_class=DamageClass.PHYSICAL_DOT
-                ),
-            ),
-            delay_after_parent_application=0,
-            dot_duration=18 * 1000,
-            snapshot_buffs_with_parent=True,
-            snapshot_debuffs_with_parent=False,
-        )
-
         # TODO: fix. gcds only will proc it, like bunshin. Ty An.
         # hollow nozuchi procs every time an aoe gcd is used while doton is down
         name = "Hollow Nozuchi"
         return Skill(
             name=name,
-            is_GCD=True,
+            is_GCD=False,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=270
+                base_cast_time=0, animation_lock=0, application_delay=0
             ),
-            follow_up_skills=(doton_hollow_nozuchi_follow_up,),
         )
 
     @GenericJobClass.is_a_skill
@@ -623,6 +627,7 @@ class NinSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def hakke_mujinsatsu(self):
+        hollow_nozuchi_follow_up = self.__get_hollow_nozuchi_follow_up()
         name = "Hakke Mujinsatsu"
         hakke_follow_up = FollowUp(
             skill=Skill(
@@ -674,6 +679,35 @@ class NinSkills(GenericJobClass):
                 "Bunshin, No Combo": (
                     self.__all_bunshin_follow_ups["Hakke Mujinsatsu"],
                     hakke_no_combo_follow_up,
+                ),
+                "Doton": (
+                    (hakke_follow_up, hollow_nozuchi_follow_up)
+                    if self._version >= "7.0"
+                    else (
+                        huton_follow_up_hakke,
+                        hakke_follow_up,
+                        hollow_nozuchi_follow_up,
+                    )
+                ),
+                "Doton, No Combo": (hakke_no_combo_follow_up, hollow_nozuchi_follow_up),
+                "Doton, Bunshin": (
+                    (
+                        self.__all_bunshin_follow_ups["Hakke Mujinsatsu"],
+                        hakke_follow_up,
+                        hollow_nozuchi_follow_up,
+                    )
+                    if self._version >= "7.0"
+                    else (
+                        huton_follow_up_hakke,
+                        self.__all_bunshin_follow_ups["Hakke Mujinsatsu"],
+                        hakke_follow_up,
+                        hollow_nozuchi_follow_up,
+                    )
+                ),
+                "Bunshin, Doton, No Combo": (
+                    self.__all_bunshin_follow_ups["Hakke Mujinsatsu"],
+                    hakke_no_combo_follow_up,
+                    hollow_nozuchi_follow_up,
                 ),
             },
             has_aoe=True,
@@ -887,6 +921,8 @@ class NinSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def phantom_kamaitachi(self):
         name = "Phantom Kamaitachi (pet)"
+
+        hollow_nozuchi_follow_up = self.__get_hollow_nozuchi_follow_up()
         phantom_follow_up_damage = FollowUp(
             skill=Skill(
                 name=name,
@@ -898,7 +934,7 @@ class NinSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True,
-                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             delay_after_parent_application=1560,
             snapshot_buffs_with_parent=True,
@@ -911,7 +947,10 @@ class NinSkills(GenericJobClass):
             is_GCD=True,
             timing_spec=TimingSpec(base_cast_time=0),
             status_effect_denylist=("Dragon Sight",),
-            follow_up_skills=(phantom_follow_up_damage,),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (phantom_follow_up_damage,),
+                "Doton": (phantom_follow_up_damage, hollow_nozuchi_follow_up),
+            },
         )
 
     @GenericJobClass.is_a_skill
@@ -974,6 +1013,8 @@ class NinSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def katon(self):
         name = "Katon"
+
+        hollow_nozuchi_follow_up = self.__get_hollow_nozuchi_follow_up()
         return Skill(
             name=name,
             is_GCD=True,
@@ -993,6 +1034,10 @@ class NinSkills(GenericJobClass):
                     affected_by_speed_stat=False,
                     affected_by_haste_buffs=False,
                 ),
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (),
+                "Doton": (hollow_nozuchi_follow_up,),
             },
         )
 
@@ -1105,6 +1150,8 @@ class NinSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def goka_mekkyaku(self):
         name = "Goka Mekkyaku"
+
+        hollow_nozuchi_follow_up = self.__get_hollow_nozuchi_follow_up()
         return Skill(
             name=name,
             is_GCD=True,
@@ -1116,6 +1163,10 @@ class NinSkills(GenericJobClass):
                 affected_by_speed_stat=False,
                 affected_by_haste_buffs=False,
             ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (),
+                "Doton": (hollow_nozuchi_follow_up,),
+            },
         )
 
     @GenericJobClass.is_a_skill

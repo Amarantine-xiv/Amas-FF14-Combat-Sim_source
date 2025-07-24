@@ -61,8 +61,11 @@ ALL_DATA = {
         90: {"potency": {"6.55": 150, "7.1": 180}},
         100: {"potency": {"7.0": 150, "7.1": 180}},
     },
-    "Doton (dot)": {90: {"potency": {"6.55": 80}}, 100: {"potency": {"7.0": 80}}},
-    "Doton hollow nozuchi (dot)": {
+    "Doton (dot)": {
+        90: {"potency": {"6.55": 80}, "duration": {"6.55": 18 * 1000}},
+        100: {"potency": {"7.0": 80}, "duration": {"7.0": 18 * 1000}},
+    },
+    "Hollow Nozuchi": {
         90: {"potency": {"6.55": 50, "7.25": 70}},
         100: {"potency": {"7.0": 50, "7.25": 70}},
     },
