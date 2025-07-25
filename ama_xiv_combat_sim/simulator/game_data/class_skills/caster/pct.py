@@ -3,6 +3,7 @@ import math
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -52,7 +53,6 @@ class PctSkills(GenericJobClass):
         job_resource_settings = JobResourceSettings(
             max_value=5, skill_allowlist=self.__aetherhue_skills
         )
-
         return (name, job_resource_settings)
 
     def __get_rainbow_bright_follow_up(self):
@@ -77,6 +77,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -89,6 +90,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
@@ -108,6 +110,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
@@ -127,6 +130,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
@@ -146,6 +150,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
@@ -166,6 +171,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -182,6 +188,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -198,6 +205,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -214,6 +222,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
@@ -234,6 +243,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
@@ -254,6 +264,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
@@ -274,6 +285,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
@@ -295,6 +307,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
@@ -315,6 +328,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
@@ -335,6 +349,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
@@ -355,6 +370,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
@@ -376,6 +392,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2300,
@@ -410,6 +427,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -442,6 +460,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -463,6 +482,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
@@ -483,6 +503,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
@@ -503,6 +524,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -527,6 +549,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
@@ -554,6 +577,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -572,6 +596,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -590,6 +615,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -608,6 +634,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -632,6 +659,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name="Swiftcast",
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__pct_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
@@ -670,6 +698,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -683,6 +712,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -696,6 +726,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
@@ -710,6 +741,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -723,6 +755,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
@@ -737,6 +770,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
@@ -751,6 +785,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
@@ -765,6 +800,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -778,6 +814,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
@@ -792,6 +829,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -805,6 +843,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -818,6 +857,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
@@ -832,6 +872,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -845,6 +886,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
@@ -859,6 +901,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
@@ -874,6 +917,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
@@ -890,6 +934,7 @@ class PctSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,

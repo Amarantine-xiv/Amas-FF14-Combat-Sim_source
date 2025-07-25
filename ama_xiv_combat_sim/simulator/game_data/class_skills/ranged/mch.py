@@ -3,6 +3,7 @@ import math
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -188,6 +189,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.shot_timing_spec,
             damage_spec=DamageSpec(
                 potency=80, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -200,6 +202,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
@@ -212,6 +215,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -243,7 +247,6 @@ class MchSkills(GenericJobClass):
         name = "Wildfire (dot)"
         wildfire_skill = Skill(
             name=name,
-            is_GCD=False,
             job_resources_snapshot=False,
             damage_spec=self.__get_wildfire_damage_spec(),
             job_resource_spec=(JobResourceSpec(name="GCD", change=-math.inf),),
@@ -258,6 +261,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
@@ -274,6 +278,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=self.__get_wildfire_damage_spec(),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
@@ -287,6 +292,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -305,6 +311,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -338,6 +345,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -371,6 +379,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -403,6 +412,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -454,6 +464,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -510,6 +521,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -541,7 +553,6 @@ class MchSkills(GenericJobClass):
         name = "Bioblaster (dot)"
         bioblaster_dot = Skill(
             name=name,
-            is_GCD=False,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 damage_class=DamageClass.PHYSICAL_DOT,
@@ -560,6 +571,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -613,6 +625,8 @@ class MchSkills(GenericJobClass):
         name = "Flamethrower"
         return Skill(
             name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=flamethrower_timing_specs_dict,
             follow_up_skills=flamethrower_follow_up_dict,
         )
@@ -623,6 +637,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -708,6 +723,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             follow_up_skills=queen_follow_ups,
             job_resource_spec=(JobResourceSpec(name="Battery", change=-math.inf),),
@@ -719,6 +735,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -742,6 +759,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -769,6 +787,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
@@ -797,6 +816,7 @@ class MchSkills(GenericJobClass):
         overheated_buff = Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=5,
@@ -819,6 +839,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             follow_up_skills=(
                 FollowUp(skill=overheated_buff, delay_after_parent_application=0),
@@ -833,6 +854,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -853,6 +875,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -873,6 +896,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -902,6 +926,7 @@ class MchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name),
@@ -924,17 +949,26 @@ class MchSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def tactician(self):
         return Skill(
-            name="Tactician", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Tactician",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def dismantle(self):
         return Skill(
-            name="Dismantle", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Dismantle",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def barrel_stabilizer(self):
         return Skill(
-            name="Barrel Stabilizer", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Barrel Stabilizer",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )

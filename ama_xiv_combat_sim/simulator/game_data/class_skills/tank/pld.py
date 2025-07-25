@@ -1,5 +1,6 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
@@ -55,7 +56,6 @@ class PldSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name="Divine Might",
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -73,6 +73,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -85,6 +86,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -98,6 +100,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(duration=20000, damage_mult=1.25),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -110,6 +113,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -130,6 +134,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -144,6 +149,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=446
@@ -156,6 +162,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=889
@@ -186,6 +193,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Total Eclipse",)),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
@@ -205,7 +213,6 @@ class PldSkills(GenericJobClass):
         name = "Circle of Scorn (dot)"
         circle_of_scorn_dot_pld = Skill(
             name=name,
-            is_GCD=False,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 damage_class=DamageClass.PHYSICAL_DOT,
@@ -216,6 +223,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1023
             ),
@@ -238,6 +246,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=534
@@ -250,6 +259,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -274,6 +284,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_skill_data(name, "potency")
@@ -329,6 +340,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
@@ -351,7 +363,7 @@ class PldSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True,
-                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             delay_after_parent_application=1290,
             primary_target_only=False,
@@ -359,6 +371,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
@@ -374,6 +387,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             has_aoe=True,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -427,6 +441,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=578
@@ -439,6 +454,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1293
@@ -453,6 +469,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1160
@@ -467,6 +484,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1290
@@ -479,6 +497,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(combo_group=1),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -501,6 +520,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -519,6 +539,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Confiteor",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -532,7 +553,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=666
             ),
             has_aoe=True,
-            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -541,6 +562,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Blade of Faith",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -554,7 +576,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
             has_aoe=True,
-            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -563,6 +585,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Blade of Truth",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -576,7 +599,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
             has_aoe=True,
-            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -587,6 +610,7 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -596,7 +620,7 @@ class PldSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1160
             ),
             has_aoe=True,
-            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff")
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     # These skills do not damage, but grants resources/affects future skills.
@@ -609,30 +633,52 @@ class PldSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             channeling_spec=ChannelingSpec(duration=18000),
         )
 
     @GenericJobClass.is_a_skill
     def rampart(self):
-        return Skill(name="Rampart", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Rampart",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def provoke(self):
-        return Skill(name="Provoke", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Provoke",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def reprisal(self):
         return Skill(
-            name="Reprisal", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Reprisal",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def arms_length(self):
         return Skill(
-            name="Arm's Length", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Arm's Length",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def shirk(self):
-        return Skill(name="Shirk", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Shirk",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )

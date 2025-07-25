@@ -850,7 +850,6 @@ class RotationBuilder:
 
     # Result: a heap encapsualted by SnapshotAndApplicationEvents. See
     # SnapshotAndApplicationEvents's documentation for what the data format is.
-    # This function takes up a lot of time for some reason.
     def get_skill_timing(self):
         self.__status_effect_priority = self._skill_library.get_status_effect_priority(
             self.__stats.job_class

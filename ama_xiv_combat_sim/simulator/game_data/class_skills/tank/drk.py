@@ -1,5 +1,6 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -33,6 +34,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -45,6 +47,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -58,6 +61,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Hard Slash",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -78,6 +82,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -92,6 +97,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=978
@@ -104,6 +110,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Syphon Strike",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -133,6 +140,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=624
             ),
@@ -153,6 +161,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(combo_actions=("Unleash",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -182,6 +191,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
@@ -198,7 +208,6 @@ class DrkSkills(GenericJobClass):
         name = "Salted Earth (dot)"
         salted_earth_dot_drk = Skill(
             name=name,
-            is_GCD=False,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 # It is believed that salted earth is a MAGICAL dot (unaspected damage)
@@ -211,6 +220,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=757
             ),
@@ -232,6 +242,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -252,6 +263,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=624
@@ -264,6 +276,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=978
@@ -277,6 +290,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1473
@@ -289,6 +303,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=802
@@ -301,6 +316,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=757
@@ -314,6 +330,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -376,7 +393,9 @@ class DrkSkills(GenericJobClass):
                 ls_names_and_potency_and_delays = [
                     (
                         "Abyssal Drain (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800,
                         False,
                         None,
@@ -392,21 +411,27 @@ class DrkSkills(GenericJobClass):
                     ),
                     (
                         "Edge of Shadow (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800 + 3 * 2200,
                         False,
                         None,
                     ),
                     (
                         "Bloodspiller (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800 + 4 * 2200,
                         False,
                         None,
                     ),
                     (
                         "Carve and Spit (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800 + 5 * 2200,
                         False,
                         None,
@@ -416,14 +441,18 @@ class DrkSkills(GenericJobClass):
                 ls_names_and_potency_and_delays = [
                     (
                         "Abyssal Drain (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800,
                         False,
                         None,
                     ),
                     (
                         "Plunge (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800 + 2200,
                         False,
                         None,
@@ -439,21 +468,27 @@ class DrkSkills(GenericJobClass):
                     ),
                     (
                         "Edge of Shadow (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800 + 3 * 2200,
                         False,
                         None,
                     ),
                     (
                         "Bloodspiller (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800 + 4 * 2200,
                         False,
                         None,
                     ),
                     (
                         "Carve and Spit (pet)",
-                        self._skill_data.get_skill_data("Living Shadow", "potency_base"),
+                        self._skill_data.get_skill_data(
+                            "Living Shadow", "potency_base"
+                        ),
                         6800 + 5 * 2200,
                         False,
                         None,
@@ -471,7 +506,6 @@ class DrkSkills(GenericJobClass):
             fu = FollowUp(
                 skill=Skill(
                     name=skill_name,
-                    is_GCD=False,
                     damage_spec=DamageSpec(
                         potency=potency,
                         damage_class=DamageClass.PET,
@@ -492,6 +526,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             follow_up_skills=_living_shadow_follow_ups,
             timing_spec=self.instant_timing_spec,
             status_effect_denylist=("Darkside", "Dragon Sight"),
@@ -506,6 +541,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=581
@@ -521,6 +557,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
@@ -536,6 +573,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -551,6 +589,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=980
@@ -567,6 +606,7 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -585,44 +625,74 @@ class DrkSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def rampart(self):
-        return Skill(name="Rampart", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Rampart",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def provoke(self):
-        return Skill(name="Provoke", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Provoke",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def reprisal(self):
         return Skill(
-            name="Reprisal", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Reprisal",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def arms_length(self):
         return Skill(
-            name="Arm's Length", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Arm's Length",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def shirk(self):
-        return Skill(name="Shirk", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Shirk",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def delirium(self):
         return Skill(
-            name="Delirium", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Delirium",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def blood_weapon(self):
         return Skill(
-            name="Blood Weapon", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Blood Weapon",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def shadowstride(self):
         return Skill(
-            name="Shadowstride", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Shadowstride",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
@@ -630,11 +700,15 @@ class DrkSkills(GenericJobClass):
         return Skill(
             name="The Blackest Night",
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def oblation(self):
         return Skill(
-            name="Oblation", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Oblation",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )

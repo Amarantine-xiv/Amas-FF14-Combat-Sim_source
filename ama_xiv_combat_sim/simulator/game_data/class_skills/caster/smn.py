@@ -2,6 +2,7 @@ import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -31,6 +32,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -45,6 +47,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -59,6 +62,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -73,6 +77,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -88,6 +93,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -103,6 +109,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -126,6 +133,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -140,6 +148,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -155,6 +164,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -175,6 +185,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -195,6 +206,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(
                 damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
                 duration=self._skill_data.get_skill_data(name, "duration"),
@@ -208,7 +220,6 @@ class SmnSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
                         potency=self._skill_data.get_potency(name),
@@ -232,6 +243,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(self.__get_akh_morn_for_follow_up(),),
             has_aoe=True,
@@ -243,6 +255,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(self.__get_akh_morn_for_follow_up(),),
         )
@@ -253,6 +266,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2800,
@@ -268,6 +282,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -284,6 +299,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -301,6 +317,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1500,
@@ -315,6 +332,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -329,6 +347,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -343,7 +362,6 @@ class SmnSkills(GenericJobClass):
         return FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -369,6 +387,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(self.__get_revelation_follow_up(),),
         )
@@ -379,6 +398,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(self.__get_revelation_follow_up(),),
         )
@@ -389,6 +409,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2800,
@@ -405,6 +426,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -422,6 +444,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -440,6 +463,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -460,6 +484,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -480,6 +505,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -500,7 +526,6 @@ class SmnSkills(GenericJobClass):
         slipstream_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency(name),
                     damage_class=DamageClass.MAGICAL_DOT,
@@ -518,6 +543,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -541,7 +567,6 @@ class SmnSkills(GenericJobClass):
         inferno_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=True,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -564,6 +589,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(inferno_follow_up,),
         )
@@ -575,7 +601,6 @@ class SmnSkills(GenericJobClass):
         earthen_fury_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=True,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -598,6 +623,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(earthen_fury_follow_up,),
             has_aoe=True,
@@ -610,7 +636,6 @@ class SmnSkills(GenericJobClass):
         aerial_blast_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=True,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -633,6 +658,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(aerial_blast_follow_up,),
         )
@@ -645,6 +671,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -661,6 +688,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -674,7 +702,6 @@ class SmnSkills(GenericJobClass):
         name = "Scarlet Flame (pet)"
         return Skill(
             name=name,
-            is_GCD=False,
             status_effect_denylist=("Dragon Sight",),
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
@@ -690,6 +717,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             status_effect_denylist=("Dragon Sight",),
             timing_spec=self.auto_timing_spec,
             follow_up_skills=(
@@ -711,6 +739,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (
@@ -747,7 +776,6 @@ class SmnSkills(GenericJobClass):
         name = "Wyrmwave (pet)"
         return Skill(
             name=name,
-            is_GCD=False,
             status_effect_denylist=("Dragon Sight",),
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
@@ -764,6 +792,7 @@ class SmnSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=False,
+                skill_type=SkillType.ABILITY,
                 timing_spec=self.auto_timing_spec,
                 follow_up_skills=(
                     FollowUp(
@@ -783,6 +812,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (
@@ -822,6 +852,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=display_name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency("Luxwave"),
                 damage_class=DamageClass.PET,
@@ -841,6 +872,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (
@@ -881,6 +913,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -897,6 +930,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -914,6 +948,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -935,7 +970,6 @@ class SmnSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
                         potency=self._skill_data.get_potency(name),
@@ -962,6 +996,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=display_name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(self.__get_exodus_follow_up(),),
         )
@@ -974,6 +1009,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(self.__get_exodus_follow_up(),),
         )
@@ -988,6 +1024,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=self.__smn_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 duration=15 * 1000,
@@ -1003,6 +1040,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__smn_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
@@ -1024,6 +1062,7 @@ class SmnSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=1500,
                 animation_lock=self.__smn_caster_tax_ms,
@@ -1033,19 +1072,39 @@ class SmnSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def summon_ifrit(self):
         name = "Summon Ifrit"
-        return Skill(name=name, is_GCD=True, timing_spec=self.__smn_instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=self.__smn_instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def summon_titan(self):
         name = "Summon Titan"
-        return Skill(name=name, is_GCD=True, timing_spec=self.__smn_instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=self.__smn_instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def summon_garuda(self):
         name = "Summon Garuda"
-        return Skill(name=name, is_GCD=True, timing_spec=self.__smn_instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=self.__smn_instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def astral_flow(self):
         name = "Astral Flow"
-        return Skill(name=name, is_GCD=True, timing_spec=self.__smn_instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=self.__smn_instant_timing_spec,
+        )

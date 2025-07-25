@@ -1,5 +1,6 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -24,7 +25,6 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 debuff_spec=StatusEffectSpec(
                     damage_mult=1.10, duration=30 * 1000, max_duration=60 * 1000
                 ),
@@ -38,7 +38,6 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -55,6 +54,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -67,6 +67,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -80,6 +81,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Slice",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -107,6 +109,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
@@ -123,6 +126,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
@@ -143,6 +147,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -157,6 +162,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Waxing Slice",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -186,6 +192,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
@@ -202,6 +209,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Spinning Scythe",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -223,6 +231,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=890
@@ -235,6 +244,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=580
@@ -248,6 +258,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -264,6 +275,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -280,7 +292,6 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -296,7 +307,6 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -313,6 +323,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -341,6 +352,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -369,6 +381,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=490
@@ -382,6 +395,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=540
@@ -394,6 +408,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=540
@@ -406,6 +421,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.03,
                 duration=self._skill_data.get_skill_data(name, "duration"),
@@ -422,6 +438,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1070
@@ -435,7 +452,6 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -451,7 +467,6 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -468,6 +483,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -492,6 +508,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -512,6 +529,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, gcd_base_recast_time=1500, application_delay=800
@@ -525,6 +543,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -542,6 +561,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=710
@@ -554,6 +574,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
@@ -569,6 +590,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=base_potency + 7 * potency_increment
@@ -595,6 +617,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=1300, application_delay=620, affected_by_speed_stat=False
@@ -611,6 +634,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
@@ -627,6 +651,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -657,6 +682,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -687,6 +713,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=540
@@ -702,6 +729,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -718,6 +746,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             follow_up_skills=(self.__get_enhanced_harp_follow_up(),),
         )
@@ -728,6 +757,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             follow_up_skills=(self.__get_enhanced_harp_follow_up(),),
         )
@@ -739,7 +769,12 @@ class RprSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def true_north(self):
         name = "True North"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def enshroud(self):
@@ -747,6 +782,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(
                 expires_status_effects=(
                     "Enhanced Void Reaping",
@@ -763,6 +799,7 @@ class RprSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: self.instant_timing_spec,
                 "In Combat": TimingSpec(

@@ -2,6 +2,7 @@ import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
@@ -11,7 +12,6 @@ from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResource
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
-
 from ama_xiv_combat_sim.simulator.game_data.class_skills.healer.ast_data import (
     all_ast_skills,
 )
@@ -20,7 +20,7 @@ class AstSkills(GenericJobClass):
 
     def __init__(self, version, level):
         super().__init__(version=version, level=level, skill_data=all_ast_skills)
-        self._job_class='AST'
+        self._job_class = "AST"
 
     @GenericJobClass.is_a_skill
     def auto(self):
@@ -28,6 +28,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -40,6 +41,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=600
             ),
@@ -56,6 +58,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=1500, animation_lock=100, application_delay=1070
             ),
@@ -67,7 +70,6 @@ class AstSkills(GenericJobClass):
         name = "Combust III (dot)"
         combust_iii_dot = Skill(
             name=name,
-            is_GCD=False,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 damage_class=DamageClass.MAGICAL_DOT,
@@ -78,6 +80,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -99,30 +102,31 @@ class AstSkills(GenericJobClass):
 
         name = "Astrodyne"
         return Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=self.instant_timing_spec,
-                buff_spec={
-                    SimConsts.DEFAULT_CONDITION: None,
-                    "1 Moon, 1 Asterisk, 1 Circle": StatusEffectSpec(
-                        duration=15 * 1000, haste_time_reduction=0.10, damage_mult=1.05
-                    ),
-                    "1 Moon, 1 Asterisk": StatusEffectSpec(
-                        duration=15 * 1000, haste_time_reduction=0.10
-                    ),
-                    "1 Moon, 1 Circle": StatusEffectSpec(
-                        duration=15 * 1000, haste_time_reduction=0.10
-                    ),
-                    "1 Circle, 1 Asterisk": StatusEffectSpec(
-                        duration=15 * 1000, haste_time_reduction=0.10
-                    ),
-                },
-                job_resource_spec=(
-                    JobResourceSpec(name="Moon", change=-math.inf),
-                    JobResourceSpec(name="Asterisk", change=-math.inf),
-                    JobResourceSpec(name="Circle", change=-math.inf),
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            buff_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "1 Moon, 1 Asterisk, 1 Circle": StatusEffectSpec(
+                    duration=15 * 1000, haste_time_reduction=0.10, damage_mult=1.05
                 ),
-            )
+                "1 Moon, 1 Asterisk": StatusEffectSpec(
+                    duration=15 * 1000, haste_time_reduction=0.10
+                ),
+                "1 Moon, 1 Circle": StatusEffectSpec(
+                    duration=15 * 1000, haste_time_reduction=0.10
+                ),
+                "1 Circle, 1 Asterisk": StatusEffectSpec(
+                    duration=15 * 1000, haste_time_reduction=0.10
+                ),
+            },
+            job_resource_spec=(
+                JobResourceSpec(name="Moon", change=-math.inf),
+                JobResourceSpec(name="Asterisk", change=-math.inf),
+                JobResourceSpec(name="Circle", change=-math.inf),
+            ),
+        )
 
     @GenericJobClass.is_a_skill
     def lightspeed(self):
@@ -130,6 +134,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 duration=15 * 1000, flat_cast_time_reduction=2500
@@ -142,6 +147,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=1500, animation_lock=100, application_delay=1160
             ),
@@ -155,6 +161,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=100, application_delay=750
             ),
@@ -173,6 +180,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -186,6 +194,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -200,7 +209,7 @@ class AstSkills(GenericJobClass):
                     duration=15 * 1000, damage_mult=1.03, is_party_effect=True
                 ),
             },
-            off_class_default_condition="Big"
+            off_class_default_condition="Big",
         )
 
     @GenericJobClass.is_a_skill
@@ -209,6 +218,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
@@ -219,11 +229,10 @@ class AstSkills(GenericJobClass):
         )
 
     def __get_giant_dominance_followup(self):
-        name="Giant Dominance"
+        name = "Giant Dominance"
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec={
                     SimConsts.DEFAULT_CONDITION: None,
                     "Earthly Dominance": StatusEffectSpec(
@@ -234,7 +243,7 @@ class AstSkills(GenericJobClass):
                         skill_allowlist=("Stellar Explosion (pet)",),
                     ),
                 },
-                has_aoe=True
+                has_aoe=True,
             ),
             delay_after_parent_application=10 * 1000,
             snapshot_buffs_with_parent=False,
@@ -246,22 +255,25 @@ class AstSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: None,
                     "Earthly Dominance": DamageSpec(
                         damage_class=DamageClass.PET,
-                        potency=self._skill_data.get_skill_data(name, "Earthly Dominance"),
+                        potency=self._skill_data.get_skill_data(
+                            name, "Earthly Dominance"
+                        ),
                         pet_job_mod_override=118,
                     ),
                     "Giant Dominance": DamageSpec(
                         damage_class=DamageClass.PET,
-                        potency=self._skill_data.get_skill_data(name, "Giant Dominance"),
+                        potency=self._skill_data.get_skill_data(
+                            name, "Giant Dominance"
+                        ),
                         pet_job_mod_override=118,
                     ),
                 },
-                has_aoe=True
+                has_aoe=True,
             ),
             delay_after_parent_application=20 * 1000,
             snapshot_buffs_with_parent=False,
@@ -274,45 +286,49 @@ class AstSkills(GenericJobClass):
         stellar_detonation_follow_up2 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: None,
                     "Earthly Dominance": DamageSpec(
                         damage_class=DamageClass.PET,
-                        potency=self._skill_data.get_skill_data(name, "Earthly Dominance"),
+                        potency=self._skill_data.get_skill_data(
+                            name, "Earthly Dominance"
+                        ),
                         pet_job_mod_override=118,
                     ),
                     "Giant Dominance": DamageSpec(
                         damage_class=DamageClass.PET,
-                        potency=self._skill_data.get_skill_data(name, "Giant Dominance"),
+                        potency=self._skill_data.get_skill_data(
+                            name, "Giant Dominance"
+                        ),
                         pet_job_mod_override=118,
                     ),
                 },
-                has_aoe=True
+                has_aoe=True,
             ),
             delay_after_parent_application=10 * 1000,
             snapshot_buffs_with_parent=False,
-            snapshot_debuffs_with_parent=False,            
-        )                
+            snapshot_debuffs_with_parent=False,
+        )
 
         name = "Giant Dominance"
         return Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=0, application_delay=0
-                ),
-                buff_spec=StatusEffectSpec(
-                    duration=int(10.1 * 1000),
-                    is_party_effect=False,
-                    add_to_skill_modifier_condition=True,
-                    num_uses=1,
-                    skill_allowlist=("Stellar Explosion (pet)",),
-                ),
-                follow_up_skills=(stellar_detonation_follow_up2,),
-                has_aoe=True,
-            )
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=0, application_delay=0
+            ),
+            buff_spec=StatusEffectSpec(
+                duration=int(10.1 * 1000),
+                is_party_effect=False,
+                add_to_skill_modifier_condition=True,
+                num_uses=1,
+                skill_allowlist=("Stellar Explosion (pet)",),
+            ),
+            follow_up_skills=(stellar_detonation_follow_up2,),
+            has_aoe=True,
+        )
 
     @GenericJobClass.is_a_skill
     def earthly_dominance(self):
@@ -320,6 +336,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),
@@ -330,7 +347,10 @@ class AstSkills(GenericJobClass):
                 num_uses=1,
                 skill_allowlist=("Stellar Explosion (pet)", "Giant Dominance"),
             ),
-            follow_up_skills=(self.__get_giant_dominance_followup(), self.__get_stellar_detonation_follow_up()),
+            follow_up_skills=(
+                self.__get_giant_dominance_followup(),
+                self.__get_stellar_detonation_follow_up(),
+            ),
             has_aoe=True,
         )
 
@@ -340,22 +360,25 @@ class AstSkills(GenericJobClass):
         stellar_detonation_instant = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 status_effect_denylist=("Dragon Sight",),
                 damage_spec={
                     SimConsts.DEFAULT_CONDITION: None,
                     "Earthly Dominance": DamageSpec(
                         damage_class=DamageClass.PET,
-                        potency=self._skill_data.get_skill_data(name, "Earthly Dominance"),
+                        potency=self._skill_data.get_skill_data(
+                            name, "Earthly Dominance"
+                        ),
                         pet_job_mod_override=118,
                     ),
                     "Giant Dominance": DamageSpec(
                         damage_class=DamageClass.PET,
-                        potency=self._skill_data.get_skill_data(name, "Giant Dominance"),
+                        potency=self._skill_data.get_skill_data(
+                            name, "Giant Dominance"
+                        ),
                         pet_job_mod_override=118,
                     ),
                 },
-                has_aoe=True
+                has_aoe=True,
             ),
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=False,
@@ -366,6 +389,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             status_effect_denylist=("Dragon Sight",),
             timing_spec=TimingSpec(base_cast_time=0, application_delay=0),
             follow_up_skills=(stellar_detonation_instant,),
@@ -378,14 +402,13 @@ class AstSkills(GenericJobClass):
         earthly_dom_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     duration=int(10.1 * 1000),
                     is_party_effect=False,
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     skill_allowlist=("Stellar Explosion (pet)", "Giant Dominance"),
-                ),                
+                ),
             ),
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=False,
@@ -396,6 +419,7 @@ class AstSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             follow_up_skills=(
                 earthly_dom_follow_up,
@@ -409,17 +433,18 @@ class AstSkills(GenericJobClass):
     def oracle(self):
         if self._level < 92:
             return None
-        name="Oracle"
+        name = "Oracle"
         return Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1740
-                ),
-                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-                has_aoe=True,                
-                aoe_dropoff = self._skill_data.get_skill_data(name, "aoe_dropoff"),
-            )
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1740
+            ),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            has_aoe=True,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
+        )
 
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
@@ -428,86 +453,118 @@ class AstSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def helios_conjunction(self):
         if self._level < 96:
-            return None        
-        name="Helios Conjunction"
+            return None
+        name = "Helios Conjunction"
         return Skill(
-                name=name,
-                is_GCD=False,
-                timing_spec=TimingSpec(
-                    base_cast_time=1500, animation_lock=650, application_delay=620
-                ),
-            )
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=TimingSpec(
+                base_cast_time=1500, animation_lock=650, application_delay=620
+            ),
+        )
+
     @GenericJobClass.is_a_skill
     def draw(self):
         if self._version >= "7.0":
             return None
-        return Skill(name="Draw", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Draw",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def redraw(self):
         if self._version >= "7.0":
             return None
-        return Skill(name="Redraw", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Redraw",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def play(self):
         if self._version >= "7.0":
             return None
-        return Skill(name="Play", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Play",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
-    def minor_arcana(self):                
-        return Skill(name="Minor Arcana", is_GCD=False, timing_spec=self.instant_timing_spec)
+    def minor_arcana(self):
+        return Skill(
+            name="Minor Arcana",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
-    def collective_unconscious(self):        
+    def collective_unconscious(self):
         return Skill(
             name="Collective Unconscious",
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             channeling_spec=ChannelingSpec(duration=18000),
-        )        
+        )
 
     @GenericJobClass.is_a_skill
     def astral_draw(self):
         if self._version < "7.0":
             return None
-        return Skill(name="Astral Draw", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Astral Draw",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def umbral_draw(self):
         if self._version < "7.0":
             return None
-        return Skill(name="Umbral Draw", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Umbral Draw",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     def __get_card_skill_655(self, name, sign):
         return Skill(
-                    name=name,
-                    is_GCD=False,
-                    job_resource_spec={
-                        SimConsts.DEFAULT_CONDITION: (
-                            JobResourceSpec(name=sign, change=+1),
-                        ),
-                        "Big": tuple(),
-                        "Small": tuple(),
-                    },
-                    timing_spec=self.instant_timing_spec,
-                    buff_spec={
-                        SimConsts.DEFAULT_CONDITION: None,
-                        "Big": StatusEffectSpec(
-                            duration=15 * 1000, damage_mult=1.06, is_party_effect=True
-                        ),
-                        "Small": StatusEffectSpec(
-                            duration=15 * 1000, damage_mult=1.03, is_party_effect=True
-                        ),
-                    },
-                    off_class_default_condition="Big"
-                )
-    
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            job_resource_spec={
+                SimConsts.DEFAULT_CONDITION: (JobResourceSpec(name=sign, change=+1),),
+                "Big": tuple(),
+                "Small": tuple(),
+            },
+            timing_spec=self.instant_timing_spec,
+            buff_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Big": StatusEffectSpec(
+                    duration=15 * 1000, damage_mult=1.06, is_party_effect=True
+                ),
+                "Small": StatusEffectSpec(
+                    duration=15 * 1000, damage_mult=1.03, is_party_effect=True
+                ),
+            },
+            off_class_default_condition="Big",
+        )
+
     @GenericJobClass.is_a_skill
     def get_card_skills_655(self):
         if self._version != "6.55":
-            return None        
+            return None
         res = []
         skill_and_resources = (
             ("the Arrow", "Moon"),
@@ -521,46 +578,49 @@ class AstSkills(GenericJobClass):
             ("the Spire", "Circle"),
             ("The Spire", "Circle"),
             ("the Spear", "Circle"),
-            ("The Spear", "Circle")
+            ("The Spear", "Circle"),
         )
         for sk, resource in skill_and_resources:
             res.append(self.__get_card_skill_655(sk, resource))
-            
+
         return res
-    
+
     def __get_non_damaging_card_skill(self, name):
         return Skill(
-                    name=name,
-                    is_GCD=False,
-                    timing_spec=TimingSpec(
-                        base_cast_time=0, animation_lock=650, application_delay=620
-                    ),
-                )
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=620
+            ),
+        )
+
     def __get_damaging_card_skill(self, name):
         return Skill(
-                    name=name,
-                    is_GCD=False,
-                    timing_spec=TimingSpec(
-                        base_cast_time=0, animation_lock=650, application_delay=620
-                    ),
-                    buff_spec={
-                        SimConsts.DEFAULT_CONDITION: None,
-                        "Big": StatusEffectSpec(
-                            duration=15 * 1000, damage_mult=1.06, is_party_effect=True
-                        ),
-                        "Small": StatusEffectSpec(
-                            duration=15 * 1000, damage_mult=1.03, is_party_effect=True
-                        ),
-                    },
-                    off_class_default_condition="Big"
-                )
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=620
+            ),
+            buff_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Big": StatusEffectSpec(
+                    duration=15 * 1000, damage_mult=1.06, is_party_effect=True
+                ),
+                "Small": StatusEffectSpec(
+                    duration=15 * 1000, damage_mult=1.03, is_party_effect=True
+                ),
+            },
+            off_class_default_condition="Big",
+        )
 
     @GenericJobClass.is_a_skill
     def cards(self):
         if self._version < "7.0":
             return None
         res = []
-        
+
         # non-damaging cards
         for card_name in [
             "the Arrow",
@@ -570,17 +630,12 @@ class AstSkills(GenericJobClass):
             "the Spire",
             "The Spire",
             "the Bole",
-            "The Bole"
+            "The Bole",
         ]:
             res.append(self.__get_non_damaging_card_skill(card_name))
-            
+
         # damaging cards
-        for card_name in [
-            "the Spear",
-            "The Spear",
-            "the Balance",
-            "The Balance"
-        ]:
+        for card_name in ["the Spear", "The Spear", "the Balance", "The Balance"]:
             res.append(self.__get_damaging_card_skill(card_name))
         return res
 

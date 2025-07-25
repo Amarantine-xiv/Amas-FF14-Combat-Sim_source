@@ -2,6 +2,7 @@ import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -32,7 +33,6 @@ class RdmSkills(GenericJobClass):
     def __get_dualcast_follow_up(self):
         dualcast_buff = Skill(
             name="Dualcast",
-            is_GCD=False,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
                 add_to_skill_modifier_condition=True,
@@ -62,6 +62,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -75,6 +76,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             combo_spec=(ComboSpec(),),
             timing_spec=self.instant_timing_spec,
@@ -87,6 +89,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=630
@@ -108,6 +111,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=2000,
@@ -142,6 +146,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=2000,
@@ -175,6 +180,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=2000,
@@ -207,6 +213,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=2000,
@@ -232,6 +239,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -253,6 +261,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
@@ -266,6 +275,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=580
@@ -279,6 +289,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1160
@@ -292,6 +303,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Zwerchhau", "Enchanted Zwerchhau")),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -313,6 +325,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
@@ -327,6 +340,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1160
@@ -341,6 +355,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(
                 damage_mult=1.05,
                 duration=self._skill_data.get_skill_data(name, "duration"),
@@ -383,6 +398,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             combo_spec=(ComboSpec(),),
             buff_spec=StatusEffectSpec(
                 damage_mult=1.05,
@@ -407,6 +423,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=2000,
@@ -442,6 +459,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=2000,
@@ -487,6 +505,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=5000,
@@ -521,6 +540,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -536,6 +556,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -551,6 +572,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=self.instant_timing_spec,
         )
@@ -561,6 +583,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(combo_actions=("Verflare", "Verholy")),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -583,6 +606,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=5000,
@@ -623,6 +647,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=5000,
@@ -656,6 +681,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             combo_spec=(ComboSpec(combo_actions=("Scorch",)),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -673,6 +699,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
@@ -690,6 +717,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -721,6 +749,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1420
@@ -736,6 +765,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             combo_spec=(ComboSpec(),),
             timing_spec=TimingSpec(
@@ -752,6 +782,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Riposte", "Enchanted Riposte")),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -775,6 +806,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Enchanted Zwerchhau",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -801,6 +833,7 @@ class RdmSkills(GenericJobClass):
                 (ComboSpec(combo_group=1),) if self._version >= "7.0" else tuple()
             ),
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -819,6 +852,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(
                 ComboSpec(combo_group=1, combo_actions=("Enchanted Moulinet",)),
             ),
@@ -840,6 +874,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Enchanted Deux",)),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -857,6 +892,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=650
@@ -873,6 +909,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
@@ -900,6 +937,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
@@ -915,6 +953,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=10 * 1000,
                 gcd_base_recast_time=2500,
@@ -928,6 +967,7 @@ class RdmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=2000,
                 gcd_base_recast_time=2500,

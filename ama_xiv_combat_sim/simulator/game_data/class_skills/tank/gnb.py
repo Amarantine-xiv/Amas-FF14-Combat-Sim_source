@@ -1,5 +1,6 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -35,6 +36,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -47,6 +49,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             combo_spec=(ComboSpec(combo_group=0),),
             timing_spec=TimingSpec(
@@ -60,6 +63,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(duration=int(19.96 * 1000), damage_mult=1.20),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -72,6 +76,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -92,6 +97,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             combo_spec=(ComboSpec(combo_group=2),),
             timing_spec=TimingSpec(
@@ -106,6 +112,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=716
@@ -118,6 +125,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -138,6 +146,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=714
@@ -150,6 +159,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -170,7 +180,6 @@ class GnbSkills(GenericJobClass):
         name = "Sonic Break (dot)"
         sonic_break_dot_gnb = Skill(
             name=name,
-            is_GCD=False,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 damage_class=DamageClass.PHYSICAL_DOT,
@@ -181,6 +190,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=581
             ),
@@ -205,6 +215,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=491
@@ -217,6 +228,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             combo_spec=(ComboSpec(combo_group=1),),
             timing_spec=TimingSpec(
@@ -230,6 +242,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Gnashing Fang",)),),
             timing_spec=TimingSpec(
@@ -243,6 +256,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             combo_spec=(ComboSpec(combo_group=1, combo_actions=("Savage Claw",)),),
             timing_spec=TimingSpec(
@@ -255,7 +269,6 @@ class GnbSkills(GenericJobClass):
         name = "Bow Shock (dot)"
         bow_shock_dot_gnb = Skill(
             name=name,
-            is_GCD=False,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 damage_class=DamageClass.PHYSICAL_DOT,
@@ -266,6 +279,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=627
             ),
@@ -288,6 +302,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=802
@@ -300,6 +315,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=757
@@ -312,6 +328,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=981
@@ -324,6 +341,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=537
@@ -337,6 +355,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=625
@@ -349,6 +368,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=758
@@ -361,6 +381,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -382,6 +403,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1160
@@ -398,6 +420,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -419,6 +442,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -439,6 +463,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -458,43 +483,73 @@ class GnbSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def bloodfest(self):
         return Skill(
-            name="Bloodfest", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Bloodfest",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def rampart(self):
-        return Skill(name="Rampart", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Rampart",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def provoke(self):
-        return Skill(name="Provoke", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Provoke",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def reprisal(self):
         return Skill(
-            name="Reprisal", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Reprisal",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def arms_length(self):
         return Skill(
-            name="Arm's Length", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Arm's Length",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def shirk(self):
-        return Skill(name="Shirk", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Shirk",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def camouflage(self):
         return Skill(
-            name="Camouflage", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Camouflage",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def royal_guard(self):
         return Skill(
-            name="Royal Guard", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Royal Guard",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
@@ -502,6 +557,7 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name="Release Royal Guard",
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
         )
 
@@ -509,24 +565,40 @@ class GnbSkills(GenericJobClass):
     def nebula(self):
         if self._level >= 92:
             return None
-        return Skill(name="Nebula", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Nebula",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def great_nebula(self):
         if self._level < 92:
             return None
         return Skill(
-            name="Great Nebula", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Great Nebula",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def aurora(self):
-        return Skill(name="Aurora", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Aurora",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def superbolide(self):
         return Skill(
-            name="Superbolide", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Superbolide",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
@@ -534,19 +606,28 @@ class GnbSkills(GenericJobClass):
         if self._version < "7.0":
             return None
         return Skill(
-            name="Trajectory", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Trajectory",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def heart_of_light(self):
         return Skill(
-            name="Heart of Light", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Heart of Light",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def heart_of_stone(self):
         return Skill(
-            name="Heart of Stone", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Heart of Stone",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
@@ -554,5 +635,6 @@ class GnbSkills(GenericJobClass):
         return Skill(
             name="Heart of Corundrum",
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
         )

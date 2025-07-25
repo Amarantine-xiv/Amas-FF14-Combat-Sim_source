@@ -1,7 +1,7 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -42,6 +42,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -54,6 +55,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=532
             ),
@@ -67,6 +69,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
             ),
@@ -87,6 +90,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1515
             ),
@@ -137,6 +141,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(base_cast_time=0, animation_lock=650),
             combo_spec=(ComboSpec(combo_actions=("Maim",)),),
             follow_up_skills={
@@ -173,6 +178,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
@@ -192,6 +198,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
             ),
@@ -204,6 +211,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=667
             ),
@@ -216,6 +224,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
             ),
@@ -228,6 +237,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=1300, application_delay=1160
             ),
@@ -248,6 +258,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=937
             ),
@@ -264,6 +275,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1430
             ),
@@ -281,6 +293,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=713
             ),
@@ -293,6 +306,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=625
             ),
@@ -340,6 +354,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(base_cast_time=0, animation_lock=650),
             combo_spec=(ComboSpec(combo_actions=("Overpower",)),),
             follow_up_skills={
@@ -362,6 +377,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=668
             ),
@@ -375,6 +391,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1831
             ),
@@ -383,7 +400,7 @@ class WarSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
-    def vengance(self):
+    def vengeance(self):
         if self._level >= 92:
             return None
 
@@ -391,6 +408,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: None,
                 "Retaliation": DamageSpec(potency=self._skill_data.get_potency(name)),
@@ -412,6 +430,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: None,
                 "Retaliation": DamageSpec(potency=self._skill_data.get_potency(name)),
@@ -432,6 +451,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1150
             ),
@@ -452,6 +472,7 @@ class WarSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=1300, application_delay=1060
             ),
@@ -472,71 +493,116 @@ class WarSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def infuriate(self):
         return Skill(
-            name="Infuriate", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Infuriate",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def defiance(self):
         return Skill(
-            name="Defiance", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Defiance",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def thrill(self):
         return Skill(
-            name="Thrill of Battle", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Thrill of Battle",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def holmgang(self):
         return Skill(
-            name="Holmgang", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Holmgang",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def equilibrium(self):
         return Skill(
-            name="Equilibrium", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Equilibrium",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def shake(self):
         return Skill(
-            name="Shake It Off", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Shake It Off",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def nascent(self):
         return Skill(
-            name="Nascent Flash", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Nascent Flash",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def bloodwhetting(self):
         return Skill(
-            name="Bloodwhetting", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Bloodwhetting",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def rampart(self):
-        return Skill(name="Rampart", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Rampart",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def provoke(self):
-        return Skill(name="Provoke", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Provoke",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def reprisal(self):
         return Skill(
-            name="Reprisal", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Reprisal",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def arms_length(self):
         return Skill(
-            name="Arm's Length", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Arm's Length",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def shirk(self):
-        return Skill(name="Shirk", is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name="Shirk",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )

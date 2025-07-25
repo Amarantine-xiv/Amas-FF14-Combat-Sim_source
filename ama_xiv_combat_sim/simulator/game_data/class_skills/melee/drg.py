@@ -1,6 +1,7 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -43,7 +44,6 @@ class DrgSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(damage_mult=1.10, duration=int(31.6 * 1000)),
             ),
             delay_after_parent_application=0,
@@ -55,6 +55,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -67,6 +68,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -82,6 +84,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("True Thrust", "Raiden Thrust")),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -102,6 +105,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=(
                 {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -145,6 +149,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("True Thrust", "Raiden Thrust")),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=0
@@ -164,6 +169,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=660
             ),
@@ -179,6 +185,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -195,6 +202,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=800, application_delay=800
@@ -207,6 +215,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=800, application_delay=800
@@ -221,6 +230,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=625
             ),
@@ -237,6 +247,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(
                 (ComboSpec(combo_actions=("Heavens' Thrust",)),)
                 if self._version >= "7.0"
@@ -301,6 +312,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(
                 (ComboSpec(combo_actions=("Chaotic Spring",)),)
                 if self._version >= "7.0"
@@ -382,6 +394,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=(
                 None
                 if self._version >= "7.0"
@@ -432,6 +445,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Doom Spike",)),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=0
@@ -454,6 +468,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Wheeling Thrust", "Fang and Claw")),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -469,6 +484,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0, animation_lock=600, application_delay=660
@@ -494,6 +510,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(base_cast_time=0, animation_lock=0),
             buff_spec=StatusEffectSpec(
                 damage_mult=1.05, duration=20 * 1000, is_party_effect=True
@@ -506,6 +523,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=800
@@ -518,13 +536,14 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             # damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=self._skill_data.get_potency(name))},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=760
             ),
             has_aoe=True,
-            aoe_dropoff=self._skill_data.get_skill_data(name, 'aoe_dropoff')
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -533,6 +552,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Sonic Thrust",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -554,6 +574,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=800, application_delay=490
@@ -566,6 +587,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -579,6 +601,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=1500, application_delay=1290
@@ -593,6 +616,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=760
@@ -606,6 +630,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(
                 ComboSpec(
                     combo_actions=self._skill_data.get_skill_data(name, "combo_action")
@@ -630,7 +655,6 @@ class DrgSkills(GenericJobClass):
         _chaotic_spring_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency(name),
                     damage_class=DamageClass.PHYSICAL_DOT,
@@ -646,6 +670,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(
                 ComboSpec(
                     combo_actions=self._skill_data.get_skill_data(name, "combo_action")
@@ -684,6 +709,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=1200
@@ -700,6 +726,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=1160
@@ -716,6 +743,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("True Thrust", "Raiden Thrust")),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -746,6 +774,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("True Thrust", "Raiden Thrust")),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=0
@@ -767,6 +796,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=700),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=980
@@ -781,6 +811,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(base_cast_time=0, animation_lock=600),
             buff_spec=StatusEffectSpec(
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
@@ -797,12 +828,22 @@ class DrgSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def true_north(self):
         name = "True North"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def winged_glide(self):
         name = "Winged Glide"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def elusive_jump(self):
@@ -828,6 +869,7 @@ class DrgSkills(GenericJobClass):
         return Skill(
             name="Elusive Jump",
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(base_cast_time=0, animation_lock=800),
             follow_up_skills=drg_follow_ups,
         )

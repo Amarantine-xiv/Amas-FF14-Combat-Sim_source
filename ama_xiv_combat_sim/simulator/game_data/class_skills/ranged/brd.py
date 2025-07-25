@@ -2,6 +2,7 @@ import numpy as np
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -87,6 +88,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.shot_timing_spec,
             damage_spec=DamageSpec(
                 potency=80, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -98,7 +100,6 @@ class BrdSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency(name),
                     damage_class=DamageClass.PHYSICAL_DOT,
@@ -115,7 +116,6 @@ class BrdSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency(name),
                     damage_class=DamageClass.PHYSICAL_DOT,
@@ -133,7 +133,6 @@ class BrdSkills(GenericJobClass):
         army_paeon_rep1 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     haste_time_reduction=0.04,
                     auto_attack_delay_reduction=0.04,
@@ -145,7 +144,6 @@ class BrdSkills(GenericJobClass):
         army_paeon_rep2 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     haste_time_reduction=0.08,
                     auto_attack_delay_reduction=0.08,
@@ -157,7 +155,6 @@ class BrdSkills(GenericJobClass):
         army_paeon_rep3 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     haste_time_reduction=0.12,
                     auto_attack_delay_reduction=0.12,
@@ -169,7 +166,6 @@ class BrdSkills(GenericJobClass):
         army_paeon_rep4 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     haste_time_reduction=0.16,
                     auto_attack_delay_reduction=0.16,
@@ -182,6 +178,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=(
                 None
                 if self._version >= "7.0"
@@ -284,7 +281,6 @@ class BrdSkills(GenericJobClass):
                 FollowUp(
                     skill=Skill(
                         name=name,
-                        is_GCD=False,
                         buff_spec=StatusEffectSpec(
                             haste_time_reduction=haste_and_auto_time_reductions[i],
                             auto_attack_delay_reduction=haste_and_auto_time_reductions[
@@ -304,6 +300,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(damage_mult=1.15, duration=int(19.98 * 1000)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=540
@@ -316,6 +313,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1600
@@ -339,6 +337,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: mages_ballad_potency,
                 "Buff Only": None,
@@ -409,6 +408,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1650
@@ -422,6 +422,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec=StatusEffectSpec(
                 dh_rate_add=0.20,
                 duration=self._skill_data.get_skill_data(name, "duration"),
@@ -448,6 +449,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: wanderers_potency,
                 "Buff Only": None,
@@ -518,6 +520,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_skill_data(name, "3 Repertoire")
@@ -546,6 +549,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1030
@@ -562,6 +566,7 @@ class BrdSkills(GenericJobClass):
             iron_jaws_skill = Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=670
@@ -594,6 +599,7 @@ class BrdSkills(GenericJobClass):
             iron_jaws_skill = Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=670
@@ -633,6 +639,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=530
@@ -648,6 +655,7 @@ class BrdSkills(GenericJobClass):
             caustic_bite_skill = Skill(
                 name=name,
                 is_GCD=False,
+                skill_type=SkillType.ABILITY,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=1290
@@ -673,6 +681,7 @@ class BrdSkills(GenericJobClass):
             caustic_bite_skill = Skill(
                 name=name,
                 is_GCD=False,
+                skill_type=SkillType.ABILITY,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=1290
@@ -697,6 +706,7 @@ class BrdSkills(GenericJobClass):
             stormbite_skill = Skill(
                 name=name,
                 is_GCD=False,
+                skill_type=SkillType.ABILITY,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=1290
@@ -707,7 +717,6 @@ class BrdSkills(GenericJobClass):
             stormbite_barrage2 = FollowUp(
                 skill=Skill(
                     name=name,
-                    is_GCD=False,
                     damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 ),
                 delay_after_parent_application=120,
@@ -715,7 +724,6 @@ class BrdSkills(GenericJobClass):
             stormbite_barrage3 = FollowUp(
                 skill=Skill(
                     name=name,
-                    is_GCD=False,
                     damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 ),
                 delay_after_parent_application=240,
@@ -723,6 +731,7 @@ class BrdSkills(GenericJobClass):
             stormbite_skill = Skill(
                 name=name,
                 is_GCD=False,
+                skill_type=SkillType.ABILITY,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=1290
@@ -744,7 +753,6 @@ class BrdSkills(GenericJobClass):
         refulgent_arrow_barrage2 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             ),
             delay_after_parent_application=120,
@@ -752,7 +760,6 @@ class BrdSkills(GenericJobClass):
         refulgent_arrow_barrage3 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             ),
             delay_after_parent_application=240,
@@ -760,6 +767,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1470
@@ -776,6 +784,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_skill_data(name, "potency")
@@ -797,6 +806,7 @@ class BrdSkills(GenericJobClass):
             burst_shot_skill = Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=1470
@@ -806,7 +816,6 @@ class BrdSkills(GenericJobClass):
             burst_shot_barrage2 = FollowUp(
                 skill=Skill(
                     name=name,
-                    is_GCD=False,
                     damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 ),
                 delay_after_parent_application=120,
@@ -814,7 +823,6 @@ class BrdSkills(GenericJobClass):
             burst_shot_barrage3 = FollowUp(
                 skill=Skill(
                     name=name,
-                    is_GCD=False,
                     damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 ),
                 delay_after_parent_application=240,
@@ -822,6 +830,7 @@ class BrdSkills(GenericJobClass):
             burst_shot_skill = Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 timing_spec=TimingSpec(
                     base_cast_time=0, animation_lock=650, application_delay=1470
@@ -839,6 +848,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_skill_data(name, "100 Soul Voice")
@@ -908,7 +918,6 @@ class BrdSkills(GenericJobClass):
         ladonsbite_barrage2 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             ),
             delay_after_parent_application=120,
@@ -916,7 +925,6 @@ class BrdSkills(GenericJobClass):
         ladonsbite_barrage3 = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             ),
             delay_after_parent_application=240,
@@ -924,6 +932,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1110
@@ -941,6 +950,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -960,7 +970,6 @@ class BrdSkills(GenericJobClass):
         encore1 = FollowUp(
             skill=Skill(
                 name="1 Encore",
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -976,7 +985,6 @@ class BrdSkills(GenericJobClass):
         encore2 = FollowUp(
             skill=Skill(
                 name="2 Encore",
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -992,7 +1000,6 @@ class BrdSkills(GenericJobClass):
         encore3 = FollowUp(
             skill=Skill(
                 name="3 Encore",
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -1009,6 +1016,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             buff_spec={
                 SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
                     damage_mult=1.06,
@@ -1101,7 +1109,7 @@ class BrdSkills(GenericJobClass):
                 if self._level >= 100
                 else tuple()
             ),
-            off_class_default_condition="Buff Only"
+            off_class_default_condition="Buff Only",
         )
 
     @GenericJobClass.is_a_skill
@@ -1110,6 +1118,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
@@ -1142,6 +1151,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1650
@@ -1156,6 +1166,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -1176,6 +1187,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_skill_data(name, "3 Encore")
@@ -1203,6 +1215,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),
@@ -1239,6 +1252,7 @@ class BrdSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),

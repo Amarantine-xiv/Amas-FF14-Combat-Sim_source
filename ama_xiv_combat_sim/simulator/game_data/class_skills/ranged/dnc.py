@@ -1,6 +1,7 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -24,7 +25,6 @@ class DncSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.05, duration=60000, is_party_effect=True
                 ),
@@ -40,6 +40,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.shot_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -52,6 +53,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -65,6 +67,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Cascade",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -85,6 +88,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
@@ -102,7 +106,6 @@ class DncSkills(GenericJobClass):
         _standard_finish1_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.02, duration=60000, is_party_effect=True
                 ),
@@ -115,7 +118,6 @@ class DncSkills(GenericJobClass):
         _standard_remove_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     expires_status_effects=("Standard Finish",), is_party_effect=True
                 ),
@@ -174,6 +176,7 @@ class DncSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 has_aoe=True,
                 aoe_dropoff=self._skill_data.get_skill_data(
                     "Standard Finish", "aoe_dropoff"
@@ -204,6 +207,7 @@ class DncSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 has_aoe=True,
                 aoe_dropoff=self._skill_data.get_skill_data(
                     "Standard Finish", "aoe_dropoff"
@@ -234,6 +238,7 @@ class DncSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 has_aoe=True,
                 aoe_dropoff=self._skill_data.get_skill_data(
                     "Standard Finish", "aoe_dropoff"
@@ -271,6 +276,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -283,6 +289,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Windmill",)),),
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -304,6 +311,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -316,6 +324,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -329,6 +338,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1210
@@ -341,6 +351,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -354,6 +365,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=530
@@ -367,6 +379,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: self.instant_timing_spec,
                 "Dance Partner": TimingSpec(base_cast_time=0, animation_lock=0),
@@ -385,6 +398,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -405,7 +419,6 @@ class DncSkills(GenericJobClass):
         tech4_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.05, duration=int(20.45 * 1000), is_party_effect=True
                 ),
@@ -417,7 +430,6 @@ class DncSkills(GenericJobClass):
         tech3_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.03, duration=int(20.45 * 1000), is_party_effect=True
                 ),
@@ -429,7 +441,6 @@ class DncSkills(GenericJobClass):
         tech2_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.02, duration=int(20.45 * 1000), is_party_effect=True
                 ),
@@ -441,7 +452,6 @@ class DncSkills(GenericJobClass):
         tech1_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.01, duration=int(20.45 * 1000), is_party_effect=True
                 ),
@@ -453,7 +463,6 @@ class DncSkills(GenericJobClass):
         tech4_longest_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.05, duration=int(20.95 * 1000), is_party_effect=True
                 ),
@@ -465,7 +474,6 @@ class DncSkills(GenericJobClass):
         tech3_longest_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.03, duration=int(20.95 * 1000), is_party_effect=True
                 ),
@@ -477,7 +485,6 @@ class DncSkills(GenericJobClass):
         tech2_longest_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.02, duration=int(20.95 * 1000), is_party_effect=True
                 ),
@@ -489,7 +496,6 @@ class DncSkills(GenericJobClass):
         tech1_longest_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.01, duration=int(20.95 * 1000), is_party_effect=True
                 ),
@@ -502,7 +508,6 @@ class DncSkills(GenericJobClass):
         tech_remove_followup = FollowUp(
             Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     expires_status_effects=("Technical Finish",),
                     is_party_effect=True,
@@ -525,6 +530,7 @@ class DncSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 has_aoe=True,
                 aoe_dropoff=self._skill_data.get_skill_data(
                     "Technical Finish", "aoe_dropoff"
@@ -557,6 +563,7 @@ class DncSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 has_aoe=True,
                 aoe_dropoff=self._skill_data.get_skill_data(
                     "Technical Finish", "aoe_dropoff"
@@ -589,6 +596,7 @@ class DncSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 has_aoe=True,
                 aoe_dropoff=self._skill_data.get_skill_data(
                     "Technical Finish", "aoe_dropoff"
@@ -621,6 +629,7 @@ class DncSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 has_aoe=True,
                 aoe_dropoff=self._skill_data.get_skill_data(
                     "Technical Finish", "aoe_dropoff"
@@ -653,6 +662,7 @@ class DncSkills(GenericJobClass):
             Skill(
                 name=name,
                 is_GCD=True,
+                skill_type=SkillType.WEAPONSKILL,
                 has_aoe=True,
                 aoe_dropoff=self._skill_data.get_skill_data(
                     "Technical Finish", "aoe_dropoff"
@@ -695,6 +705,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -713,6 +724,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
@@ -745,6 +757,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
@@ -763,6 +776,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -781,6 +795,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name),
@@ -803,6 +818,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -823,6 +839,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -845,6 +862,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
@@ -858,6 +876,7 @@ class DncSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 gcd_base_recast_time=1500,
@@ -868,7 +887,10 @@ class DncSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def flourish(self):
         return Skill(
-            name="Flourish", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Flourish",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
@@ -878,5 +900,12 @@ class DncSkills(GenericJobClass):
             base_cast_time=0, gcd_base_recast_time=1000, affected_by_speed_stat=False
         )
         for step_name in ["Emboite", "Entrechat", "Jete", "Pirouette", "Step Action"]:
-            res.append(Skill(name=step_name, is_GCD=True, timing_spec=step_timing))
+            res.append(
+                Skill(
+                    name=step_name,
+                    is_GCD=True,
+                    skill_type=SkillType.WEAPONSKILL,
+                    timing_spec=step_timing,
+                )
+            )
         return res

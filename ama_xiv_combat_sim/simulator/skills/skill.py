@@ -1,6 +1,9 @@
 import copy
 
+from typing import Any
+
 from dataclasses import dataclass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
@@ -10,8 +13,6 @@ from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 from ama_xiv_combat_sim.simulator.utils import Utils
-
-from typing import Any
 
 
 @dataclass(frozen=True, order=True)
@@ -28,6 +29,7 @@ class Skill:
     combo_spec: Any = tuple()
     status_effect_denylist: tuple = ()
     is_GCD: bool = None
+    skill_type: Any = SkillType.UNKNOWN
     ignored_conditions_for_bonus_potency: tuple = tuple()
     job_resources_snapshot: bool = (
         True  # if True, job resource will snapshot. If False, job resources are compiled at application time
@@ -53,9 +55,9 @@ class Skill:
 
     # will modify damage_spec in place
     def __process_aoe_dropoff(self, damage_spec, damage_dropoff):
-        if not isinstance(damage_spec, dict):            
+        if not isinstance(damage_spec, dict):
             damage_spec = {SimConsts.DEFAULT_CONDITION: damage_spec}
-            
+
         keys = tuple(damage_spec.keys())
         for key in keys:
             if damage_spec[key] is not None:
@@ -64,11 +66,13 @@ class Skill:
                         new_key = f"{key}, Target {target_num}"
                     else:
                         new_key = f"Target {target_num}"
-                
+
                     new_damage_spec = copy.deepcopy(damage_spec[key])
                     primary_potency = new_damage_spec.potency
                     object.__setattr__(
-                        new_damage_spec, "potency", (1 - damage_dropoff) * primary_potency
+                        new_damage_spec,
+                        "potency",
+                        (1 - damage_dropoff) * primary_potency,
                     )
                     damage_spec[new_key] = new_damage_spec
         return damage_spec
@@ -169,30 +173,27 @@ class Skill:
         is_valid = self.__verify_dict_or_tuple(self.follow_up_skills, FollowUp)
         assert (
             is_valid
-        ), "follow_up_skills must be encoded as a tuple or a dict with values that are tuple for immutability: {}".format(
-            self.follow_up_skills
-        )
+        ), f"follow_up_skills must be encoded as a tuple or a dict with values that are tuple for immutability: {self.follow_up_skills}"
 
         is_valid = self.__verify_dict_or_tuple(self.combo_spec, ComboSpec)
         assert (
             is_valid
-        ), "combo_spec must be encoded as a tuple or a dict with values that are tuple for immutability: {}".format(
-            self.combo_spec
-        )
-
+        ), f"combo_spec must be encoded as a tuple or a dict with values that are tuple for immutability: {self.combo_spec}"
         is_valid = self.__verify_dict_or_tuple(self.job_resource_spec, JobResourceSpec)
         assert (
             is_valid
-        ), "job_resource_spec must be encoded as a tuple or a dict with values that are tuple: {}".format(
-            self.job_resource_spec
-        )
+        ), "job_resource_spec must be encoded as a tuple or a dict with values that are tuple: {self.job_resource_spec}"
 
         assert isinstance(
             self.status_effect_denylist, tuple
         ), "status_effect_denylist must be encoded as a tuple for immutability. Did you encode it as a single string by accident, when it should be a tuple of length 1?"
 
         if self.aoe_dropoff is not None:
-            object.__setattr__(self, "damage_spec", self.__process_aoe_dropoff(self.damage_spec, self.aoe_dropoff))
+            object.__setattr__(
+                self,
+                "damage_spec",
+                self.__process_aoe_dropoff(self.damage_spec, self.aoe_dropoff),
+            )
         if isinstance(self.damage_spec, dict):
             object.__setattr__(
                 self, "damage_spec", self.__canonicalize_dict(self.damage_spec)
@@ -231,12 +232,12 @@ class Skill:
         self.__set_status_effect_stats()
 
     def __str__(self):
-        res = "---Skill name: {}---\n".format(self.name)
-        res += "TimingSpec:\n{}\n".format(str(self.timing_spec))
-        res += "DamageSpec:\n{}\n".format(self.damage_spec)
-        res += "Buffs:\n{}\n".format(self.buff_spec)
-        res += "Debuffs:\n{}\n".format(self.debuff_spec)
-        res += "Follow up skills:\n{}\n".format(str(self.follow_up_skills))
+        res = f"---Skill name: {self.name}---\n"
+        res += f"TimingSpec:\n{str(self.timing_spec)}\n"
+        res += f"DamageSpec:\n{self.damage_spec}\n"
+        res += f"Buffs:\n{self.buff_spec}\n"
+        res += f"Debuffs:\n{self.debuff_spec}\n"
+        res += f"Follow up skills:\n{str(self.follow_up_skills)}\n"
         return res
 
     def get_combo_spec(self, skill_modifier):
@@ -299,12 +300,17 @@ class Skill:
         return self.damage_spec[key_to_use]
 
     def get_channeling_spec(self, skill_modifier):
-        if self.channeling_spec is None or isinstance(self.channeling_spec, ChannelingSpec):
+        if self.channeling_spec is None or isinstance(
+            self.channeling_spec, ChannelingSpec
+        ):
             return self.channeling_spec
         key_to_use = Utils.get_best_key(
             self.channeling_spec.keys(), skill_modifier.with_condition
         )
         return self.channeling_spec[key_to_use]
+
+    def __eq__(self, other):
+        return self.name == other.name
 
     def __hash__(self):
         return hash(self.name)

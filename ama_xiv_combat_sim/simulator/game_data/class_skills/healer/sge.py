@@ -2,6 +2,7 @@ import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -26,6 +27,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -38,6 +40,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=1500, animation_lock=100, application_delay=670
             ),
@@ -50,6 +53,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
@@ -68,6 +72,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1200
             ),
@@ -86,6 +91,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
             ),
@@ -99,6 +105,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=1500, animation_lock=100, application_delay=580
             ),
@@ -117,6 +124,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=1000,
                 affected_by_speed_stat=False,
@@ -139,6 +147,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
@@ -173,6 +182,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0,
                 animation_lock=650,
@@ -199,6 +209,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=100, application_delay=1100
             ),
@@ -217,6 +228,7 @@ class SgeSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,

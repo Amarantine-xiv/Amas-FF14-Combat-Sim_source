@@ -3,6 +3,7 @@ import math
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -28,7 +29,6 @@ class MnkSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=1.15, duration=int(14.97 * 1000)
                 ),
@@ -43,7 +43,6 @@ class MnkSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -60,6 +59,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -93,6 +93,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -111,7 +112,6 @@ class MnkSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -133,7 +133,6 @@ class MnkSkills(GenericJobClass):
             else FollowUp(
                 skill=Skill(
                     name="Demolish (dot)",
-                    is_GCD=False,
                     damage_spec=DamageSpec(
                         potency=self._skill_data.get_potency("Demolish (dot)"),
                         damage_class=DamageClass.PHYSICAL_DOT,
@@ -191,6 +190,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=self._skill_data.get_skill_data(name, "damage_spec"),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -256,6 +256,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -271,6 +272,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),
@@ -287,7 +289,6 @@ class MnkSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
@@ -307,6 +308,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=(
                 {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -398,6 +400,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=(
                 {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -425,6 +428,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=(
                 {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -487,6 +491,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -503,6 +508,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -523,6 +529,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1420
@@ -535,6 +542,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -552,6 +560,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -567,6 +576,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,  # Does apply instantly it seems.
             # Riddle of fire seems to last ~0.7-0.8s longer than advertised
             buff_spec=StatusEffectSpec(
@@ -581,6 +591,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             # Self is about 800ms after, following is 133-134 in order
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
@@ -598,6 +609,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,  # Does apply instantly it seems.
             # Riddle of wind seems to last ~0.8s longer than advertised
             buff_spec=StatusEffectSpec(
@@ -612,6 +624,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
@@ -627,6 +640,7 @@ class MnkSkills(GenericJobClass):
         sss1 = Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=self._skill_data.get_skill_data(name, "damage_spec"),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -641,6 +655,7 @@ class MnkSkills(GenericJobClass):
         sss2 = Skill(
             name="Six-Sided Star",  # note capitalization
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=self._skill_data.get_skill_data(name, "damage_spec"),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -658,6 +673,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -689,6 +705,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -706,6 +723,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -725,6 +743,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -773,6 +792,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -796,6 +816,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name),
@@ -840,6 +861,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -859,6 +881,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -877,6 +900,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -895,6 +919,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,  # Does apply instantly it seems.
             follow_up_skills=(
                 opo_opo_form_follow_up,
@@ -909,6 +934,7 @@ class MnkSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(base_cast_time=0),
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
         )
@@ -920,34 +946,69 @@ class MnkSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def steeled_meditation(self):
         name = "Steeled Meditation"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def inspirited_meditation(self):
         name = "Inspirited Meditation"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def forbidden_meditation(self):
         name = "Forbidden Meditation"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def enlightened_meditation(self):
         name = "Enlightened Meditation"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def true_north(self):
         name = "True North"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def meditation(self):
         name = "Meditation"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def thunderclap(self):
         name = "Thunderclap"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )

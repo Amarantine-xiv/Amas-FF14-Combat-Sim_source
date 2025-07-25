@@ -1,5 +1,6 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
@@ -72,7 +73,6 @@ class NinSkills(GenericJobClass):
             all_bunshin_follow_ups[sk] = FollowUp(
                 skill=Skill(
                     name=f"{sk} (pet)",
-                    is_GCD=False,
                     damage_spec=DamageSpec(
                         potency=bunshin_potency,
                         damage_class=DamageClass.PET,
@@ -104,7 +104,6 @@ class NinSkills(GenericJobClass):
         res = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             ),
             delay_after_parent_application=0,
@@ -118,7 +117,6 @@ class NinSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     haste_time_reduction=0.15,
                     auto_attack_delay_reduction=0.15,
@@ -136,7 +134,6 @@ class NinSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     haste_time_reduction=0.15,
                     auto_attack_delay_reduction=0.15,
@@ -152,7 +149,6 @@ class NinSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     haste_time_reduction=0.15,
                     auto_attack_delay_reduction=0.15,
@@ -164,13 +160,25 @@ class NinSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
+    def auto(self):
+        name = "Auto"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.AUTO,
+            timing_spec=self.auto_timing_spec,
+            damage_spec=DamageSpec(
+                potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
     def dream_within_a_dream(self):
         name = "Dream Within a Dream"
         _dream_follow_ups = (
             FollowUp(
                 skill=Skill(
                     name=name,
-                    is_GCD=False,
                     damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 ),
                 snapshot_buffs_with_parent=True,
@@ -180,7 +188,6 @@ class NinSkills(GenericJobClass):
             FollowUp(
                 skill=Skill(
                     name=name,
-                    is_GCD=False,
                     damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 ),
                 snapshot_buffs_with_parent=True,
@@ -190,7 +197,6 @@ class NinSkills(GenericJobClass):
             FollowUp(
                 skill=Skill(
                     name=name,
-                    is_GCD=False,
                     damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
                 ),
                 snapshot_buffs_with_parent=True,
@@ -201,20 +207,9 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             follow_up_skills=_dream_follow_ups,
-        )
-
-    @GenericJobClass.is_a_skill
-    def auto(self):
-        name = "Auto"
-        return Skill(
-            name=name,
-            is_GCD=False,
-            timing_spec=self.auto_timing_spec,
-            damage_spec=DamageSpec(
-                potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
-            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -224,7 +219,6 @@ class NinSkills(GenericJobClass):
         doton_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency(name),
                     damage_class=DamageClass.PHYSICAL_DOT,
@@ -239,6 +233,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 duration=self._skill_data.get_skill_data("Doton (dot)", "duration"),
@@ -264,12 +259,11 @@ class NinSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def hollow_nozuchi(self):
-        # TODO: fix. gcds only will proc it, like bunshin. Ty An.
-        # hollow nozuchi procs every time an aoe gcd is used while doton is down
         name = "Hollow Nozuchi"
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
@@ -289,6 +283,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
@@ -324,6 +319,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Spinning Edge",)),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
@@ -355,6 +351,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
@@ -393,6 +390,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (
@@ -437,6 +435,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: (
                     trick_damage_follow_up,
@@ -584,6 +583,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Gust Slash",)),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
@@ -611,6 +611,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
@@ -653,6 +654,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Death Blossom",)),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
@@ -756,6 +758,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             combo_spec=(ComboSpec(combo_actions=("Gust Slash",)),),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
@@ -850,6 +853,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
@@ -873,6 +877,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
@@ -892,6 +897,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
@@ -905,6 +911,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -945,6 +952,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             timing_spec=TimingSpec(base_cast_time=0),
             status_effect_denylist=("Dragon Sight",),
             follow_up_skills={
@@ -959,6 +967,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
@@ -975,6 +984,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=760
@@ -991,6 +1001,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
@@ -1018,6 +1029,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
@@ -1047,6 +1059,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
@@ -1072,6 +1085,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
@@ -1097,6 +1111,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=self._skill_data.get_skill_data(name, "damage_spec"),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
@@ -1127,6 +1142,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
@@ -1155,6 +1171,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -1175,6 +1192,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.WEAPONSKILL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -1191,6 +1209,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
@@ -1206,6 +1225,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
@@ -1224,6 +1244,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
@@ -1262,6 +1283,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
@@ -1278,6 +1300,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
@@ -1292,6 +1315,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
                     potency=self._skill_data.get_potency(name)
@@ -1313,6 +1337,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1690
@@ -1327,6 +1352,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
@@ -1349,27 +1375,53 @@ class NinSkills(GenericJobClass):
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
 
+    # Ten, Chi, Jin are "gcds" or act like it, but they are technically abilities.
     @GenericJobClass.is_a_skill
     def ten(self):
         name = "Ten"
-        return Skill(name=name, is_GCD=True, timing_spec=self.__mudra_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.ABILITY, #Mudras are actually "Ability" skills
+            timing_spec=self.__mudra_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def chi(self):
         name = "Chi"
-        return Skill(name=name, is_GCD=True, timing_spec=self.__mudra_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.ABILITY, #Mudras are actually "Ability" skills
+            timing_spec=self.__mudra_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def jin(self):
         name = "Jin"
-        return Skill(name=name, is_GCD=True, timing_spec=self.__mudra_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=True, #Mudras are actually "Ability" skills
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.__mudra_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def true_north(self):
         name = "True North"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def hide(self):
         name = "Hide"
-        return Skill(name=name, is_GCD=False, timing_spec=self.instant_timing_spec)
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )

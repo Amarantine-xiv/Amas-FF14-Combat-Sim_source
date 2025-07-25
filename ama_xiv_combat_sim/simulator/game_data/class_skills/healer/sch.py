@@ -2,6 +2,7 @@ import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
@@ -24,6 +25,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -36,6 +38,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=1500, animation_lock=100, application_delay=800
             ),
@@ -48,6 +51,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=940
             ),
@@ -60,6 +64,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1070
             ),
@@ -72,6 +77,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
@@ -80,11 +86,12 @@ class SchSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
-    def add_chain_stratagem(self):
+    def chain_stratagem(self):
         name = "Chain Stratagem"
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
@@ -100,7 +107,6 @@ class SchSkills(GenericJobClass):
         name = "Biolysis (dot)"
         biolysis_dot = Skill(
             name=name,
-            is_GCD=False,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 damage_class=DamageClass.MAGICAL_DOT,
@@ -111,6 +117,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
@@ -133,17 +140,18 @@ class SchSkills(GenericJobClass):
         name = "Baneful Impaction (dot)"
         baneful_dot = Skill(
             name=name,
-            is_GCD=False,
             damage_spec=DamageSpec(
                 potency=self._skill_data.get_potency(name),
                 damage_class=DamageClass.MAGICAL_DOT,
             ),
+            has_aoe=True,
         )
 
         name = "Baneful Impaction"
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1290
             ),
@@ -165,6 +173,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
@@ -181,13 +190,19 @@ class SchSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def dissipation(self):
         return Skill(
-            name="Dissipation", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Dissipation",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def aetherflow(self):
         return Skill(
-            name="Aetherflow", is_GCD=False, timing_spec=self.instant_timing_spec
+            name="Aetherflow",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
@@ -198,6 +213,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=2000, animation_lock=650, application_delay=670
             ),
@@ -211,6 +227,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),
@@ -224,6 +241,7 @@ class SchSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=670
             ),

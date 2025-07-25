@@ -2,6 +2,7 @@ import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
+from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
@@ -96,7 +97,6 @@ class BlmSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 buff_spec=StatusEffectSpec(
                     damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
                     duration=self._skill_data.get_skill_data(name, "duration"),
@@ -235,6 +235,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.AUTO,
             timing_spec=self.auto_timing_spec,
             damage_spec=DamageSpec(
                 potency=90, damage_class=DamageClass.AUTO, trait_damage_mult_override=1
@@ -247,7 +248,6 @@ class BlmSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency("Thunder III (dot)"),
                     damage_class=DamageClass.MAGICAL_DOT,
@@ -267,7 +267,6 @@ class BlmSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency("Thunder IV (dot)"),
                     damage_class=DamageClass.MAGICAL_DOT,
@@ -288,6 +287,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=self.__get_enochian_damage_spec_cross(
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
@@ -350,7 +350,6 @@ class BlmSkills(GenericJobClass):
         name = "Firestarter"
         firestarter_buff = Skill(
             name=name,
-            is_GCD=False,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
@@ -367,6 +366,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),
@@ -384,7 +384,6 @@ class BlmSkills(GenericJobClass):
         name = "Thundercloud"
         thundercloud_buff = Skill(
             name=name,
-            is_GCD=False,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
@@ -403,6 +402,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),
@@ -422,7 +422,6 @@ class BlmSkills(GenericJobClass):
             else FollowUp(
                 skill=Skill(
                     name="Enhanced",
-                    is_GCD=False,
                     buff_spec=StatusEffectSpec(
                         add_to_skill_modifier_condition=True,
                         num_uses=1,
@@ -438,6 +437,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=self.__get_enochian_damage_spec_cross(
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=True
             ),
@@ -487,6 +487,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=fire_damage_spec,
             timing_spec=fire_timing_spec,
             job_resource_spec=fire_job_resource_spec,
@@ -515,6 +516,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=(
                 {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(
@@ -568,6 +570,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=fire_iii_damage_spec,
             timing_spec=fire_iii_timing_spec,
             job_resource_spec=(
@@ -587,6 +590,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=self.__get_enochian_damage_spec_cross(
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
@@ -611,6 +615,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=self.__get_enochian_damage_spec_cross(
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
@@ -632,6 +637,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=(
                 DamageSpec(potency=self._skill_data.get_potency(name))
                 if self._version >= "7.0"
@@ -730,6 +736,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=flare_damage_spec,
             timing_spec=flare_timing_spec,
             job_resource_spec=(
@@ -751,6 +758,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 haste_time_reduction=0.15,
@@ -765,6 +773,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=self.__get_enochian_damage_spec_cross(
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
@@ -781,6 +790,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=self.__get_enochian_damage_spec_cross(
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=True
             ),
@@ -799,6 +809,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=(
                 DamageSpec(potency=self._skill_data.get_potency(name))
                 if self._version >= "7.0"
@@ -857,6 +868,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -873,6 +885,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=self.__get_enochian_damage_spec_cross(
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=True
             ),
@@ -899,6 +912,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0,
@@ -913,6 +927,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=self.__get_enochian_damage_spec_cross(
                 base_potency=self._skill_data.get_potency(name), is_fire_spell=False
             ),
@@ -990,6 +1005,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=(
                 {
@@ -1067,7 +1083,6 @@ class BlmSkills(GenericJobClass):
         high_thunder_follow_up = FollowUp(
             skill=Skill(
                 name="Thunder (dot)",
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency("High Thunder (dot)"),
                     damage_class=DamageClass.MAGICAL_DOT,
@@ -1085,6 +1100,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
@@ -1101,7 +1117,6 @@ class BlmSkills(GenericJobClass):
         high_thunder_ii_follow_up = FollowUp(
             skill=Skill(
                 name="Thunder (dot)",
-                is_GCD=False,
                 damage_spec=DamageSpec(
                     potency=self._skill_data.get_potency("High Thunder II (dot)"),
                     damage_class=DamageClass.MAGICAL_DOT,
@@ -1119,6 +1134,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=2500,
@@ -1145,6 +1161,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
+            skill_type=SkillType.SPELL,
             damage_spec=flare_star_damage_spec,
             timing_spec=flare_star_timing_spec,
             has_aoe=True,
@@ -1157,6 +1174,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
@@ -1207,6 +1225,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
@@ -1257,6 +1276,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
             buff_spec=(
                 None
@@ -1336,6 +1356,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
             buff_spec=StatusEffectSpec(
                 add_to_skill_modifier_condition=True,
@@ -1361,6 +1382,7 @@ class BlmSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=False,
+            skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
             job_resource_spec=(
                 (
@@ -1380,12 +1402,18 @@ class BlmSkills(GenericJobClass):
     def umbral_soul(self):
         name = "Umbral Soul"
         return Skill(
-            name=name, is_GCD=False, timing_spec=self.__blm_instant_timing_spec
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.__blm_instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill
     def amplifier(self):
         name = "Amplifier"
         return Skill(
-            name=name, is_GCD=False, timing_spec=self.__blm_instant_timing_spec
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.__blm_instant_timing_spec,
         )
