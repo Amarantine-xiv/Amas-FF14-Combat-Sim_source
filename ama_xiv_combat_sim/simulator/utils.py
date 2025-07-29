@@ -151,6 +151,8 @@ class Utils:
                 to_try.add_to_condition(",".join(init_skill_modifier.with_condition))
                 return ", ".join(to_try.with_condition)
 
-        raise ValueError(
-            f"Could not find match for skill {skill.name} with bonusPercent {init_skill_modifier.bonus_percent} and condition {init_skill_modifier.with_condition}. Please contact a dev.\n"
-        )
+        print(f"Could not find match for skill {skill.name} with bonusPercent {init_skill_modifier.bonus_percent} and condition {init_skill_modifier.with_condition}. Please contact a dev.\n")
+        return ", ".join(skill_modifier.with_condition)
+        # raise ValueError(
+        #     f"Could not find match for skill {skill.name} with bonusPercent {init_skill_modifier.bonus_percent} and condition {init_skill_modifier.with_condition}. Please contact a dev.\n"
+        # )
