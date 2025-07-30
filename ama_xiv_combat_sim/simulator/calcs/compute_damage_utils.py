@@ -44,6 +44,23 @@ class ComputeDamageUtils:
         )
 
     @staticmethod
+    def __compute_final_main_stat(stats, status_effects):
+        main_stat = np.floor(
+            stats.main_stat
+            * status_effects[0].main_stat_mult
+            * status_effects[1].main_stat_mult
+        )
+        main_stat += min(
+            status_effects[0].main_stat_add,
+            GameConsts.MAX_MAINSTAT_FRACTION * main_stat,
+        ) + min(
+            status_effects[1].main_stat_add,
+            GameConsts.MAX_MAINSTAT_FRACTION * main_stat,
+        )
+        main_stat = np.floor(main_stat * (1 + 0.01 * stats.num_roles_in_party))
+        return main_stat
+
+    @staticmethod
     def get_guaranteed_dh_bonus_dmg_multiplier(status_effects):
         bonus_dh_rate_add = (
             status_effects[0].dh_rate_add + status_effects[1].dh_rate_add
@@ -141,13 +158,7 @@ class ComputeDamageUtils:
     @staticmethod
     def compute_direct_damage(skill, skill_modifier, stats, status_effects):
         is_tank = stats.job_class_fns.isTank(stats.job_class)
-        main_stat = np.floor(
-            stats.main_stat
-            * status_effects[0].main_stat_mult
-            * status_effects[1].main_stat_mult
-        )
-        main_stat += status_effects[0].main_stat_add + status_effects[1].main_stat_add
-        main_stat = np.floor(main_stat * (1 + 0.01 * stats.num_roles_in_party))
+        main_stat = ComputeDamageUtils.__compute_final_main_stat(stats, status_effects)
 
         damage_spec = skill.get_damage_spec(skill_modifier)
 
@@ -217,13 +228,7 @@ class ComputeDamageUtils:
     @staticmethod
     def compute_magical_dot_damage(skill, skill_modifier, stats, status_effects):
         is_tank = stats.job_class_fns.isTank(stats.job_class)
-        main_stat = np.floor(
-            stats.main_stat
-            * status_effects[0].main_stat_mult
-            * status_effects[1].main_stat_mult
-        )
-        main_stat += status_effects[0].main_stat_add + status_effects[1].main_stat_add
-        main_stat = np.floor(main_stat * (1 + 0.01 * stats.num_roles_in_party))
+        main_stat = ComputeDamageUtils.__compute_final_main_stat(stats, status_effects)
 
         damage_spec = skill.get_damage_spec(skill_modifier)
 
@@ -271,13 +276,7 @@ class ComputeDamageUtils:
     @staticmethod
     def compute_physical_dot_damage(skill, skill_modifier, stats, status_effects):
         is_tank = stats.job_class_fns.isTank(stats.job_class)
-        main_stat = np.floor(
-            stats.main_stat
-            * status_effects[0].main_stat_mult
-            * status_effects[1].main_stat_mult
-        )
-        main_stat += status_effects[0].main_stat_add + status_effects[1].main_stat_add
-        main_stat = np.floor(main_stat * (1 + 0.01 * stats.num_roles_in_party))
+        main_stat = ComputeDamageUtils.__compute_final_main_stat(stats, status_effects)
 
         damage_spec = skill.get_damage_spec(skill_modifier)
 
@@ -344,7 +343,13 @@ class ComputeDamageUtils:
             * status_effects[0].main_stat_mult
             * status_effects[1].main_stat_mult
         )
-        main_stat += status_effects[0].main_stat_add + status_effects[1].main_stat_add
+        main_stat += min(
+            status_effects[0].main_stat_add,
+            GameConsts.MAX_MAINSTAT_FRACTION * main_stat,
+        ) + min(
+            status_effects[1].main_stat_add,
+            GameConsts.MAX_MAINSTAT_FRACTION * main_stat,
+        )
         main_stat *= damage_spec.pet_scalar
 
         potency = damage_spec.potency
@@ -400,16 +405,9 @@ class ComputeDamageUtils:
             )
         else:
             # for non-healers/casters, the stat used to compute autos is our main stat, and we get all the buffs/bonuses on it
-            main_stat = np.floor(
-                stats.main_stat
-                * status_effects[0].main_stat_mult
-                * status_effects[1].main_stat_mult
+            main_stat = ComputeDamageUtils.__compute_final_main_stat(
+                stats, status_effects
             )
-            main_stat += (
-                status_effects[0].main_stat_add + status_effects[1].main_stat_add
-            )
-
-            main_stat = np.floor(main_stat * (1 + 0.01 * stats.num_roles_in_party))
 
         damage_spec = skill.get_damage_spec(skill_modifier)
 

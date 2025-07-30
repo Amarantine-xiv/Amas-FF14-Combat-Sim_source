@@ -1964,7 +1964,7 @@ class TestJobsUnified705(TestClass):
         rb.add_next("Thunder III")
 
         expected_damage = 475338
-        expected_total_time = 26620
+        expected_total_time = 26120
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time
         )

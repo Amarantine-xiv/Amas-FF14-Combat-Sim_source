@@ -12,6 +12,7 @@ class GameConsts:
     DH_DAMAGE_MULT_BONUS = 0.25
     MIN_GCD_RECAST_TIME = 1500
     MULTI_TARGET_DELAY_PER_TARGET = 135
+    MAX_MAINSTAT_FRACTION = 0.10
     # level mods from akhmorning
 
     # Key is the version. This is interpreted as stats at max-level for now.
