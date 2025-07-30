@@ -99,7 +99,7 @@ class TestJobsUnified701(TestClass):
         rb.add_next("Storm's Path")
         rb.add_next("Fell Cleave")
         rb.add_next("Inner Chaos")
-        expected_damage = 376198.2
+        expected_damage = 373574
         expected_total_time = 32645
 
         return self.__job_class_tester.test_aggregate_rotation(
@@ -1287,7 +1287,7 @@ class TestJobsUnified701(TestClass):
         rb.add_next("Chi")
         rb.add_next("Raiton")
         rb.add_next("Forked Raiju")
-        expected_damage = 625945
+        expected_damage = 620785
         expected_total_time = 27228.0
 
         return self.__job_class_tester.test_aggregate_rotation(
@@ -2015,7 +2015,7 @@ class TestJobsUnified701(TestClass):
         for e in skill_seq:
             rb.add_next(e)
 
-        expected_damage = 1113818
+        expected_damage = 1105936
         expected_total_time = 54450
 
         return self.__job_class_tester.test_aggregate_rotation(

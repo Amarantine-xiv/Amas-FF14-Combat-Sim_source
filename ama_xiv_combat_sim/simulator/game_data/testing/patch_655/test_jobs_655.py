@@ -512,7 +512,7 @@ class TestJobsUnified655(TestClass):
         rb.add_next("Glare III")
         rb.add_next("Assize")
         rb.add_next("Glare III", num_times=10)
-        expected_damage = 301604.8
+        expected_damage = 299316
         expected_total_time = 29480.0
 
         return self.__job_class_tester.test_aggregate_rotation(
@@ -1594,7 +1594,7 @@ class TestJobsUnified655(TestClass):
         rb.add_next("Blizzard IV")
         rb.add_next("Thunder III")
 
-        expected_damage = 423107.9
+        expected_damage = 419534
         expected_total_time = 23350.0
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time

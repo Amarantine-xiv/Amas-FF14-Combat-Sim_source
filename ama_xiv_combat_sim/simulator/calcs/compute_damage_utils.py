@@ -50,6 +50,7 @@ class ComputeDamageUtils:
             * status_effects[0].main_stat_mult
             * status_effects[1].main_stat_mult
         )
+        main_stat = np.floor(main_stat * (1 + 0.01 * stats.num_roles_in_party))
         main_stat += min(
             status_effects[0].main_stat_add,
             GameConsts.MAX_MAINSTAT_FRACTION * main_stat,
@@ -57,7 +58,6 @@ class ComputeDamageUtils:
             status_effects[1].main_stat_add,
             GameConsts.MAX_MAINSTAT_FRACTION * main_stat,
         )
-        main_stat = np.floor(main_stat * (1 + 0.01 * stats.num_roles_in_party))
         return main_stat
 
     @staticmethod
