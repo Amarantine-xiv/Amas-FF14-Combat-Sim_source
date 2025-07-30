@@ -17,6 +17,10 @@ from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.blm_data import 
     all_blm_skills,
 )
 
+# TODO(ama): enochian should be granted immediately, not on damage application.
+# this is important to properly grant enochian timings, especially to opening damage.
+# This is important for skills with long damage application times.
+
 
 class BlmSkills(GenericJobClass):
 
@@ -121,7 +125,7 @@ class BlmSkills(GenericJobClass):
         name = "Umbral Ice"
         job_resource_settings = JobResourceSettings(
             max_value=3,
-            expiry_from_last_gain=15 * 1000,
+            expiry_from_last_gain=self._skill_data.get_skill_data(name, "duration"),
             skill_allowlist=self.__ui_skill_allowlist,
         )
         return (name, job_resource_settings)
@@ -551,7 +555,7 @@ class BlmSkills(GenericJobClass):
         fire_iii_timing_spec = self.__get_enochian_timing_spec_cross(
             base_cast_time=self._skill_data.get_skill_data(name, "cast_time"),
             is_fire_spell=True,
-            application_delay=1290,
+            application_delay=0,
         )
         fire_iii_keys = tuple(fire_iii_damage_spec.keys())
         for k in fire_iii_keys:
@@ -564,14 +568,23 @@ class BlmSkills(GenericJobClass):
             fire_iii_timing_spec[assembled_str] = TimingSpec(
                 base_cast_time=0,
                 animation_lock=self.__base_animation_lock,
-                application_delay=1290,
+                application_delay=0,
+            )
+
+        fire_iii_followups = {}
+        for k, val in fire_iii_damage_spec.items():
+            fire_iii_followups[k] = (
+                FollowUp(
+                    skill=Skill(name="Fire III", damage_spec=val),
+                    delay_after_parent_application=1290,
+                ),
+                self.__enochian_buff_follow_up,
             )
 
         return Skill(
             name=name,
             is_GCD=True,
             skill_type=SkillType.SPELL,
-            damage_spec=fire_iii_damage_spec,
             timing_spec=fire_iii_timing_spec,
             job_resource_spec=(
                 self.__clear_umbral_ice,
@@ -581,7 +594,7 @@ class BlmSkills(GenericJobClass):
                     refreshes_duration_of_last_gained=True,
                 ),
             ),
-            follow_up_skills=(self.__enochian_buff_follow_up,),
+            follow_up_skills=fire_iii_followups,
         )
 
     @GenericJobClass.is_a_skill
@@ -1406,6 +1419,13 @@ class BlmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
+            job_resource_spec=(
+                JobResourceSpec(
+                    name="Umbral Ice",
+                    change=+1,
+                    refreshes_duration_of_last_gained=True,
+                ),
+            ),
         )
 
     @GenericJobClass.is_a_skill
