@@ -41,24 +41,32 @@ ALL_DATA = {
         },
     },
     "Jolt II": {90: {"potency": {"6.55": 320}}, 100: {"potency": {"7.0": 280}}},
-    "Jolt III": {90: {"potency": {"7.0": 360}},
-                 100: {"potency": {"7.0": 360}}},
+    "Jolt III": {90: {"potency": {"7.0": 360}}, 100: {"potency": {"7.0": 360}}},
     "Impact": {
         90: {"potency": {"6.55": 210}, "potency_acceleration": {"6.55": 260}},
         100: {"potency": {"7.0": 210}, "potency_acceleration": {"7.0": 260}},
     },
     "Verflare": {
-        90: {"potency": {"6.55": 600}},
-        100: {"potency": {"7.0": 620, "7.1": 650}},
+        90: {"potency": {"6.55": 600}, "aoe_dropoff": {"6.55": 0.6, "7.3": 0.55}},
+        100: {
+            "potency": {"7.0": 620, "7.1": 650},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.55},
+        },
     },
     "Verholy": {
-        90: {"potency": {"6.55": 600}},
-        100: {"potency": {"7.0": 620, "7.1": 650}},
+        90: {"potency": {"6.55": 600}, "aoe_dropoff": {"6.55": 0.6, "7.3": 0.55}},
+        100: {
+            "potency": {"7.0": 620, "7.1": 650},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.55},
+        },
     },
     "Reprise": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Scorch": {
-        90: {"potency": {"6.55": 680}},
-        100: {"potency": {"7.0": 700, "7.1": 750}},
+        90: {"potency": {"6.55": 680}, "aoe_dropoff": {"6.55": 0.6, "7.3": 0.55}},
+        100: {
+            "potency": {"7.0": 700, "7.1": 750},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.55},
+        },
     },
     "Verthunder III": {
         90: {"potency": {"6.55": 380}},
@@ -69,23 +77,50 @@ ALL_DATA = {
         100: {"potency": {"7.0": 420, "7.05": 440}},
     },
     "Resolution": {
-        90: {"potency": {"6.55": 750}},
-        100: {"potency": {"7.0": 800, "7.1": 850}},
+        90: {
+            "potency": {"6.55": 750},
+            "aoe_dropoff": {"6.55": 0.6, "7.3": 0.55},
+        },
+        100: {
+            "potency": {"7.0": 800, "7.1": 850},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.55},
+        },
     },
-    "Vice of Thorns": {100: {"potency": {"7.0": 700, "7.2": 800}}},
-    "Grand Impact": {100: {"potency": {"7.0": 600}}},
-    "Prefulgence": {100: {"potency": {"7.0": 900, "7.2": 1000}}},
+    "Vice of Thorns": {
+        100: {
+            "potency": {"7.0": 700, "7.2": 800, "7.3": 900},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.55},
+        }
+    },
+    "Grand Impact": {
+        100: {
+            "potency": {"7.0": 600},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.55},
+        }
+    },
+    "Prefulgence": {
+        100: {
+            "potency": {"7.0": 900, "7.2": 1000, "7.3": 1200},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.55},
+        }
+    },
     "Enchanted Riposte": {
         90: {"potency": {"6.55": 280}},
-        100: {"potency": {"7.0": 300}},
+        100: {"potency": {"7.0": 300, "7.3": 340}},
     },
     "Enchanted Zwerchhau": {
         90: {"potency": {"6.55": 340}, "potency_no_combo": {"6.55": 150}},
-        100: {"potency": {"7.0": 360}, "potency_no_combo": {"7.0": 170}},
+        100: {
+            "potency": {"7.0": 360, "7.3": 380},
+            "potency_no_combo": {"7.0": 170, "7.3": 190},
+        },
     },
     "Enchanted Redoublement": {
         90: {"potency": {"6.55": 500}, "potency_no_combo": {"6.55": 130}},
-        100: {"potency": {"7.0": 540}, "potency_no_combo": {"7.0": 170}},
+        100: {
+            "potency": {"7.0": 540, "7.3": 560},
+            "potency_no_combo": {"7.0": 170, "7.3": 190},
+        },
     },
     "Enchanted Moulinet": {
         90: {"potency": {"6.55": 130}},

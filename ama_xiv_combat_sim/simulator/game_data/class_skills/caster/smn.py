@@ -475,7 +475,7 @@ class SmnSkills(GenericJobClass):
                 application_delay=800,
             ),
             has_aoe=True,
-            aoe_dropoff=0.65,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -496,7 +496,7 @@ class SmnSkills(GenericJobClass):
                 application_delay=760,
             ),
             has_aoe=True,
-            aoe_dropoff=0.65,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -517,7 +517,7 @@ class SmnSkills(GenericJobClass):
                 application_delay=760,
             ),
             has_aoe=True,
-            aoe_dropoff=0.7,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -557,7 +557,7 @@ class SmnSkills(GenericJobClass):
             ),
             follow_up_skills=(slipstream_follow_up,),
             has_aoe=True,
-            aoe_dropoff=0.65,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -577,7 +577,7 @@ class SmnSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True,
-                aoe_dropoff=0.6,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
@@ -611,7 +611,7 @@ class SmnSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True,
-                aoe_dropoff=0.6,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
@@ -646,7 +646,7 @@ class SmnSkills(GenericJobClass):
                     )
                 },
                 has_aoe=True,
-                aoe_dropoff=0.6,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,

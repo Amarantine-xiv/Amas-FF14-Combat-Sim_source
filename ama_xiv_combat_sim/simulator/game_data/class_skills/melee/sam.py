@@ -708,7 +708,7 @@ class SamSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
             has_aoe=True,
-            aoe_dropoff=0.25,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill

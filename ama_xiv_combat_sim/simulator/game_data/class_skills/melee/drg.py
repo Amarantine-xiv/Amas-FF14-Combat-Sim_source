@@ -607,7 +607,7 @@ class DrgSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=1500, application_delay=1290
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -802,7 +802,7 @@ class DrgSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=600, application_delay=980
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill

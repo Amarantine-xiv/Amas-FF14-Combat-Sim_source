@@ -7,17 +7,17 @@ all_sge_skills = SpecificSkills()
 ALL_DATA = {
     "Dosis III": {
         90: {"potency": {"6.55": 330}},
-        100: {"potency": {"7.0": 360, "7.1": 370}},
+        100: {"potency": {"7.0": 360, "7.1": 370, "7.3": 380}},
     },
     "Phlegma III": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
     "Toxikon II": {
         90: {"potency": {"6.55": 330}},
-        100: {"potency": {"7.0": 360, "7.1": 370}},
+        100: {"potency": {"7.0": 360, "7.1": 370, "7.3": 380}},
     },
     "Dyskrasia II": {90: {"potency": {"6.55": 170}}, 100: {"potency": {"7.0": 170}}},
     "Pneuma": {
         90: {"potency": {"6.55": 330}},
-        100: {"potency": {"7.0": 360, "7.1": 370}},
+        100: {"potency": {"7.0": 360, "7.1": 370, "7.3": 380}},
     },
     "Eukrasian Dosis III (dot)": {
         90: {"potency": {"6.55": 75, "7.2": 80}, "potency_dysk": {"7.0": 40}},

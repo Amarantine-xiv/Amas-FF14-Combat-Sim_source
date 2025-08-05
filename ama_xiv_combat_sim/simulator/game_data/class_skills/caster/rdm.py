@@ -547,7 +547,7 @@ class RdmSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1430
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -563,7 +563,7 @@ class RdmSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1430
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -590,7 +590,7 @@ class RdmSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1830
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -688,7 +688,7 @@ class RdmSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1560
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -706,7 +706,7 @@ class RdmSkills(GenericJobClass):
             ),
             status_effect_denylist=("Manafication", "Embolden"),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -738,7 +738,7 @@ class RdmSkills(GenericJobClass):
                 "Dualcast": tuple(),
             },
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -756,7 +756,7 @@ class RdmSkills(GenericJobClass):
             ),
             status_effect_denylist=("Manafication",),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill

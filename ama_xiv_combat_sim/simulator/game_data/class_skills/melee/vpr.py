@@ -1042,7 +1042,7 @@ class VprSkills(GenericJobClass):
             Skill(
                 name=name,
                 damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-                aoe_dropoff=0.5,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
             ),
             delay_after_parent_application=800,
             primary_target_only=False,
@@ -1081,7 +1081,7 @@ class VprSkills(GenericJobClass):
                 gcd_base_recast_time=2200,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1107,7 +1107,7 @@ class VprSkills(GenericJobClass):
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1133,7 +1133,7 @@ class VprSkills(GenericJobClass):
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1161,7 +1161,7 @@ class VprSkills(GenericJobClass):
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1187,7 +1187,7 @@ class VprSkills(GenericJobClass):
                 gcd_base_recast_time=2000,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1221,7 +1221,7 @@ class VprSkills(GenericJobClass):
             ),
             follow_up_skills=(poised_for_twinblood_follow_up,),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1245,7 +1245,7 @@ class VprSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=980
             ),
             has_aoe=True,
-            aoe_dropoff=0.5,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1265,7 +1265,7 @@ class VprSkills(GenericJobClass):
                 gcd_base_recast_time=3000,
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1282,7 +1282,7 @@ class VprSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1290
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1299,7 +1299,7 @@ class VprSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1316,7 +1316,7 @@ class VprSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1210
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     @GenericJobClass.is_a_skill
@@ -1333,7 +1333,7 @@ class VprSkills(GenericJobClass):
                 base_cast_time=0, animation_lock=650, application_delay=1070
             ),
             has_aoe=True,
-            aoe_dropoff=0.6,
+            aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
     # These skills do not damage, but grants resources/affects future skills.
