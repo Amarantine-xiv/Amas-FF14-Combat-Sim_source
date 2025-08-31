@@ -248,6 +248,7 @@ class AstSkills(GenericJobClass):
             delay_after_parent_application=10 * 1000,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only = False
         )
 
     def __get_stellar_detonation_follow_up(self):
@@ -278,6 +279,7 @@ class AstSkills(GenericJobClass):
             delay_after_parent_application=20 * 1000,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only = False
         )
 
     @GenericJobClass.is_a_skill
@@ -309,6 +311,7 @@ class AstSkills(GenericJobClass):
             delay_after_parent_application=10 * 1000,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only = False
         )
 
         name = "Giant Dominance"
@@ -383,6 +386,7 @@ class AstSkills(GenericJobClass):
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only = False
         )
 
         name = "Stellar Detonation"
@@ -413,6 +417,7 @@ class AstSkills(GenericJobClass):
             delay_after_parent_application=0,
             snapshot_buffs_with_parent=False,
             snapshot_debuffs_with_parent=False,
+            primary_target_only = False
         )
 
         name = "Earthly Star"

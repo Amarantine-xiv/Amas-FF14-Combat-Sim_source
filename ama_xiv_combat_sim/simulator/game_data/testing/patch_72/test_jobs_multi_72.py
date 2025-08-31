@@ -39,12 +39,19 @@ class TestJobsMultiUnified72(TestClass):
             level=self.__level,
         )
         base_oracle = 42847
+        base_earthly_star = 14801
         skills_and_expected_damages = (
             (
                 "Oracle",
                 "t1, t2, t3",
                 SkillModifier(),
                 (base_oracle, 0.5 * base_oracle, 0.5 * base_oracle),
+            ),
+            (
+                "Earthly Star",
+                "t1, t2, t3",
+                SkillModifier(),
+                (base_earthly_star, base_earthly_star, base_earthly_star),
             ),
         )
         return self.__job_class_tester.test_multi_target_skills(

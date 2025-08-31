@@ -231,6 +231,7 @@ class DrkSkills(GenericJobClass):
                     dot_duration=15 * 1000,
                     snapshot_buffs_with_parent=True,
                     snapshot_debuffs_with_parent=False,
+                    primary_target_only=False
                 ),
             ),
             has_aoe=True,

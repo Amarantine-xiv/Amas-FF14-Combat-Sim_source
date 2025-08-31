@@ -228,6 +228,7 @@ class NinSkills(GenericJobClass):
             dot_duration=self._skill_data.get_skill_data(name, "duration"),
             snapshot_buffs_with_parent=True,
             snapshot_debuffs_with_parent=False,
+            primary_target_only=False
         )
         name = "Doton"
         return Skill(
