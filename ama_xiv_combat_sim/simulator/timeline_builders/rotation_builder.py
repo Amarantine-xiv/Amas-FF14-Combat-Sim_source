@@ -644,6 +644,9 @@ class RotationBuilder:
         self, skill, skill_modifier, curr_buffs, curr_debuffs
     ):
         timing_spec = skill.get_timing_spec(skill_modifier)
+        if timing_spec is None:
+            print(f'Timing spec is none for: {skill.name}')
+            return (0, 0)
         if skill.is_GCD:
             trait_haste_time_mult = (
                 1 - self.__stats.processed_stats.trait_haste_time_reduction
@@ -887,20 +890,20 @@ class RotationBuilder:
         for event in self._q_snapshot_and_applications.get_q():
             skill = event.skill
             skill_modifier = event.skill_modifier
-            buff_spec = skill.get_buff_spec(skill_modifier)
-            debuff_spec = skill.get_debuff_spec(skill_modifier)
+            offensive_buff_spec = skill.get_offensive_buff_spec(skill_modifier)
+            offensive_debuff_spec = skill.get_offensive_debuff_spec(skill_modifier)
 
-            buff_spec_has_speed = buff_spec is not None and (
-                buff_spec.auto_attack_delay_reduction > 0
-                or buff_spec.haste_time_reduction > 0
-                or buff_spec.flat_cast_time_reduction > 0
+            offensive_buff_spec_has_speed = offensive_buff_spec is not None and (
+                offensive_buff_spec.auto_attack_delay_reduction > 0
+                or offensive_buff_spec.haste_time_reduction > 0
+                or offensive_buff_spec.flat_cast_time_reduction > 0
             )
-            debuff_spec_has_speed = debuff_spec is not None and (
-                debuff_spec.auto_attack_delay_reduction > 0
-                or debuff_spec.haste_time_reduction > 0
-                or debuff_spec.flat_cast_time_reduction > 0
+            offensive_debuff_spec_has_speed = offensive_debuff_spec is not None and (
+                offensive_debuff_spec.auto_attack_delay_reduction > 0
+                or offensive_debuff_spec.haste_time_reduction > 0
+                or offensive_debuff_spec.flat_cast_time_reduction > 0
             )
-            if not buff_spec_has_speed and not debuff_spec_has_speed:
+            if not offensive_buff_spec_has_speed and not offensive_debuff_spec_has_speed:
                 continue
             event_times = event.event_times
             application_time = (

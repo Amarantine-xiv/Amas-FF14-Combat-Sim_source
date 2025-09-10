@@ -30,13 +30,13 @@ class MitBuilder:
                 _,
             ] = q_snapshot_and_applications.get_next()
 
-            buff_spec = skill.get_buff_spec(skill_modifier)
+            offensive_buff_spec = skill.get_offensive_buff_spec(skill_modifier)
             has_damage_reduction_buff = (
-                buff_spec is not None and buff_spec.has_damage_reduction
+                offensive_buff_spec is not None and offensive_buff_spec.has_damage_reduction
             )
-            debuff_spec = skill.get_debuff_spec(skill_modifier)
+            offensive_debuff_spec = skill.get_offensive_debuff_spec(skill_modifier)
             has_damage_reduction_debuff = (
-                debuff_spec is not None and debuff_spec.has_damage_reduction
+                offensive_debuff_spec is not None and offensive_debuff_spec.has_damage_reduction
             )
 
             if not has_damage_reduction_buff and not has_damage_reduction_debuff:
@@ -46,7 +46,7 @@ class MitBuilder:
                 not has_damage_reduction_buff or not has_damage_reduction_debuff
             ), "Internal error: Mits should only be specified on buff or debuff. For multi-effects split into follow ups."
 
-            spec_to_use = buff_spec if buff_spec is not None else debuff_spec
+            spec_to_use = offensive_buff_spec if offensive_buff_spec is not None else offensive_debuff_spec
 
             # assume primary time is the only one we want
             start_time = event_times.primary

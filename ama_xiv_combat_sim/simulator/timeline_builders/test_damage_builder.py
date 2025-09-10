@@ -11,7 +11,7 @@ from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import (
     create_test_skill_library,
 )
-from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
 from ama_xiv_combat_sim.simulator.utils import Utils
 
 
@@ -67,19 +67,19 @@ class TestDamageBuilder(TestClass):
                 0,
                 self.__skill_library.get_skill("test_combo1", "test_job"),
                 SkillModifier(with_condition=SimConsts.COMBO_FAIL),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
             (
                 1000,
                 self.__skill_library.get_skill("test_combo0", "test_job"),
                 SkillModifier(with_condition=SimConsts.COMBO_SUCCESS),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
             (
                 2000,
                 self.__skill_library.get_skill("test_combo1", "test_job"),
                 SkillModifier(with_condition=SimConsts.COMBO_SUCCESS),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
 
@@ -113,7 +113,7 @@ class TestDamageBuilder(TestClass):
                 1000,
                 self.__skill_library.get_skill("test_skill_use_gauge", "test_job"),
                 SkillModifier(with_condition="10 Gauge"),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             )
         ]
 
@@ -155,13 +155,13 @@ class TestDamageBuilder(TestClass):
                 1000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(with_condition="test_skill_with_conditional"),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
             (
                 2000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
 
@@ -223,19 +223,19 @@ class TestDamageBuilder(TestClass):
                 1000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.1), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.1), OffensiveStatusEffects()),
             ),
             (
                 2000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(dh_rate_add=0.1), StatusEffects()),
+                (OffensiveStatusEffects(dh_rate_add=0.1), OffensiveStatusEffects()),
             ),
             (
                 3000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -277,15 +277,15 @@ class TestDamageBuilder(TestClass):
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
                 (
-                    StatusEffects(guaranteed_dh=ForcedCritOrDH.FORCE_YES),
-                    StatusEffects(),
+                    OffensiveStatusEffects(guaranteed_dh=ForcedCritOrDH.FORCE_YES),
+                    OffensiveStatusEffects(),
                 ),
             ),
             (
                 2000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -327,15 +327,15 @@ class TestDamageBuilder(TestClass):
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
                 (
-                    StatusEffects(guaranteed_crit=ForcedCritOrDH.FORCE_YES),
-                    StatusEffects(),
+                    OffensiveStatusEffects(guaranteed_crit=ForcedCritOrDH.FORCE_YES),
+                    OffensiveStatusEffects(),
                 ),
             ),
             (
                 2000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -376,13 +376,13 @@ class TestDamageBuilder(TestClass):
                 1500,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects()),
             ),
             (
                 2000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -432,13 +432,13 @@ class TestDamageBuilder(TestClass):
                 1500,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.1), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.1), OffensiveStatusEffects()),
             ),
             (
                 3500,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(dh_rate_add=0.2), StatusEffects()),
+                (OffensiveStatusEffects(dh_rate_add=0.2), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -488,13 +488,13 @@ class TestDamageBuilder(TestClass):
                 1500,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects(crit_rate_add=0.15)),
+                (OffensiveStatusEffects(), OffensiveStatusEffects(crit_rate_add=0.15)),
             ),
             (
                 3500,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects(dh_rate_add=0.25)),
+                (OffensiveStatusEffects(), OffensiveStatusEffects(dh_rate_add=0.25)),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -551,7 +551,7 @@ class TestDamageBuilder(TestClass):
                 3440,
                 self.__skill_library.get_skill("test_gcd_with_denylist", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
         )
         return self._compare_sequential(result, expected)
@@ -648,43 +648,43 @@ class TestDamageBuilder(TestClass):
                 3040,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(guaranteed_dh=ForcedCritOrDH.FORCE_YES),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 3440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 6440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 9440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 12440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 13440,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.0)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.0)),
             ),
             (
                 15440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -733,13 +733,13 @@ class TestDamageBuilder(TestClass):
                 1500,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 11000,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.0)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.0)),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -772,7 +772,7 @@ class TestDamageBuilder(TestClass):
                 500,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -801,7 +801,7 @@ class TestDamageBuilder(TestClass):
                     "test_default_buff_damage_order", "test_job"
                 ),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -827,14 +827,14 @@ class TestDamageBuilder(TestClass):
             (
                 0,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
-                SkillModifier(with_condition="Target 1"),
-                (StatusEffects(), StatusEffects()),
+                SkillModifier(),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
             (
                 GameConsts.MULTI_TARGET_DELAY_PER_TARGET,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
-                SkillModifier(with_condition="Target 2"),
-                (StatusEffects(), StatusEffects()),
+                SkillModifier(with_condition=SimConsts.SECONDARY_TARGET),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -869,14 +869,14 @@ class TestDamageBuilder(TestClass):
             (
                 5000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
-                SkillModifier(with_condition="Target 1"),
-                (StatusEffects(), StatusEffects(damage_mult=1.2)),
+                SkillModifier(),
+                (OffensiveStatusEffects(), OffensiveStatusEffects(damage_mult=1.2)),
             ),
             (
                 5000 + GameConsts.MULTI_TARGET_DELAY_PER_TARGET,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
-                SkillModifier(with_condition="Target 2"),
-                (StatusEffects(), StatusEffects()),
+                SkillModifier(with_condition=SimConsts.SECONDARY_TARGET),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
 

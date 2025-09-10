@@ -4,7 +4,7 @@ from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import (
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 
 
-class TestSkills(TestClass):
+class TestSkill(TestClass):
     def __init__(self):
         super().__init__()
         self.__skill_library = create_test_skill_library()
@@ -14,7 +14,7 @@ class TestSkills(TestClass):
         test_passed = True
         err_msg = ""
 
-        # skill name, has_buff, has_debuff
+        # skill name, has_offensive_buff, has_offensive_debuff
         skill_names_and_expected = [
             ("test_simple_buff_gcd", True, False),
             ("test_simple_debuff_gcd", False, True),
@@ -28,10 +28,10 @@ class TestSkills(TestClass):
         for skill_name, expected_buff, expected_debuff in skill_names_and_expected:
             result_buff = self.__skill_library.get_skill(
                 skill_name, job_class="test_job"
-            ).has_buff
+            ).has_offensive_buff
             result_debuff = self.__skill_library.get_skill(
                 skill_name, job_class="test_job"
-            ).has_debuff
+            ).has_offensive_debuff
             if (result_buff != expected_buff) or (result_debuff != expected_debuff):
                 test_passed = False
                 err_msg += f"Verification failed on: {skill_name}. Expected buff: {expected_buff}. Actual buff: {result_buff}. Expected debuff: {expected_debuff}. Actual debuff: {result_debuff}\n"
@@ -43,7 +43,7 @@ class TestSkills(TestClass):
         test_passed = True
         err_msg = ""
 
-        # skill name, has_party_buff, has_party_debuff
+        # skill name, has_offensive_party_buff, has_offensive_party_debuff
         skill_names_and_expected = [
             ("test_simple_buff_gcd", True, False),
             ("test_simple_debuff_gcd", False, True),
@@ -62,10 +62,10 @@ class TestSkills(TestClass):
         for skill_name, expected_buff, expected_debuff in skill_names_and_expected:
             result_buff = self.__skill_library.get_skill(
                 skill_name, job_class="test_job"
-            ).has_party_buff
+            ).has_offensive_party_buff
             result_debuff = self.__skill_library.get_skill(
                 skill_name, job_class="test_job"
-            ).has_party_debuff
+            ).has_offensive_party_debuff
             if (result_buff != expected_buff) or (result_debuff != expected_debuff):
                 test_passed = False
                 err_msg += f"Verification failed on: {skill_name}. Expected buff: {expected_buff}. Actual buff: {result_buff}. Expected debuff: {expected_debuff}. Actual debuff: {result_debuff}\n"

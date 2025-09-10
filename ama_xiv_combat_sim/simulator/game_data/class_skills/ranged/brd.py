@@ -7,9 +7,15 @@ from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.ranged.brd_data import (
@@ -133,7 +139,7 @@ class BrdSkills(GenericJobClass):
         army_paeon_rep1 = FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     haste_time_reduction=0.04,
                     auto_attack_delay_reduction=0.04,
                     duration=45 * 1000,
@@ -144,7 +150,7 @@ class BrdSkills(GenericJobClass):
         army_paeon_rep2 = FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     haste_time_reduction=0.08,
                     auto_attack_delay_reduction=0.08,
                     duration=45 * 1000,
@@ -155,7 +161,7 @@ class BrdSkills(GenericJobClass):
         army_paeon_rep3 = FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     haste_time_reduction=0.12,
                     auto_attack_delay_reduction=0.12,
                     duration=45 * 1000,
@@ -166,7 +172,7 @@ class BrdSkills(GenericJobClass):
         army_paeon_rep4 = FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     haste_time_reduction=0.16,
                     auto_attack_delay_reduction=0.16,
                     duration=45 * 1000,
@@ -194,8 +200,8 @@ class BrdSkills(GenericJobClass):
                     "4 Repertoire": None,
                 }
             ),
-            buff_spec={
-                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
                     dh_rate_add=0.03,
                     duration=45 * 1000,
                     is_party_effect=True,
@@ -205,7 +211,7 @@ class BrdSkills(GenericJobClass):
                         "Mage's Ballad",
                     ),
                 ),
-                "Buff Only": StatusEffectSpec(
+                "Buff Only": OffensiveStatusEffectSpec(
                     dh_rate_add=0.03,
                     duration=45 * 1000,
                     is_party_effect=True,
@@ -215,7 +221,7 @@ class BrdSkills(GenericJobClass):
                         "Mage's Ballad",
                     ),
                 ),
-                "From Log, Buff Only": StatusEffectSpec(
+                "From Log, Buff Only": OffensiveStatusEffectSpec(
                     dh_rate_add=0.03,
                     duration=5 * 1000,
                     max_duration=5 * 1000,
@@ -226,7 +232,7 @@ class BrdSkills(GenericJobClass):
                         "Mage's Ballad",
                     ),
                 ),
-                "From Log": StatusEffectSpec(
+                "From Log": OffensiveStatusEffectSpec(
                     dh_rate_add=0.03,
                     duration=5 * 1000,
                     max_duration=5 * 1000,
@@ -281,7 +287,7 @@ class BrdSkills(GenericJobClass):
                 FollowUp(
                     skill=Skill(
                         name=name,
-                        buff_spec=StatusEffectSpec(
+                        offensive_buff_spec=OffensiveStatusEffectSpec(
                             haste_time_reduction=haste_and_auto_time_reductions[i],
                             auto_attack_delay_reduction=haste_and_auto_time_reductions[
                                 i
@@ -301,7 +307,9 @@ class BrdSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(damage_mult=1.15, duration=int(19.98 * 1000)),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                damage_mult=1.15, duration=int(19.98 * 1000)
+            ),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=540
             ),
@@ -342,8 +350,8 @@ class BrdSkills(GenericJobClass):
                 SimConsts.DEFAULT_CONDITION: mages_ballad_potency,
                 "Buff Only": None,
             },
-            buff_spec={
-                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
                     damage_mult=1.01,
                     duration=45 * 1000,
                     is_party_effect=True,
@@ -352,7 +360,7 @@ class BrdSkills(GenericJobClass):
                         "Army's Paeon",
                     ),
                 ),
-                "Buff Only": StatusEffectSpec(
+                "Buff Only": OffensiveStatusEffectSpec(
                     damage_mult=1.01,
                     duration=45 * 1000,
                     is_party_effect=True,
@@ -361,7 +369,7 @@ class BrdSkills(GenericJobClass):
                         "Army's Paeon",
                     ),
                 ),
-                "From Log, Buff Only": StatusEffectSpec(
+                "From Log, Buff Only": OffensiveStatusEffectSpec(
                     damage_mult=1.01,
                     duration=5 * 1000,
                     max_duration=5 * 1000,
@@ -372,7 +380,7 @@ class BrdSkills(GenericJobClass):
                         "Army's Paeon",
                     ),
                 ),
-                "From Log": StatusEffectSpec(
+                "From Log": OffensiveStatusEffectSpec(
                     damage_mult=1.01,
                     duration=5 * 1000,
                     max_duration=5 * 1000,
@@ -423,7 +431,7 @@ class BrdSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 dh_rate_add=0.20,
                 duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
@@ -454,8 +462,8 @@ class BrdSkills(GenericJobClass):
                 SimConsts.DEFAULT_CONDITION: wanderers_potency,
                 "Buff Only": None,
             },
-            buff_spec={
-                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
                     crit_rate_add=0.02,
                     duration=45 * 1000,
                     is_party_effect=True,
@@ -464,7 +472,7 @@ class BrdSkills(GenericJobClass):
                         "Mage's Ballad",
                     ),
                 ),
-                "Buff Only": StatusEffectSpec(
+                "Buff Only": OffensiveStatusEffectSpec(
                     crit_rate_add=0.02,
                     duration=45 * 1000,
                     is_party_effect=True,
@@ -473,7 +481,7 @@ class BrdSkills(GenericJobClass):
                         "Mage's Ballad",
                     ),
                 ),
-                "From Log, Buff Only": StatusEffectSpec(
+                "From Log, Buff Only": OffensiveStatusEffectSpec(
                     crit_rate_add=0.02,
                     duration=5 * 1000,
                     max_duration=5 * 1000,
@@ -484,7 +492,7 @@ class BrdSkills(GenericJobClass):
                         "Mage's Ballad",
                     ),
                 ),
-                "From Log": StatusEffectSpec(
+                "From Log": OffensiveStatusEffectSpec(
                     crit_rate_add=0.02,
                     duration=5 * 1000,
                     max_duration=5 * 1000,
@@ -970,7 +978,7 @@ class BrdSkills(GenericJobClass):
         encore1 = FollowUp(
             skill=Skill(
                 name="1 Encore",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=30 * 1000,
@@ -985,7 +993,7 @@ class BrdSkills(GenericJobClass):
         encore2 = FollowUp(
             skill=Skill(
                 name="2 Encore",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=30 * 1000,
@@ -1000,7 +1008,7 @@ class BrdSkills(GenericJobClass):
         encore3 = FollowUp(
             skill=Skill(
                 name="3 Encore",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=30 * 1000,
@@ -1017,58 +1025,58 @@ class BrdSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec={
-                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
                     damage_mult=1.06,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "1 Mage's Coda": StatusEffectSpec(
+                "1 Mage's Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.02,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "1 Army's Coda": StatusEffectSpec(
+                "1 Army's Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.02,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "1 Wanderer's Coda": StatusEffectSpec(
+                "1 Wanderer's Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.02,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "1 Mage's Coda, 1 Army's Coda": StatusEffectSpec(
+                "1 Mage's Coda, 1 Army's Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.04,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "1 Mage's Coda, 1 Wanderer's Coda": StatusEffectSpec(
+                "1 Mage's Coda, 1 Wanderer's Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.04,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "1 Army's Coda, 1 Wanderer's Coda": StatusEffectSpec(
+                "1 Army's Coda, 1 Wanderer's Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.04,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "1 Mage's Coda, 1 Army's Coda, 1 Wanderer's Coda": StatusEffectSpec(
+                "1 Mage's Coda, 1 Army's Coda, 1 Wanderer's Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.06,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "1 Coda": StatusEffectSpec(
+                "1 Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.02,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "2 Coda": StatusEffectSpec(
+                "2 Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.04,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                "3 Coda": StatusEffectSpec(
+                "3 Coda": OffensiveStatusEffectSpec(
                     damage_mult=1.06,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
@@ -1120,7 +1128,7 @@ class BrdSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=10 * 1000,
@@ -1207,6 +1215,70 @@ class BrdSkills(GenericJobClass):
             ),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
+        )
+
+    @GenericJobClass.is_a_skill
+    def second_wind(self):
+        name = "Second Wind"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=800),
+        )
+
+    @GenericJobClass.is_a_skill
+    def troubadour(self):
+        name = "Troubadour"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=all_brd_skills.get_skill_data(
+                    name, "damage_reduction"
+                ),
+                does_not_stack_with=frozenset(("Shield Samba", "Tactician")),
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def natures_minne(self):
+        name = "Nature's Minne"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                hp_recovery_up_via_healing_actions=0.15,
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def repelling_shot(self):
+        name = "Repelling Shot"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
+
+    @GenericJobClass.is_a_skill
+    def the_wardens_paean(self):
+        name = "The Warden's Paean"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill

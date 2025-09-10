@@ -1,4 +1,7 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
@@ -7,7 +10,13 @@ from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.melee.drg_data import (
@@ -44,7 +53,9 @@ class DrgSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(damage_mult=1.10, duration=int(31.6 * 1000)),
+                offensive_buff_spec=OffensiveStatusEffectSpec(
+                    damage_mult=1.10, duration=int(31.6 * 1000)
+                ),
             ),
             delay_after_parent_application=0,
         )
@@ -173,7 +184,7 @@ class DrgSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=660
             ),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
                 duration=self._skill_data.get_skill_data(name, "duration"),
             ),
@@ -234,7 +245,7 @@ class DrgSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=625
             ),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 crit_rate_add=self._skill_data.get_skill_data(name, "crit_rate_add"),
                 duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
@@ -293,13 +304,13 @@ class DrgSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=620
             ),
-            buff_spec={
-                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
-                    duration=30
-                    * 1000,  # is this actually 31.6? or 30+application delay or whatever?
+                    # is this actually 31.6? or 30+application delay or whatever?
                     # have this buff be consumed (and maybe wasted) on next weaponskill
+                    duration=30 * 1000,
                     skill_allowlist=self.__drg_weapon_skills,
                 ),
                 "Wheeling Thrust": None,
@@ -356,8 +367,8 @@ class DrgSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=620
             ),
-            buff_spec={
-                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=30
@@ -375,7 +386,9 @@ class DrgSkills(GenericJobClass):
             life_of_the_dragon_follow_up = FollowUp(
                 skill=Skill(
                     name="Life of the Dragon",
-                    buff_spec=StatusEffectSpec(damage_mult=1.15, duration=20 * 1000),
+                    offensive_buff_spec=OffensiveStatusEffectSpec(
+                        damage_mult=1.15, duration=20 * 1000
+                    ),
                 ),
                 delay_after_parent_application=0,
             )
@@ -391,6 +404,9 @@ class DrgSkills(GenericJobClass):
                 snapshot_debuffs_with_parent=True,
                 primary_target_only=False,
             )
+        else:
+            life_of_the_dragon_follow_up = None
+            geirskogul_damage_follow_up = None
         return Skill(
             name=name,
             is_GCD=False,
@@ -491,11 +507,11 @@ class DrgSkills(GenericJobClass):
                 ),
                 "Left Eye": TimingSpec(base_cast_time=0, animation_lock=0),
             },
-            buff_spec={
-                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
                     damage_mult=1.1, duration=20 * 1000
                 ),
-                "Left Eye": StatusEffectSpec(
+                "Left Eye": OffensiveStatusEffectSpec(
                     damage_mult=1.05, duration=20 * 1000, is_party_effect=True
                 ),
             },
@@ -512,7 +528,7 @@ class DrgSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(base_cast_time=0, animation_lock=0),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 damage_mult=1.05, duration=20 * 1000, is_party_effect=True
             ),
         )
@@ -813,12 +829,42 @@ class DrgSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(base_cast_time=0, animation_lock=600),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                 duration=5 * 1000,
                 num_uses=1,
                 skill_allowlist=self.__drg_weapon_skills,
             ),
+            # TODO: add defensive spec
+        )
+
+    @GenericJobClass.is_a_skill
+    def feint(self):
+        name = "Feint"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions={
+                    DamageInstanceClass.PHYSICAL: 0.1,
+                    DamageInstanceClass.MAGICAL: 0.05,
+                },
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def second_wind(self):
+        name = "Second Wind"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=800),
         )
 
     # These skills do not damage, but grants resources/affects future skills.
@@ -846,13 +892,24 @@ class DrgSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
+    def bloodbath(self):
+        name = "Bloodbath"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            # TODO: add defensive spec
+        )
+
+    @GenericJobClass.is_a_skill
     def elusive_jump(self):
         drg_follow_ups = (
             (
                 FollowUp(
                     skill=Skill(
                         name="Enhanced Piercing Talon",
-                        buff_spec=StatusEffectSpec(
+                        offensive_buff_spec=OffensiveStatusEffectSpec(
                             duration=15 * 1000,
                             num_uses=1,
                             skill_allowlist=("Piercing Talon",),

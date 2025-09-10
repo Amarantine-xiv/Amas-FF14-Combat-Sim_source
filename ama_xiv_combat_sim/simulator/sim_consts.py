@@ -10,4 +10,5 @@ class SimConsts:
     LB_MEAN_DAMAGE = "Mean Damage"
     LB_EXACT_DAMAGE = "Exact Damage"
     WAIT_PREFIX= "Wait"
+    SECONDARY_TARGET = "Secondary Target"
   

@@ -1,12 +1,22 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.tank.drk_data import (
@@ -23,7 +33,7 @@ class DrkSkills(GenericJobClass):
         name = "Darkside"
         return Skill(
             name=name,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 duration=30000, max_duration=60000, damage_mult=1.10
             ),
         )
@@ -231,7 +241,7 @@ class DrkSkills(GenericJobClass):
                     dot_duration=15 * 1000,
                     snapshot_buffs_with_parent=True,
                     snapshot_debuffs_with_parent=False,
-                    primary_target_only=False
+                    primary_target_only=False,
                 ),
             ),
             has_aoe=True,
@@ -282,6 +292,8 @@ class DrkSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=978
             ),
+            # TODO: need to make this not multi-heal on multi-targets. Currently, it will.
+            heal_spec=HealSpec(potency=500),
             has_aoe=True,
         )
 
@@ -296,6 +308,7 @@ class DrkSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1473
             ),
+            heal_spec=HealSpec(potency=500),
         )
 
     @GenericJobClass.is_a_skill
@@ -620,9 +633,138 @@ class DrkSkills(GenericJobClass):
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
-    # These skills do not damage, but grants resources/affects future skills.
-    # Since we do not model resources YET, we just record their usage/timings but
-    # not their effect.
+    @GenericJobClass.is_a_skill
+    def shadow_wall(self):
+        if self._level >= 92:
+            return None
+        return Skill(
+            name="Shadow Wall",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.3,
+                duration=15 * 1000,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def shadow_vigil_expire(self):
+        if self._level < 92:
+            return None
+        return Skill(
+            name="Shadow Vigil (Expire)",
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Shadow Vigil": HealSpec(potency=1200),
+            },
+            # This isn't necessary, but let's be just a bit defensive here.
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                expires_status_effects=("Shadow Vigil",)
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def shadow_vigil_heal(self):
+        if self._level < 92:
+            return None
+        return Skill(
+            name="Shadow Vigil (Heal)",
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec=HealSpec(potency=1200),
+        )
+
+    @GenericJobClass.is_a_skill
+    def shadow_vigil(self):
+        if self._level < 92:
+            return None
+        return Skill(
+            name="Shadow Vigil",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.4,
+                duration=15 * 1000,
+                add_to_skill_modifier_condition=True,
+            ),
+            follow_up_skills=(
+                FollowUp(
+                    skill=self.shadow_vigil_expire(),
+                    delay_after_parent_application=15 * 1000,
+                ),
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def dark_mind(self):
+        return Skill(
+            name="Dark Mind",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions={
+                    DamageInstanceClass.PHYSICAL: 0.1,
+                    DamageInstanceClass.MAGICAL: 0.2,
+                },
+                duration=10 * 1000,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def dark_missionary(self):
+        return Skill(
+            name="Dark Missionary",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions={
+                    DamageInstanceClass.PHYSICAL: 0.05,
+                    DamageInstanceClass.MAGICAL: 0.1,
+                },
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def walking_dead(self):
+        return Skill(
+            name="Walking Dead",
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                is_invuln=True,
+                duration=10 * 1000,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def living_dead_heal(self):
+        return Skill(
+            name="Living Dead (Heal)",
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec=HealSpec(potency=1500),
+        )
+
+    @GenericJobClass.is_a_skill
+    def living_dead(self):
+        return Skill(
+            name="Living Dead",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+        )
 
     @GenericJobClass.is_a_skill
     def rampart(self):
@@ -631,21 +773,34 @@ class DrkSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-        )
-
-    @GenericJobClass.is_a_skill
-    def provoke(self):
-        return Skill(
-            name="Provoke",
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.2,
+                hp_recovery_up_via_healing_actions=0.15,
+                duration=20 * 1000,
+            ),
         )
 
     @GenericJobClass.is_a_skill
     def reprisal(self):
         return Skill(
             name="Reprisal",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1,
+                duration=15 * 1000,
+            ),
+        )
+
+    # These skills do not damage, but grants resources/affects future skills.
+    # Since we do not model resources YET, we just record their usage/timings but
+    # not their effect.
+
+    @GenericJobClass.is_a_skill
+    def provoke(self):
+        return Skill(
+            name="Provoke",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
@@ -703,6 +858,9 @@ class DrkSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            shield_spec=ShieldSpec(
+                shield_on_max_hp=0.25, duration=7 * 1000, is_party_effect=True
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -712,4 +870,9 @@ class DrkSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1,
+                duration=10 * 1000,
+                is_party_effect=True,
+            ),
         )

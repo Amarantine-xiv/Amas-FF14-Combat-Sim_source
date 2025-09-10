@@ -10,8 +10,11 @@ from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.specs.trigger_spec import TriggerSpec
 from ama_xiv_combat_sim.simulator.utils import Utils
 
 
@@ -22,10 +25,15 @@ class Skill:
     name: str
     damage_spec: Any = None
     timing_spec: Any = None
-    buff_spec: Any = None
-    debuff_spec: Any = None
+    offensive_buff_spec: Any = None
+    offensive_debuff_spec: Any = None
+    defensive_buff_spec: Any = None
+    defensive_debuff_spec: Any = None
     channeling_spec: Any = None
     job_resource_spec: Any = tuple()
+    heal_spec: Any = None
+    shield_spec: Any = None
+    trigger_spec: Any = None
     combo_spec: Any = tuple()
     status_effect_denylist: tuple = ()
     is_GCD: bool = None
@@ -60,21 +68,22 @@ class Skill:
 
         keys = tuple(damage_spec.keys())
         for key in keys:
-            if damage_spec[key] is not None:
-                for target_num in range(2, 10):  # max of 10 targets
-                    if len(key) > 0:
-                        new_key = f"{key}, Target {target_num}"
-                    else:
-                        new_key = f"Target {target_num}"
+            if len(key) > 0:
+                new_key = f"{key}, {SimConsts.SECONDARY_TARGET}"
+            else:
+                new_key = SimConsts.SECONDARY_TARGET
 
-                    new_damage_spec = copy.deepcopy(damage_spec[key])
-                    primary_potency = new_damage_spec.potency
-                    object.__setattr__(
-                        new_damage_spec,
-                        "potency",
-                        (1 - damage_dropoff) * primary_potency,
-                    )
-                    damage_spec[new_key] = new_damage_spec
+            if damage_spec[key] is not None:
+                new_damage_spec = copy.deepcopy(damage_spec[key])
+                primary_potency = new_damage_spec.potency
+                object.__setattr__(
+                    new_damage_spec,
+                    "potency",
+                    (1 - damage_dropoff) * primary_potency,
+                )
+            else:
+                new_damage_spec = None
+            damage_spec[new_key] = new_damage_spec
         return damage_spec
 
     @staticmethod
@@ -93,13 +102,24 @@ class Skill:
 
     def __set_status_effect_stats(self):
         for spec_to_use, field_to_use in zip(
-            ["buff_spec", "debuff_spec"], ["has_buff", "has_debuff"]
+            [
+                "offensive_buff_spec",
+                "offensive_debuff_spec",
+                "defensive_buff_spec",
+                "defensive_debuff_spec",
+            ],
+            [
+                "has_offensive_buff",
+                "has_offensive_debuff",
+                "has_defensive_buff",
+                "has_defensive_debuff",
+            ],
         ):
             res = False
             # check if there is a party effect on main skill
             spec = getattr(self, spec_to_use)
             if spec is not None:
-                if isinstance(spec, StatusEffectSpec):
+                if isinstance(spec, OffensiveStatusEffectSpec):
                     res = True
                 elif isinstance(spec, dict):
                     for _, se in spec.items():
@@ -124,14 +144,15 @@ class Skill:
 
     def __set_party_status_effect_stats(self):
         for spec_to_use, field_to_use in zip(
-            ["buff_spec", "debuff_spec"], ["has_party_buff", "has_party_debuff"]
+            ["offensive_buff_spec", "offensive_debuff_spec", "defensive_buff_spec", "defensive_debuff_spec"],
+            ["has_offensive_party_buff", "has_offensive_party_debuff", "has_defensive_party_buff", "has_defensive_party_debuff"],
         ):
             res = False
 
             # check if there is a party effect on main skill
             spec = getattr(self, spec_to_use)
             if spec is not None:
-                if isinstance(spec, StatusEffectSpec) and spec.is_party_effect:
+                if isinstance(spec, OffensiveStatusEffectSpec) and spec.is_party_effect:
                     res = True
                 elif isinstance(spec, dict):
                     for _, se in spec.items():
@@ -182,7 +203,7 @@ class Skill:
         is_valid = self.__verify_dict_or_tuple(self.job_resource_spec, JobResourceSpec)
         assert (
             is_valid
-        ), "job_resource_spec must be encoded as a tuple or a dict with values that are tuple: {self.job_resource_spec}"
+        ), f"job_resource_spec must be encoded as a tuple or a dict with values that are tuple: {self.job_resource_spec}"
 
         assert isinstance(
             self.status_effect_denylist, tuple
@@ -198,24 +219,57 @@ class Skill:
             object.__setattr__(
                 self, "damage_spec", self.__canonicalize_dict(self.damage_spec)
             )
-
         if isinstance(self.timing_spec, dict):
             object.__setattr__(
                 self, "timing_spec", self.__canonicalize_dict(self.timing_spec)
             )
-        if isinstance(self.buff_spec, dict):
+        if isinstance(self.offensive_buff_spec, dict):
             object.__setattr__(
-                self, "buff_spec", self.__canonicalize_dict(self.buff_spec)
+                self,
+                "offensive_buff_spec",
+                self.__canonicalize_dict(self.offensive_buff_spec),
             )
-        if isinstance(self.debuff_spec, dict):
+        if isinstance(self.offensive_debuff_spec, dict):
             object.__setattr__(
-                self, "debuff_spec", self.__canonicalize_dict(self.debuff_spec)
+                self,
+                "offensive_debuff_spec",
+                self.__canonicalize_dict(self.offensive_debuff_spec),
+            )
+        if isinstance(self.defensive_buff_spec, dict):
+            object.__setattr__(
+                self,
+                "defensive_buff_spec",
+                self.__canonicalize_dict(self.defensive_buff_spec),
+            )
+        if isinstance(self.defensive_debuff_spec, dict):
+            object.__setattr__(
+                self,
+                "defensive_debuff_spec",
+                self.__canonicalize_dict(self.defensive_debuff_spec),
+            )
+        if isinstance(self.heal_spec, dict):
+            object.__setattr__(
+                self, "heal_spec", self.__canonicalize_dict(self.heal_spec)
+            )
+        if isinstance(self.shield_spec, dict):
+            object.__setattr__(
+                self, "shield_spec", self.__canonicalize_dict(self.shield_spec)
+            )
+        if isinstance(self.trigger_spec, dict):
+            object.__setattr__(
+                self, "trigger_spec", self.__canonicalize_dict(self.trigger_spec)
             )
         if isinstance(self.follow_up_skills, dict):
             object.__setattr__(
                 self,
                 "follow_up_skills",
                 self.__canonicalize_dict(self.follow_up_skills),
+            )
+        if isinstance(self.channeling_spec, dict):
+            object.__setattr__(
+                self,
+                "channeling_spec",
+                self.__canonicalize_dict(self.channeling_spec),
             )
         if isinstance(self.job_resource_spec, dict):
             object.__setattr__(
@@ -235,8 +289,13 @@ class Skill:
         res = f"---Skill name: {self.name}---\n"
         res += f"TimingSpec:\n{str(self.timing_spec)}\n"
         res += f"DamageSpec:\n{self.damage_spec}\n"
-        res += f"Buffs:\n{self.buff_spec}\n"
-        res += f"Debuffs:\n{self.debuff_spec}\n"
+        res += f"Offensive Buffs:\n{self.offensive_buff_spec}\n"
+        res += f"Offensive Debuffs:\n{self.offensive_debuff_spec}\n"
+        res += f"Defensive Buffs:\n{self.defensive_buff_spec}\n"
+        res += f"Defensive Debuffs:\n{self.defensive_debuff_spec}\n"
+        res += f"Heal Spec:\n{self.heal_spec}\n"
+        res += f"Shield Spec:\n{self.shield_spec}\n"
+        res += f"Trigger Spec:\n{self.trigger_spec}\n"
         res += f"Follow up skills:\n{str(self.follow_up_skills)}\n"
         return res
 
@@ -266,48 +325,46 @@ class Skill:
         )
         return self.follow_up_skills[key_to_use]
 
-    def get_buff_spec(self, skill_modifier):
-        if self.buff_spec is None or isinstance(self.buff_spec, StatusEffectSpec):
-            return self.buff_spec
-        key_to_use = Utils.get_best_key(
-            self.buff_spec.keys(), skill_modifier.with_condition
+    @staticmethod
+    def __get_spec(spec, classType, skill_modifier):
+        if spec is None or isinstance(spec, classType):
+            return spec
+        key_to_use = Utils.get_best_key(spec, skill_modifier.with_condition)
+        return spec[key_to_use]
+    def get_offensive_buff_spec(self, skill_modifier):
+        return self.__get_spec(
+            self.offensive_buff_spec, OffensiveStatusEffectSpec, skill_modifier
         )
-        return self.buff_spec[key_to_use]
-
-    def get_debuff_spec(self, skill_modifier):
-        if self.debuff_spec is None or isinstance(self.debuff_spec, StatusEffectSpec):
-            return self.debuff_spec
-        key_to_use = Utils.get_best_key(
-            self.debuff_spec.keys(), skill_modifier.with_condition
+    def get_defensive_debuff_spec(self, skill_modifier):
+        return self.__get_spec(
+            self.defensive_debuff_spec, OffensiveStatusEffectSpec, skill_modifier
         )
-        return self.debuff_spec[key_to_use]
+    def get_defensive_buff_spec(self, skill_modifier):
+        return self.__get_spec(
+            self.defensive_buff_spec, OffensiveStatusEffectSpec, skill_modifier
+        )
 
+    def get_offensive_debuff_spec(self, skill_modifier):
+        return self.__get_spec(
+            self.offensive_debuff_spec, OffensiveStatusEffectSpec, skill_modifier
+        )
     def get_timing_spec(self, skill_modifier):
-        if self.timing_spec is None or isinstance(self.timing_spec, TimingSpec):
-            return self.timing_spec
-        key_to_use = Utils.get_best_key(
-            self.timing_spec.keys(), skill_modifier.with_condition
-        )
-        return self.timing_spec[key_to_use]
+        return self.__get_spec(self.timing_spec, TimingSpec, skill_modifier)
 
     def get_damage_spec(self, skill_modifier):
-        if self.damage_spec is None or isinstance(self.damage_spec, DamageSpec):
-            return self.damage_spec
-
-        key_to_use = Utils.get_best_key(
-            self.damage_spec.keys(), skill_modifier.with_condition
-        )
-        return self.damage_spec[key_to_use]
+        return self.__get_spec(self.damage_spec, DamageSpec, skill_modifier)
 
     def get_channeling_spec(self, skill_modifier):
-        if self.channeling_spec is None or isinstance(
-            self.channeling_spec, ChannelingSpec
-        ):
-            return self.channeling_spec
-        key_to_use = Utils.get_best_key(
-            self.channeling_spec.keys(), skill_modifier.with_condition
-        )
-        return self.channeling_spec[key_to_use]
+        return self.__get_spec(self.channeling_spec, ChannelingSpec, skill_modifier)
+
+    def get_heal_spec(self, skill_modifier):
+        return self.__get_spec(self.heal_spec, HealSpec, skill_modifier)
+
+    def get_shield_spec(self, skill_modifier):
+        return self.__get_spec(self.shield_spec, ShieldSpec, skill_modifier)
+
+    def get_trigger_spec(self, skill_modifier):
+        return self.__get_spec(self.trigger_spec, TriggerSpec, skill_modifier)
 
     def __eq__(self, other):
         return self.name == other.name

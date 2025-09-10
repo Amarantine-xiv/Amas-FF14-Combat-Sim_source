@@ -1,6 +1,9 @@
 import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
@@ -8,8 +11,15 @@ from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.specs.trigger_spec import TriggerSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.melee.mnk_data import (
     all_mnk_skills,
@@ -29,7 +39,7 @@ class MnkSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.15, duration=int(14.97 * 1000)
                 ),
             ),
@@ -43,7 +53,7 @@ class MnkSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=30 * 1000,
@@ -72,7 +82,7 @@ class MnkSkills(GenericJobClass):
             FollowUp(
                 skill=Skill(
                     name="Raptor's Fury",
-                    buff_spec=StatusEffectSpec(
+                    offensive_buff_spec=OffensiveStatusEffectSpec(
                         num_uses=self._skill_data.get_skill_data(
                             "Raptor's Fury", "num_uses"
                         ),
@@ -112,7 +122,7 @@ class MnkSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     max_num_uses=3,
@@ -149,7 +159,7 @@ class MnkSkills(GenericJobClass):
             FollowUp(
                 skill=Skill(
                     name="Coeurl's Fury",
-                    buff_spec=StatusEffectSpec(
+                    offensive_buff_spec=OffensiveStatusEffectSpec(
                         num_uses=self._skill_data.get_skill_data(
                             "Coeurl's Fury", "num_uses"
                         ),
@@ -218,7 +228,7 @@ class MnkSkills(GenericJobClass):
             FollowUp(
                 skill=Skill(
                     name="Opo-opo's Fury",
-                    buff_spec=StatusEffectSpec(
+                    offensive_buff_spec=OffensiveStatusEffectSpec(
                         num_uses=self._skill_data.get_skill_data(
                             "Opo-opo's Fury", "num_uses"
                         ),
@@ -276,7 +286,7 @@ class MnkSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=30 * 1000,
@@ -289,7 +299,7 @@ class MnkSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=30 * 1000,
@@ -579,7 +589,7 @@ class MnkSkills(GenericJobClass):
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,  # Does apply instantly it seems.
             # Riddle of fire seems to last ~0.7-0.8s longer than advertised
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
                 duration=self._skill_data.get_skill_data(name, "duration"),
             ),
@@ -596,7 +606,7 @@ class MnkSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
             ),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
                 duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
@@ -612,7 +622,7 @@ class MnkSkills(GenericJobClass):
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,  # Does apply instantly it seems.
             # Riddle of wind seems to last ~0.8s longer than advertised
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 auto_attack_delay_reduction=0.50,
                 duration=self._skill_data.get_skill_data(name, "duration"),
             ),
@@ -939,6 +949,102 @@ class MnkSkills(GenericJobClass):
             follow_up_skills=(self.__get_formless_fist_follow_up(),),
         )
 
+    @GenericJobClass.is_a_skill
+    def feint(self):
+        name = "Feint"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions={
+                    DamageInstanceClass.PHYSICAL: 0.1,
+                    DamageInstanceClass.MAGICAL: 0.05,
+                },
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    # This is primarily for logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def earths_resolve(self):
+        name = "Earth's Resolve"
+
+        # TODO: this actually only triggers when you take damage.
+        # How to link back?
+        return Skill(
+            name=f"{name}",
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec=HealSpec(hot_potency=100, duration=15 * 1000),
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                add_to_skill_modifier_condition=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def riddle_of_earth(self):
+        name = "Riddle of Earth"
+
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.20,
+                duration=10 * 1000,
+            ),
+            trigger_spec=TriggerSpec(triggers=("Earth's Resolve",)),
+        )
+
+    @GenericJobClass.is_a_skill
+    def earths_reply(self):
+        name = "Earth's Reply"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec={
+                SimConsts.DEFAULT_CONDITION: HealSpec(
+                    potency=300, is_party_effect=True, is_aoe=True
+                ),
+                "Earth's Resolve": HealSpec(
+                    potency=500, is_party_effect=True, is_aoe=True
+                ),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def mantra(self):
+        name = "Mantra"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                hp_recovery_up_via_healing_actions=0.1,
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def second_wind(self):
+        name = "Second Wind"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=800),
+        )
+
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
@@ -1011,4 +1117,15 @@ class MnkSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+        )
+
+    @GenericJobClass.is_a_skill
+    def bloodbath(self):
+        name = "Bloodbath"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            # TODO: add defensive spec
         )

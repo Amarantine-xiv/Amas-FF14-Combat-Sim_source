@@ -2,12 +2,12 @@ import math
 
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import (
     create_test_skill_library,
 )
-from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
 from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import (
     StatusEffectTracker,
 )
@@ -26,7 +26,7 @@ class TestStatusEffectTracker(TestClass):
 
         buff1 = Skill(
             name="buff1",
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=2,
                 skill_allowlist=("test1",),
@@ -39,10 +39,10 @@ class TestStatusEffectTracker(TestClass):
 
         skills_to_use = [test1, test2, test1, test1]
         expected = (
-            ((StatusEffects(), "buff1"), (StatusEffects(), "")),
-            ((StatusEffects(), ""), (StatusEffects(), "")),
-            ((StatusEffects(), "buff1"), (StatusEffects(), "")),
-            ((StatusEffects(), ""), (StatusEffects(), "")),
+            ((OffensiveStatusEffects(), "buff1"), (OffensiveStatusEffects(), "")),
+            ((OffensiveStatusEffects(), ""), (OffensiveStatusEffects(), "")),
+            ((OffensiveStatusEffects(), "buff1"), (OffensiveStatusEffects(), "")),
+            ((OffensiveStatusEffects(), ""), (OffensiveStatusEffects(), "")),
         )
 
         for i in range(0, len(skills_to_use)):
@@ -66,13 +66,13 @@ class TestStatusEffectTracker(TestClass):
 
         buff1 = Skill(
             name="buff1",
-            buff_spec=StatusEffectSpec(add_to_skill_modifier_condition=True),
+            offensive_buff_spec=OffensiveStatusEffectSpec(add_to_skill_modifier_condition=True),
         )
         test1 = Skill(name="test1")
 
         se.add_to_status_effects(0, buff1, SkillModifier())
         result = (se.compile_buffs(0, skill=test1), se.compile_debuffs(0, skill=test1))
-        expected = ((StatusEffects(), "buff1"), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(), "buff1"), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -111,7 +111,7 @@ class TestStatusEffectTracker(TestClass):
             se.compile_buffs(1000, skill=test_instant_gcd),
             se.compile_debuffs(1000, skill=test_instant_gcd),
         )
-        expected = ((StatusEffects(crit_rate_add=0.1), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(crit_rate_add=0.1), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -123,7 +123,7 @@ class TestStatusEffectTracker(TestClass):
             se.compile_buffs(1000, skill=test_instant_gcd),
             se.compile_debuffs(1000, skill=test_instant_gcd),
         )
-        expected = ((StatusEffects(dh_rate_add=0.1), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(dh_rate_add=0.1), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -135,7 +135,7 @@ class TestStatusEffectTracker(TestClass):
             se.compile_buffs(1000, skill=test_instant_gcd),
             se.compile_debuffs(1000, skill=test_instant_gcd),
         )
-        expected = ((StatusEffects(), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -152,7 +152,7 @@ class TestStatusEffectTracker(TestClass):
 
         buff1 = Skill(
             name="buff1",
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 crit_rate_add=0.05,
                 duration=30000,
                 skill_allowlist=("test1",),
@@ -164,7 +164,7 @@ class TestStatusEffectTracker(TestClass):
         se.add_to_status_effects(0, buff1, SkillModifier())
 
         result = (se.compile_buffs(0, skill=test1), se.compile_debuffs(0, skill=test1))
-        expected = ((StatusEffects(crit_rate_add=0.05), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(crit_rate_add=0.05), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -173,7 +173,7 @@ class TestStatusEffectTracker(TestClass):
 
         se.expire_status_effects(t=0)
         result = (se.compile_buffs(0, skill=test1), se.compile_debuffs(0, skill=test1))
-        expected = ((StatusEffects(), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -190,7 +190,7 @@ class TestStatusEffectTracker(TestClass):
 
         buff1 = Skill(
             name="buff1",
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 crit_rate_add=0.05, duration=30000, skill_allowlist=("test1",)
             ),
         )
@@ -200,7 +200,7 @@ class TestStatusEffectTracker(TestClass):
         se.add_to_status_effects(0, buff1, SkillModifier())
 
         result = (se.compile_buffs(0, skill=test1), se.compile_debuffs(0, skill=test1))
-        expected = ((StatusEffects(crit_rate_add=0.05), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(crit_rate_add=0.05), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -209,7 +209,7 @@ class TestStatusEffectTracker(TestClass):
 
         se.expire_status_effects(t=0)
         result = (se.compile_buffs(0, skill=test2), se.compile_debuffs(0, skill=test2))
-        expected = ((StatusEffects(), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -225,11 +225,11 @@ class TestStatusEffectTracker(TestClass):
         se = StatusEffectTracker()
 
         buff1 = Skill(
-            name="buff1", buff_spec=StatusEffectSpec(crit_rate_add=0.05, duration=30000)
+            name="buff1", offensive_buff_spec=OffensiveStatusEffectSpec(crit_rate_add=0.05, duration=30000)
         )
         buff2 = Skill(
             name="buff2",
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 dh_rate_add=0.05, duration=10000, expires_status_effects=("buff1",)
             ),
         )
@@ -239,7 +239,7 @@ class TestStatusEffectTracker(TestClass):
 
         se.expire_status_effects(11000)
         result = (se.compile_buffs(11000), se.compile_debuffs(11000))
-        expected = ((StatusEffects(dh_rate_add=0.05), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(dh_rate_add=0.05), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -255,11 +255,11 @@ class TestStatusEffectTracker(TestClass):
         se = StatusEffectTracker()
 
         buff1 = Skill(
-            name="buff", buff_spec=StatusEffectSpec(crit_rate_add=0.05, duration=30000)
+            name="buff", offensive_buff_spec=OffensiveStatusEffectSpec(crit_rate_add=0.05, duration=30000)
         )
         buff2 = Skill(
             name="buff",
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 crit_rate_add=0.12, duration=30000, extends_existing_duration=False
             ),
         )
@@ -269,7 +269,7 @@ class TestStatusEffectTracker(TestClass):
         se.expire_status_effects(29000)
 
         result = (se.compile_buffs(29000), se.compile_debuffs(29000))
-        expected = ((StatusEffects(crit_rate_add=0.12), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(crit_rate_add=0.12), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -278,7 +278,7 @@ class TestStatusEffectTracker(TestClass):
 
         se.expire_status_effects(31000)
         result = (se.compile_buffs(31000), se.compile_debuffs(31000))
-        expected = ((StatusEffects(), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(), ""), (OffensiveStatusEffects(), ""))
         if result != expected:
             test_passed = False
             err_msg += "Expected and actual status effects do not match.\nExpected{}.\nActual:{}".format(
@@ -294,14 +294,14 @@ class TestStatusEffectTracker(TestClass):
         se = StatusEffectTracker()
 
         buff = Skill(
-            name="buff", buff_spec=StatusEffectSpec(main_stat_add=262, duration=30000)
+            name="buff", offensive_buff_spec=OffensiveStatusEffectSpec(main_stat_add=262, duration=30000)
         )
 
         se.add_to_status_effects(-2000, buff, SkillModifier())
         se.expire_status_effects(5000)
 
         result = (se.compile_buffs(5000), se.compile_debuffs(5000))
-        expected = ((StatusEffects(main_stat_add=262), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(main_stat_add=262), ""), (OffensiveStatusEffects(), ""))
 
         if result != expected:
             test_passed = False
@@ -317,18 +317,18 @@ class TestStatusEffectTracker(TestClass):
         se = StatusEffectTracker()
 
         buff1 = Skill(
-            name="buff", buff_spec=StatusEffectSpec(crit_rate_add=0.1, duration=30000)
+            name="buff", offensive_buff_spec=OffensiveStatusEffectSpec(crit_rate_add=0.1, duration=30000)
         )
         buff2 = Skill(
-            name="buff", buff_spec=StatusEffectSpec(crit_rate_add=0.5, duration=30000)
+            name="buff", offensive_buff_spec=OffensiveStatusEffectSpec(crit_rate_add=0.5, duration=30000)
         )
         debuff1 = Skill(
             name="debuff",
-            debuff_spec=StatusEffectSpec(dh_rate_add=0.01, duration=30000),
+            offensive_debuff_spec=OffensiveStatusEffectSpec(dh_rate_add=0.01, duration=30000),
         )
         debuff2 = Skill(
             name="debuff",
-            debuff_spec=StatusEffectSpec(dh_rate_add=0.05, duration=30000),
+            offensive_debuff_spec=OffensiveStatusEffectSpec(dh_rate_add=0.05, duration=30000),
         )
 
         se.add_to_status_effects(0, buff1, SkillModifier())
@@ -338,8 +338,8 @@ class TestStatusEffectTracker(TestClass):
 
         result = (se.compile_buffs(3001), se.compile_debuffs(3001))
         expected = (
-            (StatusEffects(crit_rate_add=0.5), ""),
-            (StatusEffects(dh_rate_add=0.05), ""),
+            (OffensiveStatusEffects(crit_rate_add=0.5), ""),
+            (OffensiveStatusEffects(dh_rate_add=0.05), ""),
         )
 
         if result != expected:
@@ -374,7 +374,7 @@ class TestStatusEffectTracker(TestClass):
 
         se.expire_status_effects(19001)
         result = (se.compile_buffs(19001), se.compile_debuffs(19001))
-        expected = ((StatusEffects(crit_rate_add=0.05), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(crit_rate_add=0.05), ""), (OffensiveStatusEffects(), ""))
 
         if result != expected:
             test_passed = False
@@ -401,8 +401,8 @@ class TestStatusEffectTracker(TestClass):
 
         result = (se.compile_buffs(101), se.compile_debuffs(101))
         expected = (
-            (StatusEffects(auto_attack_delay_mult=math.pow(0.75, 2)), ""),
-            (StatusEffects(), ""),
+            (OffensiveStatusEffects(auto_attack_delay_mult=math.pow(0.75, 2)), ""),
+            (OffensiveStatusEffects(), ""),
         )
 
         if result != expected:
@@ -440,8 +440,8 @@ class TestStatusEffectTracker(TestClass):
 
         result = (se.compile_buffs(101), se.compile_debuffs(101))
         expected = (
-            (StatusEffects(crit_rate_add=0.11, dh_rate_add=0.2), ""),
-            (StatusEffects(damage_mult=1.56), ""),
+            (OffensiveStatusEffects(crit_rate_add=0.11, dh_rate_add=0.2), ""),
+            (OffensiveStatusEffects(damage_mult=1.56), ""),
         )
 
         if result != expected:
@@ -470,8 +470,8 @@ class TestStatusEffectTracker(TestClass):
 
         result = (se.compile_buffs(501), se.compile_debuffs(501))
         expected = (
-            (StatusEffects(crit_rate_add=0.05, dh_rate_add=0.0), ""),
-            (StatusEffects(), ""),
+            (OffensiveStatusEffects(crit_rate_add=0.05, dh_rate_add=0.0), ""),
+            (OffensiveStatusEffects(), ""),
         )
 
         if result != expected:
@@ -500,7 +500,7 @@ class TestStatusEffectTracker(TestClass):
         )
         se.expire_status_effects(61000 - 1)
         result = (se.compile_buffs(61000 - 1), se.compile_debuffs(61000 - 1))
-        expected = ((StatusEffects(crit_rate_add=0.05), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(crit_rate_add=0.05), ""), (OffensiveStatusEffects(), ""))
 
         if result != expected:
             test_passed = False
@@ -521,7 +521,7 @@ class TestStatusEffectTracker(TestClass):
         )
 
         result = (se.compile_buffs(1), se.compile_debuffs(1))
-        expected = ((StatusEffects(dh_rate_add=0.2), ""), (StatusEffects(), ""))
+        expected = ((OffensiveStatusEffects(dh_rate_add=0.2), ""), (OffensiveStatusEffects(), ""))
 
         if result != expected:
             test_passed = False
@@ -542,7 +542,7 @@ class TestStatusEffectTracker(TestClass):
         )
         se.expire_status_effects(100)
         result = (se.compile_buffs(101), se.compile_debuffs(101))
-        expected = ((StatusEffects(), ""), (StatusEffects(crit_rate_add=0.15), ""))
+        expected = ((OffensiveStatusEffects(), ""), (OffensiveStatusEffects(crit_rate_add=0.15), ""))
 
         if result != expected:
             test_passed = False
@@ -569,7 +569,7 @@ class TestStatusEffectTracker(TestClass):
             ("t2",),
         )
         result = (se.compile_buffs(101), se.compile_debuffs(101, target="t1"))
-        expected = ((StatusEffects(), ""), (StatusEffects(damage_mult=1.2), ""))
+        expected = ((OffensiveStatusEffects(), ""), (OffensiveStatusEffects(damage_mult=1.2), ""))
 
         if result != expected:
             test_passed = False
@@ -577,82 +577,6 @@ class TestStatusEffectTracker(TestClass):
                 expected, result
             )
         return test_passed, err_msg
-
-    @TestClass.is_a_test
-    def test_damage_reduction_generic(self):
-        test_passed = True
-        err_msg = ""
-        se = StatusEffectTracker()
-        se.add_to_status_effects(
-            0,
-            self.__skill_library.get_skill("test_damage_mit_generic_buff", "test_job"),
-            SkillModifier(),
-        )
-        result = (se.compile_buffs(30), se.compile_debuffs(30))
-        expected = (
-            (StatusEffects(damage_reduction_generic=0.1), ""),
-            (StatusEffects(), ""),
-        )
-
-        if result != expected:
-            test_passed = False
-            err_msg = f"Expected and actual status effects do not match.\nExpected{expected}.\nActual:{result}"
-        return test_passed, err_msg
-
-    @TestClass.is_a_test
-    def test_damage_reduction_split(self):
-        test_passed = True
-        err_msg = ""
-        se = StatusEffectTracker()
-        se.add_to_status_effects(
-            0,
-            self.__skill_library.get_skill("test_damage_mit_split_buff", "test_job"),
-            SkillModifier(),
-        )
-        result = (se.compile_buffs(30), se.compile_debuffs(30))
-        expected = (
-            (StatusEffects(damage_reduction_phys=0.1, damage_reduction_magic=0.05), ""),
-            (StatusEffects(), ""),
-        )
-
-        if result != expected:
-            test_passed = False
-            err_msg = f"Expected and actual status effects do not match.\nExpected{expected}.\nActual:{result}"
-        return test_passed, err_msg
-
-    @TestClass.is_a_test
-    def test_damage_reduction_joint(self):
-        test_passed = True
-        err_msg = ""
-        se = StatusEffectTracker()
-        se.add_to_status_effects(
-            0,
-            self.__skill_library.get_skill("test_damage_mit_generic_buff", "test_job"),
-            SkillModifier(),
-        )
-        se.add_to_status_effects(
-            10,
-            self.__skill_library.get_skill("test_damage_mit_split_buff", "test_job"),
-            SkillModifier(),
-        )
-        result = (se.compile_buffs(30), se.compile_debuffs(30))
-        expected = (
-            (
-                StatusEffects(
-                    damage_reduction_generic=0.1,
-                    damage_reduction_phys=0.1,
-                    damage_reduction_magic=0.05,
-                ),
-                "",
-            ),
-            (StatusEffects(), ""),
-        )
-
-        if result != expected:
-            test_passed = False
-            err_msg = f"Expected and actual status effects do not match.\nExpected{expected}.\nActual:{result}"
-        return test_passed, err_msg
-
 
     @TestClass.is_a_test
     def buff_falloff(self):
@@ -675,8 +599,8 @@ class TestStatusEffectTracker(TestClass):
         
         result = (se.compile_buffs(t), se.compile_debuffs(t))
         expected = (
-            (StatusEffects(crit_rate_add=0.06, dh_rate_add=0.2), ""),
-            (StatusEffects(), ""),
+            (OffensiveStatusEffects(crit_rate_add=0.06, dh_rate_add=0.2), ""),
+            (OffensiveStatusEffects(), ""),
         )
 
         if result != expected:

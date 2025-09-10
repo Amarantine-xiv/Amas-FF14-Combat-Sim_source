@@ -1,6 +1,9 @@
 import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
@@ -8,7 +11,11 @@ from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.rdm_data import (
@@ -33,7 +40,7 @@ class RdmSkills(GenericJobClass):
     def __get_dualcast_follow_up(self):
         dualcast_buff = Skill(
             name="Dualcast",
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
                 add_to_skill_modifier_condition=True,
                 duration=15 * 1000,
@@ -356,7 +363,7 @@ class RdmSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 damage_mult=1.05,
                 duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
@@ -400,7 +407,7 @@ class RdmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             combo_spec=(ComboSpec(),),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 damage_mult=1.05,
                 duration=self._skill_data.get_skill_data(name, "duration"),
                 num_uses=6,
@@ -899,6 +906,61 @@ class RdmSkills(GenericJobClass):
             ),
         )
 
+    @GenericJobClass.is_a_skill
+    def magick_barrier(self):
+        name = "Magick Barrier"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=(
+                    {
+                        DamageInstanceClass.MAGICAL: 0.1,
+                    }
+                ),
+                hp_recovery_up_via_healing_actions=0.05,
+                duration=10 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def addle(self):
+        name = "Addle"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=(
+                    {
+                        DamageInstanceClass.PHYSICAL: 0.05,
+                        DamageInstanceClass.MAGICAL: 0.1,
+                    }
+                ),
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def vercure(self):
+        name = "Vercure"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=TimingSpec(
+                base_cast_time=2000,
+                gcd_base_recast_time=2500,
+                animation_lock=self.__rdm_caster_tax,
+            ),
+            heal_spec=HealSpec(potency=350, is_party_effect=True),
+        )
+
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
@@ -911,7 +973,7 @@ class RdmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
                 duration=10 * 1000,
                 num_uses=1,
@@ -939,7 +1001,7 @@ class RdmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 duration=20 * 1000,
                 num_uses=1,
@@ -956,20 +1018,6 @@ class RdmSkills(GenericJobClass):
             skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
                 base_cast_time=10 * 1000,
-                gcd_base_recast_time=2500,
-                animation_lock=self.__rdm_caster_tax,
-            ),
-        )
-
-    @GenericJobClass.is_a_skill
-    def vercure(self):
-        name = "Vercure"
-        return Skill(
-            name=name,
-            is_GCD=True,
-            skill_type=SkillType.SPELL,
-            timing_spec=TimingSpec(
-                base_cast_time=2000,
                 gcd_base_recast_time=2500,
                 animation_lock=self.__rdm_caster_tax,
             ),

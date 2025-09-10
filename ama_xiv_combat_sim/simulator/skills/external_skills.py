@@ -1,5 +1,5 @@
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 kPlayer = None
@@ -32,7 +32,7 @@ def create_fru_map():
             "Vulnerability Down",
             Skill(
                 name="Vulnerability Down",
-                debuff_spec=StatusEffectSpec(
+                offensive_debuff_spec=OffensiveStatusEffectSpec(
                     duration=9999000, damage_mult=0.5, is_party_effect=True
                 ),
                 timing_spec=base_timing_spec,
@@ -44,7 +44,7 @@ def create_fru_map():
             "Damage Down",
             Skill(
                 name="Damage Down",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=180 * 1000, damage_mult=0.1, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,
@@ -56,7 +56,7 @@ def create_fru_map():
             "Mark of Mortality",
             Skill(
                 name="Mark of Mortality",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=180 * 1000, damage_mult=0.1, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,
@@ -74,7 +74,7 @@ def create_valigarmanda_map():
             "Damage Down",
             Skill(
                 name="Damage Down",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=30 * 1000, damage_mult=0.75, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,
@@ -92,7 +92,7 @@ def create_car_map():
             "Arcane Design",
             Skill(
                 name="Arcane Design",
-                debuff_spec=StatusEffectSpec(
+                offensive_debuff_spec=OffensiveStatusEffectSpec(
                     duration=145 * 1000, damage_mult=1.2, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,
@@ -104,7 +104,7 @@ def create_car_map():
             "Damage Down",
             Skill(
                 name="Damage Down",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=30 * 1000, damage_mult=0.75, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,
@@ -122,7 +122,7 @@ def get_dd_ability(duration, dd_value):
             "Damage Down",
             Skill(
                 name="Damage Down",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=duration, damage_mult=1 - dd_value, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,
@@ -140,7 +140,7 @@ def create_m5s_map():
             "Damage Down",
             Skill(
                 name="Damage Down",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=30 * 1000, damage_mult=0.75, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,
@@ -152,7 +152,7 @@ def create_m5s_map():
             "Perfect Groove",
             Skill(
                 name="Perfect Groove",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=20 * 1000, damage_mult=1.03, is_party_effect=False
                 ),
                 timing_spec=base_timing_spec,

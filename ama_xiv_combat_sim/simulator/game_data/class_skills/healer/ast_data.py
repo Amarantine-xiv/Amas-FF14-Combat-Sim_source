@@ -27,8 +27,18 @@ ALL_DATA = {
         100: {"potency": {"7.0": 400}},
     },
     "Stellar Explosion (pet)": {
-        90: {"Earthly Dominance": {"6.55": 205}, "Giant Dominance": {"6.55": 310}},
-        100: {"Earthly Dominance": {"7.0": 205}, "Giant Dominance": {"7.0": 310}},
+        90: {
+            "Earthly Dominance": {"6.55": 205},
+            "Giant Dominance": {"6.55": 310},
+            "Earthly Dominance (Heal)": {"6.55": 540},
+            "Giant Dominance (Heal)": {"6.55": 720},
+        },
+        100: {
+            "Earthly Dominance": {"7.0": 205},
+            "Giant Dominance": {"7.0": 310},
+            "Earthly Dominance (Heal)": {"7.0": 540},
+            "Giant Dominance (Heal)": {"7.0": 720},
+        },
     },
     "Oracle": {
         100: {

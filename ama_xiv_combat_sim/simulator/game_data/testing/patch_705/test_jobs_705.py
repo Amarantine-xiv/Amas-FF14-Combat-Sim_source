@@ -815,6 +815,46 @@ class TestJobsUnified705(TestClass):
         return self.__job_class_tester.test_skills(stats, skills_and_expected_damage)
 
     @TestClass.is_a_test
+    def test_brd_cross_radiant(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.64,
+            main_stat=3376,
+            det_stat=2114,
+            crit_stat=2557,
+            dh_stat=1254,
+            speed_stat=400,
+            job_class="MCH",
+            version=self.__version,
+            level=self.__level,
+        )
+        
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            snap_dots_to_server_tick_starting_at=0,
+        )
+
+        rb.add(0, "Heat Blast")
+        rb.add(1, "Radiant Finale", SkillModifier(with_condition="1 Coda"), job_class = "BRD")
+        rb.add(5,"Heat Blast")
+        rb.add(10,"Radiant Finale", SkillModifier(with_condition="2 Coda"), job_class = "BRD")
+        rb.add(15, "Heat Blast")        
+        rb.add(100, "Radiant Finale", SkillModifier(with_condition="3 Coda"), job_class = "BRD")
+        rb.add(105, "Heat Blast")
+        
+        expected = (
+            ("Heat Blast", 9708),
+            ("Heat Blast", 9902),
+            ("Heat Blast", 10096),
+            ("Heat Blast", 10290),
+        )
+        
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
     def test_brd_rotation_damage_instances(self):
         stats = Stats(
             wd=132,

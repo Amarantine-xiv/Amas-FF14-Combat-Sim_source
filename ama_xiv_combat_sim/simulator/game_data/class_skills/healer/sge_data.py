@@ -24,6 +24,10 @@ ALL_DATA = {
         100: {"potency": {"7.0": 75, "7.2": 80}, "potency_dysk": {"7.0": 40}},
     },
     "Psyche": {100: {"potency": {"7.0": 600}}},
+    "Physis II": {
+        90: {"healing_action_duration": {"6.55": 10 * 1000}},
+        100: {"healing_action_duration": {"6.55": 15 * 1000}},
+    },
 }
 
 for k, v in ALL_DATA.items():

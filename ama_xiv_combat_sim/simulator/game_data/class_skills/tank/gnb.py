@@ -1,12 +1,22 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.tank.gnb_data import (
@@ -64,7 +74,9 @@ class GnbSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(duration=int(19.96 * 1000), damage_mult=1.20),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                duration=int(19.96 * 1000), damage_mult=1.20
+            ),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -86,6 +98,23 @@ class GnbSkills(GenericJobClass):
                 ),
             },
             combo_spec=(ComboSpec(combo_group=0, combo_actions=("Keen Edge",)),),
+            heal_spec={
+                SimConsts.DEFAULT_CONDITION: HealSpec(potency=200),
+                "No Combo": None,
+            },
+            shield_spec={
+                SimConsts.DEFAULT_CONDITION: ShieldSpec(shield_mult_on_hp_restored=1.0),
+                "No Combo": None,
+            },
+            defensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: DefensiveStatusEffectSpec(
+                    add_to_skill_modifier_condition=True,
+                    num_uses=1,
+                    skill_allowlist=("Heart of Corundum",),
+                    duration=30 * 1000,
+                ),
+                "No Combo": None,
+            },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=1074
             ),
@@ -496,21 +525,30 @@ class GnbSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-        )
-
-    @GenericJobClass.is_a_skill
-    def provoke(self):
-        return Skill(
-            name="Provoke",
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.2,
+                hp_recovery_up_via_healing_actions=0.15,
+                duration=20 * 1000,
+            ),
         )
 
     @GenericJobClass.is_a_skill
     def reprisal(self):
         return Skill(
             name="Reprisal",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1,
+                duration=15 * 1000,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def provoke(self):
+        return Skill(
+            name="Provoke",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
@@ -541,6 +579,11 @@ class GnbSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1,
+                increase_parry_rate=0.5,
+                duration=20 * 1000,
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -570,6 +613,9 @@ class GnbSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.3, duration=15 * 1000
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -581,6 +627,11 @@ class GnbSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.4,
+                max_hp_mult=1.2,
+                duration=15 * 1000,
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -590,6 +641,9 @@ class GnbSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(
+                hot_potency=300, duration=18 * 1000, is_party_effect=True
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -599,6 +653,11 @@ class GnbSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            # TODO: model the 50% hp cut
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                is_invuln=True,
+                duration=10 * 1000,
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -619,22 +678,97 @@ class GnbSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions={
+                    DamageInstanceClass.PHYSICAL: 0.05,
+                    DamageInstanceClass.MAGICAL: 0.1,
+                },
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    # For logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def catharsis_of_corundum_heal(self):
+        name = "Catharsis of Corundum (Heal)"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Catharsis of Corundum": HealSpec(potency=900),
+            },
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                expires_status_effects=("Catharsis of Corundum",), is_party_effect=True
+            ),
+        )
+
+    # For logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def clarity_of_corundum(self):
+        name = "Clarity of Corundum"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.15,
+                duration=4 * 1000,
+                is_party_effect=True,
+            ),
         )
 
     @GenericJobClass.is_a_skill
-    def heart_of_stone(self):
-        return Skill(
-            name="Heart of Stone",
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            timing_spec=self.instant_timing_spec,
+    def heart_of_corundum(self):
+        clarity_follow_up = FollowUp(
+            skill=self.clarity_of_corundum(), delay_after_parent_application=0
+        )
+        catharsis_follow_up_heal = FollowUp(
+            skill=self.catharsis_of_corundum_heal(),
+            delay_after_parent_application=int(20.1 * 1000),
+        )
+        catharsis_follow_up_status = FollowUp(
+            skill=Skill(
+                name="Catharsis of Corundum",
+                is_GCD=False,
+                skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+                timing_spec=self.uncontrolled_timing_spec,
+                # Defensively set duration, just in case a trigger is missed.
+                defensive_buff_spec=DefensiveStatusEffectSpec(
+                    add_to_skill_modifier_condition=True,
+                    is_party_effect=True,
+                    duration=20 * 1000,
+                ),
+            ),
+            delay_after_parent_application=0,
         )
 
-    @GenericJobClass.is_a_skill
-    def heart_of_corundrum(self):
         return Skill(
-            name="Heart of Corundrum",
+            name="Heart of Corundum",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.15,
+                duration=8 * 1000,
+                is_party_effect=True,
+                expires_status_effects=("Brutal Shell",),
+            ),
+            heal_spec={
+                "Brutal Shell": HealSpec(potency=200),
+                SimConsts.DEFAULT_CONDITION: None,
+            },
+            shield_spec={
+                "Brutal Shell": ShieldSpec(shield_mult_on_hp_restored=1.0),
+                SimConsts.DEFAULT_CONDITION: None,
+            },
+            follow_up_skills=(
+                clarity_follow_up,
+                catharsis_follow_up_status,
+                catharsis_follow_up_heal,
+            ),
         )

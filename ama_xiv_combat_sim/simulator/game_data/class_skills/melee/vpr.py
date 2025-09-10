@@ -1,4 +1,7 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
@@ -6,7 +9,13 @@ from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.melee.vpr_data import (
@@ -58,7 +67,7 @@ class VprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     duration=duration,
                     num_uses=1,
@@ -90,7 +99,7 @@ class VprSkills(GenericJobClass):
             FollowUp(
                 skill=Skill(
                     name="Honed Reavers",
-                    buff_spec=StatusEffectSpec(
+                    offensive_buff_spec=OffensiveStatusEffectSpec(
                         add_to_skill_modifier_condition=True,
                         duration=60 * 1000,
                         num_uses=1,
@@ -124,7 +133,7 @@ class VprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.10,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                 ),
@@ -154,7 +163,7 @@ class VprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                debuff_spec=StatusEffectSpec(
+                offensive_debuff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.10,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     max_duration=self._skill_data.get_skill_data(name, "max_duration"),
@@ -171,7 +180,7 @@ class VprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     duration=60 * 1000,
                     num_uses=1,
@@ -242,7 +251,7 @@ class VprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     haste_time_reduction=0.15,
                     auto_attack_delay_reduction=0.15,
                     duration=self._skill_data.get_skill_data(name, "duration"),
@@ -1358,6 +1367,25 @@ class VprSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions={
+                    DamageInstanceClass.PHYSICAL: 0.1,
+                    DamageInstanceClass.MAGICAL: 0.05,
+                },
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def second_wind(self):
+        name = "Second Wind"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=800),
         )
 
     @GenericJobClass.is_a_skill
@@ -1368,6 +1396,7 @@ class VprSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            # TODO: add defensive spec
         )
 
     @GenericJobClass.is_a_skill

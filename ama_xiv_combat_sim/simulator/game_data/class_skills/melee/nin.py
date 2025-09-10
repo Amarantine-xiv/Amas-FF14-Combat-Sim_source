@@ -1,4 +1,7 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
@@ -9,7 +12,14 @@ from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.melee.nin_data import (
@@ -117,7 +127,7 @@ class NinSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     haste_time_reduction=0.15,
                     auto_attack_delay_reduction=0.15,
                     duration=60 * 1000,
@@ -134,7 +144,7 @@ class NinSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     haste_time_reduction=0.15,
                     auto_attack_delay_reduction=0.15,
                     duration=10 * 1000,
@@ -149,7 +159,7 @@ class NinSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     haste_time_reduction=0.15,
                     auto_attack_delay_reduction=0.15,
                     duration=30 * 1000,
@@ -228,14 +238,14 @@ class NinSkills(GenericJobClass):
             dot_duration=self._skill_data.get_skill_data(name, "duration"),
             snapshot_buffs_with_parent=True,
             snapshot_debuffs_with_parent=False,
-            primary_target_only=False
+            primary_target_only=False,
         )
         name = "Doton"
         return Skill(
             name=name,
             is_GCD=True,
             skill_type=SkillType.WEAPONSKILL,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 duration=self._skill_data.get_skill_data("Doton (dot)", "duration"),
             ),
@@ -380,7 +390,7 @@ class NinSkills(GenericJobClass):
         mug_debuff_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                debuff_spec=StatusEffectSpec(
+                offensive_debuff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.05,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
@@ -427,7 +437,7 @@ class NinSkills(GenericJobClass):
         trick_debuff_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                debuff_spec=StatusEffectSpec(
+                offensive_debuff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.10, duration=int(15.77 * 1000)
                 ),
             ),
@@ -828,7 +838,7 @@ class NinSkills(GenericJobClass):
         dokumori_debuff_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                debuff_spec=StatusEffectSpec(
+                offensive_debuff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.05,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
@@ -1212,7 +1222,7 @@ class NinSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=5,
                 duration=int(30.7 * 1000),
@@ -1228,7 +1238,7 @@ class NinSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=3,
                 duration=6000,
@@ -1247,7 +1257,7 @@ class NinSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=30 * 1000,
@@ -1273,7 +1283,7 @@ class NinSkills(GenericJobClass):
         kunai_debuff_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                debuff_spec=StatusEffectSpec(
+                offensive_debuff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.10,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                 ),
@@ -1355,7 +1365,7 @@ class NinSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=15 * 1000,
@@ -1372,6 +1382,59 @@ class NinSkills(GenericJobClass):
             ),
         )
 
+    @GenericJobClass.is_a_skill
+    def shade_shift(self):
+        name = "Shade Shift"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            shield_spec=ShieldSpec(
+                shield_on_max_hp=0.2, duration=20 * 1000, is_party_effect=False
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def feint(self):
+        name = "Feint"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions={
+                    DamageInstanceClass.PHYSICAL: 0.1,
+                    DamageInstanceClass.MAGICAL: 0.05,
+                },
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def second_wind(self):
+        name = "Second Wind"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=800),
+        )
+
+    @GenericJobClass.is_a_skill
+    def bloodbath(self):
+        name = "Bloodbath"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            # TODO: add defensive spec
+        )
+
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
@@ -1383,7 +1446,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
-            skill_type=SkillType.ABILITY, #Mudras are actually "Ability" skills
+            skill_type=SkillType.ABILITY,  # Mudras are actually "Ability" skills
             timing_spec=self.__mudra_timing_spec,
         )
 
@@ -1393,7 +1456,7 @@ class NinSkills(GenericJobClass):
         return Skill(
             name=name,
             is_GCD=True,
-            skill_type=SkillType.ABILITY, #Mudras are actually "Ability" skills
+            skill_type=SkillType.ABILITY,  # Mudras are actually "Ability" skills
             timing_spec=self.__mudra_timing_spec,
         )
 
@@ -1402,7 +1465,7 @@ class NinSkills(GenericJobClass):
         name = "Jin"
         return Skill(
             name=name,
-            is_GCD=True, #Mudras are actually "Ability" skills
+            is_GCD=True,  # Mudras are actually "Ability" skills
             skill_type=SkillType.ABILITY,
             timing_spec=self.__mudra_timing_spec,
         )

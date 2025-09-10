@@ -6,6 +6,7 @@ from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_eve
     SnapshotAndApplicationEvents,
 )
 from ama_xiv_combat_sim.simulator.utils import Utils
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
 from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import (
     JobResourceTracker,
@@ -13,8 +14,7 @@ from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import (
 from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import (
     StatusEffectTracker,
 )
-from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
-
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
 
 class DamageBuilder:
 
@@ -87,7 +87,7 @@ class DamageBuilder:
                     except ValueError as v:
                         print(str(v))
 
-                if not isinstance(snapshot_status[0], StatusEffects):
+                if not isinstance(snapshot_status[0], OffensiveStatusEffects):
                     snapshot_status[0], skill_modifier_from_buffs = (
                         self.se.compile_buffs(curr_time, skill)
                     )
@@ -96,7 +96,10 @@ class DamageBuilder:
                 for i, target in enumerate(targets):
                     if len(targets) > 1:
                         skill_modifier_to_use = copy.deepcopy(skill_modifier)
-                        skill_modifier_to_use.add_to_condition(f"Target {i+1}")
+                        if i > 0:
+                            skill_modifier_to_use.add_to_condition(
+                                SimConsts.SECONDARY_TARGET
+                            )
                         snapshot_status_use = copy.deepcopy(snapshot_status)
                         # add targetting
                         application_time = (
@@ -108,7 +111,7 @@ class DamageBuilder:
                         # add targetting
                         application_time = curr_time  # modify app time?
 
-                    if not isinstance(snapshot_status_use[1], StatusEffects):
+                    if not isinstance(snapshot_status_use[1], OffensiveStatusEffects):
                         snapshot_status_use[1], skill_modifier_from_debuffs = (
                             self.se.compile_debuffs(curr_time, skill, target)
                         )
@@ -125,7 +128,7 @@ class DamageBuilder:
                                 skill_modifier_to_use,
                                 tuple(snapshot_status_use),
                                 event_id,
-                                target
+                                target,
                             ),
                         )
             else:
@@ -142,7 +145,7 @@ class DamageBuilder:
                     Utils.transform_time_to_prio(event_times.secondary)
                     + priority_modifier
                 )
-                
+
                 # make sure we process new applications before other events applied on same timestamp.
                 # -10 is a hack to deal with followup skills to make sure this applies before
                 # instant-skill follow ups. Superhack. Can probably get rid of with
@@ -181,7 +184,10 @@ class DamageBuilder:
                 for i, target in enumerate(targets):
                     if len(targets) > 1:
                         skill_modifier_to_use = copy.deepcopy(skill_modifier)
-                        skill_modifier_to_use.add_to_condition(f"Target {i+1}")
+                        if i > 0:
+                            skill_modifier_to_use.add_to_condition(
+                                SimConsts.SECONDARY_TARGET
+                            )
                         snapshot_status_use = copy.deepcopy(snapshot_status)
                         # add targetting
                         application_time = (

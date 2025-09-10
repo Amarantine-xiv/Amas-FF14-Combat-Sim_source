@@ -1,19 +1,18 @@
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
-from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
-
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
 
 class StatusEffectTracker:
     def __init__(self, status_effects_priority=tuple()):
-        self.buffs = {}
-        self.debuffs = {}  # double map to the given target
+        self.offensive_buffs = {}
+        self.offensive_debuffs = {}  # double map to the given target
         self.__status_effects_priority = status_effects_priority
 
     def __get_debuffs(self, target):
-        if target not in self.debuffs:
-            self.debuffs[target] = {}
-        return self.debuffs[target]
+        if target not in self.offensive_debuffs:
+            self.offensive_debuffs[target] = {}
+        return self.offensive_debuffs[target]
 
     @staticmethod
     def __expire_status_effects(t, status_effects):
@@ -24,8 +23,8 @@ class StatusEffectTracker:
                 del status_effects[se_skill_name]
 
     def expire_status_effects(self, t):
-        self.__expire_status_effects(t, self.buffs)
-        for target in self.debuffs:
+        self.__expire_status_effects(t, self.offensive_buffs)
+        for target in self.offensive_debuffs:
             self.__expire_status_effects(t, self.__get_debuffs(target))
 
     @staticmethod
@@ -84,11 +83,11 @@ class StatusEffectTracker:
     def __expire_named_effect(
         self, expired_effect_name, t, target=SimConsts.DEFAULT_TARGET
     ):
-        if expired_effect_name in self.buffs.keys():
-            start_time, _, prev_num_uses, prev_status_effect_spec = self.buffs[
+        if expired_effect_name in self.offensive_buffs.keys():
+            start_time, _, prev_num_uses, prev_status_effect_spec = self.offensive_buffs[
                 expired_effect_name
             ]
-            self.buffs[expired_effect_name] = (
+            self.offensive_buffs[expired_effect_name] = (
                 start_time,
                 t,
                 prev_num_uses,
@@ -108,22 +107,22 @@ class StatusEffectTracker:
     def add_to_status_effects(
         self, t, skill, skill_modifier, targets=(SimConsts.DEFAULT_TARGET,)
     ):
-        buff_spec = skill.get_buff_spec(skill_modifier)
-        debuff_spec = skill.get_debuff_spec(skill_modifier)
+        offensive_buff_spec = skill.get_offensive_buff_spec(skill_modifier)
+        offensive_debuff_spec = skill.get_offensive_debuff_spec(skill_modifier)
 
-        if buff_spec is not None:
-            if buff_spec.clear_all_status_effects:
-                self.buffs = {}
-            self.__add_to_status_effects(self.buffs, t, skill.name, buff_spec)
-            for expired_effect_name in buff_spec.expires_status_effects:
+        if offensive_buff_spec is not None:
+            if offensive_buff_spec.clear_all_status_effects:
+                self.offensive_buffs = {}
+            self.__add_to_status_effects(self.offensive_buffs, t, skill.name, offensive_buff_spec)
+            for expired_effect_name in offensive_buff_spec.expires_status_effects:
                 self.__expire_named_effect(expired_effect_name, t)
 
-        if debuff_spec is not None:
+        if offensive_debuff_spec is not None:
             for target in targets:
                 self.__add_to_status_effects(
-                    self.__get_debuffs(target), t, skill.name, debuff_spec
+                    self.__get_debuffs(target), t, skill.name, offensive_debuff_spec
                 )
-                for expired_effect_name in debuff_spec.expires_status_effects:
+                for expired_effect_name in offensive_debuff_spec.expires_status_effects:
                     self.__expire_named_effect(expired_effect_name, t, target)
 
     @staticmethod
@@ -178,9 +177,6 @@ class StatusEffectTracker:
         haste_time_mult = 1.0
         flat_cast_time_reduction = 0
         flat_gcd_recast_time_reduction = 0
-        damage_reduction_generic = 0
-        damage_reduction_phys = 0
-        damage_reduction_magic = 0
 
         guaranteed_crit = ForcedCritOrDH.DEFAULT
         guaranteed_dh = ForcedCritOrDH.DEFAULT
@@ -212,15 +208,6 @@ class StatusEffectTracker:
             haste_time_mult *= 1 - spec.haste_time_reduction
             flat_cast_time_reduction += spec.flat_cast_time_reduction
             flat_gcd_recast_time_reduction += spec.flat_gcd_recast_time_reduction
-            damage_reduction_generic = 1 - (1 - damage_reduction_generic) * (
-                1 - spec.damage_reduction
-            )
-            damage_reduction_phys = 1 - (1 - damage_reduction_phys) * (
-                1 - spec.damage_reduction_phys
-            )
-            damage_reduction_magic = 1 - (1 - damage_reduction_magic) * (
-                1 - spec.damage_reduction_magic
-            )
 
             if spec.guaranteed_crit is not ForcedCritOrDH.DEFAULT:
                 assert (
@@ -237,7 +224,7 @@ class StatusEffectTracker:
             if spec.add_to_skill_modifier_condition:
                 skill_modifier_conditions.append(status_effect_skill_name)
 
-        status_effects = StatusEffects(
+        status_effects = OffensiveStatusEffects(
             crit_rate_add=crit_rate_add,
             dh_rate_add=dh_rate_add,
             damage_mult=damage_mult,
@@ -247,9 +234,6 @@ class StatusEffectTracker:
             haste_time_mult=haste_time_mult,
             flat_cast_time_reduction=flat_cast_time_reduction,
             flat_gcd_recast_time_reduction=flat_gcd_recast_time_reduction,
-            damage_reduction_generic=damage_reduction_generic,
-            damage_reduction_phys=damage_reduction_phys,
-            damage_reduction_magic=damage_reduction_magic,
             guaranteed_crit=guaranteed_crit,
             guaranteed_dh=guaranteed_dh,
             status_effects=tuple(valid_and_prioritized_status_effects),
@@ -259,7 +243,7 @@ class StatusEffectTracker:
     def compile_buffs(self, t, skill=Skill(name="")):
         status_effect_denylist = skill.status_effect_denylist
         return self.__compile_status_effects(
-            t, self.buffs, status_effect_denylist, skill.name
+            t, self.offensive_buffs, status_effect_denylist, skill.name
         )
 
     def compile_debuffs(self, t, skill=Skill(name=""), target=SimConsts.DEFAULT_TARGET):

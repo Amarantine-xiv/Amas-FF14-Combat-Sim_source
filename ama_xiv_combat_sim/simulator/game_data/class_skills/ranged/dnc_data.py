@@ -130,6 +130,14 @@ ALL_DATA = {
     "Dance of the Dawn": {
         100: {"potency": {"7.0": 1000}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}}
     },
+    "Shield Samba": {
+        90: {
+            "damage_reduction": {"6.55": 0.1},            
+        },
+        100: {
+            "damage_reduction": {"6.55": 0.15},
+        },
+    },
 }
 
 for k, v in ALL_DATA.items():

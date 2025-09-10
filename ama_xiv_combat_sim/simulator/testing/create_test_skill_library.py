@@ -12,7 +12,7 @@ from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 
@@ -100,64 +100,64 @@ def create_test_skill_library():
         damage_class=DamageClass.PET,
     )
 
-    # StatusEffectSpecs (buff/debuff)
-    simple_buff = StatusEffectSpec(
+    # OffensiveStatusEffectSpecs (buff/debuff)
+    simple_buff = OffensiveStatusEffectSpec(
         duration=30000, max_duration=60000, crit_rate_add=0.05, is_party_effect=True
     )
-    simple_buff_2 = StatusEffectSpec(
+    simple_buff_2 = OffensiveStatusEffectSpec(
         duration=10000, crit_rate_add=0.06, dh_rate_add=0.2
     )
-    mega_buff = StatusEffectSpec(
+    mega_buff = OffensiveStatusEffectSpec(
         duration=30000, max_duration=60000, damage_mult=10.5, is_party_effect=True
     )
-    simple_debuff = StatusEffectSpec(
+    simple_debuff = OffensiveStatusEffectSpec(
         duration=30000, max_duration=60000, damage_mult=1.2, is_party_effect=True
     )
-    simple_debuff_2 = StatusEffectSpec(duration=10000, damage_mult=1.3)
-    auto_attack_buff = StatusEffectSpec(
+    simple_debuff_2 = OffensiveStatusEffectSpec(duration=10000, damage_mult=1.3)
+    auto_attack_buff = OffensiveStatusEffectSpec(
         duration=10000, auto_attack_delay_reduction=0.25
     )
-    haste_buff1 = StatusEffectSpec(duration=15000, haste_time_reduction=0.25)
-    haste_buff2 = StatusEffectSpec(duration=15000, haste_time_reduction=0.10)
-    flat_cast_time_reduction_buff = StatusEffectSpec(
+    haste_buff1 = OffensiveStatusEffectSpec(duration=15000, haste_time_reduction=0.25)
+    haste_buff2 = OffensiveStatusEffectSpec(duration=15000, haste_time_reduction=0.10)
+    flat_cast_time_reduction_buff = OffensiveStatusEffectSpec(
         duration=15000, flat_cast_time_reduction=2500
     )
-    simple_buff_with_allowlist = StatusEffectSpec(
+    simple_buff_with_allowlist = OffensiveStatusEffectSpec(
         duration=30000,
         max_duration=60000,
         crit_rate_add=0.05,
         skill_allowlist=("test_gcd",),
     )
-    num_uses_buff_with_cast_reduction = StatusEffectSpec(
+    num_uses_buff_with_cast_reduction = OffensiveStatusEffectSpec(
         duration=30000, max_duration=60000, flat_cast_time_reduction=3000, num_uses=2
     )
-    guaranteed_crit_buff = StatusEffectSpec(
+    guaranteed_crit_buff = OffensiveStatusEffectSpec(
         duration=30000,
         max_duration=60000,
         num_uses=1,
         guaranteed_crit=ForcedCritOrDH.FORCE_YES,
     )
-    guaranteed_dh_buff = StatusEffectSpec(
+    guaranteed_dh_buff = OffensiveStatusEffectSpec(
         duration=30000,
         max_duration=60000,
         num_uses=1,
         guaranteed_dh=ForcedCritOrDH.FORCE_YES,
     )
-    guaranteed_crit_dh_buff = StatusEffectSpec(
+    guaranteed_crit_dh_buff = OffensiveStatusEffectSpec(
         duration=30000,
         max_duration=60000,
         num_uses=1,
         guaranteed_crit=ForcedCritOrDH.FORCE_YES,
         guaranteed_dh=ForcedCritOrDH.FORCE_YES,
     )
-    num_uses_buff_with_priority1 = StatusEffectSpec(
+    num_uses_buff_with_priority1 = OffensiveStatusEffectSpec(
         duration=30000,
         max_duration=60000,
         crit_rate_add=0.1,
         num_uses=1,
         skill_allowlist=("test_instant_gcd",),
     )
-    num_uses_buff_with_priority2 = StatusEffectSpec(
+    num_uses_buff_with_priority2 = OffensiveStatusEffectSpec(
         duration=30000,
         max_duration=60000,
         dh_rate_add=0.1,
@@ -168,14 +168,6 @@ def create_test_skill_library():
     num_uses_channeling_spec = ChannelingSpec(duration=10000,
                                               num_uses=3,
                                               skill_allowlist=(("test_gcd"),))
-
-    # Mit-related StatusEffectSpecs
-    damage_mit_generic = StatusEffectSpec(duration=30000,
-                                          damage_reduction=0.1)
-    damage_mit_split = StatusEffectSpec(duration=30000,
-                                        damage_reduction_phys=0.1,
-                                        damage_reduction_magic=0.05)
-    
 
     # Skill creation
     test_gcd = Skill(
@@ -372,34 +364,34 @@ def create_test_skill_library():
         "test_simple_buff_gcd",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec=simple_buff,
+        offensive_buff_spec=simple_buff,
     )
     test_party_buff = Skill(
-        "test_party_buff", is_GCD=True, timing_spec=gcd_instant, buff_spec=simple_buff
+        "test_party_buff", is_GCD=True, timing_spec=gcd_instant, offensive_buff_spec=simple_buff
     )
     test_simple_buff_gcd_2 = Skill(
         "test_simple_buff_gcd_2",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec=simple_buff_2,
+        offensive_buff_spec=simple_buff_2,
     )
     test_simple_buff_gcd_3 = Skill(
         "test_simple_buff_gcd_3",
         is_GCD=True,
         timing_spec=gcd_2500,
-        buff_spec=simple_buff,
+        offensive_buff_spec=simple_buff,
     )  # NOT instant cast
     test_simple_debuff_gcd = Skill(
         "test_simple_debuff_gcd",
         is_GCD=True,
         timing_spec=gcd_instant,
-        debuff_spec=simple_debuff,
+        offensive_debuff_spec=simple_debuff,
     )
     test_simple_debuff_gcd_2 = Skill(
         "test_simple_debuff_gcd_2",
         is_GCD=True,
         timing_spec=gcd_instant,
-        debuff_spec=simple_debuff_2,
+        offensive_debuff_spec=simple_debuff_2,
     )
     test_guaranteed_dh = Skill(
         "test_guaranteed_dh",
@@ -459,18 +451,18 @@ def create_test_skill_library():
         name="test_auto_attack_buff",
         is_GCD=True,
         timing_spec=gcd_2500,
-        buff_spec=auto_attack_buff,
+        offensive_buff_spec=auto_attack_buff,
     )
     test_auto_attack_buff_instant = Skill(
         name="test_auto_attack_buff_instant",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec=auto_attack_buff,
+        offensive_buff_spec=auto_attack_buff,
     )
     test_auto_attack_buff_instant_follow_up = Skill(
         name="test_auto_attack_buff_instant_follow_up",
         is_GCD=False,
-        buff_spec=auto_attack_buff,
+        offensive_buff_spec=auto_attack_buff,
     )
     test_auto_attack_buff_on_follow_up = Skill(
         name="test_auto_attack_buff_on_follow_up",
@@ -487,22 +479,22 @@ def create_test_skill_library():
         name="test_auto_attack_buff2",
         is_GCD=True,
         timing_spec=gcd_2500,
-        buff_spec=auto_attack_buff,
+        offensive_buff_spec=auto_attack_buff,
     )
     test_haste_buff1 = Skill(
         name="test_haste_buff1",
         is_GCD=False,
         timing_spec=ogcd_instant,
-        buff_spec=haste_buff1,
+        offensive_buff_spec=haste_buff1,
     )
     test_haste_buff2 = Skill(
         name="test_haste_buff2",
         is_GCD=False,
         timing_spec=ogcd_instant,
-        buff_spec=haste_buff2,
+        offensive_buff_spec=haste_buff2,
     )
     _test_haste_follow_up = Skill(
-        name="_test_haste_follow_up", is_GCD=False, buff_spec=haste_buff1
+        name="_test_haste_follow_up", is_GCD=False, offensive_buff_spec=haste_buff1
     )
     test_haste_follow_up = Skill(
         name="test_haste_follow_up",
@@ -541,7 +533,7 @@ def create_test_skill_library():
         name="test_flat_cast_time_reduction",
         is_GCD=False,
         timing_spec=ogcd_instant,
-        buff_spec=flat_cast_time_reduction_buff,
+        offensive_buff_spec=flat_cast_time_reduction_buff,
     )
     _test_buff_then_damage = Skill(
         "_test_buff_then_damage", is_GCD=False, damage_spec=simple_damage
@@ -550,7 +542,7 @@ def create_test_skill_library():
         name="test_buff_then_damage",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec=simple_buff,
+        offensive_buff_spec=simple_buff,
         follow_up_skills=(
             FollowUp(skill=_test_buff_then_damage, delay_after_parent_application=0),
         ),
@@ -559,7 +551,7 @@ def create_test_skill_library():
         name="test_default_buff_damage_order",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec=simple_buff,
+        offensive_buff_spec=simple_buff,
         damage_spec=simple_damage,
     )
     test_damage_spec_with_cond = Skill(
@@ -583,11 +575,11 @@ def create_test_skill_library():
         name="test_buff_with_cond",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec={
-            "crit": StatusEffectSpec(
+        offensive_buff_spec={
+            "crit": OffensiveStatusEffectSpec(
                 duration=30000, crit_rate_add=0.1, is_party_effect=True
             ),
-            "dh": StatusEffectSpec(
+            "dh": OffensiveStatusEffectSpec(
                 duration=30000, dh_rate_add=0.2, is_party_effect=True
             ),
         },
@@ -596,9 +588,9 @@ def create_test_skill_library():
         name="test_debuff_with_cond",
         is_GCD=True,
         timing_spec=gcd_instant,
-        debuff_spec={
-            "crit": StatusEffectSpec(duration=30000, crit_rate_add=0.15),
-            "dh": StatusEffectSpec(duration=30000, dh_rate_add=0.25),
+        offensive_debuff_spec={
+            "crit": OffensiveStatusEffectSpec(duration=30000, crit_rate_add=0.15),
+            "dh": OffensiveStatusEffectSpec(duration=30000, dh_rate_add=0.25),
         },
     )
     test_follow_up_with_cond = Skill(
@@ -633,28 +625,28 @@ def create_test_skill_library():
     _follow_up_buff = Skill(
         name="follow_up_buff",
         is_GCD=False,
-        buff_spec=StatusEffectSpec(
+        offensive_buff_spec=OffensiveStatusEffectSpec(
             duration=30000, max_duration=60000, crit_rate_add=0.15, is_party_effect=True
         ),
     )
     _follow_up_buff_override = Skill(
         name="follow_up_buff",
         is_GCD=False,
-        buff_spec=StatusEffectSpec(
+        offensive_buff_spec=OffensiveStatusEffectSpec(
             duration=30000, max_duration=60000, crit_rate_add=0.50
         ),
     )
     _follow_up_buff_other_duration = Skill(
         name="follow_up_buff",
         is_GCD=False,
-        buff_spec=StatusEffectSpec(
+        offensive_buff_spec=OffensiveStatusEffectSpec(
             duration=10000, max_duration=60000, crit_rate_add=0.15
         ),
     )
     _follow_up_debuff = Skill(
         name="follow_up_debuff",
         is_GCD=False,
-        debuff_spec=StatusEffectSpec(
+        offensive_debuff_spec=OffensiveStatusEffectSpec(
             duration=30000, max_duration=60000, crit_rate_add=0.25
         ),
     )
@@ -696,49 +688,49 @@ def create_test_skill_library():
         "simple_buff_with_allowlist",
         is_GCD=False,
         timing_spec=ogcd_instant,
-        buff_spec=simple_buff_with_allowlist,
+        offensive_buff_spec=simple_buff_with_allowlist,
     )
     test_num_uses_buff_with_cast_reduction = Skill(
         "test_num_uses_buff_with_cast_reduction",
         is_GCD=False,
         timing_spec=ogcd_instant_animation_lock,
-        buff_spec=num_uses_buff_with_cast_reduction,
+        offensive_buff_spec=num_uses_buff_with_cast_reduction,
     )
     test_guaranteed_crit_buff = Skill(
         "test_guaranteed_crit_buff",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec=guaranteed_crit_buff,
+        offensive_buff_spec=guaranteed_crit_buff,
     )
     test_guaranteed_dh_buff = Skill(
         "test_guaranteed_dh_buff",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec=guaranteed_dh_buff,
+        offensive_buff_spec=guaranteed_dh_buff,
     )
     test_guaranteed_crit_dh_buff = Skill(
         "guaranteed_crit_dh_buff",
         is_GCD=True,
         timing_spec=gcd_instant,
-        buff_spec=guaranteed_crit_dh_buff,
+        offensive_buff_spec=guaranteed_crit_dh_buff,
     )
     test_num_uses_buff_with_priority1 = Skill(
         "test_num_uses_buff_with_priority1",
         is_GCD=False,
         timing_spec=ogcd_instant_animation_lock,
-        buff_spec=num_uses_buff_with_priority1,
+        offensive_buff_spec=num_uses_buff_with_priority1,
     )
     test_num_uses_buff_with_priority2 = Skill(
         "test_num_uses_buff_with_priority2",
         is_GCD=False,
         timing_spec=ogcd_instant_animation_lock,
-        buff_spec=num_uses_buff_with_priority2,
+        offensive_buff_spec=num_uses_buff_with_priority2,
     )
     test_skill_with_conditional = Skill(
         "test_skill_with_conditional",
         is_GCD=False,
         timing_spec=ogcd_instant_animation_lock,
-        buff_spec=StatusEffectSpec(
+        offensive_buff_spec=OffensiveStatusEffectSpec(
             duration=30000,
             max_duration=60000,
             add_to_skill_modifier_condition=True,
@@ -847,7 +839,7 @@ def create_test_skill_library():
         name="test_off_class_conditional",
         is_GCD=False,
         timing_spec=gcd_instant,
-        buff_spec={
+        offensive_buff_spec={
             SimConsts.DEFAULT_CONDITION: None,
             "other": simple_buff,
             "mega": mega_buff,
@@ -861,7 +853,7 @@ def create_test_skill_library():
     test_ogcd_megabuff_app_delay = Skill(name="test_ogcd_megabuff_app_delay",
                                     is_GCD=False,
                                     timing_spec=ogcd_instant_app_delay_long,
-                                    buff_spec=mega_buff)
+                                    offensive_buff_spec=mega_buff)
     
     
 
@@ -885,14 +877,6 @@ def create_test_skill_library():
         timing_spec=ogcd_instant,
         channeling_spec=num_uses_channeling_spec,
     )
-    test_damage_mit_generic_buff = Skill(name = "test_damage_mit_generic_buff",
-                                         is_GCD=False,
-                                         timing_spec=ogcd_instant,
-                                         buff_spec=damage_mit_generic)
-    test_damage_mit_split_buff = Skill(name = "test_damage_mit_split_buff",
-                                          is_GCD=False,
-                                          timing_spec=ogcd_instant,
-                                          buff_spec=damage_mit_split)
 
     skill_library.add_skill(test_gcd)
     skill_library.add_skill(test_ogcd)
@@ -974,8 +958,6 @@ def create_test_skill_library():
     skill_library.add_skill(test_follow_up_for_multi_target_main_primary_only)
     skill_library.add_skill(test_channeling)
     skill_library.add_skill(test_channeling_num_uses)
-    skill_library.add_skill(test_damage_mit_generic_buff)
-    skill_library.add_skill(test_damage_mit_split_buff)
     skill_library.add_skill(test_ogcd_megabuff_app_delay) 
     
     skill_library.set_status_effect_priority(

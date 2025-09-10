@@ -1,5 +1,6 @@
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
 from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
@@ -9,7 +10,7 @@ from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import (
     create_test_skill_library,
 )
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
-from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
 
 
 class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
@@ -45,19 +46,19 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
                 2000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.5), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.5), OffensiveStatusEffects()),
             ),
             (
                 32000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.5), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.5), OffensiveStatusEffects()),
             ),
             (
                 41000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.5), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.5), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -79,19 +80,19 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
                 2000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.15), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.15), OffensiveStatusEffects()),
             ),
             (
                 32000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.15), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.15), OffensiveStatusEffects()),
             ),
             (
                 41000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -113,7 +114,7 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
                 2000,
                 self.__skill_library.get_skill("test_instant_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.15), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.15), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -131,7 +132,7 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
                 3040,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(guaranteed_crit=ForcedCritOrDH.FORCE_YES),
-                (StatusEffects(), StatusEffects()),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -149,7 +150,7 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
                 0,
                 self.__skill_library.get_skill("_test_buff_then_damage", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects()),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects()),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -172,43 +173,43 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
                 3040,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 3440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 6440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 9440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 12440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
             (
                 13440,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.0)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.0)),
             ),
             (
                 15440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects(damage_mult=1.3)),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -227,14 +228,14 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
             (
                 3040,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
-                SkillModifier(with_condition="Target 1"),
-                (StatusEffects(), StatusEffects()),
+                SkillModifier(),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
             (
                 3175,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
-                SkillModifier(with_condition="Target 2"),
-                (StatusEffects(), StatusEffects()),
+                SkillModifier(with_condition=SimConsts.SECONDARY_TARGET),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
 
@@ -255,14 +256,14 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
             (
                 4040,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
-                SkillModifier(with_condition="Target 1"),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects()),
+                SkillModifier(),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects()),
             ),
             (
                 4175,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
-                SkillModifier(with_condition="Target 2"),
-                (StatusEffects(crit_rate_add=0.05), StatusEffects()),
+                SkillModifier(with_condition=SimConsts.SECONDARY_TARGET),
+                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects()),
             ),
         ]
 
@@ -283,14 +284,14 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
             (
                 4040,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
-                SkillModifier(with_condition="Target 1"),
-                (StatusEffects(), StatusEffects(damage_mult=1.2)),
+                SkillModifier(),
+                (OffensiveStatusEffects(), OffensiveStatusEffects(damage_mult=1.2)),
             ),
             (
                 4175,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
-                SkillModifier(with_condition="Target 2"),
-                (StatusEffects(), StatusEffects()),
+                SkillModifier(with_condition=SimConsts.SECONDARY_TARGET),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
 
@@ -298,7 +299,7 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
 
     @TestClass.is_a_test
     def multi_target_follow_up(self):
-        rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)        
+        rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
         rb.add(0, "test_follow_up_for_multi_target_main", targets="t1, t2")
 
         db = DamageBuilder(self.__stats, self.__skill_library)
@@ -309,15 +310,19 @@ class TestRotationBuilderAndDamageBuilderIntegration(TestClass):
         expected = [
             (
                 0,
-                self.__skill_library.get_skill("test_folllow_up_for_multi_target", "test_job"),
-                SkillModifier(with_condition="Target 1"),
-                (StatusEffects(), StatusEffects()),
+                self.__skill_library.get_skill(
+                    "test_folllow_up_for_multi_target", "test_job"
+                ),
+                SkillModifier(),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
             (
                 135,
-                self.__skill_library.get_skill("test_folllow_up_for_multi_target", "test_job"),
-                SkillModifier(with_condition="Target 2"),
-                (StatusEffects(), StatusEffects()),
+                self.__skill_library.get_skill(
+                    "test_folllow_up_for_multi_target", "test_job"
+                ),
+                SkillModifier(with_condition=SimConsts.SECONDARY_TARGET),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
             ),
         ]
 

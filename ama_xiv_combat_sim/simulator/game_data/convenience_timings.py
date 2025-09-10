@@ -11,3 +11,6 @@ def get_cast_gcd_timing_spec():
 
 def get_instant_timing_spec():
     return TimingSpec(base_cast_time=0, animation_lock=650)
+
+def get_uncontrolled_timing_spec():
+    return TimingSpec(base_cast_time=0, animation_lock=0)

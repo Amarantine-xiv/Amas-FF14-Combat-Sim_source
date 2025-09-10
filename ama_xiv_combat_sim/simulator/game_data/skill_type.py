@@ -6,3 +6,4 @@ class SkillType(Enum):
     SPELL = 2
     ABILITY = 3
     AUTO = 4
+    UNCONTROLLED_FOLLOW_UP = 5

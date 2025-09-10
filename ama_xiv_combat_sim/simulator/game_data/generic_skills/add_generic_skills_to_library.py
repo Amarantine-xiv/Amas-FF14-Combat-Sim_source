@@ -7,7 +7,7 @@ from ama_xiv_combat_sim.simulator.game_data.generic_skills.generic_skills_data i
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
@@ -27,7 +27,7 @@ def __get_clear_all_status_effects_follow_up(name):
     res = FollowUp(
         skill=Skill(
             name=name,
-            buff_spec=StatusEffectSpec(clear_all_status_effects=True),
+            offensive_buff_spec=OffensiveStatusEffectSpec(clear_all_status_effects=True),
         ),
         delay_after_parent_application=0,
     )
@@ -68,7 +68,7 @@ def __get_weakness():
     apply_weakness_followup = FollowUp(
         skill=Skill(
             name=name,
-            buff_spec=StatusEffectSpec(duration=int(100 * 1000), main_stat_mult=0.75),
+            offensive_buff_spec=OffensiveStatusEffectSpec(duration=int(100 * 1000), main_stat_mult=0.75),
         ),
         delay_after_parent_application=0,
     )
@@ -95,7 +95,7 @@ def __get_brink():
     apply_brink_followup = FollowUp(
         skill=Skill(
             name=name,
-            buff_spec=StatusEffectSpec(duration=int(100 * 1000), main_stat_mult=0.50),
+            offensive_buff_spec=OffensiveStatusEffectSpec(duration=int(100 * 1000), main_stat_mult=0.50),
         ),
         delay_after_parent_application=0,
     )
@@ -139,7 +139,7 @@ def __get_pot(name, main_stat_add, version, level):
             animation_lock=all_generic_skills.get_skill_data(name, "animation_lock"),
             application_delay=all_generic_skills.get_skill_data(name, "application_delay"),
         ),
-        buff_spec=StatusEffectSpec(
+        offensive_buff_spec=OffensiveStatusEffectSpec(
             duration=int(29.97 * 1000), main_stat_add=main_stat_add
         ),
     )

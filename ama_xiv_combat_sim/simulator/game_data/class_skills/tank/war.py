@@ -6,8 +6,15 @@ from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.tank.war_data import (
@@ -25,7 +32,7 @@ class WarSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name="Surging Tempest",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=30000,
                     max_duration=60000,
                     damage_mult=1.10,
@@ -103,6 +110,10 @@ class WarSkills(GenericJobClass):
                     potency=self._skill_data.get_potency_no_combo(name)
                 ),
             },
+            heal_spec={
+                SimConsts.DEFAULT_CONDITION: HealSpec(potency=250),
+                "No Combo": None,
+            },
         )
 
     @GenericJobClass.is_a_skill
@@ -110,7 +121,7 @@ class WarSkills(GenericJobClass):
         surging_tempest_inital_follow_up = FollowUp(
             skill=Skill(
                 name="Surging Tempest",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=31600,
                     max_duration=60000,
                     damage_mult=1.10,
@@ -163,7 +174,7 @@ class WarSkills(GenericJobClass):
         ir_surging_tempest_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=10000,
                     max_duration=60000,
                     damage_mult=1.10,
@@ -182,7 +193,7 @@ class WarSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=0
             ),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 guaranteed_crit=ForcedCritOrDH.FORCE_YES,
                 guaranteed_dh=ForcedCritOrDH.FORCE_YES,
                 num_uses=3,
@@ -321,7 +332,7 @@ class WarSkills(GenericJobClass):
         mythril_tempest_inital_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=30470,
                     max_duration=60000,
                     damage_mult=1.10,
@@ -419,12 +430,36 @@ class WarSkills(GenericJobClass):
                     base_cast_time=0, animation_lock=0, application_delay=534
                 ),
             },
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.3,
+                duration=15 * 1000,
+                add_to_skill_modifier_condition=True,
+            ),
+        )
+
+    # For logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def primeval_impulse_heal(self):
+        name = "Primeval Impulse"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Damnation": HealSpec(hot_potency=300, duration=15 * 1000),
+            },
         )
 
     @GenericJobClass.is_a_skill
     def damnation(self):
         if self._level < 92:
             return None
+
+        _primeval_impulse_heal_follow_up = FollowUp(
+            skill=self.primeval_impulse_heal(), delay_after_parent_application=15 * 1000
+        )
 
         name = "Damnation"
         return Skill(
@@ -441,6 +476,12 @@ class WarSkills(GenericJobClass):
                     base_cast_time=0, animation_lock=0, application_delay=534
                 ),
             },
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.4,
+                add_to_skill_modifier_condition=True,
+                duration=15 * 1000,
+            ),
+            follow_up_skills=(_primeval_impulse_heal_follow_up,),
         )
 
     @GenericJobClass.is_a_skill
@@ -509,12 +550,19 @@ class WarSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
-    def thrill(self):
+    def thrill_of_battle(self):
         return Skill(
             name="Thrill of Battle",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                # TODO: hp_recovery_up_via_healing_actions is from SELF only. Can add a new field I guess, but is there a more robust way?
+                max_hp_mult=1.2,
+                hp_recovery_up_via_healing_actions=0.2,
+                duration=10 * 1000,
+                add_to_skill_modifier_condition=True,
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -524,42 +572,251 @@ class WarSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                is_invuln=True, duration=10 * 1000
+            ),
         )
 
     @GenericJobClass.is_a_skill
     def equilibrium(self):
+        name = "Equilibrium"
         return Skill(
-            name="Equilibrium",
+            name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=1200, hot_potency=200, duration=15 * 1000),
         )
 
     @GenericJobClass.is_a_skill
     def shake(self):
+        name = "Shake It Off"
         return Skill(
-            name="Shake It Off",
+            name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            # NOTE: i know this looks really stupid and we can just enumerate the powerset
+            # of [thrill, [damnation|vengeance], bloodwhetting] and programatically construct the conditions.
+            # we do NOT do that because this code is also a bit of documentation on how
+            # to use the sim and non-coders are going to read this. so we simply just
+            # unroll everything to make it easy for non-coders to read off exactly what's going on
+            # and what skill conditionals to put in and what they do.
+            defensive_buff_spec={
+                # 0 buffs
+                SimConsts.DEFAULT_CONDITION: DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                ),
+                # 1 buff
+                "Thrill of Battle": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.02,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=("Thrill of Battle",),
+                ),
+                "Damnation": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.02,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=("Damnation",),
+                ),
+                "Vengeance": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.02,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=("Vengeance",),
+                ),
+                "Bloodwhetting": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.02,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=("Bloodwhetting",),
+                ),
+                # 2 buffs
+                "Damnation, Thrill of Battle": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.04,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "Damnation",
+                        "Thrill of Battle",
+                    ),
+                ),
+                "Thrill of Battle, Vengeance": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.04,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=("Thrill of Battle", "Vengeance"),
+                ),
+                "Bloodwhetting, Thrill of Battle": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.04,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "Bloodwhetting",
+                        "Thrill of Battle",
+                    ),
+                ),
+                "Bloodwhetting, Damnation": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.04,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "Bloodwhetting",
+                        "Damnation",
+                    ),
+                ),
+                "Bloodwhetting, Vengeance": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.04,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "Bloodwhetting",
+                        "Vengeance",
+                    ),
+                ),
+                # 3 buffs
+                "Bloodwhetting, Damnation, Thrill of Battle": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.06,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "Bloodwhetting",
+                        "Damnation",
+                        "Thrill of Battle",
+                    ),
+                ),
+                "Bloodwhetting, Thrill of Battle, Vengeance": DefensiveStatusEffectSpec(
+                    max_hp_mult=1.15 + 0.06,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    expires_status_effects=(
+                        "Bloodwhetting",
+                        "Thrill of Battle",
+                        "Vengeance",
+                    ),
+                ),
+            },
+            heal_spec=HealSpec(
+                potency=300,
+                hot_potency=100,
+                duration=15 * 1000,
+                is_party_effect=True,
+                is_aoe=True,
+            ),
+            # Kinda ugly to model here and not on the Damnation expiry itself, but this will work...
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: tuple(),
+                "Damnation": (
+                    FollowUp(
+                        skill=self.primeval_impulse_heal(),
+                        delay_after_parent_application=0,
+                    ),
+                ),
+            },
+        )
+
+    # For logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def nascent_flash_heal(self):
+        name = "Nascent Flash (Heal)"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec=HealSpec(potency=400),
+        )
+
+    # For logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def nascent_glint_heal(self):
+        name = "Nascent Glint (Heal)"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec=HealSpec(potency=400, is_party_effect=True),
+        )
+
+    # For logs parsing convenience
+    def stem_the_flow(self):
+        name = "Stem the Flow"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1,
+                duration=4 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    # For logs parsing convenience
+    def stem_the_tide(self):
+        name = "Stem the Tide"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            shield_spec=ShieldSpec(
+                potency=400, duration=20 * 1000, is_party_effect=True
+            ),
         )
 
     @GenericJobClass.is_a_skill
-    def nascent(self):
+    def nascent_flash(self):
+        _tide_follow_up = FollowUp(
+            skill=self.stem_the_tide(), delay_after_parent_application=0
+        )
+        _flow_follow_up = FollowUp(
+            skill=self.stem_the_flow(), delay_after_parent_application=0
+        )
+
         return Skill(
             name="Nascent Flash",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Other": DefensiveStatusEffectSpec(
+                    damage_reductions=0.1,
+                    is_party_effect=True,
+                    duration=8 * 1000,
+                ),
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: tuple(),
+                "Other": (_tide_follow_up, _flow_follow_up),
+            },
+            off_class_default_condition="Other",
         )
 
     @GenericJobClass.is_a_skill
     def bloodwhetting(self):
+        _tide_follow_up = FollowUp(
+            skill=self.stem_the_tide(), delay_after_parent_application=0
+        )
+        _flow_follow_up = FollowUp(
+            skill=self.stem_the_flow(), delay_after_parent_application=0
+        )
+
         return Skill(
             name="Bloodwhetting",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1, duration=8 * 1000
+            ),
+            follow_up_skills=(_tide_follow_up, _flow_follow_up),
         )
 
     @GenericJobClass.is_a_skill
@@ -569,21 +826,30 @@ class WarSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-        )
-
-    @GenericJobClass.is_a_skill
-    def provoke(self):
-        return Skill(
-            name="Provoke",
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.2,
+                hp_recovery_up_via_healing_actions=0.15,
+                duration=20 * 1000,
+            ),
         )
 
     @GenericJobClass.is_a_skill
     def reprisal(self):
         return Skill(
             name="Reprisal",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1,
+                duration=15 * 1000,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def provoke(self):
+        return Skill(
+            name="Provoke",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,

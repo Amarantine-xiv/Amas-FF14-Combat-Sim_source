@@ -1,6 +1,9 @@
 import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
@@ -10,7 +13,14 @@ from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.pct_data import (
@@ -60,7 +70,7 @@ class PctSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=30 * 1000,
@@ -413,7 +423,7 @@ class PctSkills(GenericJobClass):
         inspiration_follow_up = FollowUp(
             skill=Skill(
                 name="Inspiration",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     duration=30 * 1000,
                     num_uses=5,
                     haste_time_reduction=0.25,
@@ -433,11 +443,11 @@ class PctSkills(GenericJobClass):
                 animation_lock=self.__base_animation_lock,
                 application_delay=0,
             ),
-            buff_spec={
-                SimConsts.DEFAULT_CONDITION: StatusEffectSpec(
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
                     damage_mult=1.05, duration=int(20.35 * 1000), is_party_effect=True
                 ),
-                "Longest": StatusEffectSpec(
+                "Longest": OffensiveStatusEffectSpec(
                     damage_mult=1.05, duration=int(21.5 * 1000), is_party_effect=True
                 ),
             },
@@ -641,6 +651,7 @@ class PctSkills(GenericJobClass):
                 animation_lock=self.__base_animation_lock,
                 application_delay=1250,
             ),
+            heal_spec=HealSpec(potency=400, is_party_effect=True, is_aoe=True),
             job_resource_spec=(JobResourceSpec(name="Hyperphantasia", change=-1),),
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
@@ -648,6 +659,52 @@ class PctSkills(GenericJobClass):
             },
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
+        )
+
+    @GenericJobClass.is_a_skill
+    def tempera_coat(self):
+        name = "Tempera Coat"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            shield_spec=ShieldSpec(
+                shield_on_max_hp=0.2, duration=10 * 1000, is_party_effect=False
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def tempera_grassa(self):
+        name = "Tempera Grassa"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            shield_spec=ShieldSpec(
+                shield_on_max_hp=0.1, duration=10 * 1000, is_party_effect=True
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def addle(self):
+        name = "Addle"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=(
+                    {
+                        DamageInstanceClass.PHYSICAL: 0.05,
+                        DamageInstanceClass.MAGICAL: 0.1,
+                    }
+                ),
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
         )
 
     # These skills do not damage, but grants resources/affects future skills.
@@ -661,7 +718,7 @@ class PctSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.__pct_instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
                 duration=10 * 1000,
                 num_uses=1,
@@ -689,20 +746,6 @@ class PctSkills(GenericJobClass):
                     "Maw Motif",
                     "Rainbow Drip",  # will be consumed under Rainbowbright...bug.
                 ),
-            ),
-        )
-
-    @GenericJobClass.is_a_skill
-    def tempera_coat(self):
-        name = "Tempera Coat"
-        return Skill(
-            name=name,
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            timing_spec=TimingSpec(
-                base_cast_time=0,
-                animation_lock=self.__base_animation_lock,
-                application_delay=650,
             ),
         )
 
@@ -891,20 +934,6 @@ class PctSkills(GenericJobClass):
                 base_cast_time=3000,
                 animation_lock=self.__pct_caster_tax_ms,
                 gcd_base_recast_time=4000,
-                application_delay=650,
-            ),
-        )
-
-    @GenericJobClass.is_a_skill
-    def tempera_grassa(self):
-        name = "Tempera Grassa"
-        return Skill(
-            name=name,
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            timing_spec=TimingSpec(
-                base_cast_time=0,
-                animation_lock=self.__base_animation_lock,
                 application_delay=650,
             ),
         )

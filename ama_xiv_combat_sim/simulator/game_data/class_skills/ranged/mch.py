@@ -9,9 +9,15 @@ from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.ranged.mch_data import (
@@ -789,7 +795,7 @@ class MchSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=5 * 1000,
@@ -817,7 +823,7 @@ class MchSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=5,
                 duration=10 * 1000,
@@ -942,27 +948,53 @@ class MchSkills(GenericJobClass):
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
-    # These skills do not damage, but grants resources/affects future skills.
-    # Since we do not model resources YET, we just record their usage/timings but
-    # not their effect.
-
     @GenericJobClass.is_a_skill
-    def tactician(self):
+    def second_wind(self):
+        name = "Second Wind"
         return Skill(
-            name="Tactician",
+            name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=800),
+        )
+
+    @GenericJobClass.is_a_skill
+    def tactician(self):
+        name = "Tactician"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=all_mch_skills.get_skill_data(
+                    name, "damage_reduction"
+                ),
+                does_not_stack_with=frozenset(("Troubadour", "Shield Samba")),
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
         )
 
     @GenericJobClass.is_a_skill
     def dismantle(self):
+        name = "Dismantle"
         return Skill(
-            name="Dismantle",
+            name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1,
+                duration=10 * 1000,
+                is_party_effect=True,
+            ),
         )
+
+    # These skills do not damage, but grants resources/affects future skills.
+    # Since we do not model resources YET, we just record their usage/timings but
+    # not their effect.
 
     @GenericJobClass.is_a_skill
     def barrel_stabilizer(self):

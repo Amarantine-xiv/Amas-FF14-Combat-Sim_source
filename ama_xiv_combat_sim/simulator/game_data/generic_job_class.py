@@ -2,6 +2,7 @@ from ama_xiv_combat_sim.simulator.game_data.convenience_timings import (
     get_auto_timing,
     get_shot_timing,
     get_instant_timing_spec,
+    get_uncontrolled_timing_spec
 )
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
@@ -10,8 +11,9 @@ from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResource
 class GenericJobClass:
     auto_timing_spec = get_auto_timing()
     instant_timing_spec = get_instant_timing_spec()
+    uncontrolled_timing_spec = get_uncontrolled_timing_spec()
     shot_timing_spec = get_shot_timing()
-
+    
     def __init__(self, version, level, skill_data):
         self._job_class = ""
         self._version = version

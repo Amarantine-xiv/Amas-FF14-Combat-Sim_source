@@ -1,4 +1,7 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
@@ -6,8 +9,16 @@ from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.specs.trigger_spec import TriggerSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.melee.rpr_data import (
     all_rpr_skills,
@@ -25,7 +36,7 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                debuff_spec=StatusEffectSpec(
+                offensive_debuff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.10, duration=30 * 1000, max_duration=60 * 1000
                 ),
             ),
@@ -38,7 +49,7 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=self._skill_data.get_skill_data(name, "duration"),
@@ -292,7 +303,7 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=60 * 1000,
@@ -307,7 +318,7 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=60 * 1000,
@@ -422,7 +433,7 @@ class RprSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 damage_mult=1.03,
                 duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
@@ -452,7 +463,7 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=60 * 1000,
@@ -467,7 +478,7 @@ class RprSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=60 * 1000,
@@ -762,6 +773,89 @@ class RprSkills(GenericJobClass):
             follow_up_skills=(self.__get_enhanced_harp_follow_up(),),
         )
 
+    # This is primarily for logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def crest_of_time_returned(self):
+        name = "Crest of Time Returned"
+
+        # TODO: this actually only triggers when the barrier is completely absorbed from Arcane Crest.
+        # How to link back?
+        return (
+            Skill(
+                name=f"{name}",
+                is_GCD=False,
+                skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+                timing_spec=self.uncontrolled_timing_spec,
+                heal_spec=HealSpec(
+                    hot_potency=50,
+                    duration=15 * 1000,
+                    is_party_effect=True,
+                    is_aoe=True,
+                ),
+            ),
+        )
+
+    # This is primarily for logs parsing convenience
+    # for logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def crest_of_time_borrowed(self):
+        name = "Crest of Time Borrowed"
+
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            shield_spec=ShieldSpec(shield_on_max_hp=0.1, duration=5 * 1000),
+            trigger_spec=TriggerSpec(triggers=("Crest of Time Returned",)),
+        )
+
+    @GenericJobClass.is_a_skill
+    def arcane_crest(self):
+        name = "Arcane Crest"
+
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            follow_up_skills=(
+                FollowUp(
+                    skill=self.crest_of_time_borrowed(),
+                    delay_after_parent_application=0,
+                ),
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def second_wind(self):
+        name = "Second Wind"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=800),
+        )
+
+    @GenericJobClass.is_a_skill
+    def feint(self):
+        name = "Feint"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions={
+                    DamageInstanceClass.PHYSICAL: 0.1,
+                    DamageInstanceClass.MAGICAL: 0.05,
+                },
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
@@ -783,7 +877,7 @@ class RprSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 expires_status_effects=(
                     "Enhanced Void Reaping",
                     "Enhanced Cross Reaping",
@@ -808,4 +902,15 @@ class RprSkills(GenericJobClass):
                     affected_by_speed_stat=False,
                 ),
             },
+        )
+
+    @GenericJobClass.is_a_skill
+    def bloodbath(self):
+        name = "Bloodbath"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            # TODO: add defensive spec
         )

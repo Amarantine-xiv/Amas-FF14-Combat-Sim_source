@@ -1257,7 +1257,7 @@ class TestRotationBuilder(TestClass):
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
-    def test_with_cond_buff_spec(self):
+    def test_with_cond_offensive_buff_spec(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, fight_start_time=0)
         rb.add_next(
             "test_buff_with_cond", skill_modifier=SkillModifier(with_condition="crit")

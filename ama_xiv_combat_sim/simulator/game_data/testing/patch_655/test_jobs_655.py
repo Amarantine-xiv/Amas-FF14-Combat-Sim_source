@@ -572,7 +572,7 @@ class TestJobsUnified655(TestClass):
         rb.add_next("Phlegma III")
         rb.add_next("Dosis III", num_times=9)
         expected_damage = 329566.2
-        expected_total_time = 35820.0
+        expected_total_time = 34320
 
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time
@@ -1166,7 +1166,7 @@ class TestJobsUnified655(TestClass):
         rb.add_next("Demolish")
         rb.add_next("Rising Phoenix")
 
-        expected_damage = 391443
+        expected_damage = 394062
         expected_total_time = 22770
         return self.__job_class_tester.test_aggregate_rotation(
             rb, expected_damage, expected_total_time

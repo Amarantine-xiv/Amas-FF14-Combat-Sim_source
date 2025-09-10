@@ -13,6 +13,7 @@ class GameConsts:
     MIN_GCD_RECAST_TIME = 1500
     MULTI_TARGET_DELAY_PER_TARGET = 135
     MAX_MAINSTAT_FRACTION = 0.10
+    PARRY_DMG_REDUCTION = 0.15
     # level mods from akhmorning
 
     # Key is the version. This is interpreted as stats at max-level for now.

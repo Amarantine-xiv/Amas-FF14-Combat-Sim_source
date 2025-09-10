@@ -6,8 +6,15 @@ from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.tank.pld_data import (
@@ -35,7 +42,7 @@ class PldSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=4,
                     duration=30 * 1000,
@@ -56,7 +63,7 @@ class PldSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name="Divine Might",
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     add_to_skill_modifier_condition=True,
                     num_uses=1,
                     duration=30 * 1000,
@@ -101,7 +108,9 @@ class PldSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(duration=20000, damage_mult=1.25),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                duration=20000, damage_mult=1.25
+            ),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=620
             ),
@@ -303,6 +312,7 @@ class PldSkills(GenericJobClass):
                     )
                 ),
             },
+            heal_spec=HealSpec(potency=400),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=1500,
@@ -407,6 +417,7 @@ class PldSkills(GenericJobClass):
                     )
                 ),
             },
+            heal_spec=HealSpec(potency=400),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=1500,
@@ -507,6 +518,7 @@ class PldSkills(GenericJobClass):
                     potency=self._skill_data.get_skill_data(name, "potency_req")
                 ),
             },
+            heal_spec=HealSpec(potency=400),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=623
             ),
@@ -549,6 +561,7 @@ class PldSkills(GenericJobClass):
                     potency=self._skill_data.get_skill_data(name, "potency_req")
                 ),
             },
+            heal_spec=HealSpec(potency=400),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=666
             ),
@@ -572,6 +585,7 @@ class PldSkills(GenericJobClass):
                     potency=self._skill_data.get_skill_data(name, "potency_req")
                 ),
             },
+            heal_spec=HealSpec(potency=400),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
@@ -595,6 +609,7 @@ class PldSkills(GenericJobClass):
                     potency=self._skill_data.get_skill_data(name, "potency_req")
                 ),
             },
+            heal_spec=HealSpec(potency=400),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=891
             ),
@@ -623,25 +638,267 @@ class PldSkills(GenericJobClass):
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
 
-    # These skills do not damage, but grants resources/affects future skills.
-    # Since we do not model resources YET, we just record their usage/timings but
-    # not their effect.
+    # For logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def knights_resolve(self):
+        name = "Knight's Resolve"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            # Super gross way to ensure we don't double count a
+            # Knight's Resolve buff.
+            defensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Other": DefensiveStatusEffectSpec(
+                    damage_reductions=0.15,
+                    duration=4 * 1000,
+                    is_party_effect=True,
+                ),
+            },
+            off_class_default_condition="Other",
+        )
 
     @GenericJobClass.is_a_skill
-    def passage_of_arms(self):
-        name = "Passage of Arms"
+    def holy_sheltron(self):
+        resolve_follow_up = FollowUp(
+            skill=self.knights_resolve(), delay_after_parent_application=0
+        )
+        benediction_follow_up = FollowUp(
+            skill=self.knights_benediction(), delay_after_parent_application=0
+        )
+
+        name = "Holy Sheltron"
         return Skill(
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            channeling_spec=ChannelingSpec(duration=18000),
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.15, duration=8 * 1000
+            ),
+            follow_up_skills=(
+                resolve_follow_up,
+                benediction_follow_up,
+            ),
         )
 
     @GenericJobClass.is_a_skill
-    def rampart(self):
+    def sentinel(self):
+        if self._level >= 92:
+            return None
+        name = "Sentinel"
         return Skill(
-            name="Rampart",
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.30, duration=15 * 1000
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def bulwark(self):
+        name = "Bulwark"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                increase_block_chance=1.0,
+                duration=10 * 1000,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def divine_veil(self):
+        name = "Divine Veil"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            shield_spec=ShieldSpec(
+                # Fucking gross. Fuck.
+                shield_on_your_max_hp=0.1,
+                duration=30 * 1000,
+                is_party_effect=True,
+                is_aoe=True,
+            ),
+            heal_spec=HealSpec(potency=400, is_party_effect=True, is_aoe=True),
+        )
+
+    @GenericJobClass.is_a_skill
+    def clemency(self):
+        heal_self_follow_up = FollowUp(
+            skill=Skill(
+                name="Clemency (Heal)",
+                is_GCD=False,
+                heal_spec=HealSpec(potency=500),
+                skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+                timing_spec=self.uncontrolled_timing_spec,
+            ),
+            delay_after_parent_application=0,
+        )
+        return Skill(
+            name="Clemency",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "Target": HealSpec(potency=1000, is_party_effect=True),
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (heal_self_follow_up,),
+                "Target": tuple(),
+            },
+            # If PLD heals itself, just specify it as "Target".
+            off_class_default_condition="Target",
+        )
+
+    # For logs parsing convenience
+    @GenericJobClass.is_a_skill
+    def knights_benediction(self):
+        name = "Knight's Benediction"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            timing_spec=self.uncontrolled_timing_spec,
+            heal_spec=HealSpec(hot_potency=250, duration=12 * 1000),
+        )
+
+    @GenericJobClass.is_a_skill
+    def intervention(self):
+        # Because if this is on YOU, it's 10%, but someone else is 15%.
+        personal_knights_resolve_follow_up = FollowUp(
+            skill=Skill(
+                name="Knight's Resolve",
+                is_GCD=False,
+                skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+                timing_spec=self.uncontrolled_timing_spec,
+                defensive_buff_spec=DefensiveStatusEffectSpec(
+                    damage_reductions=0.10,
+                    duration=4 * 1000,
+                ),
+            ),
+            delay_after_parent_application=0,
+        )
+        benediction_follow_up = FollowUp(
+            skill=self.knights_benediction(), delay_after_parent_application=0
+        )
+
+        regular_def = DefensiveStatusEffectSpec(
+            damage_reductions=0.10,
+            duration=8 * 1000,
+            is_party_effect=True,
+        )
+        buffed_def = DefensiveStatusEffectSpec(
+            damage_reductions=0.20,
+            duration=8 * 1000,
+            is_party_effect=True,
+        )
+
+        name = "Intervention"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: regular_def,
+                "Rampart": buffed_def,
+                "Guardian": buffed_def,
+                "Guardian, Rampart": buffed_def,
+            },
+            follow_up_skills=(
+                personal_knights_resolve_follow_up,
+                benediction_follow_up,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def guardian(self):
+        if self._level < 92:
+            return None
+        return Skill(
+            name="Guardian",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.4,
+                duration=15 * 1000,
+                add_to_skill_modifier_condition=True,
+            ),
+            shield_spec=ShieldSpec(potency=1000, duration=15 * 1000),
+        )
+
+    @GenericJobClass.is_a_skill
+    def hallowed_ground(self):
+        return Skill(
+            name="Hallowed Ground",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                is_invuln=True,
+                duration=10 * 1000,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def passage_of_arms(self):
+        name = "Passage of Arms"
+
+        block_follow_up = FollowUp(
+            skill=Skill(
+                name=f"{name} (Block)",
+                defensive_buff_spec=DefensiveStatusEffectSpec(
+                    increase_block_chance=1.0,
+                    duration=18 * 1000,
+                ),
+            ),
+            delay_after_parent_application=0,
+        )
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: self.instant_timing_spec,
+                "Cancel": self.uncontrolled_timing_spec,
+            },
+            channeling_spec={
+                SimConsts.DEFAULT_CONDITION: ChannelingSpec(duration=18 * 1000),
+                "Cancel": None,
+            },
+            defensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: DefensiveStatusEffectSpec(
+                    damage_reductions=0.15,
+                    duration=18 * 1000,
+                    is_party_effect=True,
+                ),
+                "Cancel": DefensiveStatusEffectSpec(
+                    expires_status_effects=(name, f"{name} (Block)")
+                ),
+            },
+            follow_up_skills=(block_follow_up,),
+        )
+
+    # These skills do not damage, but grants resources/affects future skills.
+    # Since we do not model resources YET, we just record their usage/timings but
+    # not their effect.
+
+    @GenericJobClass.is_a_skill
+    def cover(self):
+        # TODO: implement. Fuck this skill.
+        return Skill(
+            name="Cover",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
@@ -657,12 +914,31 @@ class PldSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
+    def rampart(self):
+        return Skill(
+            name="Rampart",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.2,
+                hp_recovery_up_via_healing_actions=0.15,
+                duration=20 * 1000,
+                add_to_skill_modifier_condition=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
     def reprisal(self):
         return Skill(
             name="Reprisal",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=0.1,
+                duration=15 * 1000,
+            ),
         )
 
     @GenericJobClass.is_a_skill

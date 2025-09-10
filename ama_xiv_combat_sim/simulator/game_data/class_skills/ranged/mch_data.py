@@ -108,6 +108,14 @@ ALL_DATA = {
         90: {"min_potency": {"6.55": 390}, "max_potency": {"6.55": 780}},
         100: {"min_potency": {"7.0": 390}, "max_potency": {"7.0": 780}},
     },
+    "Tactician": {
+        90: {
+            "damage_reduction": {"6.55": 0.1},            
+        },
+        100: {
+            "damage_reduction": {"6.55": 0.15},
+        },
+    },
 }
 
 for k, v in ALL_DATA.items():

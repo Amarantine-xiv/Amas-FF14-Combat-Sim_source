@@ -7,7 +7,14 @@ from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.ranged.dnc_data import (
@@ -25,7 +32,7 @@ class DncSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.05, duration=60000, is_party_effect=True
                 ),
             ),
@@ -106,7 +113,7 @@ class DncSkills(GenericJobClass):
         _standard_finish1_follow_up = FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.02, duration=60000, is_party_effect=True
                 ),
             ),
@@ -118,7 +125,7 @@ class DncSkills(GenericJobClass):
         _standard_remove_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     expires_status_effects=("Standard Finish",), is_party_effect=True
                 ),
             ),
@@ -384,7 +391,7 @@ class DncSkills(GenericJobClass):
                 SimConsts.DEFAULT_CONDITION: self.instant_timing_spec,
                 "Dance Partner": TimingSpec(base_cast_time=0, animation_lock=0),
             },
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 crit_rate_add=0.20,
                 dh_rate_add=0.20,
                 duration=self._skill_data.get_skill_data(name, "duration"),
@@ -419,7 +426,7 @@ class DncSkills(GenericJobClass):
         tech4_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.05, duration=int(20.45 * 1000), is_party_effect=True
                 ),
             ),
@@ -430,7 +437,7 @@ class DncSkills(GenericJobClass):
         tech3_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.03, duration=int(20.45 * 1000), is_party_effect=True
                 ),
             ),
@@ -441,7 +448,7 @@ class DncSkills(GenericJobClass):
         tech2_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.02, duration=int(20.45 * 1000), is_party_effect=True
                 ),
             ),
@@ -452,7 +459,7 @@ class DncSkills(GenericJobClass):
         tech1_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.01, duration=int(20.45 * 1000), is_party_effect=True
                 ),
             ),
@@ -463,7 +470,7 @@ class DncSkills(GenericJobClass):
         tech4_longest_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.05, duration=int(20.95 * 1000), is_party_effect=True
                 ),
             ),
@@ -474,7 +481,7 @@ class DncSkills(GenericJobClass):
         tech3_longest_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.03, duration=int(20.95 * 1000), is_party_effect=True
                 ),
             ),
@@ -485,7 +492,7 @@ class DncSkills(GenericJobClass):
         tech2_longest_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.02, duration=int(20.95 * 1000), is_party_effect=True
                 ),
             ),
@@ -496,7 +503,7 @@ class DncSkills(GenericJobClass):
         tech1_longest_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=1.01, duration=int(20.95 * 1000), is_party_effect=True
                 ),
             ),
@@ -508,7 +515,7 @@ class DncSkills(GenericJobClass):
         tech_remove_followup = FollowUp(
             Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     expires_status_effects=("Technical Finish",),
                     is_party_effect=True,
                 ),
@@ -850,6 +857,81 @@ class DncSkills(GenericJobClass):
             ),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
+        )
+
+    @GenericJobClass.is_a_skill
+    def second_wind(self):
+        name = "Second Wind"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=800),
+        )
+
+    @GenericJobClass.is_a_skill
+    def improvisation(self):
+        name = "Improvisation"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            # TODO: have a way to cut the heal
+            heal_spec=HealSpec(
+                hot_potency=100, duration=15 * 1000, is_party_effect=True, is_aoe=True
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def improvised_finish(self):
+        def get_shield_spec(shield_on_max_hp):
+            return ShieldSpec(shield_on_max_hp=shield_on_max_hp, duration=30 * 1000)
+
+        name = "Improvised Finish"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            shield_spec={
+                SimConsts.DEFAULT_CONDITION: (get_shield_spec(0.10),),
+                "0 Rising Rhythm": (get_shield_spec(0.05),),
+                "1 Rising Rhythm": (get_shield_spec(0.06),),
+                "2 Rising Rhythm": (get_shield_spec(0.07),),
+                "3 Rising Rhythm": (get_shield_spec(0.08),),
+                "4 Rising Rhythm": (get_shield_spec(0.10),),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
+    def curing_waltz(self):
+        name = "Curing Waltz"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            heal_spec=HealSpec(potency=300, is_party_effect=True, is_aoe=True),
+        )
+
+    @GenericJobClass.is_a_skill
+    def shield_samba(self):
+        name = "Shield Samba"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=all_dnc_skills.get_skill_data(
+                    name, "damage_reduction"
+                ),
+                does_not_stack_with=frozenset(("Troubadour", "Tactician")),
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
         )
 
     # These skills do not damage, but grants resources/affects future skills.

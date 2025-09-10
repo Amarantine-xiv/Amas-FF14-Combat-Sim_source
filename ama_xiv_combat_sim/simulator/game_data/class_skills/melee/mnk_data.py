@@ -96,7 +96,7 @@ ALL_DATA = {
                 },
                 "7.0": None,
             },
-            "primary_application_delay": {"6.55": 1600},
+            "primary_application_delay": {"6.55": 0},
             "potency": {"6.55": 130, "7.0": 360, "7.01": 380},
             "potency_no_pos": {"6.55": 70, "7.0": 300, "7.01": 320},
         },

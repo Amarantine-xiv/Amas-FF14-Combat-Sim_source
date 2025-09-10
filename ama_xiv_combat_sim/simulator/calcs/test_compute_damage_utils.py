@@ -6,7 +6,7 @@ from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import create_test_skill_library
 from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
-from ama_xiv_combat_sim.simulator.trackers.status_effects import StatusEffects
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
 
 class TestComputeDamageUtils(TestClass):
   def __init__(self):
@@ -23,7 +23,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(guaranteed_dh=ForcedCritOrDH.FORCE_YES), StatusEffects()))
+                                                            (OffensiveStatusEffects(guaranteed_dh=ForcedCritOrDH.FORCE_YES), OffensiveStatusEffects()))
     expected_base_damage = 18507.0
 
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
@@ -41,7 +41,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(guaranteed_dh=ForcedCritOrDH.FORCE_YES, dh_rate_add=0.1), StatusEffects()))
+                                                            (OffensiveStatusEffects(guaranteed_dh=ForcedCritOrDH.FORCE_YES, dh_rate_add=0.1), OffensiveStatusEffects()))
     expected_base_damage = 18969.0
 
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
@@ -59,7 +59,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(crit_rate_add=0.1), StatusEffects()))
+                                                            (OffensiveStatusEffects(crit_rate_add=0.1), OffensiveStatusEffects()))
     #we shouldn't get any bonus from the crit rate buff, because it's not guaranteed crit
     expected_base_damage = 17742.0
 
@@ -78,7 +78,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(guaranteed_crit=ForcedCritOrDH.FORCE_YES, crit_rate_add=0.1), StatusEffects()))
+                                                            (OffensiveStatusEffects(guaranteed_crit=ForcedCritOrDH.FORCE_YES, crit_rate_add=0.1), OffensiveStatusEffects()))
     expected_base_damage = 18820.0
 
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
@@ -96,7 +96,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(guaranteed_crit=ForcedCritOrDH.FORCE_YES, crit_rate_add=0.1), StatusEffects(guaranteed_dh=ForcedCritOrDH.FORCE_YES, dh_rate_add=0.1)))
+                                                            (OffensiveStatusEffects(guaranteed_crit=ForcedCritOrDH.FORCE_YES, crit_rate_add=0.1), OffensiveStatusEffects(guaranteed_dh=ForcedCritOrDH.FORCE_YES, dh_rate_add=0.1)))
     expected_base_damage = 20094.0
 
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
@@ -114,7 +114,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             SkillModifier(),
                                                             self.__stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
       err_msg += "Base damage is not close. Expected: {}. Actual: {}.".format(expected_base_damage, actual_base_damage)
@@ -133,7 +133,7 @@ class TestComputeDamageUtils(TestClass):
       actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                               SkillModifier(with_condition=cond),
                                                               self.__stats,
-                                                              (StatusEffects(), StatusEffects()))
+                                                              (OffensiveStatusEffects(), OffensiveStatusEffects()))
       if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
         test_passed = False
         err_msg += "Base damage is not close. Expected: {}. Actual: {}. For cond: {}".format(expected_base_damage, actual_base_damage, cond)
@@ -151,7 +151,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 8741.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -168,7 +168,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 8484.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -186,7 +186,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(crit_rate_add=0.25, dh_rate_add=0.2), StatusEffects(crit_rate_add=0.07, dh_rate_add=0.12)))
+                                                            (OffensiveStatusEffects(crit_rate_add=0.25, dh_rate_add=0.2), OffensiveStatusEffects(crit_rate_add=0.07, dh_rate_add=0.12)))
     expected_base_damage = 17945.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -204,7 +204,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 3254.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -222,7 +222,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 3385.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -240,7 +240,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 2713.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -258,7 +258,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 135.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -276,7 +276,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(crit_rate_add=0.25, dh_rate_add=0.2), StatusEffects(crit_rate_add=0.07, dh_rate_add=0.12)))
+                                                            (OffensiveStatusEffects(crit_rate_add=0.25, dh_rate_add=0.2), OffensiveStatusEffects(crit_rate_add=0.07, dh_rate_add=0.12)))
     expected_base_damage = 1804.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -294,7 +294,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 1419.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -312,7 +312,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(crit_rate_add=0.32), StatusEffects()))
+                                                            (OffensiveStatusEffects(crit_rate_add=0.32), OffensiveStatusEffects()))
     expected_base_damage = 1641.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -330,7 +330,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 1377.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -348,7 +348,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects(dh_rate_add=0.32)))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects(dh_rate_add=0.32)))
     expected_base_damage = 1532.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -366,7 +366,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 1419.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -384,7 +384,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(dh_rate_add=0.2), StatusEffects(dh_rate_add=0.12)))
+                                                            (OffensiveStatusEffects(dh_rate_add=0.2), OffensiveStatusEffects(dh_rate_add=0.12)))
     expected_base_damage = 19971.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -402,7 +402,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(crit_rate_add=0.2), StatusEffects(crit_rate_add=0.12)))
+                                                            (OffensiveStatusEffects(crit_rate_add=0.2), OffensiveStatusEffects(crit_rate_add=0.12)))
     expected_base_damage = 21396.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -420,7 +420,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 17945.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -438,7 +438,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 18492.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -456,7 +456,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(crit_rate_add=0.32), StatusEffects(dh_rate_add=0.32)))
+                                                            (OffensiveStatusEffects(crit_rate_add=0.32), OffensiveStatusEffects(dh_rate_add=0.32)))
     expected_base_damage = 23527.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -474,7 +474,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(crit_rate_add=0.32), StatusEffects(dh_rate_add=0.32)))
+                                                            (OffensiveStatusEffects(crit_rate_add=0.32), OffensiveStatusEffects(dh_rate_add=0.32)))
     expected_base_damage = 23527.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -492,7 +492,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(crit_rate_add=0.2), StatusEffects(crit_rate_add=0.12)))
+                                                            (OffensiveStatusEffects(crit_rate_add=0.2), OffensiveStatusEffects(crit_rate_add=0.12)))
     expected_base_damage = 21396.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -510,7 +510,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 18492.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -527,7 +527,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 17742.0
 
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
@@ -545,7 +545,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(main_stat_mult=0.75), StatusEffects()))
+                                                            (OffensiveStatusEffects(main_stat_mult=0.75), OffensiveStatusEffects()))
     expected_base_damage = 13010.0
 
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
@@ -563,7 +563,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 2470.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False
@@ -580,7 +580,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             self.__stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 1921.0
 
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
@@ -600,7 +600,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 1103.0
 
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
@@ -620,7 +620,7 @@ class TestComputeDamageUtils(TestClass):
     actual_base_damage = ComputeDamageUtils.get_base_damage(skill,
                                                             skill_modifier,
                                                             stats,
-                                                            (StatusEffects(), StatusEffects()))
+                                                            (OffensiveStatusEffects(), OffensiveStatusEffects()))
     expected_base_damage = 4374.0
     if not math.isclose(actual_base_damage, expected_base_damage, abs_tol=1e-4):
       test_passed = False

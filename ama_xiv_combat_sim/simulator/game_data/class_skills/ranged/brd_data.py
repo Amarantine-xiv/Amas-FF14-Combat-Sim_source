@@ -126,6 +126,14 @@ ALL_DATA = {
             "aoe_dropoff": {"7.0": 0.5, "7.2": 0.55, "7.25": 0.5},
         }
     },
+    "Troubadour": {
+        90: {
+            "damage_reduction": {"6.55": 0.1},            
+        },
+        100: {
+            "damage_reduction": {"6.55": 0.15},
+        },
+    },
 }
 
 for k, v in ALL_DATA.items():

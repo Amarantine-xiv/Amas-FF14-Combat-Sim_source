@@ -19,7 +19,7 @@ class TimingSpec:
         # This is such a common error, that we need to defend against it.
         assert isinstance(
             self.base_cast_time, int
-        ), "base_cast_time should be an int in ms. Did you put it in seconds?"
+        ), f"base_cast_time should be an int in ms. Did you put it in seconds? : {self.base_cast_time}"
         assert isinstance(
             self.gcd_base_recast_time, int
         ), "gcd_base_recast_time should be an int in ms. Did you put it in seconds?"

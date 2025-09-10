@@ -1,14 +1,23 @@
 import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
+from ama_xiv_combat_sim.simulator.specs.trigger_spec import TriggerSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.smn_data import (
     all_smn_skills,
@@ -207,7 +216,7 @@ class SmnSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
                 duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
@@ -730,6 +739,59 @@ class SmnSkills(GenericJobClass):
             ),
         )
 
+    # This is going to require special treatment because of the naming,
+    # but the skill and the buff have the same name and this triggers
+    # conditionally.
+    @GenericJobClass.is_a_skill
+    def rekindle_buff(self):
+        name = "Rekindle (Buff)"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            heal_spec=HealSpec(
+                hot_potency=200, duration=15 * 1000, is_party_effect=True
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def rekindle(self):
+        name = "Rekindle"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=self.instant_timing_spec,
+            skill_type=SkillType.ABILITY,
+            heal_spec=HealSpec(potency=400, is_party_effect=True),
+            trigger_spec=TriggerSpec(triggers=("Rekindle (Buff)",)),
+        )
+
+    @GenericJobClass.is_a_skill
+    def lux_solaris(self):
+        if self._level < 100:
+            return None
+        name = "Lux Solaris"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            timing_spec=self.instant_timing_spec,
+            skill_type=SkillType.ABILITY,
+            heal_spec=HealSpec(potency=500, is_party_effect=True, is_aoe=True),
+        )
+
+    # Convenience for logs parsing
+    @GenericJobClass.is_a_skill
+    def everlasting_flight(self):
+        name = "Everlasting Flight"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
+            heal_spec=HealSpec(
+                hot_potency=100, duration=21 * 1000, is_party_effect=True, is_aoe=True
+            ),
+        )
+
     @GenericJobClass.is_a_skill
     def summon_phoenix(self):
         name = "Summon Phoenix"
@@ -767,8 +829,17 @@ class SmnSkills(GenericJobClass):
                         snapshot_buffs_with_parent=False,
                         snapshot_debuffs_with_parent=False,
                     ),
+                    FollowUp(
+                        skill=self.everlasting_flight(),
+                        delay_after_parent_application=0,
+                    ),
                 ),
-                "Manual": tuple(),
+                "Manual": (
+                    FollowUp(
+                        skill=self.everlasting_flight(),
+                        delay_after_parent_application=0,
+                    ),
+                ),
             },
         )
 
@@ -1014,6 +1085,52 @@ class SmnSkills(GenericJobClass):
             follow_up_skills=(self.__get_exodus_follow_up(),),
         )
 
+    @GenericJobClass.is_a_skill
+    def physick(self):
+        name = "Physick"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.SPELL,
+            timing_spec=TimingSpec(
+                base_cast_time=1500, animation_lock=self.__base_animation_lock
+            ),
+            heal_spec=HealSpec(potency=400, is_party_effect=True),
+        )
+
+    @GenericJobClass.is_a_skill
+    def radiant_aegis(self):
+        name = "Radiant Aegis"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            shield_spec=ShieldSpec(
+                shield_on_max_hp=0.2, duration=30 * 1000, is_party_effect=False
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def addle(self):
+        name = "Addle"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=(
+                    {
+                        DamageInstanceClass.PHYSICAL: 0.05,
+                        DamageInstanceClass.MAGICAL: 0.1,
+                    }
+                ),
+                duration=15 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but
     # not their effect.
@@ -1026,7 +1143,7 @@ class SmnSkills(GenericJobClass):
             is_GCD=True,
             skill_type=SkillType.SPELL,
             timing_spec=self.__smn_instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 duration=15 * 1000,
                 num_uses=1,
                 add_to_skill_modifier_condition=True,
@@ -1042,7 +1159,7 @@ class SmnSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.__smn_instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
                 duration=10 * 1000,
                 num_uses=1,
@@ -1052,6 +1169,7 @@ class SmnSkills(GenericJobClass):
                     "Tri-disaster",
                     "Ruby Catastrophe",
                     "Slipstream",
+                    "Physick",
                 ),
             ),
         )

@@ -1,6 +1,9 @@
 import math
 
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import (
+    DamageInstanceClass,
+)
 from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
@@ -10,7 +13,13 @@ from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
 from ama_xiv_combat_sim.simulator.specs.job_resource_settings import JobResourceSettings
-from ama_xiv_combat_sim.simulator.specs.status_effect_spec import StatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.blm_data import (
@@ -101,7 +110,7 @@ class BlmSkills(GenericJobClass):
         return FollowUp(
             skill=Skill(
                 name=name,
-                buff_spec=StatusEffectSpec(
+                offensive_buff_spec=OffensiveStatusEffectSpec(
                     damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
                     duration=self._skill_data.get_skill_data(name, "duration"),
                 ),
@@ -354,7 +363,7 @@ class BlmSkills(GenericJobClass):
         name = "Firestarter"
         firestarter_buff = Skill(
             name=name,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=self._skill_data.get_skill_data(name, "duration"),
@@ -374,7 +383,7 @@ class BlmSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=30 * 1000,
@@ -388,7 +397,7 @@ class BlmSkills(GenericJobClass):
         name = "Thundercloud"
         thundercloud_buff = Skill(
             name=name,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=40 * 1000,
@@ -410,7 +419,7 @@ class BlmSkills(GenericJobClass):
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=0, application_delay=0
             ),
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=40 * 1000,
@@ -426,7 +435,7 @@ class BlmSkills(GenericJobClass):
             else FollowUp(
                 skill=Skill(
                     name="Enhanced",
-                    buff_spec=StatusEffectSpec(
+                    offensive_buff_spec=OffensiveStatusEffectSpec(
                         add_to_skill_modifier_condition=True,
                         num_uses=1,
                         # this is incorrect, since it expires with astral fire.
@@ -612,7 +621,9 @@ class BlmSkills(GenericJobClass):
                 is_fire_spell=False,
                 application_delay=840,
             ),
-            buff_spec=StatusEffectSpec(expires_status_effects=("Enhanced",)),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                expires_status_effects=("Enhanced",)
+            ),
             job_resource_spec=(
                 self.__clear_astral_fire,
                 JobResourceSpec(
@@ -773,7 +784,7 @@ class BlmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 haste_time_reduction=0.15,
                 auto_attack_delay_reduction=0.15,
                 duration=self._skill_data.get_skill_data(name, "duration"),
@@ -947,7 +958,9 @@ class BlmSkills(GenericJobClass):
             timing_spec=self.__get_enochian_timing_spec_cross(
                 base_cast_time=3000, is_fire_spell=False, application_delay=1160
             ),
-            buff_spec=StatusEffectSpec(expires_status_effects=("Enhanced",)),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                expires_status_effects=("Enhanced",)
+            ),
             job_resource_spec=(
                 self.__clear_astral_fire,
                 JobResourceSpec(
@@ -1189,7 +1202,7 @@ class BlmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
                 duration=10 * 1000,
                 num_uses=1,
@@ -1240,7 +1253,7 @@ class BlmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 flat_cast_time_reduction=math.inf,
                 duration=10 * 1000,
                 num_uses=3,
@@ -1291,18 +1304,18 @@ class BlmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
-            buff_spec=(
+            offensive_buff_spec=(
                 None
                 if self._version >= "7.0"
                 else {
                     SimConsts.DEFAULT_CONDITION: None,
-                    "1 Umbral Ice": StatusEffectSpec(
+                    "1 Umbral Ice": OffensiveStatusEffectSpec(
                         expires_status_effects=("Enhanced",)
                     ),
-                    "2 Umbral Ice": StatusEffectSpec(
+                    "2 Umbral Ice": OffensiveStatusEffectSpec(
                         expires_status_effects=("Enhanced",)
                     ),
-                    "3 Umbral Ice": StatusEffectSpec(
+                    "3 Umbral Ice": OffensiveStatusEffectSpec(
                         expires_status_effects=("Enhanced",)
                     ),
                 }
@@ -1371,7 +1384,7 @@ class BlmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.__blm_instant_timing_spec,
-            buff_spec=StatusEffectSpec(
+            offensive_buff_spec=OffensiveStatusEffectSpec(
                 add_to_skill_modifier_condition=True,
                 num_uses=1,
                 duration=30 * 1000,
@@ -1382,6 +1395,39 @@ class BlmSkills(GenericJobClass):
                     "Thunder III",
                     "Thunder IV",
                 ),
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def manaward(self):
+        name = "Manaward"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            shield_spec=ShieldSpec(
+                shield_on_max_hp=0.3, duration=20 * 1000, is_party_effect=False
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def addle(self):
+        name = "Addle"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_debuff_spec=DefensiveStatusEffectSpec(
+                damage_reductions=(
+                    {
+                        DamageInstanceClass.PHYSICAL: 0.05,
+                        DamageInstanceClass.MAGICAL: 0.1,
+                    }
+                ),
+                duration=15 * 1000,
+                is_party_effect=True,
             ),
         )
 
