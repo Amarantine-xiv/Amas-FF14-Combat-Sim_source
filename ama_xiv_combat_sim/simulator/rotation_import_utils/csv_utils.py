@@ -11,7 +11,6 @@ from ama_xiv_combat_sim.simulator.rotation_import_utils.special_csv_proc_fns imp
     radiant_finale_processing,
 )
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
-from ama_xiv_combat_sim.simulator.skills.skill_library import SkillLibrary
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.timeline_builders.rotation_builder import (
@@ -294,6 +293,24 @@ class CSVUtils:
                 skill_modifier = SkillModifier(with_condition=skill_condition)
 
                 if skill.has_party_effect(skill_modifier):
+                    # only do offensives for now
+                    maybe_status_effects = [
+                        skill.get_offensive_buff_spec(skill_modifier),
+                        skill.get_offensive_debuff_spec(skill_modifier),
+                    ]
+                    for follow_up in skill.get_follow_up_skills(skill_modifier):
+                        maybe_status_effects.extend(
+                        [
+                            follow_up.skill.get_offensive_buff_spec(skill_modifier),
+                            follow_up.skill.get_offensive_debuff_spec(skill_modifier),
+                        ]
+                )
+            
+                    is_single_target = any([x.is_single_target for x in maybe_status_effects if x is not None])
+                    if is_single_target and (not sk.players_to_buff or len(sk.players_to_buff) == 0):
+                        print(f"Warning: offensive single-target buff specified but no target given for '{skill.name}'. Please specify a target in the 'players_to_buff' column. Skipping targetted buff.")
+                        continue
+              
                     for other_player in player_id_to_filename:
                         player_eligible = other_player != player_name and (
                             not sk.players_to_buff or other_player in sk.players_to_buff

@@ -33,7 +33,7 @@ class DncSkills(GenericJobClass):
             skill=Skill(
                 name=name,
                 offensive_buff_spec=OffensiveStatusEffectSpec(
-                    damage_mult=1.05, duration=60000, is_party_effect=True
+                    damage_mult=1.05, duration=60000, is_party_effect=True, is_single_target=True
                 ),
             ),
             delay_after_parent_application=0,
@@ -114,7 +114,7 @@ class DncSkills(GenericJobClass):
             skill=Skill(
                 name=name,
                 offensive_buff_spec=OffensiveStatusEffectSpec(
-                    damage_mult=1.02, duration=60000, is_party_effect=True
+                    damage_mult=1.02, duration=60000, is_party_effect=True, is_single_target=True
                 ),
             ),
             delay_after_parent_application=0,
@@ -396,6 +396,7 @@ class DncSkills(GenericJobClass):
                 dh_rate_add=0.20,
                 duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
+                is_single_target=True,
             ),
         )
 

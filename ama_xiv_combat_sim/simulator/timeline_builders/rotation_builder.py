@@ -121,6 +121,8 @@ class RotationBuilder:
             self.__downtime_windows = self.__original_downtime_windows.copy()
 
     def get_button_press_timing(self):
+        # NOTE: deprecate, but alias to appropriately.
+        # users use this function!
         res = copy.deepcopy(self.__q_button_press_timing)
         res.sort(key=lambda x: x[0])
         return res

@@ -12,6 +12,7 @@ class StatusEffectSpec:
     num_uses: int = math.inf
     max_num_uses: int = None
     is_party_effect: bool = False
+    is_single_target: bool = False #only need to specify for party effects that are single target
     add_to_skill_modifier_condition: bool = False
     # A tuple of status effects (strings) that this skill will cause to expire on use.
     expires_status_effects: tuple = ()
@@ -28,7 +29,7 @@ class StatusEffectSpec:
         frozenset()
     )  # set of skill names this effect does not stack with
     clear_all_status_effects: bool = False
-
+    
     def __post_init__(self):
         if self.max_duration is None:
             object.__setattr__(self, "max_duration", self.duration)
