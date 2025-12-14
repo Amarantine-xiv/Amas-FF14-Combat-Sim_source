@@ -40,11 +40,10 @@ class SkillLibrary:
         return copy.deepcopy(self.__job_resources[job_class])
 
     def has_skill(self, skill_name, job_class):
-        return skill_name in self.__skills[job_class]
-
-    def print_skill_names(self, job_class):
-        for skill_name in self.__skills[job_class].keys():
-            print(skill_name)
+        try:
+            return skill_name in self.__skills[job_class]
+        except KeyError as e:
+            raise KeyError(f"job class not in skill library: {job_class}") from e
 
     def has_job_class(self, job_class):
         return job_class in self.__skills.keys()
@@ -53,7 +52,9 @@ class SkillLibrary:
         try:
             return self.__skills[job_class][skill_name]
         except KeyError as e:
-            raise KeyError(f"Not in skill library: {job_class}/{skill_name}") from e
+            raise KeyError(
+                f"Not in skill library (job, skill): ({job_class}, {skill_name})"
+            ) from e
 
     def set_current_job_class(self, job_name):
         if job_name not in self.__skills:
@@ -92,10 +93,8 @@ class SkillLibrary:
             )
         self.__skills[self.__current_job_class][skill.name] = skill
 
-    def print_skills(self):
-        for job_name in self.__skills:
-            for skill_name in self.__skills[job_name]:
-                print(f"Job name: {job_name}, Skill name: {skill_name}")
+    def get_all_skills_of_job(self, job_class):
+        return copy.deepcopy(self.__skills[job_class])
 
     def add_all_skills_from(self, all_class_skills):
         self.set_current_job_class(all_class_skills.get_job_class())
@@ -109,9 +108,8 @@ class SkillLibrary:
             for combo_breaker in combo_breakers:
                 self.add_combo_breaker(combo_breaker[0], combo_breaker[1])
 
-        
         try:
-            for sk in all_class_skills.get_skills():            
+            for sk in all_class_skills.get_skills():
                 self.add_skill(sk)
         except ValueError as e:
             print(e)

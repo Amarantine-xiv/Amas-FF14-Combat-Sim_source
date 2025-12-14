@@ -36,25 +36,24 @@ class TestClass:
         return test_passed, err_msg
 
     @staticmethod
-    def _compare_sequential(result, expected, relative_tol=None):
+    def _compare_sequential(results, expected, relative_tol=None):
         test_passed = True
         err_msg = ""
-        if len(expected) != len(result):
+        if len(expected) != len(results):
             test_passed = False
-            err_msg += (
-                f"Expected {len(expected)} skills returned. Instead got {len(result)}. "
-            )
-            return test_passed, err_msg
-        for i, expect in enumerate(expected):
+            err_msg += f"Expected {len(expected)} skills returned. Instead got {len(results)}. "
+        for i in range(max(len(expected), len(results))):
+            expect = expected[i] if i < len(expected) else None
+            result = results[i] if i < len(results) else None
+            invalid_result = expect is None or result is None
             if relative_tol is None:
-                if expect != result[i]:
+                if invalid_result or expect != result:
                     test_passed = False
-                    err_msg += f"Position {i} was not the same.\n Expected: {expect}\n Actual: {result[i]}\n"
+                    err_msg += f"Position {i} was not the same.\n Expected: {expect}\n Actual: {result}\n"
             else:
-                diff = abs(result[i] - expected[i])
-                if diff / expected[i] >= relative_tol:
+                if invalid_result or (abs(result - expect) / expect >= relative_tol):
                     test_passed = False
-                    err_msg += f"Position {i} was not the same.\n Expected: {expect}\n Actual: {result[i]}\n"
+                    err_msg += f"Position {i} was not the same.\n Expected: {expect}\n Actual: {result}\n"
         return test_passed, err_msg
 
     def print_result(self, passing, failing):

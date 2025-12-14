@@ -1,3 +1,4 @@
+from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import DamageInstanceClass
 from ama_xiv_combat_sim.simulator.game_data.lb_skills.add_lbs_to_skill_library import (
     add_lbs_to_skill_library,
 )
@@ -5,12 +6,18 @@ from ama_xiv_combat_sim.simulator.game_data.generic_skills.generic_skills_data i
     all_generic_skills,
 )
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
+from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
+    DefensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.follow_up import FollowUp
 from ama_xiv_combat_sim.simulator.specs.job_resource_spec import JobResourceSpec
-from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+
 
 def __get_clear_all_job_resources_follow_up(name):
     res = FollowUp(
@@ -27,7 +34,9 @@ def __get_clear_all_status_effects_follow_up(name):
     res = FollowUp(
         skill=Skill(
             name=name,
-            offensive_buff_spec=OffensiveStatusEffectSpec(clear_all_status_effects=True),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                clear_all_status_effects=True
+            ),
         ),
         delay_after_parent_application=0,
     )
@@ -68,7 +77,9 @@ def __get_weakness():
     apply_weakness_followup = FollowUp(
         skill=Skill(
             name=name,
-            offensive_buff_spec=OffensiveStatusEffectSpec(duration=int(100 * 1000), main_stat_mult=0.75),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                duration=int(100 * 1000), main_stat_mult=0.75
+            ),
         ),
         delay_after_parent_application=0,
     )
@@ -95,7 +106,9 @@ def __get_brink():
     apply_brink_followup = FollowUp(
         skill=Skill(
             name=name,
-            offensive_buff_spec=OffensiveStatusEffectSpec(duration=int(100 * 1000), main_stat_mult=0.50),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                duration=int(100 * 1000), main_stat_mult=0.50
+            ),
         ),
         delay_after_parent_application=0,
     )
@@ -115,9 +128,23 @@ def __get_brink():
     return res
 
 
+def __get_parry():
+    name = "Parry"
+    return Skill(
+        name=name,
+        is_GCD=False,
+        timing_spec=TimingSpec(base_cast_time=0, animation_lock=0, application_delay=0),
+        defensive_buff_spec=DefensiveStatusEffectSpec(
+            damage_reductions={DamageInstanceClass.PHYSICAL: 0.15},
+            num_uses=1,
+            skill_allowlist=("Damage",),
+        ),
+    )
+
+
 def __add_wait(skill_library):
     for i in range(0, 10000, 10):
-        skill_name = f"{SimConsts.WAIT_PREFIX} {i/1000:.2f}s"        
+        skill_name = f"{SimConsts.WAIT_PREFIX} {i/1000:.2f}s"
         skill_library.add_skill(
             Skill(
                 name=skill_name,
@@ -137,7 +164,9 @@ def __get_pot(name, main_stat_add, version, level):
         timing_spec=TimingSpec(
             base_cast_time=0,
             animation_lock=all_generic_skills.get_skill_data(name, "animation_lock"),
-            application_delay=all_generic_skills.get_skill_data(name, "application_delay"),
+            application_delay=all_generic_skills.get_skill_data(
+                name, "application_delay"
+            ),
         ),
         offensive_buff_spec=OffensiveStatusEffectSpec(
             duration=int(29.97 * 1000), main_stat_add=main_stat_add
@@ -152,12 +181,18 @@ def add_generic_skills_to_library(skill_library):
     for job_class in skill_library.get_jobs():
         skill_library.set_current_job_class(job_class)
         if version >= "7.0":
-            skill_library.add_skill(__get_pot("Grade 1 Gemdraught", 351, version, level))
+            skill_library.add_skill(
+                __get_pot("Grade 1 Gemdraught", 351, version, level)
+            )
         if version >= "7.05":
-            skill_library.add_skill(__get_pot("Grade 2 Gemdraught", 392, version, level))
+            skill_library.add_skill(
+                __get_pot("Grade 2 Gemdraught", 392, version, level)
+            )
         if version >= "7.2":
-            skill_library.add_skill(__get_pot("Grade 3 Gemdraught", 461, version, level))
-            
+            skill_library.add_skill(
+                __get_pot("Grade 3 Gemdraught", 461, version, level)
+            )
+
         skill_library.add_skill(
             __get_pot(
                 "Grade 8 Tincture",
@@ -177,6 +212,7 @@ def add_generic_skills_to_library(skill_library):
         skill_library.add_skill(__get_death())
         skill_library.add_skill(__get_weakness())
         skill_library.add_skill(__get_brink())
+        skill_library.add_skill(__get_parry())
         skill_library = __add_wait(skill_library)
 
     skill_library = add_lbs_to_skill_library(skill_library)

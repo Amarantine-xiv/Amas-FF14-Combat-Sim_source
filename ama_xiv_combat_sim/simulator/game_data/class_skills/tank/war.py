@@ -1,3 +1,5 @@
+from itertools import chain, combinations
+
 from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.game_data.generic_job_class import GenericJobClass
@@ -591,114 +593,42 @@ class WarSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def shake(self):
         name = "Shake It Off"
+
+        def get_shield_and_defensive_specs():
+            if self._level < 92:
+                shake_aux_skills = ("Bloodwhetting", "Thrill of Battle", "Vengeance")
+            else:
+                shake_aux_skills = ("Bloodwhetting", "Thrill of Battle", "Damnation")
+
+            shield_spec = {}
+            defensive_status_effect_spec = {}
+            skills_powerset = list(
+                chain.from_iterable(
+                    combinations(shake_aux_skills, r)
+                    for r in range(len(shake_aux_skills) + 1)
+                )
+            )
+            for sk in skills_powerset:
+                key = ",".join(sk) if len(sk) > 0 else SimConsts.DEFAULT_CONDITION
+                shield_spec[key] = ShieldSpec(
+                    shield_as_perc_of_max_hp=0.15 + 0.02 * len(sk),
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                )
+                defensive_status_effect_spec[key] = DefensiveStatusEffectSpec(
+                    expires_status_effects=tuple(sk)
+                )
+            return shield_spec, defensive_status_effect_spec
+
+        shield_spec, defensive_status_effect_spec = get_shield_and_defensive_specs()
+
         return Skill(
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            # NOTE: i know this looks really stupid and we can just enumerate the powerset
-            # of [thrill, [damnation|vengeance], bloodwhetting] and programatically construct the conditions.
-            # we do NOT do that because this code is also a bit of documentation on how
-            # to use the sim and non-coders are going to read this. so we simply just
-            # unroll everything to make it easy for non-coders to read off exactly what's going on
-            # and what skill conditionals to put in and what they do.
-            defensive_buff_spec={
-                # 0 buffs
-                SimConsts.DEFAULT_CONDITION: DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                ),
-                # 1 buff
-                "Thrill of Battle": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.02,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=("Thrill of Battle",),
-                ),
-                "Damnation": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.02,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=("Damnation",),
-                ),
-                "Vengeance": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.02,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=("Vengeance",),
-                ),
-                "Bloodwhetting": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.02,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=("Bloodwhetting",),
-                ),
-                # 2 buffs
-                "Damnation, Thrill of Battle": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.04,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=(
-                        "Damnation",
-                        "Thrill of Battle",
-                    ),
-                ),
-                "Thrill of Battle, Vengeance": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.04,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=("Thrill of Battle", "Vengeance"),
-                ),
-                "Bloodwhetting, Thrill of Battle": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.04,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=(
-                        "Bloodwhetting",
-                        "Thrill of Battle",
-                    ),
-                ),
-                "Bloodwhetting, Damnation": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.04,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=(
-                        "Bloodwhetting",
-                        "Damnation",
-                    ),
-                ),
-                "Bloodwhetting, Vengeance": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.04,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=(
-                        "Bloodwhetting",
-                        "Vengeance",
-                    ),
-                ),
-                # 3 buffs
-                "Bloodwhetting, Damnation, Thrill of Battle": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.06,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=(
-                        "Bloodwhetting",
-                        "Damnation",
-                        "Thrill of Battle",
-                    ),
-                ),
-                "Bloodwhetting, Thrill of Battle, Vengeance": DefensiveStatusEffectSpec(
-                    max_hp_mult=1.15 + 0.06,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    expires_status_effects=(
-                        "Bloodwhetting",
-                        "Thrill of Battle",
-                        "Vengeance",
-                    ),
-                ),
-            },
+            shield_spec=shield_spec,
+            defensive_buff_spec=defensive_status_effect_spec,
             heal_spec=HealSpec(
                 potency=300,
                 hot_potency=100,
@@ -743,6 +673,7 @@ class WarSkills(GenericJobClass):
         )
 
     # For logs parsing convenience
+    @GenericJobClass.is_a_skill
     def stem_the_flow(self):
         name = "Stem the Flow"
         return Skill(
@@ -758,6 +689,7 @@ class WarSkills(GenericJobClass):
         )
 
     # For logs parsing convenience
+    @GenericJobClass.is_a_skill
     def stem_the_tide(self):
         name = "Stem the Tide"
         return Skill(
@@ -784,7 +716,7 @@ class WarSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            offensive_buff_spec={
+            defensive_buff_spec={
                 SimConsts.DEFAULT_CONDITION: None,
                 "Other": DefensiveStatusEffectSpec(
                     damage_reductions=0.1,

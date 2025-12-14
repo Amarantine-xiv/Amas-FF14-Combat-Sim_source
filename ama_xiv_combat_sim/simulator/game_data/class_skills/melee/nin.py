@@ -829,6 +829,21 @@ class NinSkills(GenericJobClass):
             },
         )
 
+    # for logs processing convenience
+    @GenericJobClass.is_a_skill
+    def dokumori_debuff(self):
+        if self._version <= "6.55":
+            return None
+
+        return Skill(
+            name="Dokumori (Debuff Only)",
+            offensive_debuff_spec=OffensiveStatusEffectSpec(
+                damage_mult=1.05,
+                duration=self._skill_data.get_skill_data("Dokumori", "duration"),
+                is_party_effect=True,
+            ),
+        )
+
     @GenericJobClass.is_a_skill
     def dokumori(self):
         if self._version <= "6.55":

@@ -683,6 +683,7 @@ class DrkSkills(GenericJobClass):
     def shadow_vigil(self):
         if self._level < 92:
             return None
+
         return Skill(
             name="Shadow Vigil",
             is_GCD=False,
@@ -699,6 +700,27 @@ class DrkSkills(GenericJobClass):
                     delay_after_parent_application=15 * 1000,
                 ),
             ),
+        )
+
+    # for logs convenience
+    @GenericJobClass.is_a_skill
+    def shadowed_vigil(self):
+        if self._level < 92:
+            return None
+
+        return Skill(
+            name="Shadowed Vigil",
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                "From Log": DefensiveStatusEffectSpec(
+                    damage_reductions=0.4,
+                    duration=15 * 1000,
+                    add_to_skill_modifier_condition=True,
+                ),
+            },
         )
 
     @GenericJobClass.is_a_skill
@@ -853,15 +875,22 @@ class DrkSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def the_blackest_night(self):
-        return Skill(
-            name="The Blackest Night",
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            timing_spec=self.instant_timing_spec,
-            shield_spec=ShieldSpec(
-                shield_on_max_hp=0.25, duration=7 * 1000, is_party_effect=True
-            ),
-        )
+        res = []
+        # For fflogs processing- fflogs encodes it as "Blackest Night" instead of
+        # the actual name, "The Blackest Night"
+        for name in ["Blackest Night", "The Blackest Night"]:
+            res.append(
+                Skill(
+                    name=name,
+                    is_GCD=False,
+                    skill_type=SkillType.ABILITY,
+                    timing_spec=self.instant_timing_spec,
+                    shield_spec=ShieldSpec(
+                        shield_on_max_hp=0.25, duration=7 * 1000, is_party_effect=True
+                    ),
+                )
+            )
+        return res
 
     @GenericJobClass.is_a_skill
     def oblation(self):

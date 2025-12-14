@@ -280,6 +280,17 @@ class SchSkills(GenericJobClass):
         non_stacking_shield_set = self._get_non_stacking_shield_set()
         non_stacking_shield_set.remove(name)
 
+        galvanize_follow_up = self._get_galvanize_followup(
+            shield_mult_on_hp_restored=1.8,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=False,
+        )
+        catalyze_follow_up = self._get_catalyze_followup(
+            shield_mult_on_hp_restored=1.8,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=False,
+        )
+
         return Skill(
             name=name,
             is_GCD=True,
@@ -305,35 +316,15 @@ class SchSkills(GenericJobClass):
                     potency=int(4.6 * 300), is_party_effect=True, guaranteed_crit=True
                 ),
             },
-            shield_spec={
-                SimConsts.DEFAULT_CONDITION: ShieldSpec(
-                    shield_mult_on_hp_restored=1.8,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Critical": ShieldSpec(
-                    shield_mult_on_hp_restored=3.6,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Recitation": ShieldSpec(
-                    shield_mult_on_hp_restored=1.8,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Critical, Recitation": ShieldSpec(
-                    shield_mult_on_hp_restored=3.6,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Emergency Tactics": None,
-                "Emergency Tactics, Critical": None,
-                "Emergency Tactics, Recitation": None,
-                "Critical, Emergency Tactics, Recitation": None,
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (galvanize_follow_up,),
+                "Critical": (galvanize_follow_up, catalyze_follow_up),
+                "Recitation": (galvanize_follow_up, catalyze_follow_up),
+                "Critical, Recitation": (galvanize_follow_up, catalyze_follow_up),
+                "Emergency Tactics": tuple(),
+                "Emergency Tactics, Critical": tuple(),
+                "Emergency Tactics, Recitation": tuple(),
+                "Critical, Emergency Tactics, Recitation": tuple(),
             },
         )
 
@@ -342,6 +333,17 @@ class SchSkills(GenericJobClass):
         name = "Manifestation"
         non_stacking_shield_set = self._get_non_stacking_shield_set()
         non_stacking_shield_set.remove(name)
+
+        galvanize_follow_up = self._get_galvanize_followup(
+            shield_mult_on_hp_restored=1.8,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=False,
+        )
+        catalyze_follow_up = self._get_catalyze_followup(
+            shield_mult_on_hp_restored=1.8,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=False,
+        )
 
         return Skill(
             name=name,
@@ -359,22 +361,76 @@ class SchSkills(GenericJobClass):
                     potency=int(4.6 * 360), is_party_effect=True
                 ),
             },
-            shield_spec={
-                SimConsts.DEFAULT_CONDITION: ShieldSpec(
-                    shield_mult_on_hp_restored=1.8,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Critical": ShieldSpec(
-                    shield_mult_on_hp_restored=3.6,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Emergency Tactics": None,
-                "Emergency Tactics, Critical": None,
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (galvanize_follow_up,),
+                "Critical": (galvanize_follow_up, catalyze_follow_up),
+                "Emergency Tactics": tuple(),
+                "Emergency Tactics, Critical": tuple(),
             },
+        )
+
+    @staticmethod
+    def _get_shield_followup(
+        name, shield_mult_on_hp_restored, non_stacking_shield_set, is_aoe
+    ):
+        return FollowUp(
+            skill=Skill(
+                name=name,
+                shield_spec=ShieldSpec(
+                    shield_mult_on_hp_restored=shield_mult_on_hp_restored,
+                    duration=30 * 1000,
+                    is_party_effect=True,
+                    is_aoe=is_aoe,
+                    does_not_stack_with=frozenset(non_stacking_shield_set),
+                ),
+            ),
+            delay_after_parent_application=0,
+        )
+
+    @staticmethod
+    def _get_galvanize_followup(
+        shield_mult_on_hp_restored, non_stacking_shield_set, is_aoe
+    ):
+        return SchSkills._get_shield_followup(
+            name="Galvanize",
+            shield_mult_on_hp_restored=shield_mult_on_hp_restored,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=is_aoe,
+        )
+
+    @staticmethod
+    def _get_catalyze_followup(
+        shield_mult_on_hp_restored, non_stacking_shield_set, is_aoe
+    ):
+        return SchSkills._get_shield_followup(
+            name="Catalyze",
+            shield_mult_on_hp_restored=shield_mult_on_hp_restored,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=is_aoe,
+        )
+
+    @GenericJobClass.is_a_skill
+    # for logs processing convenience for now.
+    # TODO: deprecate when cast association is complete.
+    def galvanize(self):
+        return Skill(
+            name="Galvanize",
+            shield_spec=ShieldSpec(
+                duration=30 * 1000,
+                is_party_effect=True,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    # for logs processing convenience for now.
+    # TODO: deprecate when cast association is complete.
+    def catalize(self):
+        return Skill(
+            name="Catalyze",
+            shield_spec=ShieldSpec(
+                duration=30 * 1000,
+                is_party_effect=True,
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -384,6 +440,12 @@ class SchSkills(GenericJobClass):
         name = "Concitation"
         non_stacking_shield_set = self._get_non_stacking_shield_set()
         non_stacking_shield_set.remove(name)
+
+        galvanize_follow_up = self._get_galvanize_followup(
+            shield_mult_on_hp_restored=1.8,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=True,
+        )
 
         return Skill(
             name=name,
@@ -409,15 +471,9 @@ class SchSkills(GenericJobClass):
                     guaranteed_crit=True,
                 ),
             },
-            shield_spec={
-                SimConsts.DEFAULT_CONDITION: ShieldSpec(
-                    shield_mult_on_hp_restored=1.8,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    is_aoe=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Emergency Tactics": None,
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (galvanize_follow_up,),
+                "Emergency Tactics": tuple(),
             },
         )
 
@@ -428,6 +484,12 @@ class SchSkills(GenericJobClass):
         name = "Accession"
         non_stacking_shield_set = self._get_non_stacking_shield_set()
         non_stacking_shield_set.remove(name)
+
+        galvanize_follow_up = self._get_galvanize_followup(
+            shield_mult_on_hp_restored=1.8,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=True,
+        )
 
         return Skill(
             name=name,
@@ -442,15 +504,9 @@ class SchSkills(GenericJobClass):
                     potency=int(2.8 * 240), is_party_effect=True, is_aoe=True
                 ),
             },
-            shield_spec={
-                SimConsts.DEFAULT_CONDITION: ShieldSpec(
-                    shield_mult_on_hp_restored=1.8,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    is_aoe=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Emergency Tactics": None,
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (galvanize_follow_up,),
+                "Emergency Tactics": tuple(),
             },
         )
 
@@ -461,6 +517,12 @@ class SchSkills(GenericJobClass):
         name = "Succor"
         non_stacking_shield_set = self._get_non_stacking_shield_set()
         non_stacking_shield_set.remove(name)
+
+        galvanize_follow_up = self._get_galvanize_followup(
+            shield_mult_on_hp_restored=1.6,
+            non_stacking_shield_set=non_stacking_shield_set,
+            is_aoe=True,
+        )
 
         return Skill(
             name=name,
@@ -477,15 +539,9 @@ class SchSkills(GenericJobClass):
                     potency=int(2.6 * 200), is_party_effect=True, is_aoe=True
                 ),
             },
-            shield_spec={
-                SimConsts.DEFAULT_CONDITION: ShieldSpec(
-                    shield_mult_on_hp_restored=1.6,
-                    duration=30 * 1000,
-                    is_party_effect=True,
-                    is_aoe=True,
-                    does_not_stack_with=frozenset(non_stacking_shield_set),
-                ),
-                "Emergency Tactics": None,
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (galvanize_follow_up,),
+                "Emergency Tactics": tuple(),
             },
         )
 

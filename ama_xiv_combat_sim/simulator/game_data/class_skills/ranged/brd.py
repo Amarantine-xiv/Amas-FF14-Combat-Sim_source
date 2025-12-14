@@ -1113,11 +1113,16 @@ class BrdSkills(GenericJobClass):
                     "1 Coda": tuple(),
                     "2 Coda": tuple(),
                     "3 Coda": tuple(),
+                    # for backwards compatibility
+                    "1 Coda, Buff Only": tuple(),
+                    "2 Coda, Buff Only": tuple(),
+                    "3 Coda, Buff Only": tuple(),
+                    "Buff Only": tuple(),
                 }
                 if self._level >= 100
                 else tuple()
             ),
-            off_class_default_condition="Buff Only",
+            off_class_default_condition="3 Coda",
         )
 
     @GenericJobClass.is_a_skill

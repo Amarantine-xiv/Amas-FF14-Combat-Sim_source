@@ -770,11 +770,15 @@ class DncSkills(GenericJobClass):
                 gcd_base_recast_time=1500,
                 affected_by_speed_stat=False,
             ),
-            follow_up_skills=(
-                finishing_move_damage_follow_up,
-                self.__get_standard_finish2_follow_up(),
-            ),
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    finishing_move_damage_follow_up,
+                    self.__get_standard_finish2_follow_up(),
+                ),
+                "Buff Only": (self.__get_standard_finish2_follow_up(),),
+            },
             has_aoe=True,
+            off_class_default_condition="Buff Only",
         )
 
     @GenericJobClass.is_a_skill
@@ -896,12 +900,12 @@ class DncSkills(GenericJobClass):
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             shield_spec={
-                SimConsts.DEFAULT_CONDITION: (get_shield_spec(0.10),),
-                "0 Rising Rhythm": (get_shield_spec(0.05),),
-                "1 Rising Rhythm": (get_shield_spec(0.06),),
-                "2 Rising Rhythm": (get_shield_spec(0.07),),
-                "3 Rising Rhythm": (get_shield_spec(0.08),),
-                "4 Rising Rhythm": (get_shield_spec(0.10),),
+                SimConsts.DEFAULT_CONDITION: get_shield_spec(0.10),
+                "0 Rising Rhythm": get_shield_spec(0.05),
+                "1 Rising Rhythm": get_shield_spec(0.06),
+                "2 Rising Rhythm": get_shield_spec(0.07),
+                "3 Rising Rhythm": get_shield_spec(0.08),
+                "4 Rising Rhythm": get_shield_spec(0.10),
             },
         )
 

@@ -27,8 +27,6 @@ class SkillModifier:
         self.ignore_cast_times = ignore_cast_times
         self.bonus_percent = bonus_percent
 
-
-
     def remove_from_condition(self, condition_to_remove):
         self.with_condition.discard(condition_to_remove)
         return self
@@ -48,8 +46,14 @@ class SkillModifier:
             and (self.guaranteed_dh == other.guaranteed_dh)
             and (self.with_condition == other.with_condition)
         )
-        
+
     def __str__(self):
+        res = "Guaranteed crit: {}\n".format(self.guaranteed_crit)
+        res += "Guaranteed dh: {}\n".format(self.guaranteed_dh)
+        res += "with_condition {}\n".format(",".join(self.with_condition))
+        return res
+
+    def __repr__(self):
         res = "Guaranteed crit: {}\n".format(self.guaranteed_crit)
         res += "Guaranteed dh: {}\n".format(self.guaranteed_dh)
         res += "with_condition {}\n".format(",".join(self.with_condition))

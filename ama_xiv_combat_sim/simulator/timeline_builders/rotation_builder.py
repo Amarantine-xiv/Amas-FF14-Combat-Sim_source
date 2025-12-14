@@ -55,15 +55,15 @@ class RotationBuilder:
         )
         self._skill_library = skill_library
         self.set_fight_start_time(fight_start_time)
-        self._q_others = []  # (time, skill, skill_modifier, job_class)
-        self._q_self = []  # (time, skill, skill_modifier, job_class)
+        self._q_others = []  # (time, skill, skill_modifier, job_class, targets)
+        self._q_self = []  # (time, skill, skill_modifier, job_class, targets)
 
         self._q_dot_skills = {}  # this is a map
         self.__q_button_press_timing = []
         self._q_snapshot_and_applications = SnapshotAndApplicationEvents()
         self.__enable_autos = enable_autos
         self.__ignore_trailing_dots = ignore_trailing_dots
-        
+
         self.__status_effect_priority = None
         self.__timestamps_and_main_target = []
         assert isinstance(
@@ -78,6 +78,9 @@ class RotationBuilder:
         self.__use_strict_skill_naming = use_strict_skill_naming
         self.__all_targets = set()
         self.__non_auto_periods = []
+
+    def get_skill_library(self):
+        return self._skill_library
 
     @staticmethod
     def __do_init_downtime_windows(downtime_windows):
@@ -126,12 +129,12 @@ class RotationBuilder:
         if fight_start_time is None:
             self.__fight_start_time = None
         else:
-            # convert to ms        
-            self.__fight_start_time = 1000*fight_start_time
+            # convert to ms
+            self.__fight_start_time = 1000 * fight_start_time
 
     def set_stats(self, stats):
         if self.__stats is not None:
-            print(f'Overwriting stats in RotationBuilder object with: {stats}')
+            print(f"Overwriting stats in RotationBuilder object with: {stats}")
         self.__stats = stats
 
     def set_downtime_windows(self, downtime_windows):
@@ -645,7 +648,7 @@ class RotationBuilder:
     ):
         timing_spec = skill.get_timing_spec(skill_modifier)
         if timing_spec is None:
-            print(f'Timing spec is none for: {skill.name}')
+            print(f"Timing spec is none for: {skill.name}")
             return (0, 0)
         if skill.is_GCD:
             trait_haste_time_mult = (
@@ -743,20 +746,24 @@ class RotationBuilder:
         for k, v in self.__downtime_windows.items():
             res = []
             for window in v:
-                tmp = (window[0] - first_damage_time, window[1] - first_damage_time, window[2])
+                tmp = (
+                    window[0] - first_damage_time,
+                    window[1] - first_damage_time,
+                    window[2],
+                )
                 res.append(tmp)
             self.__downtime_windows[k] = tuple(res)
 
     def shift_timelines_for_first_damage_instance(self):
         res = SnapshotAndApplicationEvents()
-        
+
         if self.__fight_start_time is None:
             shift_time = self._q_snapshot_and_applications.get_first_damage_time()
             if shift_time is None:
                 return self._q_snapshot_and_applications
         else:
             shift_time = self.__fight_start_time
-        
+
         if shift_time is None:
             return self._q_snapshot_and_applications
         self.__shift_downtime_windows(shift_time)
@@ -856,7 +863,7 @@ class RotationBuilder:
     def get_skill_timing(self):
         self.__status_effect_priority = self._skill_library.get_status_effect_priority(
             self.__stats.job_class
-        )        
+        )
         # Each downtime range is the semi-open interval [start_time, end_time). In other
         # words, boss cannot be hit at start_time, but can be hit immediately at end_time.
         # Windows are assumed to be non-overlapping. This must be called before doing
@@ -877,7 +884,7 @@ class RotationBuilder:
         if self.__enable_autos:
             self.__add_autos(last_event_time)
         self._q_snapshot_and_applications = (
-                self.shift_timelines_for_first_damage_instance()
+            self.shift_timelines_for_first_damage_instance()
         )
         self._q_snapshot_and_applications = self.remove_damage_during_downtime()
 
@@ -903,7 +910,10 @@ class RotationBuilder:
                 or offensive_debuff_spec.haste_time_reduction > 0
                 or offensive_debuff_spec.flat_cast_time_reduction > 0
             )
-            if not offensive_buff_spec_has_speed and not offensive_debuff_spec_has_speed:
+            if (
+                not offensive_buff_spec_has_speed
+                and not offensive_debuff_spec_has_speed
+            ):
                 continue
             event_times = event.event_times
             application_time = (
@@ -1056,3 +1066,25 @@ class RotationBuilder:
         print("Time, skill_name, job_class, skill_conditional")
         for tmp in self.__q_button_press_timing:
             print(f"{tmp[0] / 1000}, {tmp[1]}, {tmp[2]}, {tmp[3]}")
+
+    def get_timed_skills(self):
+        res = copy.deepcopy(self._q_others)
+        res.extend(copy.deepcopy(self._q_self))
+        res.sort(key=lambda x: x[0])  # sort by time
+
+        return res
+
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+
+        for k, v in self.__dict__.items():
+            if k == '_skill_library':
+                # for efficiency, do not copy the underlying skill library
+                setattr(result, k, v)
+            else:
+                setattr(result, k, copy.deepcopy(v, memo))
+
+        return result

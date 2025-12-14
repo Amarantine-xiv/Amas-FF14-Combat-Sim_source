@@ -335,7 +335,7 @@ class AstSkills(GenericJobClass):
     # NOTE: this implicitly relies on the offensive part of star tagging star appropriately.
     # This is not robust and introduces coupling between the offensive and defensive aspects.
     # # Maybe consider making separate offensive/defensive versions that mirror each other? But
-    # doing so, would require num_uses=2 for a consumption on both offensive/defensive or some 
+    # doing so, would require num_uses=2 for a consumption on both offensive/defensive or some
     # sort of specification of num_uses for defensive/offensive separately. Think about the
     # design of this carefully to deal with star. For now though, we accept the coupling.
     def __get_star_heal_spec(self, name):
@@ -738,6 +738,13 @@ class AstSkills(GenericJobClass):
                 ),
                 "Buff Only": None,
             },
+            shield_spec={
+                SimConsts.DEFAULT_CONDITION: None,
+                # for logs tracking
+                "From Log": ShieldSpec(
+                    is_party_effect=True, is_aoe=True, duration=30 * 1000
+                ),
+            },
             follow_up_skills=(neutral_condition_follow_up,),
         )
 
@@ -832,11 +839,11 @@ class AstSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            channeling_spec=ChannelingSpec(duration=18000),
+            channeling_spec=ChannelingSpec(duration=18 * 1000),
             # TODO: this should get refreshed on server tick
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=0.1,
-                duration=5 * 100,
+                duration=5 * 1000,
                 is_party_effect=True,
             ),
             heal_spec=HealSpec(
