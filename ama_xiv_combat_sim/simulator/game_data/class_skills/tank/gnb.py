@@ -228,7 +228,9 @@ class GnbSkills(GenericJobClass):
                 FollowUp(
                     skill=sonic_break_dot_gnb,
                     delay_after_parent_application=0,
-                    dot_duration=30 * 1000,
+                    dot_duration=self._skill_data.get_skill_data(
+                        "Sonic Break (dot)", "duration"
+                    ),
                     snapshot_buffs_with_parent=True,
                     snapshot_debuffs_with_parent=True,
                 ),

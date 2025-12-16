@@ -16,9 +16,10 @@ ALL_DATA = {
         90: {"duration": {"6.55": 15 * 1000, "7.0": 20 * 1000}},
         100: {"duration": {"7.0": 20 * 1000}},
     },
+    #TODO: check lvl 90 in-game after patch 7.4
     "Biolysis (dot)": {
         90: {"potency": {"6.55": 70}},
-        100: {"potency": {"7.0": 75, "7.2": 80}},
+        100: {"potency": {"7.0": 75, "7.2": 80, "7.4": 85}},
     },
     "Baneful Impaction (dot)": {100: {"potency": {"7.0": 140}}},
 }

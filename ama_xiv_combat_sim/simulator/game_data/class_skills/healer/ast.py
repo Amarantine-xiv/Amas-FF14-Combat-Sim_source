@@ -834,8 +834,9 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def collective_unconscious(self):
+        name="Collective Unconscious"
         return Skill(
-            name="Collective Unconscious",
+            name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
@@ -843,7 +844,7 @@ class AstSkills(GenericJobClass):
             # TODO: this should get refreshed on server tick
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=0.1,
-                duration=5 * 1000,
+                duration=self._skill_data.get_skill_data(name, "duration"),
                 is_party_effect=True,
             ),
             heal_spec=HealSpec(

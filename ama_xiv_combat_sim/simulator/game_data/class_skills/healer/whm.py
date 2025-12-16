@@ -496,7 +496,11 @@ class WhmSkills(GenericJobClass):
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
             defensive_buff_spec=DefensiveStatusEffectSpec(
-                add_to_skill_modifier_condition=True, duration=10 * 1000
+                add_to_skill_modifier_condition=True,
+                duration=10 * 1000,
+                damage_reductions=self._skill_data.get_skill_data(
+                    name, "damage_reduction"
+                ),
             ),
         )
 

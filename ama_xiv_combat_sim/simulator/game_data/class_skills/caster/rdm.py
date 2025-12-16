@@ -15,7 +15,9 @@ from ama_xiv_combat_sim.simulator.specs.heal_spec import HealSpec
 from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
     DefensiveStatusEffectSpec,
 )
-from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 
 from ama_xiv_combat_sim.simulator.game_data.class_skills.caster.rdm_data import (
@@ -363,14 +365,21 @@ class RdmSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            offensive_buff_spec=OffensiveStatusEffectSpec(
-                damage_mult=1.05,
-                duration=self._skill_data.get_skill_data(name, "duration"),
-                is_party_effect=True,
-            ),
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
+                    damage_mult=self._skill_data.get_skill_data(name, "self_buff"),
+                    duration=self._skill_data.get_skill_data(name, "duration"),
+                ),
+                "Party Buff": OffensiveStatusEffectSpec(
+                    damage_mult=1.05,
+                    duration=self._skill_data.get_skill_data(name, "duration"),
+                    is_party_effect=True,
+                ),
+            },
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=660
             ),
+            off_class_default_condition="Party Buff",
         )
 
     @GenericJobClass.is_a_skill

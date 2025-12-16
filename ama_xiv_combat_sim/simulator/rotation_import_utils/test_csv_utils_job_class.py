@@ -522,7 +522,7 @@ class TestCSVUtilsJobClass(TestClass):
                 (
                     2200,
                     skill_library_to_use.get_skill("Embolden", "RDM"),
-                    SkillModifier(),
+                    SkillModifier(with_condition="Party Buff"),
                 ),
             ),
         }

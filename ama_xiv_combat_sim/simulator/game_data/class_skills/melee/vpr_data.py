@@ -113,6 +113,10 @@ ALL_DATA = {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
                     "Honed Steel": DamageSpec(potency=120),
                 },
+                "7.4": {
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(potency=120),
+                    "Honed Steel": DamageSpec(potency=140),
+                },
             },
         },
         100: {
@@ -121,6 +125,10 @@ ALL_DATA = {
                 "7.05": {
                     SimConsts.DEFAULT_CONDITION: DamageSpec(potency=100),
                     "Honed Steel": DamageSpec(potency=120),
+                },
+                "7.4": {
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(potency=120),
+                    "Honed Steel": DamageSpec(potency=140),
                 },
             },
         },
@@ -223,28 +231,28 @@ ALL_DATA = {
     },
     "Reaving Maw": {
         90: {
-            "potency": {"7.05": 100},
-            "potency_honed_reavers": {"7.05": 120},
+            "potency": {"7.05": 100, "7.4": 120},
+            "potency_honed_reavers": {"7.05": 120, "7.4": 140},
         },
         100: {
-            "potency": {"7.05": 100},
-            "potency_honed_reavers": {"7.05": 120},
+            "potency": {"7.05": 100, "7.4": 120},
+            "potency_honed_reavers": {"7.05": 120, "7.4": 140},
         },
     },
     "Hunter's Bite": {
         90: {
-            "potency": {"7.0": 120, "7.05": 130},
+            "potency": {"7.0": 120, "7.05": 130, "7.4": 180},
         },
         100: {
-            "potency": {"7.0": 120, "7.05": 130},
+            "potency": {"7.0": 120, "7.05": 130, "7.4": 180},
         },
     },
     "Swiftskin's Bite": {
         90: {
-            "potency": {"7.0": 120, "7.05": 130},
+            "potency": {"7.0": 120, "7.05": 130, "7.4": 180},
         },
         100: {
-            "potency": {"7.0": 120, "7.05": 130},
+            "potency": {"7.0": 120, "7.05": 130, "7.4": 180},
         },
     },
     "Grimskin's Venom": {
@@ -257,12 +265,12 @@ ALL_DATA = {
     },
     "Jagged Maw": {
         90: {
-            "potency": {"7.0": 140},
-            "potency_venom": {"7.0": 160},
+            "potency": {"7.0": 140, "7.4": 180},
+            "potency_venom": {"7.0": 160, "7.4": 220},
         },
         100: {
-            "potency": {"7.0": 140},
-            "potency_venom": {"7.0": 160},
+            "potency": {"7.0": 140, "7.4": 180},
+            "potency_venom": {"7.0": 160, "7.4": 220},
         },
     },
     "Grimhunter's Venom": {
@@ -275,12 +283,12 @@ ALL_DATA = {
     },
     "Bloodied Maw": {
         90: {
-            "potency": {"7.0": 140},
-            "potency_venom": {"7.0": 160},
+            "potency": {"7.0": 140, "7.4": 180},
+            "potency_venom": {"7.0": 160, "7.4": 220},
         },
         100: {
-            "potency": {"7.0": 140},
-            "potency_venom": {"7.0": 160},
+            "potency": {"7.0": 140, "7.4": 180},
+            "potency_venom": {"7.0": 160, "7.4": 220},
         },
     },
     "Death Rattle": {
@@ -293,10 +301,10 @@ ALL_DATA = {
     },
     "Last Lash": {
         90: {
-            "potency": {"7.0": 100},
+            "potency": {"7.0": 100, "7.4": 120},
         },
         100: {
-            "potency": {"7.0": 100},
+            "potency": {"7.0": 100, "7.4": 120},
         },
     },
     "Dreadwinder": {
@@ -361,10 +369,10 @@ ALL_DATA = {
     },
     "Vicepit": {
         90: {
-            "potency": {"7.05": 220},
+            "potency": {"7.05": 220, "7.4": 250},
         },
         100: {
-            "potency": {"7.05": 220},
+            "potency": {"7.05": 220, "7.4": 250},
         },
     },
     "Fellhunter's Venom": {
@@ -377,10 +385,10 @@ ALL_DATA = {
     },
     "Hunter's Den": {
         90: {
-            "potency": {"7.0": 250, "7.05": 280},
+            "potency": {"7.0": 250, "7.05": 280, "7.4": 300},
         },
         100: {
-            "potency": {"7.0": 250, "7.05": 280},
+            "potency": {"7.0": 250, "7.05": 280, "7.4": 300},
         },
     },
     "Fellskin's Venom": {
@@ -393,10 +401,10 @@ ALL_DATA = {
     },
     "Swiftskin's Den": {
         90: {
-            "potency": {"7.0": 250, "7.05": 280},
+            "potency": {"7.0": 250, "7.05": 280, "7.4": 300},
         },
         100: {
-            "potency": {"7.0": 250, "7.05": 280},
+            "potency": {"7.0": 250, "7.05": 280, "7.4": 300},
         },
     },
     "Twinfang Bite": {
@@ -444,69 +452,69 @@ ALL_DATA = {
     "Uncoiled Fury": {
         90: {
             "potency": {"7.0": 600, "7.05": 680},
-            "aoe_dropoff": {"7.0": 0.5, "7.3": 0.6},
+            "aoe_dropoff": {"7.0": 0.5, "7.3": 0.6, "7.4": 0.75},
         },
         100: {
             "potency": {"7.0": 600, "7.05": 680},
-            "aoe_dropoff": {"7.0": 0.5, "7.3": 0.6},
+            "aoe_dropoff": {"7.0": 0.5, "7.3": 0.6, "7.4": 0.75},
         },
     },
     "Reawaken": {
         90: {
             "potency": {"7.0": 700, "7.05": 750},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
         100: {
             "potency": {"7.0": 700, "7.05": 750},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
     },
     "First Generation": {
         90: {
             "potency": {"7.0": 600, "7.05": 680},
             "potency_no_combo": {"7.0": 400, "7.05": 480},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
         100: {
             "potency": {"7.0": 600, "7.05": 680},
             "potency_no_combo": {"7.0": 400, "7.05": 480},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
     },
     "Second Generation": {
         90: {
             "potency": {"7.0": 600, "7.05": 680},
             "potency_no_combo": {"7.0": 400, "7.05": 480},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
         100: {
             "potency": {"7.0": 600, "7.05": 680},
             "potency_no_combo": {"7.0": 400, "7.05": 480},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
     },
     "Third Generation": {
         90: {
             "potency": {"7.0": 600, "7.05": 680},
             "potency_no_combo": {"7.0": 400, "7.05": 480},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
         100: {
             "potency": {"7.0": 600, "7.05": 680},
             "potency_no_combo": {"7.0": 400, "7.05": 480},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
     },
     "Fourth Generation": {
         90: {
             "potency": {"7.0": 600, "7.05": 680},
             "potency_no_combo": {"7.0": 400, "7.05": 480},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
         100: {
             "potency": {"7.0": 600, "7.05": 680},
             "potency_no_combo": {"7.0": 400, "7.05": 480},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         },
     },
     "Poised for Twinblood": {
@@ -521,44 +529,44 @@ ALL_DATA = {
         100: {
             "potency": {"7.0": 100, "7.05": 120},
             "potency_poised": {"7.0": 150, "7.05": 170},
-            "aoe_dropoff": {"7.0": 0.5, "7.3": 0.6},
+            "aoe_dropoff": {"7.0": 0.5, "7.3": 0.6, "7.4": 0.75},
         }
     },
     "Uncoiled Twinblood": {
         100: {
             "potency": {"7.0": 100, "7.05": 120},
             "potency_poised": {"7.0": 150, "7.05": 170},
-            "aoe_dropoff": {"7.0": 0.5, "7.3": 0.6},
+            "aoe_dropoff": {"7.0": 0.5, "7.3": 0.6, "7.4": 0.75},
         }
     },
     "Ouroboros": {
         100: {
             "potency": {"7.0": 1050, "7.05": 1150},
-            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.6, "7.3": 0.65, "7.4": 0.80},
         }
     },
     "First Legacy": {
         100: {
             "potency": {"7.0": 250, "7.05": 280, "7.2": 320},
-            "aoe_dropoff": {"7.0": 0.60, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.60, "7.3": 0.65, "7.4": 0.80},
         }
     },
     "Second Legacy": {
         100: {
             "potency": {"7.0": 250, "7.05": 280, "7.2": 320},
-            "aoe_dropoff": {"7.0": 0.60, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.60, "7.3": 0.65, "7.4": 0.80},
         }
     },
     "Third Legacy": {
         100: {
             "potency": {"7.0": 250, "7.05": 280, "7.2": 320},
-            "aoe_dropoff": {"7.0": 0.60, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.60, "7.3": 0.65, "7.4": 0.80},
         }
     },
     "Fourth Legacy": {
         100: {
             "potency": {"7.0": 250, "7.05": 280, "7.2": 320},
-            "aoe_dropoff": {"7.0": 0.60, "7.3": 0.65},
+            "aoe_dropoff": {"7.0": 0.60, "7.3": 0.65, "7.4": 0.80},
         }
     },
 }

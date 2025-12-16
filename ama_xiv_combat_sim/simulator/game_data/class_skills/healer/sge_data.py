@@ -19,9 +19,10 @@ ALL_DATA = {
         90: {"potency": {"6.55": 330}},
         100: {"potency": {"7.0": 360, "7.1": 370, "7.3": 380}},
     },
+    #TODO: check lvl 90 in-game after patch 7.4
     "Eukrasian Dosis III (dot)": {
         90: {"potency": {"6.55": 75, "7.2": 80}, "potency_dysk": {"7.0": 40}},
-        100: {"potency": {"7.0": 75, "7.2": 80}, "potency_dysk": {"7.0": 40}},
+        100: {"potency": {"7.0": 75, "7.2": 80, "7.4": 85}, "potency_dysk": {"7.0": 40}},
     },
     "Psyche": {100: {"potency": {"7.0": 600}}},
     "Physis II": {

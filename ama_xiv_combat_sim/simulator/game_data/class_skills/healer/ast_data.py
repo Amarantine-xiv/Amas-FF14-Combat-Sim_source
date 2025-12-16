@@ -46,6 +46,10 @@ ALL_DATA = {
             "aoe_dropoff": {"7.0": 0, "7.2": 0.5},
         }
     },
+    "Collective Unconscious": {
+        90: {"duration": {"6.55": 5*1000, "7.4": 10*1000}},
+        100: {"duration": {"7.0": 5*1000, "7.4": 10*1000}},
+    },
 }
 
 for k, v in ALL_DATA.items():

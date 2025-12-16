@@ -180,7 +180,10 @@ ALL_DATA = {
         100: {"damage_spec": {"7.0": DamageSpec(potency=240)}},
     },
     "Suiton": {90: {"potency": {"6.55": 500}}, 100: {"potency": {"7.0": 580}}},
-    "Goka Mekkyaku": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
+    "Goka Mekkyaku": {
+        90: {"potency": {"6.55": 600, "7.4": 850}},
+        100: {"potency": {"7.0": 600, "7.4": 850}},
+    },
     "Hyosho Ranryu": {90: {"potency": {"6.55": 1300}}, 100: {"potency": {"7.0": 1300}}},
     "Meisui": {
         90: {"allowlist": {"6.55": ("Bhavacakra",)}},

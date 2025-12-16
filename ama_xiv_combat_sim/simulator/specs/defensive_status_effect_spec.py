@@ -9,7 +9,7 @@ class DefensiveStatusEffectSpec(StatusEffectSpec):
     # value is the amount of reduction for that damage class
     damage_reductions: dict[DamageInstanceClass, float] = field(default_factory=dict)
     is_invuln: bool = False
-    max_hp_mult: float = 1    
+    max_hp_mult: float = 1
     hp_recovery_up_via_healing_actions: float = 0
     healing_magic_potency_mult: float = 1
     compiles_damage_taken: bool = False
@@ -19,9 +19,9 @@ class DefensiveStatusEffectSpec(StatusEffectSpec):
     def __post_init__(self):
         super().__post_init__()
         if not isinstance(self.damage_reductions, dict):
-            assert isinstance(
-                self.damage_reductions, float
-            ), "damage_reductions should be a float if it's not a dict"
+            assert isinstance(self.damage_reductions, float) or isinstance(
+                self.damage_reductions, int
+            ), "damage_reductions should be an int or float if it's not a dict"
 
             damage_reductions = {}
             # be specific in what we will by default cover
