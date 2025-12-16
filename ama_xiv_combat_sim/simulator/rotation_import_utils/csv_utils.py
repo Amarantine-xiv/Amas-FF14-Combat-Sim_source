@@ -30,6 +30,7 @@ class RotationCSV(
             "players_to_buff",
             "overriding_skill_conditional_for_other_players",
         ],
+        defaults=(None, None),
     )
 ):
     pass
