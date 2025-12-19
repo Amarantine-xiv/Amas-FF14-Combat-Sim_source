@@ -385,7 +385,7 @@ class RdmSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def manafication(self):
         name = "Manafication"
-
+        
         manafication_allowlist = (
             "Verthunder II",
             "Veraero II",
@@ -411,17 +411,19 @@ class RdmSkills(GenericJobClass):
             "Enchanted Reprise",
         )
 
+        offensive_buff_spec = offensive_buff_spec=OffensiveStatusEffectSpec(
+                    damage_mult=1.05,
+                    duration=self._skill_data.get_skill_data(name, "duration"),
+                    num_uses=6,
+                    skill_allowlist=manafication_allowlist,
+                ) if self._version < "7.4" else None
+
         return Skill(
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             combo_spec=(ComboSpec(),),
-            offensive_buff_spec=OffensiveStatusEffectSpec(
-                damage_mult=1.05,
-                duration=self._skill_data.get_skill_data(name, "duration"),
-                num_uses=6,
-                skill_allowlist=manafication_allowlist,
-            ),
+            offensive_buff_spec=offensive_buff_spec,
             timing_spec=self.instant_timing_spec,
         )
 
