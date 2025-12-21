@@ -283,13 +283,14 @@ class AstSkills(GenericJobClass):
                 duration=10 * 1000,
                 num_uses=1,
                 skill_allowlist=(
-                    "Glare III",
-                    "Holy III",
+                    "Fall Malefic",
+                    "Gravity II",
                     "Benefic",
                     "Helios",
                     "Ascend",
                     "Benefic II",
                     "Aspected Helios",
+                    "Helios Conjunction",
                 ),
             ),
         )

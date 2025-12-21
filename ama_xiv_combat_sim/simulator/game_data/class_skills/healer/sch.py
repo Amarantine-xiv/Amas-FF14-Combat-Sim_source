@@ -206,8 +206,7 @@ class SchSkills(GenericJobClass):
                 duration=10 * 1000,
                 num_uses=1,
                 skill_allowlist=(
-                    "Glare III",
-                    "Holy III",
+                    "Broil IV",                    
                     "Physick",
                     "Resurrection",
                     "Adloquium",
