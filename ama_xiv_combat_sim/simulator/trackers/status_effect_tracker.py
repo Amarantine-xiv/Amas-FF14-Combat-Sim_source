@@ -2,6 +2,7 @@ from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.skills.skill import Skill
 from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effect_info import OffensiveStatusEffectInfo
 
 class StatusEffectTracker:
     def __init__(self, status_effects_priority=tuple()):
@@ -189,6 +190,7 @@ class StatusEffectTracker:
             self.__delete_lower_priority_status_effects(valid_status_effects)
         )
 
+        all_status_effects_info = []
         for status_effect_skill_name in valid_and_prioritized_status_effects:
             (start_time, end_time, num_uses, spec) = status_effects[
                 status_effect_skill_name
@@ -209,6 +211,7 @@ class StatusEffectTracker:
             flat_cast_time_reduction += spec.flat_cast_time_reduction
             flat_gcd_recast_time_reduction += spec.flat_gcd_recast_time_reduction
 
+            all_status_effects_info.append(OffensiveStatusEffectInfo(status_effect_skill_name, spec))
             if spec.guaranteed_crit is not ForcedCritOrDH.DEFAULT:
                 assert (
                     guaranteed_crit is ForcedCritOrDH.DEFAULT
@@ -237,6 +240,7 @@ class StatusEffectTracker:
             guaranteed_crit=guaranteed_crit,
             guaranteed_dh=guaranteed_dh,
             status_effects=tuple(valid_and_prioritized_status_effects),
+            all_status_effects_info = tuple(all_status_effects_info)
         )
         return (status_effects, ", ".join(skill_modifier_conditions))
 

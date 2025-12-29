@@ -166,3 +166,4 @@ main.py
 main_test.py
 pyproject.toml
 *.csv
+*.sh

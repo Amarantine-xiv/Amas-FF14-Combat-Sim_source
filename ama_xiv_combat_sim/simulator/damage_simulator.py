@@ -1,33 +1,31 @@
+from typing import NamedTuple
+
 import copy
 import math
 import numpy as np
 import time
 
-from collections import namedtuple
 from ama_xiv_combat_sim.simulator.calcs.compute_damage_utils import ComputeDamageUtils
+from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.trackers.damage_tracker import DamageTracker
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
 
+class StatusEffectsTuple(NamedTuple):
+    buffs: OffensiveStatusEffects
+    debuffs: OffensiveStatusEffects
 
-class PerInstanceDamage(
-    namedtuple(
-        "PerInstanceDamage",
-        [
-            "application_time",
-            "snapshot_time",
-            "skill_name",
-            "potency",
-            "skill_modifier_condition",
-            "status_effects",
-            "expected_damage",
-            "standard_deviation",
-            "event_id",
-            "target",
-            "damage_class",
-        ],
-    )
-):
-    pass
-
+class PerInstanceDamage(NamedTuple):
+    application_time: np.float64
+    snapshot_time: np.float64
+    skill_name: str
+    potency: np.float64
+    skill_modifier_condition: set[str]
+    status_effects: StatusEffectsTuple
+    expected_damage: np.float64
+    standard_deviation: np.float64
+    event_id: int
+    target: str
+    damage_class: DamageClass
 
 class DamageSimulator:
     def __init__(
@@ -90,7 +88,7 @@ class DamageSimulator:
                 t,
                 damage_spec.potency,
                 skill_modifier,
-                (status_effects[0], status_effects[1]),
+                StatusEffectsTuple(buffs=status_effects[0], debuffs=status_effects[1]),
                 damage_class,
             )
             self.__target[i] = target

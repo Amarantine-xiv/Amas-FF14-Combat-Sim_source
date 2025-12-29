@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from ama_xiv_combat_sim.simulator.calcs.forced_crit_or_dh import ForcedCritOrDH
-
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effect_info import OffensiveStatusEffectInfo
 
 @dataclass(frozen=True)
 class OffensiveStatusEffects:
@@ -17,6 +17,7 @@ class OffensiveStatusEffects:
     guaranteed_crit: ForcedCritOrDH = ForcedCritOrDH.DEFAULT
     guaranteed_dh: ForcedCritOrDH = ForcedCritOrDH.DEFAULT
     status_effects: tuple = tuple()
+    all_status_effects_info: tuple[OffensiveStatusEffectInfo, ...] = tuple()
 
     def __eq__(self, other):
         # All but the status_effects tuple. That does not have a functional impact.
