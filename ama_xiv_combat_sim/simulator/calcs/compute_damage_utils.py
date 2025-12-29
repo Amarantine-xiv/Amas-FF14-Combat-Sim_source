@@ -187,11 +187,12 @@ class ComputeDamageUtils:
         # 6) weapon damage and weapon delay are taken account, if applicable
         # 7) apply the +1 for dots
         # 8) apply guaranteed crit bonus using crit rate up, if applicable
-        # 9) apply guaranteed direct hit bonus dh up, if applicable
-        # 10) apply +-5% damage variance (on ALL sources of damage, direct, auto, dot)
+        # 9) apply guaranteed direct hit bonus dh up, if applicable    
+        # 10) single-damage multipliers like AF/UI are taken into account.    
         # 11) crit/direct hit multipliers are taken into account, if applicable. NO FLOORING IS DONE HERE.
         # 12) traits are taken into account, if applicable
-        # 13) each straight up damage buff/enemy increased damage taken is taken into account multiplicatively. NO FLOORING IS DONE BETWEEN APPLYING BUFFS
+        # 13) apply +-5% damage variance (on ALL sources of damage, direct, auto, dot)
+        # 14) each straight up damage buff/enemy increased damage taken is taken into account multiplicatively. NO FLOORING IS DONE BETWEEN APPLYING BUFFS
 
         if stats.job_class_fns.isHealer(
             stats.job_class
@@ -221,7 +222,6 @@ class ComputeDamageUtils:
         base_damage += np.floor(
             base_damage * bonus_damage_multipliers_from_guaranteeds[0]
         ) + np.floor(base_damage * bonus_damage_multipliers_from_guaranteeds[1])
-        base_damage *= damage_spec.single_damage_mult
 
         return base_damage
 
@@ -269,7 +269,6 @@ class ComputeDamageUtils:
         base_damage += np.floor(
             base_damage * bonus_damage_multipliers_from_guaranteeds[0]
         ) + np.floor(base_damage * bonus_damage_multipliers_from_guaranteeds[1])
-        base_damage *= damage_spec.single_damage_mult
 
         return base_damage
 
@@ -316,7 +315,6 @@ class ComputeDamageUtils:
         base_damage += np.floor(
             base_damage * bonus_damage_multipliers_from_guaranteeds[0]
         ) + np.floor(base_damage * bonus_damage_multipliers_from_guaranteeds[1])
-        base_damage *= damage_spec.single_damage_mult
 
         return base_damage
 
@@ -386,7 +384,6 @@ class ComputeDamageUtils:
         base_damage += np.floor(
             base_damage * bonus_damage_multipliers_from_guaranteeds[0]
         ) + np.floor(base_damage * bonus_damage_multipliers_from_guaranteeds[1])
-        base_damage *= damage_spec.single_damage_mult
 
         return base_damage
 
@@ -470,7 +467,6 @@ class ComputeDamageUtils:
         #     base_damage1 = np.floor(base_damage1*StatFns.fTnc(stats.tenacity)/10)/100
         # base_damage2 = np.floor(np.floor(base_damage1*spd)/1000)
         # base_damage = np.floor(np.floor(np.floor(np.floor(base_damage2*auto)/100)*100)/100)
-        base_damage *= damage_spec.single_damage_mult
 
         return base_damage
 

@@ -71,6 +71,7 @@ class DamageSimulator:
             damage_mult = ComputeDamageUtils.compute_damage_mult(status_effects)
 
             damage_spec = skill.get_damage_spec(skill_modifier)
+            single_damage_mult = damage_spec.single_damage_mult #things like AF/UI
             damage_class = damage_spec.damage_class
             trait_damage_mult = (
                 self.__stats.processed_stats.trait_damage_mult
@@ -84,6 +85,7 @@ class DamageSimulator:
                 crit_bonus,
                 dh_rate,
                 trait_damage_mult,
+                single_damage_mult,
                 damage_mult,
                 t,
                 damage_spec.potency,
@@ -94,7 +96,7 @@ class DamageSimulator:
             self.__target[i] = target
             i += 1
 
-        self.__damage_tracker.finalize()        
+        self.__damage_tracker.finalize()
 
         if len(self.__dmg_instances) == 0:
             fight_time = 0

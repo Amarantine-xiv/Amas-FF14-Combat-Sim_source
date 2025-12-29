@@ -1037,7 +1037,7 @@ class RotationBuilder:
                 snapshot_time,
                 auto_skill,
                 SkillModifier(),
-                targets=(self.__default_target,),
+                targets=(auto_target,),
             )
 
             # Don't need the skill modifiers, since they're just autos
@@ -1076,14 +1076,13 @@ class RotationBuilder:
 
         return res
 
-
     def __deepcopy__(self, memo):
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
 
         for k, v in self.__dict__.items():
-            if k == '_skill_library':
+            if k == "_skill_library":
                 # for efficiency, do not copy the underlying skill library
                 setattr(result, k, v)
             else:

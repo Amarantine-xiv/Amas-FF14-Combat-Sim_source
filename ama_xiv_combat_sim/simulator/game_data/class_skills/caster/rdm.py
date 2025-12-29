@@ -94,17 +94,21 @@ class RdmSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def corps_a_corps(self):
-        name = "Corps-a-corps"
-        return Skill(
-            name=name,
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-            timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=630
-            ),
-            status_effect_denylist=("Manafication", "Embolden"),
-        )
+        
+        true_name = "Corps-a-corps"
+        res = []
+        for name in ["Corps-a-corps", "Corps-a-Corps"]:
+            res.append(Skill(
+                name=name,
+                is_GCD=False,
+                skill_type=SkillType.ABILITY,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(true_name)),
+                timing_spec=TimingSpec(
+                    base_cast_time=0, animation_lock=650, application_delay=630
+                ),
+                status_effect_denylist=("Manafication", "Embolden"),
+            ))
+        return res
 
     @GenericJobClass.is_a_skill
     def verthunder_ii(self):
@@ -371,6 +375,12 @@ class RdmSkills(GenericJobClass):
                     duration=self._skill_data.get_skill_data(name, "duration"),
                 ),
                 "Party Buff": OffensiveStatusEffectSpec(
+                    damage_mult=1.05,
+                    duration=self._skill_data.get_skill_data(name, "duration"),
+                    is_party_effect=True,
+                ),
+                #backwards compatibility
+                "Buff Only": OffensiveStatusEffectSpec(
                     damage_mult=1.05,
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
@@ -721,8 +731,8 @@ class RdmSkills(GenericJobClass):
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
-            ),
-            status_effect_denylist=("Manafication", "Embolden"),
+            ),            
+            status_effect_denylist=("Manafication",),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )

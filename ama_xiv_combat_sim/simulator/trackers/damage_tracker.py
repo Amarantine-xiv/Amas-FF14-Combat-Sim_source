@@ -11,6 +11,7 @@ class DamageTracker:
         self.dh_rate = np.zeros((5000, 1))
         self.trait_damage_mult = np.zeros((5000, 1))
         self.damage_mult = np.ones((5000, 1))
+        self.single_damage_mult = np.ones((5000, 1))
         self.time = np.zeros(5000)
         self.potency = np.zeros(5000)
         self.skill_modifier_condition = [""] * 5000
@@ -19,9 +20,6 @@ class DamageTracker:
         self.it = 0
         self.is_finalized = False
 
-        # for debugging
-        self.base_damage = np.zeros((5000, 1))
-
     def add_damage(
         self,
         base_damage,
@@ -29,6 +27,7 @@ class DamageTracker:
         crit_bonus,
         dh_rate,
         trait_damage_mult,
+        single_damage_mult,
         damage_mult,
         time,
         potency,
@@ -46,6 +45,7 @@ class DamageTracker:
         self.dh_rate[self.it] = dh_rate
         self.trait_damage_mult[self.it] = trait_damage_mult
         self.damage_mult[self.it] = damage_mult
+        self.single_damage_mult[self.it] = single_damage_mult
         self.time[self.it] = time
         self.potency[self.it] = potency
         self.skill_modifier_condition[self.it] = skill_modifier.with_condition
@@ -60,6 +60,7 @@ class DamageTracker:
         self.dh_rate = self.dh_rate[0 : self.it]
         self.trait_damage_mult = self.trait_damage_mult[0 : self.it]
         self.damage_mult = self.damage_mult[0 : self.it]
+        self.single_damage_mult = self.single_damage_mult[0 : self.it]
         self.time = self.time[0 : self.it]
         self.potency = self.potency[0 : self.it]
         self.skill_modifier_condition = self.skill_modifier_condition[0 : self.it]
@@ -75,22 +76,17 @@ class DamageTracker:
         crit_bonus,
         crit_rate,
         dh_rate,
+        single_damage_mult,
         damage_mult,
         num_samples,
         base_damage_range=0.1,
     ):
-        low_damage = 1 - base_damage_range / 2
-
-        num_damage_instances = base_damage.shape[0]        
-        total_damage = np.floor(
-            base_damage
-            * (
-                low_damage
-                + base_damage_range * np.random.rand(num_damage_instances, num_samples)
-            )
-        )
+        
+        num_damage_instances = base_damage.shape[0]
+        
+        total_damage = base_damage
         crit_status = crit_rate >= np.random.rand(num_damage_instances, num_samples)
-        total_damage += np.floor(
+        total_damage = total_damage + np.floor(
             np.multiply(
                 total_damage,
                 np.multiply(
@@ -108,6 +104,17 @@ class DamageTracker:
             )
         )
         total_damage = np.floor(np.multiply(total_damage, self.trait_damage_mult))
+        total_damage = np.floor(np.multiply(total_damage,single_damage_mult))
+        
+        low_damage = 1 - base_damage_range / 2
+        total_damage = np.floor(
+            total_damage
+            * (
+                low_damage
+                + base_damage_range * np.random.rand(num_damage_instances, num_samples)
+            )
+        )
+        
         total_damage = np.floor(np.multiply(total_damage, damage_mult))
         return total_damage, crit_status, dh_status
 
@@ -126,6 +133,7 @@ class DamageTracker:
             self.crit_bonus,
             0,
             0,
+            self.single_damage_mult,
             self.damage_mult,
             1,
             base_damage_range=0,
@@ -135,6 +143,7 @@ class DamageTracker:
             self.crit_bonus,
             0,
             0,
+            self.single_damage_mult,
             self.damage_mult,
             1,
             base_damage_range=0,
@@ -145,6 +154,7 @@ class DamageTracker:
             self.crit_bonus,
             1,
             0,
+            self.single_damage_mult,
             self.damage_mult,
             1,
             base_damage_range=0,
@@ -154,6 +164,7 @@ class DamageTracker:
             self.crit_bonus,
             1,
             0,
+            self.single_damage_mult,
             self.damage_mult,
             1,
             base_damage_range=0,
@@ -164,6 +175,7 @@ class DamageTracker:
             self.crit_bonus,
             0,
             1,
+            self.single_damage_mult,
             self.damage_mult,
             1,
             base_damage_range=0,
@@ -173,6 +185,7 @@ class DamageTracker:
             self.crit_bonus,
             0,
             1,
+            self.single_damage_mult,
             self.damage_mult,
             1,
             base_damage_range=0,
@@ -183,6 +196,7 @@ class DamageTracker:
             self.crit_bonus,
             1,
             1,
+            self.single_damage_mult,
             self.damage_mult,
             1,
             base_damage_range=0,
@@ -192,6 +206,7 @@ class DamageTracker:
             self.crit_bonus,
             1,
             1,
+            self.single_damage_mult,
             self.damage_mult,
             1,
             base_damage_range=0,
@@ -241,6 +256,7 @@ class DamageTracker:
             self.crit_bonus,
             self.crit_rate,
             self.dh_rate,
+            self.single_damage_mult,
             self.damage_mult,
             num_samples,
         )
