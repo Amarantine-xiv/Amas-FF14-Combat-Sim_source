@@ -1,8 +1,5 @@
 from dataclasses import dataclass
 
-from ama_xiv_combat_sim.simulator.utils import Utils
-
-
 @dataclass(frozen=True)
 class GameConsts:
     GCD_RECAST_TIME: float = 2500

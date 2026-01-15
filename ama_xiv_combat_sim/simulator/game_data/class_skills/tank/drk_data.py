@@ -38,6 +38,10 @@ ALL_DATA = {
         90: {"potency": {"6.55": 50}},
         100: {"potency": {"7.0": 50}},
     },
+    "Salted Earth": {
+        90: {"potency": {"6.55": 50}},
+        100: {"potency": {"7.0": 50}},
+    },
     "Salt and Darkness": {
         90: {"potency": {"6.55": 500}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.25}},
         100: {"potency": {"7.0": 500}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.25}},

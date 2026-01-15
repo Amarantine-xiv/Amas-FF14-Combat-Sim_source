@@ -1,4 +1,5 @@
 from ama_xiv_combat_sim.simulator.calcs.damage_instance_class import DamageInstanceClass
+from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
 from ama_xiv_combat_sim.simulator.game_data.lb_skills.add_lbs_to_skill_library import (
     add_lbs_to_skill_library,
 )
@@ -135,7 +136,7 @@ def __get_parry():
         is_GCD=False,
         timing_spec=TimingSpec(base_cast_time=0, animation_lock=0, application_delay=0),
         defensive_buff_spec=DefensiveStatusEffectSpec(
-            damage_reductions={DamageInstanceClass.PHYSICAL: 0.15},
+            damage_reductions={DamageInstanceClass.PHYSICAL: GameConsts.PARRY_DMG_REDUCTION},
             num_uses=1,
             skill_allowlist=("Damage",),
         ),

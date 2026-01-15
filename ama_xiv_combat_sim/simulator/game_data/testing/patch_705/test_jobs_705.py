@@ -290,7 +290,7 @@ class TestJobsUnified705(TestClass):
             ("Stalwart Soul", SkillModifier(force_combo=True), 4102),
             ("Stalwart Soul", SkillModifier(), 3076),
             ("Edge of Shadow", SkillModifier(), 11797),
-            ("Salted Earth", SkillModifier(), 6456),
+            ("Salted Earth", SkillModifier(), 7748),
             ("Salt and Darkness", SkillModifier(), 12836),
             ("Abyssal Drain", SkillModifier(), 6158),
             ("Carve and Spit", SkillModifier(), 13848),

@@ -57,7 +57,6 @@ class RdmSkills(GenericJobClass):
                     "Jolt III",
                     "Verraise",
                     "Impact",
-                    "Grand Impact",
                     "Verthunder III",
                     "Veraero III",
                 ),
@@ -751,20 +750,9 @@ class RdmSkills(GenericJobClass):
                     potency=self._skill_data.get_potency(name)
                 )
             },
-            timing_spec={
-                SimConsts.DEFAULT_CONDITION: TimingSpec(
-                    base_cast_time=5000,
-                    animation_lock=self.__rdm_caster_tax,
-                    application_delay=1559,
-                ),
-                "Dualcast": TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=1550
-                ),
-            },
-            follow_up_skills={
-                SimConsts.DEFAULT_CONDITION: (self.__get_dualcast_follow_up(),),
-                "Dualcast": tuple(),
-            },
+            timing_spec=TimingSpec(
+                base_cast_time=0, animation_lock=650, application_delay=1550
+            ),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )

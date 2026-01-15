@@ -232,12 +232,24 @@ class DrkSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=757
+                base_cast_time=0, animation_lock=650, application_delay=0
             ),
             follow_up_skills=(
+                # initial hit
+                FollowUp(
+                    skill=Skill(
+                        name,
+                        damage_spec=DamageSpec(
+                            potency=self._skill_data.get_potency(name),
+                            damage_class=DamageClass.PHYSICAL_DOT,
+                        ),
+                    ),
+                    delay_after_parent_application=900,
+                    primary_target_only=False,
+                ),
                 FollowUp(
                     skill=salted_earth_dot_drk,
-                    delay_after_parent_application=0,
+                    delay_after_parent_application=757,
                     dot_duration=15 * 1000,
                     snapshot_buffs_with_parent=True,
                     snapshot_debuffs_with_parent=False,
