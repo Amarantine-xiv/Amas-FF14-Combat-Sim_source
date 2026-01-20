@@ -204,7 +204,8 @@ class TestJobsUnified72(TestClass):
         rb.add(106, "Hakke Mujinsatsu")
         rb.add(107, "Hakke Mujinsatsu")
         
-        expected = (            
+        expected = (
+            ("Doton", 3167),
             ("Katon", 13880),
             ("Hollow Nozuchi", 1979),
             ("Goka Mekkyaku", 23799),

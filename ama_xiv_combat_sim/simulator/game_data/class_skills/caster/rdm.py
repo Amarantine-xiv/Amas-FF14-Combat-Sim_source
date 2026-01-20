@@ -93,20 +93,24 @@ class RdmSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def corps_a_corps(self):
-        
+
         true_name = "Corps-a-corps"
         res = []
         for name in ["Corps-a-corps", "Corps-a-Corps"]:
-            res.append(Skill(
-                name=name,
-                is_GCD=False,
-                skill_type=SkillType.ABILITY,
-                damage_spec=DamageSpec(potency=self._skill_data.get_potency(true_name)),
-                timing_spec=TimingSpec(
-                    base_cast_time=0, animation_lock=650, application_delay=630
-                ),
-                status_effect_denylist=("Manafication", "Embolden"),
-            ))
+            res.append(
+                Skill(
+                    name=name,
+                    is_GCD=False,
+                    skill_type=SkillType.ABILITY,
+                    damage_spec=DamageSpec(
+                        potency=self._skill_data.get_potency(true_name)
+                    ),
+                    timing_spec=TimingSpec(
+                        base_cast_time=0, animation_lock=650, application_delay=630
+                    ),
+                    status_effect_denylist=("Manafication", "Embolden"),
+                )
+            )
         return res
 
     @GenericJobClass.is_a_skill
@@ -378,7 +382,7 @@ class RdmSkills(GenericJobClass):
                     duration=self._skill_data.get_skill_data(name, "duration"),
                     is_party_effect=True,
                 ),
-                #backwards compatibility
+                # backwards compatibility
                 "Buff Only": OffensiveStatusEffectSpec(
                     damage_mult=1.05,
                     duration=self._skill_data.get_skill_data(name, "duration"),
@@ -394,7 +398,7 @@ class RdmSkills(GenericJobClass):
     @GenericJobClass.is_a_skill
     def manafication(self):
         name = "Manafication"
-        
+
         manafication_allowlist = (
             "Verthunder II",
             "Veraero II",
@@ -420,12 +424,16 @@ class RdmSkills(GenericJobClass):
             "Enchanted Reprise",
         )
 
-        offensive_buff_spec = offensive_buff_spec=OffensiveStatusEffectSpec(
-                    damage_mult=1.05,
-                    duration=self._skill_data.get_skill_data(name, "duration"),
-                    num_uses=6,
-                    skill_allowlist=manafication_allowlist,
-                ) if self._version < "7.4" else None
+        offensive_buff_spec = offensive_buff_spec = (
+            OffensiveStatusEffectSpec(
+                damage_mult=1.05,
+                duration=self._skill_data.get_skill_data(name, "duration"),
+                num_uses=6,
+                skill_allowlist=manafication_allowlist,
+            )
+            if self._version < "7.4"
+            else None
+        )
 
         return Skill(
             name=name,
@@ -730,7 +738,7 @@ class RdmSkills(GenericJobClass):
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=650, application_delay=800
-            ),            
+            ),
             status_effect_denylist=("Manafication",),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
@@ -1009,13 +1017,23 @@ class RdmSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            timing_spec=self.instant_timing_spec,
-            offensive_buff_spec=OffensiveStatusEffectSpec(
-                add_to_skill_modifier_condition=True,
-                duration=20 * 1000,
-                num_uses=1,
-                skill_allowlist=("Impact", "Verthunder III", "Veraero III"),
-            ),
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: self.instant_timing_spec,
+                "Remove Buff": TimingSpec(base_cast_time=0, gcd_base_recast_time=0),
+            },
+            offensive_buff_spec={
+                SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
+                    add_to_skill_modifier_condition=True,
+                    duration=20 * 1000,
+                    num_uses=1,
+                    skill_allowlist=("Impact", "Verthunder III", "Veraero III"),
+                ),
+                # for niche opener rotations
+                "Remove Buff": OffensiveStatusEffectSpec(
+                    expires_status_effects=("Acceleration",),
+                    is_party_effect=False,
+                ),
+            },
         )
 
     @GenericJobClass.is_a_skill

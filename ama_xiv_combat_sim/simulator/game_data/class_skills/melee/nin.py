@@ -249,6 +249,10 @@ class NinSkills(GenericJobClass):
                 add_to_skill_modifier_condition=True,
                 duration=self._skill_data.get_skill_data("Doton (dot)", "duration"),
             ),
+            damage_spec=DamageSpec(
+                potency=self._skill_data.get_potency(name),
+                damage_class=DamageClass.PHYSICAL_DOT,
+            ),
             timing_spec={
                 SimConsts.DEFAULT_CONDITION: TimingSpec(
                     base_cast_time=0,
@@ -266,6 +270,7 @@ class NinSkills(GenericJobClass):
                 ),
             },
             follow_up_skills=(doton_follow_up,),
+            has_aoe=True
         )
 
     @GenericJobClass.is_a_skill

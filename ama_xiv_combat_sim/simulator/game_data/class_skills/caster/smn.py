@@ -542,12 +542,24 @@ class SmnSkills(GenericJobClass):
                 has_aoe=True,
             ),
             delay_after_parent_application=0,
-            dot_duration=15 * 1000,
+            dot_duration=int(14.99 * 1000),
             snapshot_buffs_with_parent=True,
             snapshot_debuffs_with_parent=False,
             primary_target_only=False,
         )
-
+        slipstream_initial_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency(name),
+                    damage_class=DamageClass.MAGICAL_DOT,
+                ),
+                has_aoe=True,
+            ),
+            delay_after_parent_application=0,
+            primary_target_only=False,
+        )
+        
         name = "Slipstream"
         return Skill(
             name=name,
@@ -555,7 +567,7 @@ class SmnSkills(GenericJobClass):
             skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=self._skill_data.get_potency(name)
+                    potency=self._skill_data.get_potency(name)                    
                 )
             },
             timing_spec=TimingSpec(
@@ -564,7 +576,7 @@ class SmnSkills(GenericJobClass):
                 animation_lock=self.__smn_caster_tax_ms,
                 application_delay=1020,
             ),
-            follow_up_skills=(slipstream_follow_up,),
+            follow_up_skills=(slipstream_initial_follow_up, slipstream_follow_up,),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
         )
