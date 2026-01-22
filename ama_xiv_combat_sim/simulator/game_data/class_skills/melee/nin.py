@@ -270,7 +270,7 @@ class NinSkills(GenericJobClass):
                 ),
             },
             follow_up_skills=(doton_follow_up,),
-            has_aoe=True
+            has_aoe=True,
         )
 
     @GenericJobClass.is_a_skill
@@ -1371,7 +1371,11 @@ class NinSkills(GenericJobClass):
             skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
-                base_cast_time=0, animation_lock=650, application_delay=1690
+                base_cast_time=0,
+                animation_lock=650,
+                application_delay=self._skill_data.get_skill_data(
+                    name, "application_delay"
+                ),
             ),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
