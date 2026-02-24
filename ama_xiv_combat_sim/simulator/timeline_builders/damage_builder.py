@@ -1,10 +1,15 @@
 import copy
 import heapq
+import math
 
 from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
+from ama_xiv_combat_sim.simulator.timeline_builders.skill_timing_info import (
+    SkillTimingInfo,
+)
 from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_events import (
     SnapshotAndApplicationEvents,
 )
+from ama_xiv_combat_sim.simulator.timeline_builders.timeline_utils import TimelineUtils
 from ama_xiv_combat_sim.simulator.utils import Utils
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
@@ -14,7 +19,10 @@ from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import (
 from ama_xiv_combat_sim.simulator.trackers.status_effect_tracker import (
     StatusEffectTracker,
 )
-from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import (
+    OffensiveStatusEffects,
+)
+
 
 class DamageBuilder:
 
@@ -38,9 +46,9 @@ class DamageBuilder:
 
     # output is a list, sorted by timestamp of damage instance (not necessarily in stable-sort order, according to the rotation).
     # Format of the elements of the output: (time, skill, (buffs, debuffs))
-    def get_damage_instances(
-        self, q_snapshot_and_applications: SnapshotAndApplicationEvents
-    ):
+    def get_damage_instances(self, skill_timing_info: SkillTimingInfo):
+        q_snapshot_and_applications = skill_timing_info.snapshot_and_application_events
+        downtime_windows = skill_timing_info.downtime_windows
         q = []  # (current_time, skill, skill_modifier, (buffs, debuffs), job_resources)
         while not q_snapshot_and_applications.is_empty():
             [
@@ -119,7 +127,15 @@ class DamageBuilder:
                             skill_modifier_from_debuffs
                         )
 
-                    if skill.get_damage_spec(skill_modifier_to_use) is not None:
+                    skill_damage_spec = skill.get_damage_spec(skill_modifier_to_use)
+                    if skill_damage_spec is not None and not (
+                        TimelineUtils.filter_by_downtime_range_and_damage_class(
+                            downtime_windows,
+                            application_time,
+                            target,
+                            skill_damage_spec.damage_class,
+                        )
+                    ):
                         heapq.heappush(
                             q,
                             (
@@ -207,6 +223,7 @@ class DamageBuilder:
                         skill_modifier_to_use.add_to_condition(
                             skill_modifier_from_debuffs
                         )
+                    skill_damage_spec = skill.get_damage_spec(skill_modifier)
                     q_snapshot_and_applications.add(
                         new_priority,
                         application_time,

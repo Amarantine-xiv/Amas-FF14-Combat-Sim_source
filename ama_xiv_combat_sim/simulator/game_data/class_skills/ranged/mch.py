@@ -73,6 +73,8 @@ class MchSkills(GenericJobClass):
             )
             follow_ups[battery] = {}
             for hit in range(0, 5):
+                # this is probably the real delay
+                # delay = int((7.5 + 1.6 * hit) * 1000)
                 delay = int((5.5 + 1.6 * hit) * 1000)
                 follow_ups[battery][hit] = FollowUp(
                     skill=skill,
@@ -703,6 +705,9 @@ class MchSkills(GenericJobClass):
         for battery in range(50, 110, 10):
             queen_follow_ups[f"{battery} Battery"] = (
                 roller_dash_follow_up[battery],
+                # uncomment these lines for assuming melee
+                # arm_punch_follow_ups[battery][0],
+                # arm_punch_follow_ups[battery][1],
                 arm_punch_follow_ups[battery][2],
                 arm_punch_follow_ups[battery][3],
                 arm_punch_follow_ups[battery][4],

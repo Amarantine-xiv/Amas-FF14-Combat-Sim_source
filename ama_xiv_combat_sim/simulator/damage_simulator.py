@@ -127,7 +127,7 @@ class DamageSimulator:
 
     @staticmethod
     def __add_damage_snapshots(per_skill_damage, rb):
-        rot = rb.get_skill_timing().get_q()
+        rot = rb.get_skill_timing().snapshot_and_application_events.get_q()
         event_id_to_snapshot_time = {}
         for x in rot:
             event_id, snapshot_time, skill_name = (

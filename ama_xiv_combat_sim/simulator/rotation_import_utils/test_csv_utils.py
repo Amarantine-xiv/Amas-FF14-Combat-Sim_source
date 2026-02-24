@@ -68,8 +68,10 @@ class TestCSVUtils(TestClass):
             err_msg = f"Did not get expected keys for rotations. Expected: {expected.keys()} vs. Acual: {result_rbs.keys()}"
 
         for player_name, rb in result_rbs.items():
-            result = rb.get_skill_timing().get_q()
-            result = [x[1:4] for x in rb.get_skill_timing().get_q()]
+            result = [
+                x[1:4]
+                for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+            ]
 
             is_passed, this_err_msg = self._compare_sequential(
                 result, expected[player_name]
@@ -137,9 +139,10 @@ class TestCSVUtils(TestClass):
                 [True, True],
             ),
         )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:5]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
 
         for tmp, tmp2 in zip(result, expected):
             if tmp != tmp2:
@@ -209,9 +212,10 @@ class TestCSVUtils(TestClass):
                 [True, True],
             ),
         )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:5]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
 
         for tmp, tmp2 in zip(result, expected):
             if tmp != tmp2:
@@ -292,9 +296,10 @@ class TestCSVUtils(TestClass):
                 [True, True],
             ),
         )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:5]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
 
         return self._compare_sequential(result, expected)
 
@@ -352,9 +357,10 @@ class TestCSVUtils(TestClass):
                 [True, True],
             ),
         )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:5]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
 
         return self._compare_sequential(result, expected)
 
@@ -418,6 +424,15 @@ class TestCSVUtils(TestClass):
                     "test_job",
                 ),
                 SkillModifier(with_condition="other"),
+                [True, True],                
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(4500, 5000),
+                self.__skill_library.get_skill(
+                    "Auto",
+                    self.__stats.job_class,
+                ),
+                SkillModifier(),
                 [True, True],
             ),
             (
@@ -457,9 +472,10 @@ class TestCSVUtils(TestClass):
                 [True, True],
             ),
         )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:5]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
 
         return self._compare_sequential(result, expected)
 
@@ -520,9 +536,10 @@ class TestCSVUtils(TestClass):
                 ("Boss1", "Boss2"),
             ),
         )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:6]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
 
         return self._compare_sequential(result, expected)
 
@@ -566,8 +583,10 @@ class TestCSVUtils(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:5]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
         test_passed1, err_msg1 = self._compare_sequential(result, expected)
 
         expected_stats = Stats(
@@ -673,9 +692,10 @@ class TestCSVUtils(TestClass):
                 [True, True],
             ),
         )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:5]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
 
         return self._compare_sequential(result, expected)
 
@@ -722,9 +742,10 @@ class TestCSVUtils(TestClass):
                 [True, True],
             ),
         )
-
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [
+            x[1:5]
+            for x in rb.get_skill_timing().snapshot_and_application_events.get_q()
+        ]
 
         return self._compare_sequential(result, expected)
 

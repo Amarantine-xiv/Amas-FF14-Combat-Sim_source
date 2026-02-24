@@ -45,7 +45,7 @@ class TestRotationBuilderMulti(TestClass):
                 ("t1", "t2"),
             ),
         )
-        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:6] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -63,7 +63,7 @@ class TestRotationBuilderMulti(TestClass):
                 ("t1", "t2"),
             ),
         )
-        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:6] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -81,7 +81,7 @@ class TestRotationBuilderMulti(TestClass):
                 ("t1", "t2"),
             ),
         )
-        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:6] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @staticmethod
@@ -114,7 +114,7 @@ class TestRotationBuilderMulti(TestClass):
         )
 
         result = TestRotationBuilderMulti.__extract_rb_q_info(
-            rb.get_skill_timing().get_q()
+            rb.get_skill_timing().snapshot_and_application_events.get_q()
         )
         return self._compare_sets(result, expected)
 
@@ -145,7 +145,7 @@ class TestRotationBuilderMulti(TestClass):
         )
 
         result = TestRotationBuilderMulti.__extract_rb_q_info(
-            rb.get_skill_timing().get_q()
+            rb.get_skill_timing().snapshot_and_application_events.get_q()
         )
         return self._compare_sets(result, expected)
 
@@ -241,7 +241,7 @@ class TestRotationBuilderMulti(TestClass):
                 ("t1",),
             ),
         )
-        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:6] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -279,6 +279,6 @@ class TestRotationBuilderMulti(TestClass):
         )
 
         result = TestRotationBuilderMulti.__extract_rb_q_info(
-            rb.get_skill_timing().get_q()
+            rb.get_skill_timing().snapshot_and_application_events.get_q()
         )      
         return self._compare_sets(result, expected)

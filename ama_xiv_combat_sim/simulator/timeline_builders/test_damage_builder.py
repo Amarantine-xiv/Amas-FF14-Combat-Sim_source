@@ -4,6 +4,9 @@ from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
 from ama_xiv_combat_sim.simulator.stats import Stats
 from ama_xiv_combat_sim.simulator.timeline_builders.damage_builder import DamageBuilder
+from ama_xiv_combat_sim.simulator.timeline_builders.skill_timing_info import (
+    SkillTimingInfo,
+)
 from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_events import (
     SnapshotAndApplicationEvents,
 )
@@ -11,7 +14,9 @@ from ama_xiv_combat_sim.simulator.testing.test_class import TestClass
 from ama_xiv_combat_sim.simulator.testing.create_test_skill_library import (
     create_test_skill_library,
 )
-from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import OffensiveStatusEffects
+from ama_xiv_combat_sim.simulator.trackers.offensive_status_effects import (
+    OffensiveStatusEffects,
+)
 from ama_xiv_combat_sim.simulator.utils import Utils
 
 
@@ -58,6 +63,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -104,6 +110,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -146,6 +153,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -214,6 +222,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -267,6 +276,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -317,6 +327,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -367,6 +378,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -423,6 +435,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -479,6 +492,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -542,6 +556,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -551,7 +566,10 @@ class TestDamageBuilder(TestClass):
                 3440,
                 self.__skill_library.get_skill("test_gcd_with_denylist", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.3),
+                ),
             ),
         )
         return self._compare_sequential(result, expected)
@@ -639,6 +657,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -648,43 +667,64 @@ class TestDamageBuilder(TestClass):
                 3040,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(guaranteed_dh=ForcedCritOrDH.FORCE_YES),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.3),
+                ),
             ),
             (
                 3440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.3),
+                ),
             ),
             (
                 6440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.3),
+                ),
             ),
             (
                 9440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.3),
+                ),
             ),
             (
                 12440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.3),
+                ),
             ),
             (
                 13440,
                 self.__skill_library.get_skill("test_gcd", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.0)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.0),
+                ),
             ),
             (
                 15440,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.3),
+                ),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -724,6 +764,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, False],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -733,13 +774,19 @@ class TestDamageBuilder(TestClass):
                 1500,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.3)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.3),
+                ),
             ),
             (
                 11000,
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
                 SkillModifier(),
-                (OffensiveStatusEffects(crit_rate_add=0.05), OffensiveStatusEffects(damage_mult=1.0)),
+                (
+                    OffensiveStatusEffects(crit_rate_add=0.05),
+                    OffensiveStatusEffects(damage_mult=1.0),
+                ),
             ),
         ]
         return self._compare_sequential(result, expected)
@@ -763,6 +810,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -790,6 +838,7 @@ class TestDamageBuilder(TestClass):
             SkillModifier(),
             [True, True],
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
         result = db.get_damage_instances(rb_result)
@@ -818,9 +867,9 @@ class TestDamageBuilder(TestClass):
             [True, True],
             targets=("t1", "t2"),
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
-
         result = db.get_damage_instances(rb_result)
         result = [result[i][0:-2] for i in range(0, len(result))]
         expected = [
@@ -860,9 +909,9 @@ class TestDamageBuilder(TestClass):
             [True, True],
             targets=("t1", "t2"),
         )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result)
 
         db = DamageBuilder(self.__stats, self.__skill_library)
-
         result = db.get_damage_instances(rb_result)
         result = [result[i][0:-2] for i in range(0, len(result))]
         expected = [
@@ -881,3 +930,97 @@ class TestDamageBuilder(TestClass):
         ]
 
         return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def snapshot_dot_downtime(self):
+        downtime_windows = {"t1": ((3000, 10000, None),)}
+        rb_result = SnapshotAndApplicationEvents()
+        dot_times = [0, 3000, 6000, 9000, 12000]
+        expected_times = [0, 12000]
+        for dot_time in dot_times:
+            rb_result.add(
+                dot_time,
+                0,
+                dot_time,
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                targets=("t1",),
+            )
+        rb_result = SkillTimingInfo(
+            snapshot_and_application_events=rb_result, downtime_windows=downtime_windows
+        )
+        
+        db = DamageBuilder(self.__stats, self.__skill_library)        
+        result = db.get_damage_instances(rb_result)
+        result = [result[i][0:-2] for i in range(0, len(result))]
+        
+        expected = []
+        for expected_time in expected_times:
+            expected.append((
+                expected_time,
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
+            ))        
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def multi_target_snapshot_downtime(self):
+        downtime_windows = {"t2": ((3000, 10000, None),)}
+        rb_result = SnapshotAndApplicationEvents()
+        rb_result.add(
+            2900,
+            2900,
+            3000,
+            self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+            SkillModifier(),
+            [True, True],
+            targets=("t1", "t2"),
+        )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result, downtime_windows=downtime_windows)
+
+        db = DamageBuilder(self.__stats, self.__skill_library)
+        result = db.get_damage_instances(rb_result)
+        result = [result[i][0:-2] for i in range(0, len(result))]
+        expected = [
+            (
+                3000,
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
+            ),
+        ]
+        return self._compare_sequential(result, expected)
+
+    @TestClass.is_a_test
+    def multi_target_instant_downtime(self):
+        downtime_windows = {"t2": ((3000, 10000, None),)}
+        rb_result = SnapshotAndApplicationEvents()
+        rb_result.add(
+            2900,
+            2900,
+            2900,
+            self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+            SkillModifier(),
+            [True, True],
+            targets=("t1", "t2"),
+        )
+        rb_result = SkillTimingInfo(snapshot_and_application_events=rb_result, downtime_windows=downtime_windows)
+
+        db = DamageBuilder(self.__stats, self.__skill_library)
+        result = db.get_damage_instances(rb_result)
+        result = [result[i][0:-2] for i in range(0, len(result))]
+        expected = [
+            (
+                2900,
+                self.__skill_library.get_skill("test_instant_gcd", "test_job"),
+                SkillModifier(),
+                (OffensiveStatusEffects(), OffensiveStatusEffects()),
+            ),
+        ]
+        return self._compare_sequential(result, expected)
+
+# TEST:
+# multi-target with downtime
+# combo-check? (or do this in e2e)

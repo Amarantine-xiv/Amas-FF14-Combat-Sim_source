@@ -81,8 +81,6 @@ class TestEndToEnd(TestClass):
 
     @TestClass.is_a_test
     def test_multi_target(self):
-        test_passed = True
-        err_msg = ""
 
         rb = RotationBuilder(
             self.__stats, self.__skill_library, snap_dots_to_server_tick_starting_at=0
@@ -200,7 +198,6 @@ class TestEndToEnd(TestClass):
             rb, expected_damage, expected_total_time, use_samples=True
         )
 
-
     @TestClass.is_a_test
     def test_buff_on_apply_snapshot(self):
         rb = RotationBuilder(self.__stats, self.__skill_library, enable_autos=False)
@@ -209,12 +206,89 @@ class TestEndToEnd(TestClass):
         rb.add(10.61, "test_instant_gcd_no_lock")
         rb.add(10.62, "test_instant_gcd_no_lock")
         rb.add(10.63, "test_instant_gcd_no_lock")
-        
+
         expected = (
             ("test_instant_gcd_no_lock", 21484),
             ("test_instant_gcd_no_lock", 21484),
             ("test_instant_gcd_no_lock", 225581),
             ("test_instant_gcd_no_lock", 225582),
+        )
+
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
+    def test_multi_hit_instant_ghosting(self):
+        downtime_windows = {"t2": ((1, 5), (10.1,20))}
+        rb = RotationBuilder(
+            self.__stats,
+            self.__skill_library,
+            enable_autos=False,
+            downtime_windows=downtime_windows,
+            fight_start_time=0
+        )
+        rb.add(0, "test_instant_gcd", targets="t1, t2")
+        rb.add(10, "test_instant_gcd", targets="t1, t2")
+
+        # should only have 3 due to multi-hit target ghosting
+        expected = (
+            ("test_instant_gcd", 21484),
+            ("test_instant_gcd", 21484),
+            ("test_instant_gcd", 21484),
+        )
+
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+    
+    @TestClass.is_a_test
+    def test_multi_hit_cast_ghosting(self):        
+        downtime_windows = {"t2": ((12.5,20),)}
+        rb = RotationBuilder(
+            self.__stats,
+            self.__skill_library,
+            enable_autos=False,
+            downtime_windows=downtime_windows,
+            fight_start_time=0
+        )
+        rb.add(0, "test_gcd", targets="t1, t2")
+        rb.add(10, "test_gcd", targets="t1, t2")
+
+        # should only have 3 due to multi-hit target ghosting
+        expected = (
+            ("test_gcd", 21484),
+            ("test_gcd", 21484),
+            ("test_gcd", 21484),
+        )
+
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+    
+    @TestClass.is_a_test
+    def test_combo_ghosting(self):        
+        downtime_windows = {"t1": ((15.5, 17),(24,27))}
+        rb = RotationBuilder(
+            self.__stats,
+            self.__skill_library,
+            enable_autos=False,
+            downtime_windows=downtime_windows,
+            fight_start_time=0
+        )
+        rb.add(1, "test_combo3", targets="t1")
+        #
+        rb.add(5, "test_combo2", targets="t1")
+        rb.add(10, "test_combo3", targets="t1")
+        #
+        rb.add(15, "test_combo2", targets="t1") #ghosted, but snapshots
+        rb.add(20, "test_combo3", targets="t1")
+        
+        rb.add(25, "test_combo2", targets="t1") #ghosted. Full ghost
+        rb.add(30, "test_combo3", targets="t1")
+         
+        expected = (
+            ("test_combo3", 3253),
+            #
+            ("test_combo2", 3253),
+            ("test_combo3", 19533),
+            #
+            ("test_combo3", 19533), #still full damage because the combo did land
+            ("test_combo3", 3253), #combo did not land
         )
 
         return self.__job_class_tester.test_rotation_damage(rb, expected)

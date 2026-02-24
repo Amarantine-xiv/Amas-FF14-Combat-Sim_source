@@ -123,7 +123,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
 
         return self._compare_sequential(result, expected)
@@ -252,7 +252,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
 
         return self._compare_sequential(result, expected)
@@ -349,8 +349,8 @@ class TestRotationBuilder(TestClass):
         )
 
         # test double call
-        _ = rb.get_skill_timing().get_q()
-        result = rb.get_skill_timing().get_q()
+        _ = rb.get_skill_timing().snapshot_and_application_events.get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
 
         return self._compare_sequential(result, expected)
@@ -390,6 +390,34 @@ class TestRotationBuilder(TestClass):
             ),
             (
                 SnapshotAndApplicationEvents.EventTimes(385000, 385500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            # should be filtered later downstream on application time
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 388500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            # should be filtered later downstream on application time
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 391500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            # should be filtered later downstream on application time
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 394500),
+                self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+            ),
+            # should be filtered later downstream on application time
+            (
+                SnapshotAndApplicationEvents.EventTimes(385000, 397500),
                 self.__skill_library.get_skill("test_physical_dot_tick", "test_job"),
                 SkillModifier(),
                 [True, True],
@@ -450,7 +478,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
 
         return self._compare_sequential(result, expected)
@@ -513,7 +541,28 @@ class TestRotationBuilder(TestClass):
                 SkillModifier(),
                 [True, True],
                 ("Boss1",),
+            ),                    
+            (
+                SnapshotAndApplicationEvents.EventTimes(5000, 8500),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
             ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(5000, 11500),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(5000, 14500),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),            
             (
                 SnapshotAndApplicationEvents.EventTimes(5000, 17500),
                 self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
@@ -557,6 +606,13 @@ class TestRotationBuilder(TestClass):
                 ("Boss2",),
             ),
             (
+                SnapshotAndApplicationEvents.EventTimes(14000, 20500),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss2",),
+            ),
+            (
                 SnapshotAndApplicationEvents.EventTimes(14700, 15200),
                 self.__skill_library.get_skill("Auto", "test_job"),
                 SkillModifier(),
@@ -586,7 +642,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:6] for i in range(0, len(result))]
 
         return self._compare_sequential(result, expected)
@@ -648,6 +704,27 @@ class TestRotationBuilder(TestClass):
                 SkillModifier(),
                 [True, True],
                 ("Boss1",),
+            ),            
+            (
+                SnapshotAndApplicationEvents.EventTimes(2500, 6000),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(2500, 9000),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
+            ),
+            (
+                SnapshotAndApplicationEvents.EventTimes(2500, 12000),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss1",),
             ),
             (
                 SnapshotAndApplicationEvents.EventTimes(2500, 15000),
@@ -692,6 +769,13 @@ class TestRotationBuilder(TestClass):
                 ("Boss2",),
             ),
             (
+                SnapshotAndApplicationEvents.EventTimes(11500, 18000),
+                self.__skill_library.get_skill("test_magical_dot_tick", "test_job"),
+                SkillModifier(),
+                [True, True],
+                ("Boss2",),
+            ),
+            (
                 SnapshotAndApplicationEvents.EventTimes(12200, 12700),
                 self.__skill_library.get_skill("Auto", "test_job"),
                 SkillModifier(),
@@ -721,7 +805,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:6] for i in range(0, len(result))]
 
         return self._compare_sequential(result, expected)
@@ -782,7 +866,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -826,7 +910,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = [x[0:7] for x in rb.get_skill_timing().get_q()]
+        result = [x[0:7] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -868,7 +952,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -904,7 +988,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -949,7 +1033,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1003,7 +1087,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1054,7 +1138,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1094,7 +1178,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1156,7 +1240,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1201,7 +1285,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1252,7 +1336,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1285,7 +1369,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1320,7 +1404,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1410,7 +1494,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1458,7 +1542,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1485,7 +1569,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1530,7 +1614,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1575,7 +1659,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1613,7 +1697,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1651,7 +1735,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1680,7 +1764,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1716,7 +1800,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1751,7 +1835,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1822,7 +1906,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1901,7 +1985,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -1971,7 +2055,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2016,7 +2100,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2059,7 +2143,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2152,7 +2236,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
 
         return self._compare_sequential(result, expected)
@@ -2205,7 +2289,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2290,7 +2374,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2351,7 +2435,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2369,7 +2453,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2417,7 +2501,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2465,7 +2549,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2538,7 +2622,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2607,7 +2691,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2699,7 +2783,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2735,7 +2819,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2762,7 +2846,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2802,7 +2886,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -2859,7 +2943,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:6] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -2888,8 +2972,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:6] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -2920,8 +3003,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:6] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:6] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -2984,8 +3066,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:5] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -3045,8 +3126,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
-        result = [x[1:5] for x in rb.get_skill_timing().get_q()]
+        result = [x[1:5] for x in rb.get_skill_timing().snapshot_and_application_events.get_q()]
         return self._compare_sequential(result, expected)
 
     @TestClass.is_a_test
@@ -3119,7 +3199,7 @@ class TestRotationBuilder(TestClass):
                 [True, True],
             ),
         )
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -3166,7 +3246,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -3220,7 +3300,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 
@@ -3283,7 +3363,7 @@ class TestRotationBuilder(TestClass):
             ),
         )
 
-        result = rb.get_skill_timing().get_q()
+        result = rb.get_skill_timing().snapshot_and_application_events.get_q()
         result = [result[i][1:5] for i in range(0, len(result))]
         return self._compare_sequential(result, expected)
 

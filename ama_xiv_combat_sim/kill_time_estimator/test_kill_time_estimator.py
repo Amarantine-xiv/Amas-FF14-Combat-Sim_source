@@ -25,7 +25,7 @@ class TestKillTimeEstimator(TestClass):
     num_samples=20000
 
     to_add = (tuple(),
-              ((17, 'LB 1', 'Exact Damage: 10000'),),
+              ((17, 'LB 1', 'IgnoreThis, Exact Damage: 10000'),),
               ((17, 'LB 1', 'Exact Damage: 1000'),
                (20, 'LB 3', 'Mean Damage: 12354.7')))
 

@@ -15,8 +15,8 @@ class KillTimeEstimator():
   @staticmethod
   def get_lb_damage(condition, num_samples):
     condition = condition.replace(": ", ":")
-    res_mean = re.search(r"^{}:(\d+)".format(SimConsts.LB_MEAN_DAMAGE), condition)
-    res_exact = re.search(r"^{}:(\d+)".format(SimConsts.LB_EXACT_DAMAGE), condition)
+    res_mean = re.search(r"{}:(\d+)".format(SimConsts.LB_MEAN_DAMAGE), condition)
+    res_exact = re.search(r"{}:(\d+)".format(SimConsts.LB_EXACT_DAMAGE), condition)
 
     if res_mean is None and res_exact is None:
       raise RuntimeError(f'LB conditional must be "Mean Damage: number", or "Exact Damage: number". Instead, got: {condition}')

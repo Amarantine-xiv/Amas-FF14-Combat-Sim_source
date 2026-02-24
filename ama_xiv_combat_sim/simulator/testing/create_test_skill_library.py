@@ -24,6 +24,7 @@ def create_test_skill_library():
     gcd_1500_lock = TimingSpec(base_cast_time=1500, animation_lock=50, application_delay=500)
     gcd_instant = TimingSpec(base_cast_time=0, animation_lock=5)
     gcd_instant_no_lock = TimingSpec(base_cast_time=0, animation_lock=0)
+    gcd_instant_app_delay = TimingSpec(base_cast_time=0, animation_lock=0, application_delay=1000)
     gcd_2500_app_delay = TimingSpec(base_cast_time=2500, application_delay=600)
     ogcd_instant = TimingSpec(base_cast_time=0, animation_lock=0)
     ogcd_instant_animation_lock = TimingSpec(base_cast_time=0, animation_lock=35)
@@ -770,6 +771,23 @@ def create_test_skill_library():
         timing_spec=gcd_instant_no_lock,
         combo_spec=(ComboSpec(combo_actions=("test_combo0",)),),
     )
+    test_combo2 = Skill(
+        name="test_combo2",
+        is_GCD=True,
+        damage_spec=DamageSpec(potency=100),
+        timing_spec=gcd_instant_app_delay,
+        combo_spec=(ComboSpec(),),
+    )
+    test_combo3 = Skill(
+        name="test_combo3",
+        is_GCD=True,
+        damage_spec={
+            SimConsts.DEFAULT_CONDITION: DamageSpec(potency=600),
+            SimConsts.COMBO_FAIL: DamageSpec(potency=100),
+        },
+        timing_spec=gcd_instant_app_delay,
+        combo_spec=(ComboSpec(combo_actions=("test_combo2",)),),
+    )
     test_damage_with_debuff_follow_up = Skill(
         name="test_damage_with_debuff_follow_up",
         is_GCD=False,
@@ -949,6 +967,8 @@ def create_test_skill_library():
     skill_library.add_skill(test_skill_use_gauge)
     skill_library.add_skill(test_combo0)
     skill_library.add_skill(test_combo1)
+    skill_library.add_skill(test_combo2)
+    skill_library.add_skill(test_combo3)
     skill_library.add_skill(_follow_up_debuff)
     skill_library.add_skill(test_damage_with_debuff_follow_up)
     skill_library.add_skill(test_combo_pos)

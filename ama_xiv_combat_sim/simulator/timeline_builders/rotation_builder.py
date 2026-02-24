@@ -6,10 +6,14 @@ from ama_xiv_combat_sim.simulator.calcs.damage_class import DamageClass
 from ama_xiv_combat_sim.simulator.calcs.stat_fns import StatFns
 from ama_xiv_combat_sim.simulator.game_data.game_consts import GameConsts
 from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
+from ama_xiv_combat_sim.simulator.timeline_builders.skill_timing_info import (
+    SkillTimingInfo,
+)
 from ama_xiv_combat_sim.simulator.timeline_builders.snapshot_and_application_events import (
     SnapshotAndApplicationEvents,
 )
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.timeline_builders.timeline_utils import TimelineUtils
 from ama_xiv_combat_sim.simulator.trackers.channeling_tracker import ChannelingTracker
 from ama_xiv_combat_sim.simulator.trackers.combo_tracker import ComboTracker
 from ama_xiv_combat_sim.simulator.trackers.job_resource_tracker import (
@@ -804,14 +808,6 @@ class RotationBuilder:
             )
         return res
 
-    def __filter_by_downtime_range_and_damage_class(self, t, target, damage_class):
-        for r in self.__downtime_windows.get(target, tuple()):
-            # None indicates filtering all damage types
-            is_filtered_damage_type = (r[2] is None) or (r[2] == damage_class)
-            if (r[0] <= t < r[1]) and is_filtered_damage_type:
-                return True
-        return False
-
     def remove_damage_during_downtime(self):
         res = SnapshotAndApplicationEvents()
         while not self._q_snapshot_and_applications.is_empty():
@@ -828,20 +824,19 @@ class RotationBuilder:
                 _,
             ] = self._q_snapshot_and_applications.get_next()
             primary_time, secondary_time = event_times.primary, event_times.secondary
-            application_time = (
-                primary_time if secondary_time is None else secondary_time
-            )
+
             snapshot_time = primary_time
 
             all_valid_targets = []
             for target in targets:
                 skill_damage_spec = skill.get_damage_spec(skill_modifier)
                 if skill_damage_spec is not None and (
-                    self.__filter_by_downtime_range_and_damage_class(
-                        application_time, target, skill_damage_spec.damage_class
-                    )
-                    or self.__filter_by_downtime_range_and_damage_class(
-                        snapshot_time, target, skill_damage_spec.damage_class
+                    # only need to filter snapshot time- application time will be later
+                    TimelineUtils.filter_by_downtime_range_and_damage_class(
+                        self.__downtime_windows,
+                        snapshot_time,
+                        target,
+                        skill_damage_spec.damage_class,
                     )
                 ):
                     continue
@@ -891,7 +886,9 @@ class RotationBuilder:
         self._q_snapshot_and_applications = self.remove_damage_during_downtime()
 
         self.__q_button_press_timing.sort(key=lambda x: x[0])
-        return self._q_snapshot_and_applications
+        return SkillTimingInfo(
+            self._q_snapshot_and_applications, copy.deepcopy(self.__downtime_windows)
+        )
 
     def __assemble_speed_status_effects_timeline(self):
         # Note, this will skip num_uses since that never applies to autos

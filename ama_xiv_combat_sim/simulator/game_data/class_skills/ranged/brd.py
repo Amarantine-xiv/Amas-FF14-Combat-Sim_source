@@ -234,8 +234,7 @@ class BrdSkills(GenericJobClass):
                 ),
                 "From Log": OffensiveStatusEffectSpec(
                     dh_rate_add=0.03,
-                    duration=5 * 1000,
-                    max_duration=5 * 1000,
+                    duration=45 * 1000,
                     is_party_effect=True,
                     extends_existing_duration=True,
                     expires_status_effects=(
@@ -382,8 +381,7 @@ class BrdSkills(GenericJobClass):
                 ),
                 "From Log": OffensiveStatusEffectSpec(
                     damage_mult=1.01,
-                    duration=5 * 1000,
-                    max_duration=5 * 1000,
+                    duration=45 * 1000,
                     is_party_effect=True,
                     extends_existing_duration=True,
                     expires_status_effects=(
@@ -494,8 +492,7 @@ class BrdSkills(GenericJobClass):
                 ),
                 "From Log": OffensiveStatusEffectSpec(
                     crit_rate_add=0.02,
-                    duration=5 * 1000,
-                    max_duration=5 * 1000,
+                    duration=45 * 1000,
                     is_party_effect=True,
                     extends_existing_duration=True,
                     expires_status_effects=(
