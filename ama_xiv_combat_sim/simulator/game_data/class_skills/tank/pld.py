@@ -647,17 +647,11 @@ class PldSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
             timing_spec=self.uncontrolled_timing_spec,
-            # Super gross way to ensure we don't double count a
-            # Knight's Resolve buff.
-            defensive_buff_spec={
-                SimConsts.DEFAULT_CONDITION: None,
-                "Other": DefensiveStatusEffectSpec(
+            defensive_buff_spec=DefensiveStatusEffectSpec(
                     damage_reductions=0.15,
                     duration=4 * 1000,
                     is_party_effect=True,
                 ),
-            },
-            off_class_default_condition="Other",
         )
 
     @GenericJobClass.is_a_skill
@@ -851,6 +845,25 @@ class PldSkills(GenericJobClass):
             ),
         )
 
+    def __get_arms_up_defensive_spec(self):
+        return DefensiveStatusEffectSpec(
+                    damage_reductions=0.15,
+                    duration=18 * 1000,
+                    is_party_effect=True,
+                )
+
+    # for logs processing convenience
+    @GenericJobClass.is_a_skill
+    def arms_up(self):
+        name = "Arms Up"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=self.__get_arms_up_defensive_spec(),
+        )
+
     @GenericJobClass.is_a_skill
     def passage_of_arms(self):
         name = "Passage of Arms"
@@ -878,11 +891,7 @@ class PldSkills(GenericJobClass):
                 "Cancel": None,
             },
             defensive_buff_spec={
-                SimConsts.DEFAULT_CONDITION: DefensiveStatusEffectSpec(
-                    damage_reductions=0.15,
-                    duration=18 * 1000,
-                    is_party_effect=True,
-                ),
+                SimConsts.DEFAULT_CONDITION: self.__get_arms_up_defensive_spec(),
                 "Cancel": DefensiveStatusEffectSpec(
                     expires_status_effects=(name, f"{name} (Block)")
                 ),

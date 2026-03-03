@@ -984,18 +984,20 @@ class MchSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def dismantle(self):
-        name = "Dismantle"
-        return Skill(
-            name=name,
-            is_GCD=False,
-            skill_type=SkillType.ABILITY,
-            timing_spec=self.instant_timing_spec,
-            defensive_debuff_spec=DefensiveStatusEffectSpec(
-                damage_reductions=0.1,
-                duration=10 * 1000,
-                is_party_effect=True,
-            ),
-        )
+        res = []
+        for name in ["Dismantle", "Dismantled"]:
+            res.append(Skill(
+                name=name,
+                is_GCD=False,
+                skill_type=SkillType.ABILITY,
+                timing_spec=self.instant_timing_spec,
+                defensive_debuff_spec=DefensiveStatusEffectSpec(
+                    damage_reductions=0.1,
+                    duration=10 * 1000,
+                    is_party_effect=True,
+                ),
+            ))
+        return res
 
     # These skills do not damage, but grants resources/affects future skills.
     # Since we do not model resources YET, we just record their usage/timings but

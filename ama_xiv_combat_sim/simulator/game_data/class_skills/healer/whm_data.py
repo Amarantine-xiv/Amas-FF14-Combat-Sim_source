@@ -27,7 +27,7 @@ ALL_DATA = {
         90: {"potency": {"6.55": 150}, "cast time": {"6.55": 2500, "7.1": 1500}},
         100: {"potency": {"7.0": 150}, "cast time": {"7.0": 2500, "7.1": 1500}},
     },
-    "Plenary Indulgence": {
+    "Confession": {
         90: {"damage_reduction": {"6.55": 0.0, "7.4": 0.1}},
         100: {"damage_reduction": {"7.0": 0.0, "7.4": 0.1}},
     },

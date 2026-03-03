@@ -702,6 +702,25 @@ class WarSkills(GenericJobClass):
             ),
         )
 
+    def __get_nascent_glint_defensive_spec(self):
+        return DefensiveStatusEffectSpec(
+            damage_reductions=0.1,
+            is_party_effect=True,
+            duration=8 * 1000,
+        )
+
+    # for logs processing convenience
+    @GenericJobClass.is_a_skill
+    def nascent_glint(self):
+        name = "Nascent Glint"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec= self.__get_nascent_glint_defensive_spec()
+        )
+
     @GenericJobClass.is_a_skill
     def nascent_flash(self):
         _tide_follow_up = FollowUp(
@@ -718,11 +737,7 @@ class WarSkills(GenericJobClass):
             timing_spec=self.instant_timing_spec,
             defensive_buff_spec={
                 SimConsts.DEFAULT_CONDITION: None,
-                "Other": DefensiveStatusEffectSpec(
-                    damage_reductions=0.1,
-                    is_party_effect=True,
-                    duration=8 * 1000,
-                ),
+                "Other": self.__get_nascent_glint_defensive_spec(),
             },
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),

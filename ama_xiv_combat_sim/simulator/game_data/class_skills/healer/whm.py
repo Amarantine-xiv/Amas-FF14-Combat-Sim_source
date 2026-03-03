@@ -487,6 +487,28 @@ class WhmSkills(GenericJobClass):
             heal_spec=HealSpec(potency=700, is_party_effect=True),
         )
 
+    def __get_confession_defensive_spec(self):
+        name = "Confession"
+        return DefensiveStatusEffectSpec(
+            duration=10 * 1000,
+            damage_reductions=self._skill_data.get_skill_data(
+                name, "damage_reduction"
+            ),
+            is_party_effect=True
+        )
+
+    # for logs processing convenience
+    @GenericJobClass.is_a_skill
+    def confession(self):
+        name = "Confession"
+        return Skill(
+            name=name,
+            is_GCD=False,
+            skill_type=SkillType.ABILITY,
+            timing_spec=self.instant_timing_spec,
+            defensive_buff_spec=self.__get_confession_defensive_spec()
+        )
+
     @GenericJobClass.is_a_skill
     def plenary_indulgence(self):
         name = "Plenary Indulgence"
@@ -495,13 +517,7 @@ class WhmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            defensive_buff_spec=DefensiveStatusEffectSpec(
-                add_to_skill_modifier_condition=True,
-                duration=10 * 1000,
-                damage_reductions=self._skill_data.get_skill_data(
-                    name, "damage_reduction"
-                ),
-            ),
+            defensive_buff_spec=self.__get_confession_defensive_spec()
         )
 
     @GenericJobClass.is_a_skill
