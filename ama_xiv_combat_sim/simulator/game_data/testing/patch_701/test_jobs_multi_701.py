@@ -266,7 +266,8 @@ class TestJobsMultiUnified701(TestClass):
             # make sure these 2 hard slashes don't have the darkside buff anymore
             ("Hard Slash", 6668),
             ("Hard Slash", 6668),
-            # living shadow. only 2 of these cleave. all-or-nothing cleave on the cleaving skills.
+            # living shadow. only 3 of these cleave. all-or-nothing cleave on the cleaving skills.
+            ("Abyssal Drain (pet)", 12298),
             ("Abyssal Drain (pet)", 12298),
             ("Shadowbringer (pet)", 16690),
             ("Shadowbringer (pet)", 8338),

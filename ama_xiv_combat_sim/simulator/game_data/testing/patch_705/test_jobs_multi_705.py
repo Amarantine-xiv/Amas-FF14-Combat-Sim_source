@@ -258,7 +258,8 @@ class TestJobsMultiUnified705(TestClass):
             ("Stalwart Soul", 4098),
             ("Flood of Shadow", 4103),
             ("Flood of Shadow", 4103),
-            # living shadow. only 2 of these cleave.
+            # living shadow. only 3 of these cleave.
+            ("Abyssal Drain (pet)", 12298),
             ("Abyssal Drain (pet)", 12298),
             ("Shadowbringer (pet)", 16690),
             ("Shadowbringer (pet)", 8338),

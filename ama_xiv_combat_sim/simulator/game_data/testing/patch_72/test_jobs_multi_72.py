@@ -182,7 +182,8 @@ class TestJobsMultiUnified72(TestClass):
         rb.add(200, "Living Shadow", skill_modifier=SkillModifier(), targets="t1, t2")
 
         expected = (
-            # living shadow. only 2 of these cleave.
+            # living shadow. only 3 of these cleave.
+            ("Abyssal Drain (pet)", 12298),
             ("Abyssal Drain (pet)", 12298),
             ("Shadowbringer (pet)", 16690),
             ("Shadowbringer (pet)", 12509),
@@ -485,6 +486,7 @@ class TestJobsMultiUnified72(TestClass):
         fanged_muse_base = 41895
         madeen_base = 57604
         star_prism_base = 57604
+        blizzard_ii_in_cyan_base = 18845
 
         skills_and_expected_damages = (
             (
@@ -568,6 +570,12 @@ class TestJobsMultiUnified72(TestClass):
                 "t1, t2, t3",
                 SkillModifier(),
                 (star_prism_base, 0.3 * star_prism_base, 0.3 * star_prism_base),
+            ),
+            (
+                "Blizzard II in Cyan",
+                "t1, t2",
+                SkillModifier(),
+                (blizzard_ii_in_cyan_base, blizzard_ii_in_cyan_base),
             ),
         )
         return self.__job_class_tester.test_multi_target_skills(

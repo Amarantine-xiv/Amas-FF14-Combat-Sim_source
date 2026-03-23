@@ -1674,6 +1674,50 @@ class TestJobsUnified705(TestClass):
         return self.__job_class_tester.test_rotation_damage(rb, expected)
 
     @TestClass.is_a_test
+    def test_sam_rotation_damage_instances_meikyo(self):
+        stats = Stats(
+            wd=132,
+            weapon_delay=2.64,
+            main_stat=3367,
+            det_stat=1736,
+            crit_stat=2587,
+            dh_stat=1494,
+            speed_stat=508,
+            job_class="SAM",
+            version=self.__version,
+            level=self.__level,
+        )
+
+        rb = RotationBuilder(
+            stats,
+            self.__skill_library,
+            enable_autos=False,
+            ignore_trailing_dots=True,
+            fight_start_time=0,
+        )
+        
+        rb.add(0, "Kasha")
+        rb.add(2, "Gekko")
+        rb.add(8, "Meikyo Shisui")
+        rb.add(10, "Kasha")
+        rb.add(12, "Kasha")
+        rb.add(14, "Kasha")
+        rb.add(16, "Kasha")
+        rb.add(18, "Kasha")
+
+        expected = (
+            ("Kasha", 8386),
+            ("Gekko", 8386),
+            ("Kasha", 16775), # first buffed kasha
+            ("Kasha", 16775),
+            ("Kasha", 16775),
+            ("Kasha", 8386),
+            ("Kasha", 8386),
+        )
+
+        return self.__job_class_tester.test_rotation_damage(rb, expected)
+
+    @TestClass.is_a_test
     def test_rpr_aggregate_rotation(self):
         stats = Stats(
             wd=132,

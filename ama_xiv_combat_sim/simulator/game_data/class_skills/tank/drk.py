@@ -378,7 +378,7 @@ class DrkSkills(GenericJobClass):
                     "Abyssal Drain (pet)",
                     self._skill_data.get_skill_data("Living Shadow", "potency_base"),
                     6800,
-                    False,
+                    True,
                     None,
                 ),
                 (
@@ -423,7 +423,7 @@ class DrkSkills(GenericJobClass):
                             "Living Shadow", "potency_base"
                         ),
                         6800,
-                        False,
+                        True,
                         None,
                     ),
                     (
@@ -471,7 +471,7 @@ class DrkSkills(GenericJobClass):
                             "Living Shadow", "potency_base"
                         ),
                         6800,
-                        False,
+                        True,
                         None,
                     ),
                     (
