@@ -54,13 +54,13 @@ ALL_DATA = {
     "Tenka Goken": {90: {"potency": {"6.55": 300}}, 100: {"potency": {"7.0": 300}}},
     "Midare Setsugekka": {
         90: {"potency": {"6.55": 640, "7.05": 620}},
-        100: {"potency": {"7.0": 700, "7.05": 640}},
+        100: {"potency": {"7.0": 700, "7.05": 640, "7.5": 680}},
     },
     "Kaeshi: Higanbana": {90: {"potency": {"6.55": 200}}},
     "Kaeshi: Goken": {90: {"potency": {"6.55": 300}}, 100: {"potency": {"7.0": 300}}},
     "Kaeshi: Setsugekka": {
         90: {"potency": {"6.55": 640, "7.05": 620}},
-        100: {"potency": {"7.0": 700, "7.05": 640}},
+        100: {"potency": {"7.0": 700, "7.05": 640, "7.5": 680}},
     },
     "Mangetsu": {
         90: {"potency": {"6.55": 120}, "potency_no_combo": {"6.55": 100}},

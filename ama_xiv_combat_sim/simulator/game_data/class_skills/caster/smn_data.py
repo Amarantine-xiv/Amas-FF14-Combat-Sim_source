@@ -7,7 +7,10 @@ all_smn_skills = SpecificSkills()
 ALL_DATA = {
     "Fester": {90: {"potency": {"6.55": 340}}},
     "Energy Drain": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 200}}},
-    "Painflare": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
+    "Painflare": {
+        90: {"potency": {"6.55": 150, "7.5": 220}},
+        100: {"potency": {"7.0": 150, "7.5": 220}},
+    },
     "Energy Siphon": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Ruin III": {
         90: {"potency": {"6.55": 310}, "potency_aethercharge": {"6.55": 360}},
@@ -51,7 +54,7 @@ ALL_DATA = {
     },
     "Ruby Rite": {
         90: {"potency": {"6.55": 510}},
-        100: {"potency": {"7.0": 540, "7.3": 580}},
+        100: {"potency": {"7.0": 540, "7.3": 580, "7.5": 620}},
     },
     "Topaz Rite": {90: {"potency": {"6.55": 330}}, 100: {"potency": {"7.0": 340}}},
     "Emerald Rite": {
@@ -86,14 +89,14 @@ ALL_DATA = {
     "Crimson Cyclone": {
         90: {"potency": {"6.55": 430}, "aoe_dropoff": {"6.55": 0.65, "7.3": 0.6}},
         100: {
-            "potency": {"7.0": 490, "7.3": 520},
+            "potency": {"7.0": 490, "7.3": 520, "7.5": 560},
             "aoe_dropoff": {"7.0": 0.65, "7.3": 0.6},
         },
     },
     "Crimson Strike": {
         90: {"potency": {"6.55": 430}, "aoe_dropoff": {"6.55": 0.65, "7.3": 0.6}},
         100: {
-            "potency": {"7.0": 490, "7.3": 520},
+            "potency": {"7.0": 490, "7.3": 520, "7.5": 560},
             "aoe_dropoff": {"7.0": 0.65, "7.3": 0.6},
         },
     },
@@ -140,7 +143,7 @@ ALL_DATA = {
         90: {"potency": {"6.55": 150}},
         100: {"potency": {"7.0": 150}},
     },
-    "Necrotize": {100: {"potency": {"7.0": 420, "7.05": 440, "7.2": 460}}},
+    "Necrotize": {100: {"potency": {"7.0": 420, "7.05": 440, "7.2": 460, "7.5": 500}}},
     "Searing Flash": {100: {"potency": {"7.0": 600, "7.41": 700}}},
     "Wyrmwave (pet)": {90: {"potency": {"6.55": 150}}, 100: {"potency": {"7.0": 150}}},
     "Luxwave": {100: {"potency": {"7.0": 160}}},

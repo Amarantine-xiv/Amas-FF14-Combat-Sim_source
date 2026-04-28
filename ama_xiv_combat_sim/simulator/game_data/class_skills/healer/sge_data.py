@@ -9,7 +9,7 @@ ALL_DATA = {
         90: {"potency": {"6.55": 330}},
         100: {"potency": {"7.0": 360, "7.1": 370, "7.3": 380}},
     },
-    "Phlegma III": {90: {"potency": {"6.55": 600}}, 100: {"potency": {"7.0": 600}}},
+    "Phlegma III": {90: {"potency": {"6.55": 600, "7.5": 690}}, 100: {"potency": {"7.0": 600, "7.5": 690}}},
     "Toxikon II": {
         90: {"potency": {"6.55": 330}},
         100: {"potency": {"7.0": 360, "7.1": 370, "7.3": 380}},
@@ -22,9 +22,9 @@ ALL_DATA = {
     #TODO: check lvl 90 in-game after patch 7.4
     "Eukrasian Dosis III (dot)": {
         90: {"potency": {"6.55": 75, "7.2": 80}, "potency_dysk": {"7.0": 40}},
-        100: {"potency": {"7.0": 75, "7.2": 80, "7.4": 85}, "potency_dysk": {"7.0": 40}},
+        100: {"potency": {"7.0": 75, "7.2": 80, "7.4": 85, "7.5": 90}, "potency_dysk": {"7.0": 40}},
     },
-    "Psyche": {100: {"potency": {"7.0": 600}}},
+    "Psyche": {100: {"potency": {"7.0": 600, "7.5": 690}}},
     "Physis II": {
         90: {"healing_action_duration": {"6.55": 10 * 1000}},
         100: {"healing_action_duration": {"6.55": 15 * 1000}},
