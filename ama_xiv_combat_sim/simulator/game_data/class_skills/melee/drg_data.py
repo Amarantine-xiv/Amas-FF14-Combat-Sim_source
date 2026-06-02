@@ -154,7 +154,7 @@ ALL_DATA = {
     },
     "Spiral Blow": {
         100: {
-            "potency": {"7.0": 340},
+            "potency": {"7.0": 300},
             "potency_no_combo": {"7.0": 140},
         }
     },
