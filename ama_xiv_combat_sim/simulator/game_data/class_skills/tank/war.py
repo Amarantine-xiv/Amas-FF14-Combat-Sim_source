@@ -718,7 +718,7 @@ class WarSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            defensive_buff_spec= self.__get_nascent_glint_defensive_spec()
+            defensive_buff_spec=self.__get_nascent_glint_defensive_spec(),
         )
 
     @GenericJobClass.is_a_skill
@@ -730,18 +730,24 @@ class WarSkills(GenericJobClass):
             skill=self.stem_the_flow(), delay_after_parent_application=0
         )
 
+        _nascent_glint_follow_up = FollowUp(
+            skill=self.nascent_glint(), delay_after_parent_application=0
+        )
+
         return Skill(
             name="Nascent Flash",
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            defensive_buff_spec={
-                SimConsts.DEFAULT_CONDITION: None,
-                "Other": self.__get_nascent_glint_defensive_spec(),
-            },
+            # TODO: need to put in healing from weapon skill usage
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
-                "Other": (_tide_follow_up, _flow_follow_up),
+                "Other": (_tide_follow_up, _flow_follow_up, _nascent_glint_follow_up),
+                "From Log": (
+                    _tide_follow_up,
+                    _flow_follow_up,
+                    _nascent_glint_follow_up,
+                ),
             },
             off_class_default_condition="Other",
         )

@@ -592,7 +592,7 @@ class SchSkills(GenericJobClass):
             # TODO: this should get refreshed on server tick
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=0.1,
-                duration=15 * 100,
+                duration=15 * 1000,
                 is_party_effect=True,
             ),
             heal_spec=HealSpec(

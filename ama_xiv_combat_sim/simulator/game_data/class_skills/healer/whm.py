@@ -281,7 +281,9 @@ class WhmSkills(GenericJobClass):
             # check on occassion so this is not perfectly accurate.
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=0.1,
-                duration=20 * 1000,
+                #23s to account for lingering time- it is not actually 20s as stated in-game, it seems looking at logs.
+                #it's duration seems to depend on server ticks and the 5s refresh check. Split the diff, round up to 23s.
+                duration=23 * 1000, 
                 is_party_effect=True,
             ),
             follow_up_skills={

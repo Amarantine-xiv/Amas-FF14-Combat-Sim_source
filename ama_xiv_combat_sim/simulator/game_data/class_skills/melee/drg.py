@@ -395,7 +395,11 @@ class DrgSkills(GenericJobClass):
             geirskogul_damage_follow_up = FollowUp(
                 skill=Skill(
                     name=name,
-                    damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=280)},
+                    damage_spec={
+                        SimConsts.DEFAULT_CONDITION: DamageSpec(
+                            potency=self._skill_data.get_potency(name)
+                        )
+                    },
                     has_aoe=True,  # is this needed here? What is the convention?
                     aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
                 ),
@@ -554,7 +558,6 @@ class DrgSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
-            # damage_spec={SimConsts.DEFAULT_CONDITION: DamageSpec(potency=self._skill_data.get_potency(name))},
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=760
             ),
@@ -780,11 +783,19 @@ class DrgSkills(GenericJobClass):
             return None
         name = "Spiral Blow"
         spiral_blow_damage_follow_up = FollowUp(
-            skill=Skill(name=name, damage_spec=DamageSpec(potency=300)),
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
             delay_after_parent_application=1380,
         )
         spiral_blow_no_combo_damage_follow_up = FollowUp(
-            skill=Skill(name=name, damage_spec=DamageSpec(potency=140)),
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(
+                    potency=self._skill_data.get_potency_no_combo(name)
+                ),
+            ),
             delay_after_parent_application=1380,
         )
         return Skill(
@@ -813,7 +824,7 @@ class DrgSkills(GenericJobClass):
             name=name,
             is_GCD=False,
             skill_type=SkillType.ABILITY,
-            damage_spec=DamageSpec(potency=700),
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
             timing_spec=TimingSpec(
                 base_cast_time=0, animation_lock=600, application_delay=980
             ),

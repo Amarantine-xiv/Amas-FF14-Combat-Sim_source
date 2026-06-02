@@ -648,10 +648,10 @@ class PldSkills(GenericJobClass):
             skill_type=SkillType.UNCONTROLLED_FOLLOW_UP,
             timing_spec=self.uncontrolled_timing_spec,
             defensive_buff_spec=DefensiveStatusEffectSpec(
-                    damage_reductions=0.15,
-                    duration=4 * 1000,
-                    is_party_effect=True,
-                ),
+                damage_reductions=0.15,
+                duration=4 * 1000,
+                is_party_effect=True,
+            ),
         )
 
     @GenericJobClass.is_a_skill
@@ -847,10 +847,10 @@ class PldSkills(GenericJobClass):
 
     def __get_arms_up_defensive_spec(self):
         return DefensiveStatusEffectSpec(
-                    damage_reductions=0.15,
-                    duration=18 * 1000,
-                    is_party_effect=True,
-                )
+            damage_reductions=0.15,
+            duration=18 * 1000,
+            is_party_effect=True,
+        )
 
     # for logs processing convenience
     @GenericJobClass.is_a_skill
@@ -878,6 +878,12 @@ class PldSkills(GenericJobClass):
             ),
             delay_after_parent_application=0,
         )
+
+        arms_up_follow_up = FollowUp(
+            skill=self.arms_up(),
+            delay_after_parent_application=0,
+        )
+
         return Skill(
             name=name,
             is_GCD=False,
@@ -891,12 +897,13 @@ class PldSkills(GenericJobClass):
                 "Cancel": None,
             },
             defensive_buff_spec={
-                SimConsts.DEFAULT_CONDITION: self.__get_arms_up_defensive_spec(),
+                SimConsts.DEFAULT_CONDITION: None,
                 "Cancel": DefensiveStatusEffectSpec(
                     expires_status_effects=(name, f"{name} (Block)")
                 ),
             },
-            follow_up_skills=(block_follow_up,),
+            follow_up_skills=(block_follow_up, arms_up_follow_up),
+            off_class_default_condition=SimConsts.DEFAULT_CONDITION,
         )
 
     # These skills do not damage, but grants resources/affects future skills.

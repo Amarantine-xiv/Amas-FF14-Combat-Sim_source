@@ -1,5 +1,7 @@
 import copy
 
+from ama_xiv_combat_sim.simulator.skills.skill import Skill
+
 
 class SkillLibrary:
     def __init__(self, version, level=100):
@@ -39,7 +41,7 @@ class SkillLibrary:
     def get_all_resource_settings(self, job_class):
         return copy.deepcopy(self.__job_resources[job_class])
 
-    def has_skill(self, skill_name, job_class):
+    def has_skill(self, skill_name: str, job_class: str):
         try:
             return skill_name in self.__skills[job_class]
         except KeyError as e:
@@ -48,7 +50,7 @@ class SkillLibrary:
     def has_job_class(self, job_class):
         return job_class in self.__skills.keys()
 
-    def get_skill(self, skill_name, job_class):
+    def get_skill(self, skill_name: str, job_class: str) -> Skill:
         try:
             return self.__skills[job_class][skill_name]
         except KeyError as e:
@@ -56,7 +58,7 @@ class SkillLibrary:
                 f"Not in skill library (job, skill): ({job_class}, {skill_name})"
             ) from e
 
-    def set_current_job_class(self, job_name):
+    def set_current_job_class(self, job_name: str):
         if job_name not in self.__skills:
             self.__skills[job_name] = {}
 
@@ -83,7 +85,7 @@ class SkillLibrary:
     def get_jobs(self):
         return tuple(self.__skills.keys())
 
-    def add_skill(self, skill):
+    def add_skill(self, skill: Skill):
         skill_name = skill.name
         if skill_name in self.__skills[self.__current_job_class]:
             raise RuntimeError(

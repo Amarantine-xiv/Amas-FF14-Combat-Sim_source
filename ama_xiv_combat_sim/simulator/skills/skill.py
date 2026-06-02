@@ -5,6 +5,7 @@ from typing import Any
 from dataclasses import dataclass
 from ama_xiv_combat_sim.simulator.game_data.skill_type import SkillType
 from ama_xiv_combat_sim.simulator.sim_consts import SimConsts
+from ama_xiv_combat_sim.simulator.skills.skill_modifier import SkillModifier
 from ama_xiv_combat_sim.simulator.specs.channeling_spec import ChannelingSpec
 from ama_xiv_combat_sim.simulator.specs.combo_spec import ComboSpec
 from ama_xiv_combat_sim.simulator.specs.damage_spec import DamageSpec
@@ -368,12 +369,12 @@ class Skill:
             self.offensive_debuff_spec, OffensiveStatusEffectSpec, skill_modifier
         )
 
-    def get_defensive_debuff_spec(self, skill_modifier):
+    def get_defensive_debuff_spec(self, skill_modifier: SkillModifier) -> DefensiveStatusEffectSpec | None:
         return self.__get_spec(
             self.defensive_debuff_spec, DefensiveStatusEffectSpec, skill_modifier
         )
 
-    def get_defensive_buff_spec(self, skill_modifier):
+    def get_defensive_buff_spec(self, skill_modifier: SkillModifier) -> DefensiveStatusEffectSpec | None:
         return self.__get_spec(
             self.defensive_buff_spec, DefensiveStatusEffectSpec, skill_modifier
         )
