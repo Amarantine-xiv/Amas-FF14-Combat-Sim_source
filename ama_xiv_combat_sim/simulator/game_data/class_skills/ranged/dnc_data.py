@@ -40,6 +40,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 140, "7.2": 160}, "potency_no_combo": {"7.0": 100}},
     },
     "Devilment": {
+        70: {"duration": {"7.5": 20 * 1000}},
         90: {"duration": {"6.55": 20 * 1000}},
         100: {"duration": {"7.0": 20 * 1000}},
     },
@@ -88,13 +89,16 @@ ALL_DATA = {
             "aoe_dropoff": {"7.0": 0.75, "7.2": 0.6},
         },
     },
-    #TODO: check lvl 90 after patch 7.4
+    # TODO: check lvl 90 after patch 7.4
     "Saber Dance": {
         90: {
             "potency": {"6.55": 480, "7.0": 500},
             "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6},
         },
-        100: {"potency": {"7.0": 520, "7.4": 540}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}},
+        100: {
+            "potency": {"7.0": 520, "7.4": 540},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},
+        },
     },
     "Tillana": {
         90: {
@@ -111,7 +115,7 @@ ALL_DATA = {
     "Finishing Move": {
         100: {"potency": {"7.0": 850}, "aoe_dropoff": {"7.0": 0.75, "7.2": 0.6}}
     },
-    #TODO: check in-game after patch 7.4
+    # TODO: check in-game after patch 7.4
     "Fan Dance IV": {
         90: {"potency": {"6.55": 300}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.6}},
         100: {
@@ -127,14 +131,17 @@ ALL_DATA = {
         100: {"potency": {"7.0": 600}, "aoe_dropoff": {"7.0": 0.75}},
     },
     "Last Dance": {
-        100: {"potency": {"7.0": 520, "7.4": 540}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}}
+        100: {
+            "potency": {"7.0": 520, "7.4": 540},
+            "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6},
+        }
     },
     "Dance of the Dawn": {
         100: {"potency": {"7.0": 1000}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.6}}
     },
     "Shield Samba": {
         90: {
-            "damage_reduction": {"6.55": 0.1},            
+            "damage_reduction": {"6.55": 0.1},
         },
         100: {
             "damage_reduction": {"6.55": 0.15},

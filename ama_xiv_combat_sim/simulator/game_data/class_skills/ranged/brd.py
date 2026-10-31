@@ -1240,7 +1240,7 @@ class BrdSkills(GenericJobClass):
             timing_spec=self.instant_timing_spec,
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=all_brd_skills.get_skill_data(
-                    name, "damage_reduction"
+                    name, "damage_reduction", 0
                 ),
                 does_not_stack_with=frozenset(("Shield Samba", "Tactician")),
                 duration=15 * 1000,

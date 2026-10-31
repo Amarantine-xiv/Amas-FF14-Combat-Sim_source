@@ -974,7 +974,7 @@ class MchSkills(GenericJobClass):
             timing_spec=self.instant_timing_spec,
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=all_mch_skills.get_skill_data(
-                    name, "damage_reduction"
+                    name, "damage_reduction", 0
                 ),
                 does_not_stack_with=frozenset(("Troubadour", "Shield Samba")),
                 duration=15 * 1000,
@@ -986,17 +986,19 @@ class MchSkills(GenericJobClass):
     def dismantle(self):
         res = []
         for name in ["Dismantle", "Dismantled"]:
-            res.append(Skill(
-                name=name,
-                is_GCD=False,
-                skill_type=SkillType.ABILITY,
-                timing_spec=self.instant_timing_spec,
-                defensive_debuff_spec=DefensiveStatusEffectSpec(
-                    damage_reductions=0.1,
-                    duration=10 * 1000,
-                    is_party_effect=True,
-                ),
-            ))
+            res.append(
+                Skill(
+                    name=name,
+                    is_GCD=False,
+                    skill_type=SkillType.ABILITY,
+                    timing_spec=self.instant_timing_spec,
+                    defensive_debuff_spec=DefensiveStatusEffectSpec(
+                        damage_reductions=0.1,
+                        duration=10 * 1000,
+                        is_party_effect=True,
+                    ),
+                )
+            )
         return res
 
     # These skills do not damage, but grants resources/affects future skills.

@@ -214,6 +214,7 @@ def create_external_skill_library(encounter_id):
         105: get_dd_ability(30 * 1000, 0.5),  # m12s p2
         1065: get_dd_ability(180 * 1000, 0.50),  # DSR
         1068: get_dd_ability(180 * 1000, 0.90),  # TOP
+        1085: get_dd_ability(180 * 1000, 0.90),  # UMAD
     }
     map_creator = encounterid_to_external.get(encounter_id, None)
 

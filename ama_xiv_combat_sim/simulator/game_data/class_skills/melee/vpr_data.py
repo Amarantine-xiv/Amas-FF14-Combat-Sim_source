@@ -38,6 +38,9 @@ ALL_DATA = {
         },
     },
     "Hunter's Instinct": {
+        70: {
+            "duration": {"7.5": int(40 * 1000)},
+        },
         90: {
             "duration": {"7.0": int(40 * 1000)},
         },
@@ -134,6 +137,9 @@ ALL_DATA = {
         },
     },
     "Hindstung Venom": {
+        70: {
+            "duration": {"7.5": 60 * 1000},
+        },
         90: {
             "duration": {"7.0": 40 * 1000, "7.05": 60 * 1000},
         },
@@ -156,6 +162,9 @@ ALL_DATA = {
         },
     },
     "Hindsbane Venom": {
+        70: {
+            "duration": {"7.5": 60 * 1000},
+        },
         90: {
             "duration": {"7.0": 40 * 1000, "7.05": 60 * 1000},
         },
@@ -178,6 +187,9 @@ ALL_DATA = {
         },
     },
     "Flanksbane Venom": {
+        70: {
+            "duration": {"7.5": 60 * 1000},
+        },
         90: {
             "duration": {"7.0": 40 * 1000, "7.05": 60 * 1000},
         },
@@ -200,6 +212,9 @@ ALL_DATA = {
         },
     },
     "Flankstung Venom": {
+        70: {
+            "duration": {"7.5": 60 * 1000},
+        },
         90: {
             "duration": {"7.0": 40 * 1000, "7.05": 60 * 1000},
         },
@@ -256,6 +271,9 @@ ALL_DATA = {
         },
     },
     "Grimskin's Venom": {
+        70: {
+            "duration": {"7.5": 60 * 1000},
+        },
         90: {
             "duration": {"7.0": 40 * 1000, "7.05": 60 * 1000},
         },
@@ -274,6 +292,9 @@ ALL_DATA = {
         },
     },
     "Grimhunter's Venom": {
+        70: {
+            "duration": {"7.5": 60 * 1000},
+        },
         90: {
             "duration": {"7.0": 40 * 1000, "7.05": 60 * 1000},
         },
@@ -324,6 +345,9 @@ ALL_DATA = {
         },
     },
     "Hunter's Venom": {
+        70: {
+            "duration": {"7.5": 30 * 1000},
+        },
         90: {
             "duration": {"7.0": 30 * 1000},
         },
@@ -342,6 +366,9 @@ ALL_DATA = {
         },
     },
     "Swiftskin's Venom": {
+        70: {
+            "duration": {"7.5": 30 * 1000},
+        },
         90: {
             "duration": {"7.0": 30 * 1000},
         },
@@ -376,6 +403,9 @@ ALL_DATA = {
         },
     },
     "Fellhunter's Venom": {
+        70: {
+            "duration": {"7.5": 30 * 1000},
+        },
         90: {
             "duration": {"7.0": 30 * 1000},
         },
@@ -392,6 +422,9 @@ ALL_DATA = {
         },
     },
     "Fellskin's Venom": {
+        70: {
+            "duration": {"7.5": 30 * 1000},
+        },
         90: {
             "duration": {"7.0": 30 * 1000},
         },
@@ -442,6 +475,9 @@ ALL_DATA = {
         100: {"potency": {"7.0": 50}, "potency_venom": {"7.0": 80}},
     },
     "Poised for Twinfang": {
+        70: {
+            "duration": {"7.5": 60 * 1000},
+        },
         90: {
             "duration": {"7.0": 60 * 1000},
         },
@@ -518,6 +554,9 @@ ALL_DATA = {
         },
     },
     "Poised for Twinblood": {
+        70: {
+            "duration": {"7.5": 60 * 1000},
+        },
         90: {
             "duration": {"7.0": 60 * 1000},
         },

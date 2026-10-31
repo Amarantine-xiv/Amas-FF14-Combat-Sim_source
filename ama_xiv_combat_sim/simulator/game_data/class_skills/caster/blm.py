@@ -43,10 +43,10 @@ class BlmSkills(GenericJobClass):
         )
 
         self.__af_skill_allowlist = self._skill_data.get_skill_data(
-            "Astral Fire", "allowlist"
+            "Astral Fire", "allowlist", ()
         )
         self.__ui_skill_allowlist = self._skill_data.get_skill_data(
-            "Umbral Ice", "allowlist"
+            "Umbral Ice", "allowlist", ()
         )
         self.__clear_umbral_ice = JobResourceSpec(
             name="Umbral Ice", change=-math.inf, refreshes_duration_of_last_gained=True
@@ -111,8 +111,8 @@ class BlmSkills(GenericJobClass):
             skill=Skill(
                 name=name,
                 offensive_buff_spec=OffensiveStatusEffectSpec(
-                    damage_mult=self._skill_data.get_skill_data(name, "damage_mult"),
-                    duration=self._skill_data.get_skill_data(name, "duration"),
+                    damage_mult=self._skill_data.get_skill_data(name, "damage_mult", 1),
+                    duration=self._skill_data.get_skill_data(name, "duration", 0),
                 ),
             ),
             delay_after_parent_application=0,
@@ -124,7 +124,7 @@ class BlmSkills(GenericJobClass):
         name = "Astral Fire"
         job_resource_settings = JobResourceSettings(
             max_value=3,
-            expiry_from_last_gain=self._skill_data.get_skill_data(name, "duration"),
+            expiry_from_last_gain=self._skill_data.get_skill_data(name, "duration", 0),
             skill_allowlist=self.__af_skill_allowlist,
         )
         return (name, job_resource_settings)
@@ -470,6 +470,33 @@ class BlmSkills(GenericJobClass):
                 if self._version >= "7.0"
                 else (enhanced_flare_follow_up, self.__enochian_buff_follow_up)
             ),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def fire_ii(self):
+        if self._level >= 82:
+            return None
+        name = "Fire II"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=self.__get_enochian_damage_spec_cross(
+                base_potency=self._skill_data.get_potency(name), is_fire_spell=True
+            ),
+            timing_spec=self.__get_enochian_timing_spec_cross(
+                base_cast_time=3000, is_fire_spell=True, application_delay=1160
+            ),
+            job_resource_spec=(
+                self.__clear_umbral_ice,
+                JobResourceSpec(
+                    name="Astral Fire",
+                    change=+3,
+                    refreshes_duration_of_last_gained=True,
+                ),
+            ),
+            follow_up_skills=(self.__enochian_buff_follow_up,),
             has_aoe=True,
         )
 
@@ -946,6 +973,34 @@ class BlmSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
+    def blizzard_ii(self):
+        if self._level >= 82:
+            return None
+        name = "Blizzard II"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=self.__get_enochian_damage_spec_cross(
+                base_potency=self._skill_data.get_potency(name), is_fire_spell=False
+            ),
+            timing_spec=self.__get_enochian_timing_spec_cross(
+                base_cast_time=3000, is_fire_spell=False, application_delay=1160
+            ),
+            offensive_buff_spec=OffensiveStatusEffectSpec(
+                expires_status_effects=("Enhanced",)
+            ),
+            job_resource_spec=(
+                self.__clear_astral_fire,
+                JobResourceSpec(
+                    name="Umbral Ice", change=+3, refreshes_duration_of_last_gained=True
+                ),
+            ),
+            follow_up_skills=(self.__enochian_buff_follow_up,),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
     def high_blizzard_ii(self):
         name = "High Blizzard II"
         return Skill(
@@ -1211,11 +1266,13 @@ class BlmSkills(GenericJobClass):
                         "Thunder III",
                         "Thunder IV",
                         "Blizzard",
+                        "Blizzard II",
                         "High Blizzard II",
                         "Blizzard III",
                         "Blizzard IV",
                         "Freeze",
                         "Fire",
+                        "Fire II",
                         "High Fire II",
                         "Fire III",
                         "Fire IV",
@@ -1228,11 +1285,13 @@ class BlmSkills(GenericJobClass):
                         "Thunder III",
                         "Thunder IV",
                         "Blizzard",
+                        "Blizzard II",
                         "High Blizzard II",
                         "Blizzard III",
                         "Blizzard IV",
                         "Freeze",
                         "Fire",
+                        "Fire II",
                         "High Fire II",
                         "Fire III",
                         "Fire IV",
@@ -1262,11 +1321,13 @@ class BlmSkills(GenericJobClass):
                         "Thunder III",
                         "Thunder IV",
                         "Blizzard",
+                        "Blizzard II",
                         "High Blizzard II",
                         "Blizzard III",
                         "Blizzard IV",
                         "Freeze",
                         "Fire",
+                        "Fire II",
                         "High Fire II",
                         "Fire III",
                         "Fire IV",
@@ -1279,11 +1340,13 @@ class BlmSkills(GenericJobClass):
                         "Thunder III",
                         "Thunder IV",
                         "Blizzard",
+                        "Blizzard II",
                         "High Blizzard II",
                         "Blizzard III",
                         "Blizzard IV",
                         "Freeze",
                         "Fire",
+                        "Fire II",
                         "High Fire II",
                         "Fire III",
                         "Fire IV",

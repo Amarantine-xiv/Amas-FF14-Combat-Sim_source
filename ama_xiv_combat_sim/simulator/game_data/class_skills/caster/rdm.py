@@ -48,6 +48,8 @@ class RdmSkills(GenericJobClass):
                 duration=15 * 1000,
                 num_uses=1,
                 skill_allowlist=(
+                    "Verthunder",
+                    "Veraero",
                     "Verthunder II",
                     "Veraero II",
                     "Verfire",
@@ -114,6 +116,41 @@ class RdmSkills(GenericJobClass):
         return res
 
     @GenericJobClass.is_a_skill
+    def verthunder(self):
+        if self._level >= 82:
+            return None
+        name = "Verthunder"
+        verthunder_damage_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=800,
+        )
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: TimingSpec(
+                    base_cast_time=2000,
+                    animation_lock=self.__rdm_caster_tax,
+                    application_delay=0,
+                ),
+                "Dualcast": TimingSpec(
+                    base_cast_time=0, animation_lock=650, application_delay=0
+                ),
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    verthunder_damage_follow_up,
+                    self.__get_dualcast_follow_up(),
+                ),
+                "Dualcast": (verthunder_damage_follow_up,),
+            },
+        )
+
+    @GenericJobClass.is_a_skill
     def verthunder_ii(self):
         name = "Verthunder II"
         verthunder_2_damage_follow_up = FollowUp(
@@ -146,6 +183,41 @@ class RdmSkills(GenericJobClass):
                 "Dualcast": (verthunder_2_damage_follow_up,),
             },
             has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def veraero(self):
+        if self._level >= 82:
+            return None
+        name = "Veraero"
+        veraero_damage_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            ),
+            delay_after_parent_application=800,
+        )
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec={
+                SimConsts.DEFAULT_CONDITION: TimingSpec(
+                    base_cast_time=2000,
+                    animation_lock=self.__rdm_caster_tax,
+                    application_delay=0,
+                ),
+                "Dualcast": TimingSpec(
+                    base_cast_time=0, animation_lock=650, application_delay=0
+                ),
+            },
+            follow_up_skills={
+                SimConsts.DEFAULT_CONDITION: (
+                    veraero_damage_follow_up,
+                    self.__get_dualcast_follow_up(),
+                ),
+                "Dualcast": (veraero_damage_follow_up,),
+            },
         )
 
     @GenericJobClass.is_a_skill
@@ -995,6 +1067,8 @@ class RdmSkills(GenericJobClass):
                 duration=10 * 1000,
                 num_uses=1,
                 skill_allowlist=(
+                    "Verthunder",
+                    "Veraero",
                     "Verthunder II",
                     "Veraero II",
                     "Verfire",

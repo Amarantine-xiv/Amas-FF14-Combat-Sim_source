@@ -33,7 +33,10 @@ class DncSkills(GenericJobClass):
             skill=Skill(
                 name=name,
                 offensive_buff_spec=OffensiveStatusEffectSpec(
-                    damage_mult=1.05, duration=60000, is_party_effect=True, is_single_target=True
+                    damage_mult=1.05,
+                    duration=60000,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
             ),
             delay_after_parent_application=0,
@@ -114,7 +117,10 @@ class DncSkills(GenericJobClass):
             skill=Skill(
                 name=name,
                 offensive_buff_spec=OffensiveStatusEffectSpec(
-                    damage_mult=1.02, duration=60000, is_party_effect=True, is_single_target=True
+                    damage_mult=1.02,
+                    duration=60000,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
             ),
             delay_after_parent_application=0,
@@ -931,7 +937,7 @@ class DncSkills(GenericJobClass):
             timing_spec=self.instant_timing_spec,
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=all_dnc_skills.get_skill_data(
-                    name, "damage_reduction"
+                    name, "damage_reduction", 0
                 ),
                 does_not_stack_with=frozenset(("Troubadour", "Tactician")),
                 duration=15 * 1000,

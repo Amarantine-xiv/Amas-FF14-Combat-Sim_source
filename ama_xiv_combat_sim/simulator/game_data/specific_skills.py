@@ -17,37 +17,57 @@ class SpecificSkills:
         assert skill_name not in self.skills, f"Skill already exists: {skill_name}"
         self.skills[skill_name] = vals
 
-    def get_skill_data(self, skill_name, param_name):
-        assert skill_name in self.skills, f"Skill does not exist: {skill_name}"
-        assert (
-            self.level in self.skills[skill_name]
-        ), f"Skill '{skill_name}' does not have specs for specified level: {self.level}"
-        assert (
-            param_name in self.skills[skill_name][self.level]
-        ), f"Skill '{skill_name}' does not have requested param: {param_name}"
+    def get_skill_data(self, skill_name, param_name, default_return=None):
+        def __get_skill_data_checks():
+            assert skill_name in self.skills, f"Skill does not exist: {skill_name}"
+            assert (
+                self.level in self.skills[skill_name]
+            ), f"Skill '{skill_name}' does not have specs for specified level: {self.level}"
+            assert (
+                param_name in self.skills[skill_name][self.level]
+            ), f"Skill '{skill_name}' does not have requested param: {param_name}"
 
-        return Utils.get_greatest_dict_key_val_less_than_query(
-            self.skills[skill_name][self.level][param_name], self.version
-        )
+        try:
+            __get_skill_data_checks()
+            return Utils.get_greatest_dict_key_val_less_than_query(
+                self.skills[skill_name][self.level][param_name], self.version
+            )
+        except AssertionError as e:
+            print(e)
+        return default_return
 
     # convenience function
     def get_potency(self, skill_name):
-        res = self.get_skill_data(skill_name, "potency")
+        res = 0
+        try:
+            res = self.get_skill_data(skill_name, "potency")
+        except AssertionError as e:
+            print(e)
         if res is None:
-            raise ValueError(f"Could not find appropriate level/patch version for skill: {skill_name}. level/patch: {self.level}/{self.version}")        
+            raise ValueError(
+                f"Could not find appropriate level/patch version for skill: {skill_name}. level/patch: {self.level}/{self.version}"
+            )
         return res
 
     # convenience functions
     def get_potency_no_combo(self, skill_name):
-        res = self.get_skill_data(skill_name, "potency_no_combo")
-        assert (
-            res is not None
-        ), f"Could not find appropriate level/patch version for skill: {skill_name}"
+        res = 0
+        try:
+            res = self.get_skill_data(skill_name, "potency_no_combo")
+            assert (
+                res is not None
+            ), f"Could not find appropriate level/patch version for skill: {skill_name}"
+        except AssertionError as e:
+            print(e)
         return res
 
     def get_potency_no_positional(self, skill_name):
-        res = self.get_skill_data(skill_name, "potency_no_pos")
-        assert (
-            res is not None
-        ), f"Could not find appropriate level/patch version for skill: {skill_name}"
+        res = 0
+        try:
+            res = self.get_skill_data(skill_name, "potency_no_pos")
+            assert (
+                res is not None
+            ), f"Could not find appropriate level/patch version for skill: {skill_name}"
+        except AssertionError as e:
+            print(e)
         return res

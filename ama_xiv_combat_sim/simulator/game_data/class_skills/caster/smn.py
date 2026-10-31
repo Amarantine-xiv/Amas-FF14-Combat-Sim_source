@@ -15,7 +15,9 @@ from ama_xiv_combat_sim.simulator.specs.shield_spec import ShieldSpec
 from ama_xiv_combat_sim.simulator.specs.defensive_status_effect_spec import (
     DefensiveStatusEffectSpec,
 )
-from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import OffensiveStatusEffectSpec
+from ama_xiv_combat_sim.simulator.specs.offensive_status_effect_spec import (
+    OffensiveStatusEffectSpec,
+)
 from ama_xiv_combat_sim.simulator.specs.timing_spec import TimingSpec
 from ama_xiv_combat_sim.simulator.specs.trigger_spec import TriggerSpec
 
@@ -321,6 +323,128 @@ class SmnSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
+    def outburst(self):
+        if self._level >= 74:
+            return None
+        name = "Outburst"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=1500,
+                animation_lock=self.__base_animation_lock,
+            ),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def ruby_ruin_iii(self):
+        if self._level >= 72:
+            return None
+        name = "Ruby Ruin III"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=2800,
+                gcd_base_recast_time=3000,
+                animation_lock=self.__base_animation_lock,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def topaz_ruin_iii(self):
+        if self._level >= 72:
+            return None
+        name = "Topaz Ruin III"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                gcd_base_recast_time=2500,
+                animation_lock=self.__base_animation_lock,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def emerald_ruin_iii(self):
+        if self._level >= 72:
+            return None
+        name = "Emerald Ruin III"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=self.__base_animation_lock,
+            ),
+        )
+
+    @GenericJobClass.is_a_skill
+    def ruby_outburst(self):
+        name = "Ruby Outburst"
+        if self._level >= 74:
+            return None
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=2800,
+                gcd_base_recast_time=3000,
+                animation_lock=self.__base_animation_lock,
+            ),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def topaz_outburst(self):
+        if self._level >= 74:
+            return None
+        name = "Topaz Outburst"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                gcd_base_recast_time=2500,
+                animation_lock=self.__base_animation_lock,
+            ),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def emerald_outburst(self):
+        if self._level >= 74:
+            return None
+        name = "Emerald Outburst"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            damage_spec=DamageSpec(potency=self._skill_data.get_potency(name)),
+            timing_spec=TimingSpec(
+                base_cast_time=0,
+                gcd_base_recast_time=1500,
+                animation_lock=self.__base_animation_lock,
+            ),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
     def tri_disaster(self):
         name = "Tri-disaster"
         return Skill(
@@ -559,7 +683,7 @@ class SmnSkills(GenericJobClass):
             delay_after_parent_application=0,
             primary_target_only=False,
         )
-        
+
         name = "Slipstream"
         return Skill(
             name=name,
@@ -567,7 +691,7 @@ class SmnSkills(GenericJobClass):
             skill_type=SkillType.SPELL,
             damage_spec={
                 SimConsts.DEFAULT_CONDITION: DamageSpec(
-                    potency=self._skill_data.get_potency(name)                    
+                    potency=self._skill_data.get_potency(name)
                 )
             },
             timing_spec=TimingSpec(
@@ -576,9 +700,48 @@ class SmnSkills(GenericJobClass):
                 animation_lock=self.__smn_caster_tax_ms,
                 application_delay=1020,
             ),
-            follow_up_skills=(slipstream_initial_follow_up, slipstream_follow_up,),
+            follow_up_skills=(
+                slipstream_initial_follow_up,
+                slipstream_follow_up,
+            ),
             has_aoe=True,
             aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
+        )
+
+    @GenericJobClass.is_a_skill
+    def summon_ifrit(self):
+        if self._level >= 90:
+            return None
+        name = "Inferno 1 (pet)"
+        # Model the 2.1s snap with this hack. Damage will not come out correctly though.
+        inferno_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                status_effect_denylist=("Dragon Sight",),
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                        pet_scalar=0.88,
+                    )
+                },
+                has_aoe=True,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
+            ),
+            snapshot_buffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,
+            delay_after_parent_application=2100,
+            primary_target_only=False,
+        )
+
+        name = "Summon Ifrit"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(inferno_follow_up,),
         )
 
     @GenericJobClass.is_a_skill
@@ -616,6 +779,43 @@ class SmnSkills(GenericJobClass):
         )
 
     @GenericJobClass.is_a_skill
+    def summon_titan(self):
+        if self._level >= 90:
+            return None
+        name = "Earthen Fury 1 (pet)"
+        # Model the 2.1s snap with this hack. Damage will not come out correctly though.
+        earthen_fury_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                status_effect_denylist=("Dragon Sight",),
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                        pet_scalar=0.88,
+                    )
+                },
+                has_aoe=True,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
+            ),
+            snapshot_buffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,
+            delay_after_parent_application=2100,
+            primary_target_only=False,
+        )
+
+        name = "Summon Titan"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(earthen_fury_follow_up,),
+            has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
     def summon_titan_ii(self):
         name = "Earthen Fury (pet)"
         # Model the 2.1s snap with this hack. Damage will not come out correctly though.
@@ -648,6 +848,42 @@ class SmnSkills(GenericJobClass):
             timing_spec=self.__smn_instant_timing_spec,
             follow_up_skills=(earthen_fury_follow_up,),
             has_aoe=True,
+        )
+
+    @GenericJobClass.is_a_skill
+    def summon_garuda(self):
+        if self._level >= 90:
+            return None
+        name = "Aerial Blast 1 (pet)"
+        # Model the 2.1s snap with this hack. Damage will not come out correctly though.
+        aerial_blast_follow_up = FollowUp(
+            skill=Skill(
+                name=name,
+                status_effect_denylist=("Dragon Sight",),
+                damage_spec={
+                    SimConsts.DEFAULT_CONDITION: DamageSpec(
+                        potency=self._skill_data.get_potency(name),
+                        damage_class=DamageClass.PET,
+                        pet_job_mod_override=100,
+                        pet_scalar=0.88,
+                    )
+                },
+                has_aoe=True,
+                aoe_dropoff=self._skill_data.get_skill_data(name, "aoe_dropoff"),
+            ),
+            snapshot_buffs_with_parent=False,
+            snapshot_debuffs_with_parent=False,
+            delay_after_parent_application=2100,
+            primary_target_only=False,
+        )
+
+        name = "Summon Garuda"
+        return Skill(
+            name=name,
+            is_GCD=True,
+            skill_type=SkillType.SPELL,
+            timing_spec=self.__smn_instant_timing_spec,
+            follow_up_skills=(aerial_blast_follow_up,),
         )
 
     @GenericJobClass.is_a_skill
@@ -1178,6 +1414,9 @@ class SmnSkills(GenericJobClass):
                 skill_allowlist=(
                     "Ruin III",
                     "Ruby Rite",
+                    "Outburst",
+                    "Ruby Outburst",
+                    "Ruby Ruin III",
                     "Tri-disaster",
                     "Ruby Catastrophe",
                     "Slipstream",
@@ -1197,36 +1436,6 @@ class SmnSkills(GenericJobClass):
                 base_cast_time=1500,
                 animation_lock=self.__smn_caster_tax_ms,
             ),
-        )
-
-    @GenericJobClass.is_a_skill
-    def summon_ifrit(self):
-        name = "Summon Ifrit"
-        return Skill(
-            name=name,
-            is_GCD=True,
-            skill_type=SkillType.SPELL,
-            timing_spec=self.__smn_instant_timing_spec,
-        )
-
-    @GenericJobClass.is_a_skill
-    def summon_titan(self):
-        name = "Summon Titan"
-        return Skill(
-            name=name,
-            is_GCD=True,
-            skill_type=SkillType.SPELL,
-            timing_spec=self.__smn_instant_timing_spec,
-        )
-
-    @GenericJobClass.is_a_skill
-    def summon_garuda(self):
-        name = "Summon Garuda"
-        return Skill(
-            name=name,
-            is_GCD=True,
-            skill_type=SkillType.SPELL,
-            timing_spec=self.__smn_instant_timing_spec,
         )
 
     @GenericJobClass.is_a_skill

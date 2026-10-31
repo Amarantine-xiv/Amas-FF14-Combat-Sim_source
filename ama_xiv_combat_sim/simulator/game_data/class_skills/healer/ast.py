@@ -258,13 +258,22 @@ class AstSkills(GenericJobClass):
             ),
             offensive_buff_spec={
                 SimConsts.DEFAULT_CONDITION: OffensiveStatusEffectSpec(
-                    duration=15 * 1000, damage_mult=1.06, is_party_effect=True, is_single_target=True
+                    duration=15 * 1000,
+                    damage_mult=1.06,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
                 "Big": OffensiveStatusEffectSpec(
-                    duration=15 * 1000, damage_mult=1.06, is_party_effect=True, is_single_target=True
+                    duration=15 * 1000,
+                    damage_mult=1.06,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
                 "Small": OffensiveStatusEffectSpec(
-                    duration=15 * 1000, damage_mult=1.03, is_party_effect=True, is_single_target=True
+                    duration=15 * 1000,
+                    damage_mult=1.03,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
             },
             off_class_default_condition="Big",
@@ -631,7 +640,7 @@ class AstSkills(GenericJobClass):
                 min_potency_at_fraction_of_max_hp=1.0,
                 max_potency=900,
                 max_potency_at_fraction_of_max_hp=0.3,
-                is_party_effect=True
+                is_party_effect=True,
             ),
         )
 
@@ -835,7 +844,7 @@ class AstSkills(GenericJobClass):
 
     @GenericJobClass.is_a_skill
     def collective_unconscious(self):
-        name="Collective Unconscious"
+        name = "Collective Unconscious"
         return Skill(
             name=name,
             is_GCD=False,
@@ -845,7 +854,7 @@ class AstSkills(GenericJobClass):
             # TODO: this should get refreshed on server tick
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=0.1,
-                duration=self._skill_data.get_skill_data(name, "duration"),
+                duration=self._skill_data.get_skill_data(name, "duration", 0),
                 is_party_effect=True,
             ),
             heal_spec=HealSpec(
@@ -918,10 +927,16 @@ class AstSkills(GenericJobClass):
             offensive_buff_spec={
                 SimConsts.DEFAULT_CONDITION: None,
                 "Big": OffensiveStatusEffectSpec(
-                    duration=15 * 1000, damage_mult=1.06, is_party_effect=True, is_single_target=True
+                    duration=15 * 1000,
+                    damage_mult=1.06,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
                 "Small": OffensiveStatusEffectSpec(
-                    duration=15 * 1000, damage_mult=1.03, is_party_effect=True, is_single_target=True
+                    duration=15 * 1000,
+                    damage_mult=1.03,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
             },
             off_class_default_condition="Big",
@@ -962,10 +977,16 @@ class AstSkills(GenericJobClass):
             offensive_buff_spec={
                 SimConsts.DEFAULT_CONDITION: None,
                 "Big": OffensiveStatusEffectSpec(
-                    duration=15 * 1000, damage_mult=1.06, is_party_effect=True, is_single_target=True
+                    duration=15 * 1000,
+                    damage_mult=1.06,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
                 "Small": OffensiveStatusEffectSpec(
-                    duration=15 * 1000, damage_mult=1.03, is_party_effect=True, is_single_target=True
+                    duration=15 * 1000,
+                    damage_mult=1.03,
+                    is_party_effect=True,
+                    is_single_target=True,
                 ),
             },
             off_class_default_condition="Big",
@@ -987,7 +1008,7 @@ class AstSkills(GenericJobClass):
                         hp_recovery_up_via_healing_actions=0.1,
                         duration=15 * 1000,
                         is_party_effect=True,
-                        is_single_target=True
+                        is_single_target=True,
                     ),
                 )
             )
@@ -1006,7 +1027,9 @@ class AstSkills(GenericJobClass):
                     skill_type=SkillType.ABILITY,
                     timing_spec=self.instant_timing_spec,
                     heal_spec=HealSpec(
-                        hot_potency=200, duration=15 * 1000, is_party_effect=True,
+                        hot_potency=200,
+                        duration=15 * 1000,
+                        is_party_effect=True,
                     ),
                 )
             )
@@ -1047,7 +1070,7 @@ class AstSkills(GenericJobClass):
                         damage_reductions=0.1,
                         duration=15 * 1000,
                         is_party_effect=True,
-                        is_single_target=True
+                        is_single_target=True,
                     ),
                 )
             )

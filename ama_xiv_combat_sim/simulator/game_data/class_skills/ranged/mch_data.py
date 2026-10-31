@@ -29,7 +29,7 @@ ALL_DATA = {
         90: {"potency": {"6.55": 200}},
         100: {"potency": {"7.0": 220}},
     },
-    #TODO: check lvl 90 in game after 7.4 patch
+    # TODO: check lvl 90 in game after 7.4 patch
     "Drill": {
         90: {"potency": {"6.55": 600, "7.3": 620}},
         100: {"potency": {"7.0": 600, "7.3": 620, "7.4": 660}},
@@ -47,7 +47,7 @@ ALL_DATA = {
     },
     "Bioblaster (dot)": {90: {"potency": {"6.55": 50}}, 100: {"potency": {"7.0": 50}}},
     "Bioblaster": {90: {"potency": {"6.55": 50}}, 100: {"potency": {"7.0": 50}}},
-    #TODO: check lvl 90 in game after 7.4 patch
+    # TODO: check lvl 90 in game after 7.4 patch
     "Air Anchor": {
         90: {"potency": {"6.55": 600, "7.3": 620}},
         100: {"potency": {"7.0": 600, "7.3": 620, "7.4": 660}},
@@ -56,7 +56,7 @@ ALL_DATA = {
         90: {"potency": {"6.55": 150, "7.2": 130}},
         100: {"potency": {"7.0": 160, "7.2": 130}},
     },
-    #TODO: check lvl 90 in game after 7.4 patch
+    # TODO: check lvl 90 in game after 7.4 patch
     "Chain Saw": {
         90: {
             "potency": {"6.55": 600, "7.3": 620},
@@ -96,24 +96,28 @@ ALL_DATA = {
         }
     },
     "Arm Punch (pet)": {
+        70: {"min_potency": {"7.5": 120}, "max_potency": {"7.5": 240}},
         90: {"min_potency": {"6.55": 120}, "max_potency": {"6.55": 240}},
         100: {"min_potency": {"7.0": 120}, "max_potency": {"7.0": 240}},
     },
     "Roller Dash (pet)": {
+        70: {"min_potency": {"7.5": 240}, "max_potency": {"7.5": 480}},
         90: {"min_potency": {"6.55": 240}, "max_potency": {"6.55": 480}},
         100: {"min_potency": {"7.0": 240}, "max_potency": {"7.0": 480}},
     },
     "Pile Bunker (pet)": {
+        70: {"min_potency": {"7.5": 240}, "max_potency": {"7.5": 480}},
         90: {"min_potency": {"6.55": 340}, "max_potency": {"6.55": 680}},
         100: {"min_potency": {"7.0": 340}, "max_potency": {"7.0": 680}},
     },
     "Crowned Collider (pet)": {
+        70: {"min_potency": {"7.5": 390}, "max_potency": {"7.5": 780}},
         90: {"min_potency": {"6.55": 390}, "max_potency": {"6.55": 780}},
         100: {"min_potency": {"7.0": 390}, "max_potency": {"7.0": 780}},
     },
     "Tactician": {
         90: {
-            "damage_reduction": {"6.55": 0.1},            
+            "damage_reduction": {"6.55": 0.1},
         },
         100: {
             "damage_reduction": {"6.55": 0.15},

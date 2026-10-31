@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 
+from ama_xiv_combat_sim.simulator.utils import Utils
+
+
 @dataclass(frozen=True)
 class GameConsts:
     GCD_RECAST_TIME: float = 2500
@@ -27,25 +30,32 @@ class GameConsts:
     __CRIT_CONST_TEST = (200, 50, 400)
     __DET_CONST_TEST = 140
 
-    __LEVEL_DIVS = {90: 1900, 100: 2780}
-    __LEVEL_MAINS = {90: 390, 100: 440}
-    __LEVEL_SUBS = {90: 400, 100: 420}
+    __LEVEL_DIVS = {70: 900, 80: 1300, 90: 1900, 100: 2780}
+    __LEVEL_MAINS = {70: 292, 80: 340, 90: 390, 100: 440}
+    __LEVEL_SUBS = {70: 364, 80: 380, 90: 400, 100: 420}
 
-    __FAP_CONSTS = {90: 195, 100: 237}
-    __FAP_TANK_CONSTS = {90: 156, 100: 190}
-    __TEN_CONSTS = {90: 100, 100: 112}
+    __FAP_CONSTS = {70: 125, 80: 165, 90: 195, 100: 237}
+    __FAP_TANK_CONSTS = {70: 125, 80: 115, 90: 156, 100: 190}
+    __TEN_CONSTS = {
+        70: {"6.55": 100, "7.0": 112},
+        80: {"6.55": 100, "7.0": 112},
+        90: {"6.55": 100, "7.0": 112},
+        100: {"6.55": 100, "7.0": 112},
+    }
 
-    __DH_CONSTS = {90: 550, 100: 550}
-    __DET_CONSTS = {90: 140, 100: 140}
-    __SPEED_CONSTS = {90: 130, 100: 130}
+    __DH_CONSTS = {70: 550, 80: 550, 90: 550, 100: 550}
+    __DET_CONSTS = {70: 140, 80: 140, 90: 140, 100: 140}
+    __SPEED_CONSTS = {70: 130, 80: 130, 90: 130, 100: 130}
 
     __CRIT_CONSTS = {
+        70: (200, 50, 400),
+        80: (200, 50, 400),
         90: (200, 50, 400),
         100: (200, 50, 400),
     }
 
-    __BASE_SKILL_SPEED = {90: 400, 100: 420}
-    __BASE_SPELL_SPEED = {90: 400, 100: 420}
+    __BASE_SKILL_SPEED = {70: 364, 80: 380, 90: 400, 100: 420}
+    __BASE_SPELL_SPEED = {70: 364, 80: 380, 90: 400, 100: 420}
 
     DAMAGE_VARIANCE = 0.05
     MAX_LEVEL = 100
@@ -78,7 +88,9 @@ class GameConsts:
     def get_ten_const(version, level):
         if version == GameConsts.kTestStr:
             return GameConsts.__TEN_CONST_TEST
-        return GameConsts.__TEN_CONSTS[level]
+        return Utils.get_greatest_dict_key_val_less_than_query(
+            GameConsts.__TEN_CONSTS[level], version
+        )
 
     @staticmethod
     def get_level_div(version, level):
@@ -213,31 +225,34 @@ class GameConsts:
         "NIN": "Melee",
         "VPR": "Melee",
     }
-    
+
     # From: https://x.com/HimenyanFF14/status/1968628956749340764
-    SHIELD_PRIOS = ["Tempera Coat",
-                    "Crest of Time Borrowed",
-                    "Tempera Grassa",
-                    "Blackest Night",
-                    "Eukrasian Diagnosis",
-                    "Haima",
-                    "Painhaima",
-                    "Brutal Shell",
-                    "Stem the Tide",
-                    "Guardian's Will",
-                    "Divine Caress",
-                    "Manaward",
-                    "Divine Benison",
-                    "Intersection",
-                    "The Spire",
-                    "Eukrasian Prognosis",
-                    "Seraphic Veil",
-                    "Holos",
-                    "Radiant Aegis",
-                    "Shake It Off",
-                    "Divine Veil",
-                    "Neutral Sect",
-                    "Improvised Finish",
-                    "Catalyze",
-                    "Differential Diagnosis",
-                    "Galvanize"]
+    SHIELD_PRIOS = [
+        "Tempera Coat",
+        "Crest of Time Borrowed",
+        "Tempera Grassa",
+        "Blackest Night",
+        "Eukrasian Diagnosis",
+        "Haima",
+        "Painhaima",
+        "Brutal Shell",
+        "Stem the Tide",
+        "Guardian's Will",
+        "Divine Caress",
+        "Manaward",
+        "Shade Shift",
+        "Divine Benison",
+        "Intersection",
+        "The Spire",
+        "Eukrasian Prognosis",
+        "Seraphic Veil",
+        "Holos",
+        "Radiant Aegis",
+        "Shake It Off",
+        "Divine Veil",
+        "Neutral Sect",
+        "Improvised Finish",
+        "Catalyze",
+        "Differential Diagnosis",
+        "Galvanize",
+    ]

@@ -140,10 +140,12 @@ ALL_DATA = {
         100: {"potency": {"7.0": 450, "7.01": 600}},
     },
     "Riddle of Fire": {
+        70: {"damage_mult": {"7.5": 1.15}, "duration": {"7.5": int(20.72 * 1000)}},
         90: {"damage_mult": {"6.55": 1.15}, "duration": {"6.55": int(20.72 * 1000)}},
         100: {"damage_mult": {"7.0": 1.15}, "duration": {"7.0": int(20.72 * 1000)}},
     },
     "Brotherhood": {
+        70: {"damage_mult": {"7.5": 1.05}, "duration": {"7.5": int(19.95 * 1000)}},
         90: {
             "damage_mult": {"6.55": 1.05},
             "duration": {"6.55": int(14.95 * 1000), "7.0": int(19.95 * 1000)},
@@ -151,6 +153,7 @@ ALL_DATA = {
         100: {"damage_mult": {"7.0": 1.05}, "duration": {"7.0": int(19.95 * 1000)}},
     },
     "Riddle of Wind": {
+        70: {"duration": {"7.5": int(15.78 * 1000)}},
         90: {"duration": {"6.55": int(15.78 * 1000)}},
         100: {"duration": {"7.0": int(15.78 * 1000)}},
     },

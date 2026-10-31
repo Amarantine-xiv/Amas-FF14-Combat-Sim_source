@@ -136,7 +136,9 @@ def __get_parry():
         is_GCD=False,
         timing_spec=TimingSpec(base_cast_time=0, animation_lock=0, application_delay=0),
         defensive_buff_spec=DefensiveStatusEffectSpec(
-            damage_reductions={DamageInstanceClass.PHYSICAL: GameConsts.PARRY_DMG_REDUCTION},
+            damage_reductions={
+                DamageInstanceClass.PHYSICAL: GameConsts.PARRY_DMG_REDUCTION
+            },
             num_uses=1,
             skill_allowlist=("Damage",),
         ),
@@ -164,9 +166,9 @@ def __get_pot(name, main_stat_add, version, level):
         is_GCD=False,
         timing_spec=TimingSpec(
             base_cast_time=0,
-            animation_lock=all_generic_skills.get_skill_data(name, "animation_lock"),
+            animation_lock=all_generic_skills.get_skill_data(name, "animation_lock", 0),
             application_delay=all_generic_skills.get_skill_data(
-                name, "application_delay"
+                name, "application_delay", 0
             ),
         ),
         offensive_buff_spec=OffensiveStatusEffectSpec(

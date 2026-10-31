@@ -307,7 +307,7 @@ class PctSkills(GenericJobClass):
             follow_up_skills={
                 SimConsts.DEFAULT_CONDITION: tuple(),
                 "1 Hyperphantasia": (self.__get_rainbow_bright_follow_up(),),
-            },            
+            },
         )
 
     @GenericJobClass.is_a_skill

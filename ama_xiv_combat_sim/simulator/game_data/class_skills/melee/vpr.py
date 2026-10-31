@@ -601,7 +601,7 @@ class VprSkills(GenericJobClass):
         grimhunters_venom_follow_up = self.__get_venom_follow_up(
             venom_name,
             ("Jagged Maw",),
-            self._skill_data.get_skill_data(venom_name, "duration"),
+            self._skill_data.get_skill_data(venom_name, "duration", 0),
             (
                 "Hindstung Venom",
                 "Hindsbane Venom",

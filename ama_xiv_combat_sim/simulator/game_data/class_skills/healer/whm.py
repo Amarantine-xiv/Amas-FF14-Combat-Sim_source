@@ -172,7 +172,7 @@ class WhmSkills(GenericJobClass):
             is_GCD=True,
             skill_type=SkillType.SPELL,
             timing_spec=TimingSpec(
-                base_cast_time=self._skill_data.get_skill_data(name, "cast time"),
+                base_cast_time=self._skill_data.get_skill_data(name, "cast time", 2500),
                 animation_lock=100,
                 application_delay=2130,
             ),
@@ -281,9 +281,9 @@ class WhmSkills(GenericJobClass):
             # check on occassion so this is not perfectly accurate.
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 damage_reductions=0.1,
-                #23s to account for lingering time- it is not actually 20s as stated in-game, it seems looking at logs.
-                #it's duration seems to depend on server ticks and the 5s refresh check. Split the diff, round up to 23s.
-                duration=23 * 1000, 
+                # 23s to account for lingering time- it is not actually 20s as stated in-game, it seems looking at logs.
+                # it's duration seems to depend on server ticks and the 5s refresh check. Split the diff, round up to 23s.
+                duration=23 * 1000,
                 is_party_effect=True,
             ),
             follow_up_skills={
@@ -494,9 +494,9 @@ class WhmSkills(GenericJobClass):
         return DefensiveStatusEffectSpec(
             duration=10 * 1000,
             damage_reductions=self._skill_data.get_skill_data(
-                name, "damage_reduction"
+                name, "damage_reduction", 0
             ),
-            is_party_effect=True
+            is_party_effect=True,
         )
 
     # for logs processing convenience
@@ -508,7 +508,7 @@ class WhmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            defensive_buff_spec=self.__get_confession_defensive_spec()
+            defensive_buff_spec=self.__get_confession_defensive_spec(),
         )
 
     @GenericJobClass.is_a_skill
@@ -519,7 +519,7 @@ class WhmSkills(GenericJobClass):
             is_GCD=False,
             skill_type=SkillType.ABILITY,
             timing_spec=self.instant_timing_spec,
-            defensive_buff_spec=self.__get_confession_defensive_spec()
+            defensive_buff_spec=self.__get_confession_defensive_spec(),
         )
 
     @GenericJobClass.is_a_skill

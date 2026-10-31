@@ -342,7 +342,9 @@ class SgeSkills(GenericJobClass):
             ),
             defensive_buff_spec=DefensiveStatusEffectSpec(
                 hp_recovery_up_via_healing_actions=0.1,
-                duration=all_sge_skills.get_skill_data(name, "healing_action_duration"),
+                duration=all_sge_skills.get_skill_data(
+                    name, "healing_action_duration", 0
+                ),
             ),
         )
 

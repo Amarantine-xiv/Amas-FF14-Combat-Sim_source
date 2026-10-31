@@ -6,6 +6,7 @@ all_rpr_skills = SpecificSkills()
 
 ALL_DATA = {
     "Enhanced Harpe": {
+        70: {"duration": {"7.5": int(20 * 1000)}},
         90: {"duration": {"6.55": int(20 * 1000)}},
         100: {"duration": {"7.0": int(10 * 1000)}},
     },
@@ -82,10 +83,14 @@ ALL_DATA = {
         100: {"potency": {"7.0": 440}},
     },
     "Arcane Circle": {
+        70: {"duration": {"7.5": int(19.98 * 1000)}},
         90: {"duration": {"6.55": int(19.98 * 1000)}},
         100: {"duration": {"7.0": int(19.98 * 1000)}},
     },
-    "Gluttony": {90: {"potency": {"6.55": 520}}, 100: {"potency": {"7.0": 520, "7.5": 560}}},
+    "Gluttony": {
+        90: {"potency": {"6.55": 520}},
+        100: {"potency": {"7.0": 520, "7.5": 560}},
+    },
     "Void Reaping": {
         90: {"potency": {"6.55": 460}, "potency_enhanced": {"6.55": 520}},
         100: {
@@ -97,10 +102,13 @@ ALL_DATA = {
         90: {"potency": {"6.55": 460}, "potency_enhanced": {"6.55": 520}},
         100: {
             "potency": {"7.0": 500, "7.2": 540, "7.45": 560, "7.5": 580},
-            "potency_enhanced": {"7.0": 560, "7.2": 600,  "7.45": 620, "7.5": 640},
+            "potency_enhanced": {"7.0": 560, "7.2": 600, "7.45": 620, "7.5": 640},
         },
     },
-    "Grim Reaping": {90: {"potency": {"6.55": 200}}, 100: {"potency": {"7.0": 200, "7.45": 220}}},
+    "Grim Reaping": {
+        90: {"potency": {"6.55": 200}},
+        100: {"potency": {"7.0": 200, "7.45": 220}},
+    },
     "Harvest Moon": {
         90: {"potency": {"6.55": 600}, "aoe_dropoff": {"6.55": 0.5, "7.2": 0.4}},
         100: {"potency": {"7.0": 800}, "aoe_dropoff": {"7.0": 0.5, "7.2": 0.4}},
@@ -108,6 +116,11 @@ ALL_DATA = {
     "Lemure's Slice": {90: {"potency": {"6.55": 240}}, 100: {"potency": {"7.0": 280}}},
     "Lemure's Scythe": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
     "Plentiful Harvest": {
+        70: {
+            "base_potency": {"7.5": 720},
+            "potency_increment": {"7.5": 40},
+            "aoe_dropoff": {"7.5": 0.2},
+        },
         90: {
             "base_potency": {"6.55": 720},
             "potency_increment": {"6.55": 40},

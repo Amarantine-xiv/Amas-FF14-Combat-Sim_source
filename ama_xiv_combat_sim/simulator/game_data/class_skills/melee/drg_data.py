@@ -17,6 +17,10 @@ ALL_DATA = {
         90: {"potency": {"6.55": 250}, "potency_no_combo": {"6.55": 140}},
     },
     "Lance Charge": {
+        70: {
+            "damage_mult": {"7.5": 1.1},
+            "duration": {"7.5": 20 * 1000},
+        },
         90: {
             "damage_mult": {"6.55": 1.1},
             "duration": {"6.55": 20 * 1000},
@@ -36,6 +40,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 500}, "aoe_dropoff": {"6.55": 0.0, "7.0": 0.5}},
     },
     "Battle Litany": {
+        70: {"crit_rate_add": {"7.5": 0.10}, "duration": {"7.5": 20 * 1000}},
         90: {"crit_rate_add": {"6.55": 0.10}, "duration": {"6.55": 15 * 1000}},
         100: {"crit_rate_add": {"7.0": 0.10}, "duration": {"7.0": 20 * 1000}},
     },

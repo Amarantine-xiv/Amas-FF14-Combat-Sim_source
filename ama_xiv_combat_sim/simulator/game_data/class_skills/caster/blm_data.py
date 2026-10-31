@@ -6,6 +6,9 @@ all_blm_skills = SpecificSkills()
 
 ALL_DATA = {
     "Ley Lines": {
+        70: {
+            "duration": {"7.5": 20 * 1000},
+        },
         90: {
             "duration": {"6.55": 30 * 1000, "7.2": 20 * 1000},
         },
@@ -14,6 +17,10 @@ ALL_DATA = {
         },
     },
     "Enochian": {
+        70: {
+            "damage_mult": {"7.5": 1.10},
+            "duration": {"7.5": float("inf")},
+        },
         90: {
             "damage_mult": {"6.55": 1.23, "7.05": 1.25, "7.2": 1.22},
             "duration": {"6.55": 15 * 1000, "7.2": float("inf")},
@@ -24,6 +31,10 @@ ALL_DATA = {
         },
     },
     "Thunder III": {
+        70: {
+            "potency": {"7.5": 120},
+            "cast_time": {"7.5": 0},
+        },
         90: {
             "potency": {"6.55": 50, "7.0": 120},
             "potency_thundercloud": {"6.55": 50 + 35 * 10},
@@ -35,6 +46,10 @@ ALL_DATA = {
         },
     },
     "Thunder III (dot)": {
+        70: {
+            "potency": {"7.5": 50},
+            "duration": {"7.5": 27 * 1000},
+        },
         90: {
             "potency": {"6.55": 35, "7.0": 50},
             "duration": {"6.55": 30 * 1000, "7.0": 27 * 1000},
@@ -42,6 +57,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 45, "7.05": 50}, "duration": {"7.0": 27 * 1000}},
     },
     "Thunder IV": {
+        70: {"potency": {"7.5": 80}, "cast_time": {"7.5": 0}},
         90: {
             "potency": {"6.55": 50, "7.0": 80},
             "potency_thundercloud": {"6.55": 50 + 20 * 6},
@@ -50,6 +66,7 @@ ALL_DATA = {
         100: {"potency": {"7.0": 80}, "cast_time": {"7.0": 0}},
     },
     "Thunder IV (dot)": {
+        70: {"potency": {"7.5": 35}, "duration": {"7.5": 21 * 1000}},
         90: {
             "potency": {"6.55": 20, "7.0": 35},
             "duration": {"6.55": 18 * 1000, "7.0": 21 * 1000},
@@ -63,22 +80,48 @@ ALL_DATA = {
         100: {"potency": {"7.0": 40}, "duration": {"7.0": 24 * 1000}}
     },
     "Blizzard": {
+        70: {"potency": {"7.5": 180}, "cast_time": {"7.5": 2000}},
         90: {"potency": {"6.55": 180}, "cast_time": {"6.55": 2500, "7.2": 2000}},
         100: {"potency": {"7.0": 180}, "cast_time": {"7.0": 2500, "7.2": 2000}},
     },
     "Fire": {
+        70: {"potency": {"7.5": 180}, "cast_time": {"7.5": 2000}},
         90: {"potency": {"6.55": 180}, "cast_time": {"6.55": 2500, "7.2": 2000}},
         100: {"potency": {"7.0": 180}, "cast_time": {"6.55": 2500, "7.2": 2000}},
     },
-    "Scathe": {90: {"potency": {"6.55": 100}}, 100: {"potency": {"7.0": 100}}},
+    "Scathe": {
+        70: {"potency": {"7.5": 100}},
+        90: {"potency": {"6.55": 100}},
+        100: {"potency": {"7.0": 100}},
+    },
+    "Fire II": {
+        70: {
+            "potency": {"7.5": 80},
+            "cast_time": {"7.5": 3000},
+        },
+    },
     "Fire III": {
+        70: {
+            "potency": {"7.5": 290},
+            "cast_time": {"7.5": 3500},
+        },
         90: {
             "potency": {"6.55": 260, "7.0": 280, "7.2": 290},
             "cast_time": {"6.55": 3500},
         },
         100: {"potency": {"7.0": 280, "7.2": 290}, "cast_time": {"7.0": 3500}},
     },
+    "Blizzard II": {
+        70: {
+            "potency": {"7.5": 80},
+            "cast_time": {"7.5": 3000},
+        },
+    },
     "Blizzard III": {
+        70: {
+            "potency": {"7.5": 290},
+            "cast_time": {"7.5": 3500},
+        },
         90: {
             "potency": {"6.55": 260, "7.0": 280, "7.2": 290},
             "cast_time": {"6.55": 3500},
@@ -86,10 +129,16 @@ ALL_DATA = {
         100: {"potency": {"7.0": 280, "7.2": 290}, "cast_time": {"7.0": 3500}},
     },
     "Freeze": {
+        70: {"potency": {"7.5": 120}, "cast_time": {"7.5": 2000}},
         90: {"potency": {"6.55": 120}, "cast_time": {"6.55": 2800, "7.2": 2000}},
         100: {"potency": {"7.0": 120}, "cast_time": {"7.0": 2800, "7.2": 2000}},
     },
     "Flare": {
+        70: {
+            "potency": {"7.5": 240},
+            "aoe_dropoff": {"7.5": 0.3},
+            "cast_time": {"7.5": 2000},
+        },
         90: {
             "potency": {"6.55": 220, "7.0": 240},
             "potency_enhanced": {"6.55": 280},
@@ -103,6 +152,10 @@ ALL_DATA = {
         },
     },
     "Blizzard IV": {
+        70: {
+            "potency": {"7.5": 300},
+            "cast_time": {"7.5": 2000},
+        },
         90: {
             "potency": {"6.55": 310, "7.05": 320, "7.2": 300},
             "cast_time": {"6.55": 2500, "7.2": 2000},
@@ -113,6 +166,10 @@ ALL_DATA = {
         },
     },
     "Fire IV": {
+        70: {
+            "potency": {"7.5": 300},
+            "cast_time": {"7.5": 2000},
+        },
         90: {
             "potency": {"6.55": 310, "7.05": 320, "7.2": 300},
             "cast_time": {"6.55": 2800, "7.2": 2000},
@@ -123,6 +180,10 @@ ALL_DATA = {
         },
     },
     "Foul": {
+        70: {
+            "potency": {"7.5": 600},
+            "aoe_dropoff": {"7.5": 0.25},
+        },
         90: {
             "potency": {"6.55": 600},
             "aoe_dropoff": {"6.55": 0.6, "7.2": 0.25},
@@ -167,6 +228,10 @@ ALL_DATA = {
         }
     },
     "Firestarter": {
+        70: {
+            "allowlist": {"7.5": ("Fire",)},
+            "duration": {"7.5": float("inf")},
+        },
         90: {
             "allowlist": {"6.55": ("Fire",)},
             "duration": {"6.55": 30 * 1000, "7.2": float("inf")},
@@ -177,6 +242,27 @@ ALL_DATA = {
         },
     },
     "Astral Fire": {
+        70: {
+            "allowlist": {
+                "7.5": (
+                    "Blizzard",
+                    "Blizzard II",
+                    "Transpose",
+                    "Fire",
+                    "Fire II",
+                    "Fire III",
+                    "Fire IV",
+                    "Blizzard IV",
+                    "Blizzard III",
+                    "Flare",
+                    "Despair",
+                    "High Fire II",
+                    "High Blizzard II",
+                    "Paradox",
+                )
+            },
+            "duration": {"7.5": float("inf")},
+        },
         90: {
             "allowlist": {
                 "6.55": (
@@ -219,6 +305,30 @@ ALL_DATA = {
         },
     },
     "Umbral Ice": {
+        70: {
+            "allowlist": {
+                "7.5": (
+                    "Blizzard",
+                    "Blizzard II",
+                    "Transpose",
+                    "Fire",
+                    "Fire II",
+                    "Fire III",
+                    "Fire IV",
+                    "Blizzard IV",
+                    "Blizzard III",
+                    "Flare",
+                    "Despair",
+                    "High Fire II",
+                    "High Blizzard II",
+                    "Paradox",
+                    "Manafont",
+                    "Flare Star",
+                    "Umbral Soul",
+                )
+            },
+            "duration": {"7.0": 15 * 1000, "7.2": float("inf")},
+        },
         90: {
             "allowlist": {
                 "6.55": (
