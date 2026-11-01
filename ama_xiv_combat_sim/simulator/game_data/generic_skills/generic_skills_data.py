@@ -6,6 +6,14 @@ all_generic_skills = SpecificSkills()
 
 ALL_GENERIC_DATA = {
     "Grade 8 Tincture": {
+        70: {
+            "animation_lock": {"7.0": 650},
+            "application_delay": {"7.0": 625},
+        },
+        80: {
+            "animation_lock": {"7.0": 650},
+            "application_delay": {"7.0": 625},
+        },
         90: {
             "animation_lock": {"6.55": 1300, "7.0": 650},
             "application_delay": {"6.55": 890, "7.0": 625},
@@ -16,6 +24,8 @@ ALL_GENERIC_DATA = {
         },
     },
     "Grade 7 Tincture": {
+        70: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
+        80: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
         90: {
             "animation_lock": {"6.55": 1300, "7.0": 650},
             "application_delay": {"6.55": 890, "7.0": 625},
@@ -23,20 +33,28 @@ ALL_GENERIC_DATA = {
         100: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
     },
     "Grade 1 Gemdraught": {
+        70: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
+        80: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
         90: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
-        100: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}}
+        100: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
     },
     "Grade 2 Gemdraught": {
+        70: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
+        80: {"animation_lock": {"7.05": 650}, "application_delay": {"7.0": 625}},
         90: {"animation_lock": {"7.0": 650}, "application_delay": {"7.0": 625}},
-        100: {"animation_lock": {"7.05": 650}, "application_delay": {"7.0": 625}}
+        100: {"animation_lock": {"7.05": 650}, "application_delay": {"7.0": 625}},
     },
     "Grade 3 Gemdraught": {
+        70: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
+        80: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
         90: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
-        100: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}}
+        100: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
     },
     "Grade 4 Gemdraught": {
+        70: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
+        80: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
         90: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
-        100: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}}
+        100: {"animation_lock": {"7.2": 650}, "application_delay": {"7.2": 625}},
     },
 }
 
